@@ -1,0 +1,49 @@
+# Twitter Bot Pipeline V2 Dependencies
+# Python 3.11+ required
+
+# Core Frameworks
+scrapling>=0.2.0              # God-mode scraping with anti-detection
+openai>=1.12.0                # OpenRouter integration (OpenAI SDK compatible)
+psycopg2-binary>=2.9.9        # PostgreSQL adapter
+python-telegram-bot>=20.7     # Telegram HITL gateway
+praw>=7.7.1                   # Reddit API wrapper
+
+# Data Processing
+feedparser>=6.0.10            # RSS parsing
+beautifulsoup4>=4.12.0        # HTML parsing fallback
+lxml>=5.1.0                   # Fast XML/HTML parser
+pillow>=10.2.0                # Image processing for Siftly
+opencv-python-headless>=4.10.0 # Local live-action detection
+requests>=2.31.0              # HTTP client
+httpx>=0.26.0                 # Async HTTP client
+
+# ML/NLP
+numpy>=1.26.0                 # Numerical computing
+torch>=2.2.0                  # PyTorch for Siftly vision models
+transformers>=4.37.0          # HuggingFace models
+sentence-transformers>=2.3.1  # Embeddings for semantic dedup + drift ceiling
+scikit-learn>=1.4.0           # Persona classifier + tone classifier (TF-IDF/SVM)
+
+# Utilities
+python-dotenv>=1.0.0          # Environment management
+tenacity>=8.2.3               # Retry logic
+pytz>=2024.1                  # Timezone handling
+jsonschema>=4.21.0            # JSON validation
+pyyaml>=6.0.1                 # YAML config parser
+colorlog>=6.8.2               # Colored logging
+
+# Security
+cryptography>=42.0.0          # Encryption utilities
+# mozilla-sops>=0.1.0         # Removed — sops is a Go binary, no PyPI package
+
+# Monitoring & DevOps
+sentry-sdk>=1.40.0            # Error tracking
+prometheus-client>=0.19.0     # Metrics export
+playwright>=1.48.0            # Twitch stream capture
+tweepy>=4.14.0                # X posting + media upload
+
+# Testing (optional)
+pytest>=8.0.0
+pytest-asyncio>=0.23.4
+bandit>=1.7.7                 # Security linter
+semgrep>=1.59.0               # SAST scanner

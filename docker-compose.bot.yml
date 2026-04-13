@@ -1,0 +1,112 @@
+services:
+  tweet_scheduler:
+    build:
+      context: .
+      dockerfile: Dockerfile.bot
+    command: ["python3", "scripts/output/tweet_scheduler.py"]
+    restart: unless-stopped
+    volumes:
+      - .:/app
+      - /dev/shm/.env:/dev/shm/.env:ro
+    mem_limit: 1500m
+
+  twitter_poster:
+    build:
+      context: .
+      dockerfile: Dockerfile.bot
+    command: ["python3", "scripts/output/twitter_poster.py"]
+    restart: unless-stopped
+    volumes:
+      - .:/app
+      - /dev/shm/.env:/dev/shm/.env:ro
+    mem_limit: 700m
+
+  vip_hitl_bot:
+    build:
+      context: .
+      dockerfile: Dockerfile.bot
+    command: ["python3", "scripts/output/vip_hitl_telegram.py"]
+    restart: unless-stopped
+    volumes:
+      - .:/app
+      - /dev/shm/.env:/dev/shm/.env:ro
+    mem_limit: 1500m
+
+  scrapling_pool:
+    build:
+      context: .
+      dockerfile: Dockerfile.bot
+    command: ["python3", "scripts/ingestion/ingestion_runner.py"]
+    restart: unless-stopped
+    volumes:
+      - .:/app
+      - /dev/shm/.env:/dev/shm/.env:ro
+    mem_limit: 700m
+
+  style_scraper:
+    build:
+      context: .
+      dockerfile: Dockerfile.bot
+    command: ["python3", "scripts/ingestion/style_scraper.py"]
+    restart: unless-stopped
+    volumes:
+      - .:/app
+      - /dev/shm/.env:/dev/shm/.env:ro
+    mem_limit: 300m
+
+  clip_hunter:
+    build:
+      context: .
+      dockerfile: Dockerfile.bot
+    command: ["python3", "scripts/ingestion/clip_hunter.py"]
+    restart: unless-stopped
+    volumes:
+      - .:/app
+      - /dev/shm/.env:/dev/shm/.env:ro
+    mem_limit: 500m
+
+  community_liker:
+    build:
+      context: .
+      dockerfile: Dockerfile.bot
+    command: ["python3", "scripts/output/community_liker.py"]
+    restart: unless-stopped
+    volumes:
+      - .:/app
+      - /dev/shm/.env:/dev/shm/.env:ro
+    mem_limit: 200m
+
+  engagement_engine:
+    build:
+      context: .
+      dockerfile: Dockerfile.bot
+    command: ["python3", "scripts/output/engagement_engine.py"]
+    restart: unless-stopped
+    volumes:
+      - .:/app
+      - /dev/shm/.env:/dev/shm/.env:ro
+    mem_limit: 1000m
+
+  live_watcher:
+    build:
+      context: .
+      dockerfile: Dockerfile.bot
+    command: ["python3", "scripts/services/live_match_watcher.py"]
+    restart: unless-stopped
+    profiles: ["heavy"]
+    volumes:
+      - .:/app
+      - /dev/shm/.env:/dev/shm/.env:ro
+    mem_limit: 1200m
+
+  siftly_ingestor:
+    build:
+      context: .
+      dockerfile: Dockerfile.bot
+    command: ["python3", "scripts/ingestion/siftly_engine.py"]
+    restart: unless-stopped
+    profiles: ["heavy"]
+    volumes:
+      - .:/app
+      - /dev/shm/.env:/dev/shm/.env:ro
+    mem_limit: 2200m
