@@ -1,8 +1,8 @@
 # SkinBetHub — CS2 Twitter Bot: Full Pipeline Architecture
 
 > Autonomous CS2 Esports Media Engine
-> Last updated: April 1, 2026
-> **Status: LIVE — 13/13 PM2 services online | 100 tweets/day cap | Free-tier LLMs + Gemini Flash vision**
+> Last updated: April 13, 2026
+> **Status: LIVE — 15/15 PM2 services online | 100 tweets/day cap | configurable LLM tiers + Gemini Flash vision**
 
 ---
 
@@ -10,15 +10,15 @@
 
 | Component | Status | Detail |
 |-----------|--------|--------|
-| PM2 Processes | ✅ 13/13 online | See [PM2 Services](#2-pm2-services) table below |
+| PM2 Processes | ✅ 15/15 online | See [PM2 Services](#2-pm2-services) table below |
 | X API v2 Posting | ✅ LIVE | App `UbuntuOpenclaw`, Pay Per Use tier |
 | ClawRouter | ✅ Running | `http://localhost:8402/v1` — 147+ models, systemd user service |
-| Railway PostgreSQL | ✅ Connected | 18 tables in `twitter_bot` schema, TLS enforced |
-| LLM ECO | ✅ Free | `free/nemotron-ultra-253b` — classification, urgency, dedup |
-| LLM AUTO | ✅ Free | `free/deepseek-v3.2` — tweet writing, personality, replies |
-| LLM PREMIUM | ✅ Free | `free/deepseek-v3.2` — guardrails, tone validation |
+| Railway PostgreSQL | ✅ Connected | 18+ tables in `twitter_bot` schema, TLS enforced |
+| LLM ECO | ✅ Configurable | `LLM_TIER_ECO` env — classification, urgency, dedup |
+| LLM AUTO | ✅ Configurable | `LLM_TIER_AUTO` env + live A/B pools |
+| LLM PREMIUM | ✅ Configurable | `LLM_TIER_PREMIUM` env + live A/B pools |
 | LLM VISION | ✅ Paid | `google/gemini-2.5-flash` — screenshot analysis (bypasses ClawRouter → direct OpenRouter) |
-| RSS Ingestion | ✅ 6 feeds | HLTV, Valve CS2, Esports Insider, Dust2, bo3.gg, Dexerto |
+| RSS Ingestion | ✅ 8 feeds | HLTV, Valve CS2, Esports Insider, Dust2, bo3.gg, Dexerto, GosuGamers, Esports.net |
 | HLTV Monitor | ✅ Active | Match results, news, community comment scraping + vibe engine (~17 memes) |
 | Twitter VIP Monitor | ✅ Active | Guest-token GraphQL, 20-tweet fetch, 2s stagger |
 | Style Bank | ✅ 399 tweets | 10 target accounts scraped every 6h for few-shot prompting |
@@ -135,30 +135,34 @@
 
 ## 2. PM2 Services
 
-13 always-on processes managed by PM2 via `ecosystem.config.cjs`:
+15 always-on processes managed by PM2 via `ecosystem.config.js`:
 
-| ID | Service | Script | Mem Limit | Actual Mem | Purpose |
-|----|---------|--------|-----------|------------|---------|
-| 0 | `siftly_ingestor` | `ingestion/siftly_engine.py` | 2000M | ~1.7GB | Vision/OCR analysis for VIP tweet images |
-| 1 | `scrapling_pool` | `ingestion/ingestion_runner.py` | 500M | ~340MB | Runs HLTV + Twitter VIP + RSS in parallel |
-| 2 | `tweet_scheduler` | `output/tweet_scheduler.py` | 1500M | ~780MB | Central orchestrator — event→tweet pipeline |
-| 3 | `vip_hitl_bot` | `output/vip_hitl_telegram.py` | 1500M | ~770MB | Telegram bot for human approval |
-| 4 | `twitter_poster` | `output/twitter_poster.py` | 500M | ~45MB | Posts tweets via X API v2 |
-| 5 | `engagement_tracker` | `output/engagement_tracker.py` | 200M | ~45MB | Fetches tweet metrics every 30 min |
-| 6 | `follower_growth` | `output/follower_growth_tracker.py` | 100M | ~45MB | Tracks daily follower count |
-| 7 | `style_scraper` | `ingestion/style_scraper.py` | 300M | ~50MB | Scrapes 10 CS2 fan accounts for style bank |
-| 8 | `clip_hunter` | `ingestion/clip_hunter.py` | 400M | ~66MB | Reddit + HLTV + Twitch clip discovery |
-| 10 | `tweet_pruner` | `output/tweet_pruner.py` | 100M | ~45MB | Deletes 0-engagement tweets after 48h |
-| 11 | `engagement_engine` | `output/engagement_engine.py` | 1G | ~71MB | Polls, trend riding, conversation starters |
-| 12 | `community_liker` | `output/community_liker.py` | 150M | ~45MB | Likes CS2 tweets for relationship building |
-| 13 | `live_watcher` | `services/live_match_watcher.py` | 800M | ~77MB | Live match screenshots → vision → narration |
+| # | Service | Script | Mem Limit | Purpose |
+|---|---------|--------|-----------|---------|
+| 0 | `siftly_ingestor` | `ingestion/siftly_engine.py` | 800M | Vision/OCR analysis for VIP tweet images |
+| 1 | `scrapling_pool` | `ingestion/ingestion_runner.py` | 500M | Runs HLTV + Twitter VIP + RSS in parallel |
+| 2 | `tweet_scheduler` | `output/tweet_scheduler.py` | 300M | Central orchestrator — event→tweet pipeline |
+| 3 | `vip_hitl_bot` | `output/vip_hitl_telegram.py` | 200M | Telegram bot for human approval |
+| 4 | `scrapling_medic` | `utils/scrapling_medic.sh` | — | Auto-healing watchdog for scrapling_pool |
+| 5 | `twitter_poster` | `output/twitter_poster.py` | 200M | Posts tweets via X API v2 |
+| 6 | `engagement_tracker` | `output/engagement_tracker.py` | 150M | Fetches tweet metrics every 30 min |
+| 7 | `follower_growth` | `output/follower_growth_tracker.py` | 150M | Tracks daily follower count |
+| 8 | `prediction_webhook` | `ingestion/prediction_webhook.py` | 150M | Prediction results ingestion webhook |
+| 9 | `style_scraper` | `ingestion/style_scraper.py` | 300M | Refreshes the style bank every 6 hours |
+| 10 | `clip_hunter` | `ingestion/clip_hunter.py` | 400M | Discovers clips and reusable media assets |
+| 11 | `tweet_pruner` | `output/tweet_pruner.py` | 100M | Deletes 0-engagement tweets after 48h |
+| 12 | `engagement_engine` | `output/engagement_engine.py` | 1G | Generates proactive engagement opportunities |
+| 13 | `community_liker` | `output/community_liker.py` | 150M | Likes CS2 tweets for relationship building |
+| 14 | `live_watcher` | `services/live_match_watcher.py` | 800M | Live match screenshots → vision → narration |
+
+All apps share `PYTHONPATH=__dirname` via `SHARED_ENV` in `ecosystem.config.js`, eliminating the need for `sys.path.insert` hacks.
 
 **Commands:**
 ```bash
 pm2 ls                              # Status of all services
 pm2 logs <name> --lines 30          # View logs
 pm2 restart <name>                  # Restart one service
-pm2 reload ecosystem.config.cjs     # Reload all from config
+pm2 reload ecosystem.config.js      # Reload all from config
 pm2 monit                           # Live CPU/memory monitor
 ```
 
@@ -198,7 +202,7 @@ Source (HLTV / RSS / Twitter VIP)
 
 ## 4. Ingestion Layer
 
-All files under `scripts/ingestion/`.
+All files under `ingestion/`.
 
 ### `ingestion_runner.py` → PM2: `scrapling_pool`
 
@@ -216,7 +220,7 @@ Scrapes HLTV.org via Scrapling `StealthySession` with Cloudflare bypass:
 
 ### `rss_aggregator.py` → via `scrapling_pool`
 
-**6 active RSS feeds** (polls every 120s):
+**8 active RSS feeds** (polls every 120s):
 
 | Feed | Source | CS2 Only? |
 |------|--------|-----------|
@@ -226,8 +230,10 @@ Scrapes HLTV.org via Scrapling `StealthySession` with Cloudflare bypass:
 | `bo3.gg/rss` | bo3.gg | ✅ Pure |
 | `esportsinsider.com/feed` | Esports Insider | ❌ Filtered |
 | `dexerto.com/feed` | Dexerto | ❌ Filtered |
+| `gosugamers.net/counterstrike/rss` | GosuGamers CS | ✅ Pure |
+| `esports.net/news/feed` | Esports.net | ❌ Filtered |
 
-Mixed-esports feeds are filtered via CS2 keyword matching (primary: "cs2", "hltv", "faceit" + secondary: team/player/map names with word-boundary checks for ambiguous terms like "spirit", "liquid", "ancient").
+Mixed-esports feeds are filtered via CS2 keyword matching (primary: "cs2", "hltv", "faceit") plus spaCy entity extraction over team, player, event, and map names. Feed health is exported through Prometheus counters/gauges so dead feeds trigger alerts instead of silently degrading coverage.
 
 ### `twitter_monitor.py` → via `scrapling_pool`
 
@@ -279,7 +285,7 @@ Scrapes 10 CS2 fan accounts every 6h for few-shot prompting:
 
 ## 5. Processing Layer
 
-All files under `scripts/processing/`.
+All files under `processing/`.
 
 ### `openrouter_client.py` — LLM Routing
 
@@ -287,14 +293,15 @@ Unified LLM client with 4 tiers:
 
 | Tier | Model | Cost | Used For |
 |------|-------|------|----------|
-| `eco` | `free/nemotron-ultra-253b` | Free | Classification, urgency, dedup, persona selection |
-| `auto` | `free/deepseek-v3.2` | Free | Tweet writing, VIP replies, thread composition |
-| `premium` | `free/deepseek-v3.2` | Free | Guardrails, tone validation, RLHF analysis |
+| `eco` | `LLM_TIER_ECO` | Configurable | Classification, urgency, dedup, persona selection |
+| `auto` | `LLM_TIER_AUTO` | Configurable | Tweet writing, VIP replies, thread composition |
+| `premium` | `LLM_TIER_PREMIUM` | Configurable | Guardrails, tone validation, RLHF analysis |
 | `vision` | `google/gemini-2.5-flash` | Paid | Screenshot analysis (direct OpenRouter, bypasses ClawRouter) |
 
 - Text tiers route through ClawRouter at `localhost:8402`
 - Vision tier creates separate `OpenAI(base_url='https://openrouter.ai/api/v1')` client (ClawRouter free models don't support multimodal)
 - Automatic retry via `tenacity` with exponential backoff
+- `AB_POOL_AUTO` and `AB_POOL_PREMIUM` are hot-reloaded from env every 5 minutes, so the weekly evaluator can shift traffic without a process restart
 
 ### `content_generator.py` — 3-Agent Writer's Room
 
@@ -387,7 +394,7 @@ Headless Playwright (Chromium) captures live Twitch streams:
 
 ## 6. Output Layer
 
-All files under `scripts/output/`.
+All files under `output/`.
 
 ### `tweet_scheduler.py` → PM2: `tweet_scheduler`
 
@@ -462,7 +469,7 @@ Library for composing multi-tweet threads (Pillar 10 daily threads, Valve update
 
 ## 7. Services Layer
 
-### `scripts/services/live_match_watcher.py` → PM2: `live_watcher`
+### `services/live_match_watcher.py`
 
 The bot's "eyes" (~77MB):
 
@@ -487,17 +494,28 @@ Every ~12s monitor sweep:
 
 ## 8. Utilities
 
-All files under `scripts/utils/`.
+All files under `utils/`.
 
 | File | Purpose |
 |------|---------|
-| `db_utils.py` | Shared PostgreSQL auto-reconnect wrapper (`ensure_db_connection`) — checks liveness, reconnects on stale/broken connections |
+| `db_utils.py` | Shared PostgreSQL auto-reconnect wrapper (`ensure_db_connection`) — enforces `search_path=twitter_bot,public` at connection level |
+| `config.py` | Centralized config loader — single `load_config()` replaces per-file `load_dotenv` calls; helpers: `get_database_url()`, `get_openrouter_key()`, `get_env()` |
+| `observability.py` | Sentry error tracking + Prometheus metrics singleton — tweets_posted, llm_latency, vision_calls, openrouter_spend; `/metrics` on `:9100` |
+| `signal_utils.py` | SIGTERM/SIGINT helpers so PM2 stops long-running daemons cleanly |
 | `cs2_constants.py` | Centralized keyword sets — teams, events, maps, players, roles. Used by ingestion, scheduling, fact-checking |
 | `twitter_accounts.py` | Bucket routing + per-account credential resolution (`main`, `live`, `replies`) |
 | `account_quota.py` | Per-account reservation/release/increment helpers backed by `account_quotas` |
 | `runtime_schema.py` | Idempotent runtime bootstrap for `account_quotas`, `tweets_v2.account_bucket`, and VIP dedup indexes |
 | `health_monitor.py` | Shadowban canary — posts test tweets, verifies visibility from diverse geographic IPs |
 | `analytics_tracker.py` | Engagement metrics for RLHF feedback (6h poll cycle via X API) |
+
+### Processing: `entity_layer.py` — spaCy Entity Extraction
+
+Shared NLP pipeline replacing three divergent keyword implementations:
+- `get_nlp()` — singleton spaCy `EntityRuler` loaded from `data/cs2_entities.jsonl` (113 patterns: 39 teams, 43 players, 20 events, 9 maps)
+- `extract_entities(text)` — returns `{teams, players, events, maps}` sets
+- `is_cs2_relevant(text)` — boolean relevance check (replaces ad-hoc keyword lists in `fact_checker.py`, `rss_aggregator.py`, `twitter_monitor.py`)
+- `entity_summary(text)` — one-line human-readable summary
 
 ---
 
@@ -527,7 +545,7 @@ All files under `scripts/utils/`.
 | `todays_performance` | Daily performance summary | `date`, aggregated metrics |
 | `quota_status` | Quota monitoring view | — |
 
-**Connection:** `DATABASE_URL` env var → `postgresql://...railway.app:5432/...` with TLS.
+**Connection:** `DATABASE_URL` env var → `postgresql://...railway.app:5432/...` with TLS. Connection-level `search_path=twitter_bot,public` enforced in `db_utils.py`.
 
 ---
 
@@ -728,73 +746,115 @@ Every tweet passes through (in order):
 ## 15. File Map
 
 ```
-openclaw/
-├── ecosystem.config.cjs                # PM2 config (13 services)
+skinbethub_twitter/
+├── ecosystem.config.js                 # PM2 config (9 services, SHARED_ENV with PYTHONPATH)
+├── pyproject.toml                      # Python project metadata, pytest config, Ruff linter
 ├── TWITTER_BOT_PIPELINE.md             # This architecture doc
 ├── schema.sql                          # Database schema definitions
+├── requirements.txt                    # Python dependencies
+│
+├── ingestion/                          # ── DATA IN ──
+│   ├── __init__.py
+│   ├── ingestion_runner.py             #   Coordinator (PM2: scrapling_pool)
+│   ├── hltv_monitor.py                 #   HLTV scraping + community vibe engine
+│   ├── twitter_monitor.py              #   VIP tweet discovery (GraphQL guest token)
+│   ├── rss_aggregator.py               #   6 RSS feeds, CS2 keyword filtering
+│   ├── siftly_engine.py                #   Vision/OCR for tweet images (PM2: siftly_ingestor)
+│   ├── clip_hunter.py                  #   Reddit + HLTV + Twitch clips
+│   ├── style_scraper.py                #   10 fan accounts → style bank
+│   └── prediction_webhook.py           #   Prediction results webhook (PM2: prediction_webhook)
+│
+├── processing/                         # ── TRANSFORM ──
+│   ├── __init__.py
+│   ├── openrouter_client.py            #   LLM routing (4 tiers: eco/auto/premium/vision)
+│   ├── content_generator.py            #   3-agent Writer's Room (Writer → Editor → Whimsy)
+│   ├── persona_classifier.py           #   ML persona selection (LogisticRegression on RLHF)
+│   ├── episodic_memory.py              #   pgvector semantic recall of past interactions
+│   ├── fact_checker.py                 #   LLM + entity fact checking (contradiction-only)
+│   ├── entity_layer.py                 #   spaCy EntityRuler — shared entity extraction (113 patterns)
+│   ├── tone_validator.py               #   Anti-corporate SVM + LLM filter
+│   ├── mirofish_guard.py               #   Constitutional judge guard
+│   ├── hashtag_injector.py             #   Auto-injects 2-3 CS2 hashtags
+│   ├── media_manager.py                #   Image pipeline + HLTV bodyshots (50+ players)
+│   ├── meme_generator.py               #   Card generation (30 team colors, 56 player roles)
+│   ├── match_analyzer.py               #   Deep post-match analysis + predictions
+│   ├── screenshot_analyzer.py          #   AI vision (Gemini Flash) + data graphics
+│   ├── twitch_screenshotter.py         #   Live stream capture (Playwright, 26 stream mappings)
+│   └── rlhf_tuner.py                  #   Weekly auto-learning with drift detection
+│
+├── output/                             # ── DATA OUT ──
+│   ├── __init__.py
+│   ├── tweet_scheduler.py              #   Central orchestrator (PM2: tweet_scheduler)
+│   ├── twitter_poster.py               #   X API v2 posting (PM2: twitter_poster)
+│   ├── vip_hitl_telegram.py            #   Telegram HITL bot (PM2: vip_hitl_bot)
+│   ├── engagement_engine.py            #   Growth: polls, trends, ratios
+│   ├── engagement_tracker.py           #   Metrics every 30 min (PM2: engagement_tracker)
+│   ├── community_liker.py              #   200 likes/day proactive
+│   ├── follower_growth_tracker.py      #   Hourly follower tracking (PM2: follower_growth)
+│   ├── tweet_pruner.py                 #   0-engagement cleanup
+│   ├── thread_composer.py              #   Multi-tweet thread builder
+│   ├── prediction_results.py           #   Prediction resolution
+│   └── reddit_cross_poster.py          #   (DISABLED — Reddit policy violation)
+│
+├── services/                           # ── LONG-RUNNING ──
+│   └── live_match_watcher.py           #   Vision narration (PM2: live_watcher)
+│
+├── utils/                              # ── SHARED ──
+│   ├── __init__.py
+│   ├── config.py                       #   Centralized config loader (replaces per-file load_dotenv)
+│   ├── observability.py                #   Sentry + Prometheus metrics (:9100)
+│   ├── db_utils.py                     #   PostgreSQL auto-reconnect (search_path=twitter_bot)
+│   ├── signal_utils.py                 #   SIGTERM/SIGINT helpers for PM2 shutdown
+│   ├── cs2_constants.py                #   Teams, events, maps, players
+│   ├── twitter_accounts.py             #   Account bucket routing
+│   ├── account_quota.py                #   Per-account quota helpers
+│   ├── runtime_schema.py               #   Runtime schema bootstrap
+│   ├── health_monitor.py               #   Shadowban canary
+│   ├── analytics_tracker.py            #   Engagement metrics for RLHF
+│   └── scrapling_medic.sh              #   Auto-healing watchdog (PM2: scrapling_medic)
 │
 ├── scripts/
-│   ├── ingestion/                      # ── DATA IN ──
-│   │   ├── ingestion_runner.py         #   Coordinator (PM2: scrapling_pool)
-│   │   ├── hltv_monitor.py             #   HLTV scraping + community vibe engine
-│   │   ├── twitter_monitor.py          #   VIP tweet discovery (GraphQL guest token)
-│   │   ├── rss_aggregator.py           #   6 RSS feeds, CS2 keyword filtering
-│   │   ├── siftly_engine.py            #   Vision/OCR for tweet images (PM2: siftly_ingestor)
-│   │   ├── clip_hunter.py              #   Reddit + HLTV + Twitch clips (PM2: clip_hunter)
-│   │   └── style_scraper.py            #   10 fan accounts → style bank (PM2: style_scraper)
-│   │
-│   ├── processing/                     # ── TRANSFORM ──
-│   │   ├── openrouter_client.py        #   LLM routing (4 tiers: eco/auto/premium/vision)
-│   │   ├── content_generator.py        #   3-agent Writer's Room (Writer → Editor → Whimsy)
-│   │   ├── persona_classifier.py       #   ML persona selection (LogisticRegression on RLHF)
-│   │   ├── episodic_memory.py          #   pgvector semantic recall of past interactions
-│   │   ├── fact_checker.py             #   LLM + entity fact checking (contradiction-only)
-│   │   ├── tone_validator.py           #   Anti-corporate SVM + LLM filter
-│   │   ├── mirofish_guard.py           #   100-agent swarm vibe-check guard
-│   │   ├── hashtag_injector.py         #   Auto-injects 2-3 CS2 hashtags
-│   │   ├── media_manager.py            #   Image pipeline + HLTV bodyshots (50+ players)
-│   │   ├── meme_generator.py           #   Card generation (30 team colors, 56 player roles)
-│   │   ├── match_analyzer.py           #   Deep post-match analysis + predictions
-│   │   ├── screenshot_analyzer.py      #   AI vision (Gemini Flash) + data graphics
-│   │   ├── twitch_screenshotter.py     #   Live stream capture (Playwright, 26 stream mappings)
-│   │   └── rlhf_tuner.py              #   Weekly auto-learning with drift detection
-│   │
-│   ├── output/                         # ── DATA OUT ──
-│   │   ├── tweet_scheduler.py          #   Central orchestrator (PM2: tweet_scheduler)
-│   │   ├── twitter_poster.py           #   X API v2 posting (PM2: twitter_poster)
-│   │   ├── vip_hitl_telegram.py        #   Telegram HITL bot (PM2: vip_hitl_bot)
-│   │   ├── engagement_engine.py        #   Growth: polls, trends, ratios (PM2: engagement_engine)
-│   │   ├── engagement_tracker.py       #   Metrics every 30 min (PM2: engagement_tracker)
-│   │   ├── community_liker.py          #   200 likes/day proactive (PM2: community_liker)
-│   │   ├── follower_growth_tracker.py  #   Hourly follower tracking (PM2: follower_growth)
-│   │   ├── tweet_pruner.py             #   0-engagement cleanup (PM2: tweet_pruner)
-│   │   ├── thread_composer.py          #   Multi-tweet thread builder
-│   │   └── reddit_cross_poster.py      #   (DISABLED — Reddit policy violation)
-│   │
-│   ├── services/                       # ── LONG-RUNNING ──
-│   │   └── live_match_watcher.py       #   Vision narration (PM2: live_watcher)
-│   │
-│   └── utils/                          # ── SHARED ──
-│       ├── db_utils.py                 #   PostgreSQL auto-reconnect
-│       ├── cs2_constants.py            #   Teams, events, maps, players
-│       ├── health_monitor.py           #   Shadowban canary
-│       └── analytics_tracker.py        #   Engagement metrics for RLHF
+│   ├── run_migrations.py               #   Applies new SQL migrations once
+│   ├── backup_database.sh              #   Daily logical backup helper
+│   └── refresh_cs2_entities.py         #   Quarterly entity refresh from constants
+│
+├── ops/
+│   └── prometheus/prometheus.yml       #   Example scrape config for :9100 metrics
+│
+├── tests/                              # ── TEST SUITE (140 tests) ──
+│   ├── conftest.py                     #   Shared fixtures
+│   ├── test_database_roundtrip.py      #   Integration smoke test for DATABASE_URL
+│   ├── test_rss_filtering.py           #   RSS feed CS2 filtering
+│   ├── test_fact_checker.py            #   Fact-checker pipeline
+│   ├── test_cs2_filtering.py           #   CS2 relevance detection
+│   ├── test_scheduling_rules.py        #   Quota + scheduling logic
+│   ├── test_meme_generator.py          #   Card generation
+│   ├── test_entity_layer.py            #   spaCy entity extraction
+│   ├── test_observability.py           #   Prometheus metrics
+│   └── test_schema_isolation.py        #   DB schema search_path
 │
 ├── data/
+│   ├── cs2_entities.jsonl              # spaCy EntityRuler patterns (113 entries)
 │   ├── generated_images/               # MemeGenerator card output
 │   ├── twitch_screenshots/             # Live match screenshots
 │   └── clips/                          # Downloaded Reddit/HLTV media
 │
+├── migrations/
+│   └── 001_add_missing_tables.sql      # Adds style_bank, media_library, follower_snapshots, community_likes, like_quotas
+│   └── 002_update_legacy_quota_cap.sql # Aligns legacy api_quotas helper to 100/day
+│
 ├── logs/                               # PM2 log files (per-service)
 ├── models/                             # ML model weights (persona classifier, etc.)
-└── config/
-    └── .env.production                 # Env backup (secrets live in /dev/shm/.env)
+├── config/
+│   └── .env.example                    # Env template (secrets live in /dev/shm/.env)
+└── docs/
+    └── railway-db-setup.md             # Railway PostgreSQL setup guide
 ```
 
 ---
 
 **END OF PIPELINE ARCHITECTURE**
 
-Last verified: April 1, 2026 — 13/13 PM2 services online, all healthy.
-Codebase: 35 Python files · 18 DB tables · 4 LLM tiers · 30 team colors · 56 player roles · 26 stream mappings.
-Text generation: free tier. Vision: Gemini Flash (paid, rate-limited to highlights only).
+Last verified: April 13, 2026 — 15/15 PM2 services configured, 139 unit tests passing.
+Codebase: 44+ Python files · 23 DB tables · 4 LLM tiers · 30 team colors · 56 player roles · 26 stream mappings · 113 spaCy entity patterns.
+Text generation: env-configured tiers with live A/B pools. Vision: Gemini Flash (paid, rate-limited to highlights only).

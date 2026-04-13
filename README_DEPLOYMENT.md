@@ -5,10 +5,10 @@
 This is the complete autonomous Twitter Bot Pipeline V2 for 21Core AI - "The Degenerate Bloomberg"
 
 ### Architecture Overview
-- **Ingestion Layer**: 4G/5G mobile proxy scraping (Scrapling framework)
-- **Processing Layer**: Dual-agent LLM generation, MiroFish safety, RLHF tuning
-- **Output Layer**: X API v2 posting with strict 40/day quota enforcement
-- **Utilities**: Analytics tracking, shadowban monitoring, auto-healing
+- **Ingestion Layer**: 4G/5G mobile proxy scraping (Scrapling framework) + 8 RSS feeds
+- **Processing Layer**: 3-agent LLM generation, spaCy entity extraction, MiroFish safety, RLHF tuning
+- **Output Layer**: X API v2 posting with strict 100/day quota enforcement
+- **Utilities**: Analytics tracking, shadowban monitoring, Prometheus metrics, auto-healing
 
 ---
 
@@ -35,7 +35,7 @@ This is the complete autonomous Twitter Bot Pipeline V2 for 21Core AI - "The Deg
 ### 1. Clone and Setup
 
 ```bash
-cd /home/ubuntu/openclaw
+cd /home/ubuntu/skinbethub_twitter
 
 # Install Python dependencies
 pip3 install -r requirements.txt
@@ -61,6 +61,7 @@ export DATABASE_URL="postgresql://user:pass@host:5432/dbname"
 
 # Execute schema
 psql $DATABASE_URL < schema.sql
+python3 scripts/run_migrations.py
 
 # Verify tables
 psql $DATABASE_URL -c "SELECT COUNT(*) FROM twitter_bot.events"
@@ -134,42 +135,64 @@ pm2 logs --lines 20
 ## 📂 Project Structure
 
 ```
-/home/ubuntu/openclaw/
+/home/ubuntu/skinbethub_twitter/
+├── ingestion/
+│   ├── rss_aggregator.py        # 8 RSS feeds (120s cycle)
+│   ├── twitter_monitor.py       # VIP account monitoring
+│   ├── hltv_monitor.py          # CS2 match results
+│   ├── siftly_engine.py         # Vision OCR analysis
+│   ├── prediction_webhook.py    # Prediction results webhook
+│   ├── clip_hunter.py           # Viral media discovery
+│   ├── style_scraper.py         # Style bank refresh
+│   └── ingestion_runner.py      # Parallel coordinator
+├── processing/
+│   ├── openrouter_client.py     # Unified LLM API
+│   ├── content_generator.py     # 3-agent writer's room
+│   ├── entity_layer.py          # spaCy entity extraction (113 patterns)
+│   ├── mirofish_guard.py        # Constitutional judge guard
+│   ├── fact_checker.py          # Hallucination prevention
+│   ├── tone_validator.py        # Compliance checker
+│   └── rlhf_tuner.py            # Weekly auto-learning
+├── output/
+│   ├── tweet_scheduler.py       # Central queue + quota
+│   ├── twitter_poster.py        # X API v2 execution
+│   ├── vip_hitl_telegram.py     # Telegram approval bot
+│   ├── thread_composer.py       # Daily thread generator
+│   ├── engagement_tracker.py    # tweet metrics polling
+│   ├── engagement_engine.py     # proactive engagement ideas
+│   ├── community_liker.py       # relationship-building likes
+│   └── tweet_pruner.py          # low-engagement cleanup
+├── services/
+│   └── live_match_watcher.py    # screenshot-driven live commentary
+├── utils/
+│   ├── config.py                # Centralized config loader
+│   ├── observability.py         # Sentry + Prometheus metrics
+│   ├── db_utils.py              # PostgreSQL auto-reconnect
+│   ├── signal_utils.py          # SIGTERM/SIGINT helpers
+│   ├── analytics_tracker.py     # Engagement metrics (6h)
+│   ├── health_monitor.py        # Shadowban canary (6h)
+│   └── scrapling_medic.sh       # Auto-healing daemon
 ├── scripts/
-│   ├── ingestion/
-│   │   ├── rss_aggregator.py        # 13 RSS feeds (120s cycle)
-│   │   ├── twitter_monitor.py       # VIP account monitoring
-│   │   ├── hltv_monitor.py          # CS2 match results
-│   │   ├── siftly_engine.py         # Vision OCR analysis
-│   │   └── ingestion_runner.py      # Parallel coordinator
-│   ├── processing/
-│   │   ├── openrouter_client.py     # Unified LLM API
-│   │   ├── content_generator.py     # Dual-agent writer's room
-│   │   ├── mirofish_guard.py        # 100-agent safety check
-│   │   ├── fact_checker.py          # Hallucination prevention
-│   │   ├── tone_validator.py        # Compliance checker
-│   │   └── rlhf_tuner.py            # Weekly auto-learning
-│   ├── output/
-│   │   ├── tweet_scheduler.py       # Central queue + quota
-│   │   ├── twitter_poster.py        # X API v2 execution
-│   │   ├── vip_hitl_telegram.py     # Telegram approval bot
-│   │   ├── thread_composer.py       # Daily thread generator
-│   │   └── reddit_cross_poster.py   # r/esports cross-posting
-│   └── utils/
-│       ├── analytics_tracker.py     # Engagement metrics (6h)
-│       ├── health_monitor.py        # Shadowban canary (6h)
-│       └── scrapling_medic.sh       # Auto-healing daemon
+│   ├── run_migrations.py        # schema migration runner
+│   ├── backup_database.sh       # daily logical backup script
+│   └── refresh_cs2_entities.py  # quarterly entity refresh
+├── ops/
+│   └── prometheus/prometheus.yml # scrape config for :9100 metrics
+├── .github/workflows/
+│   └── ci.yml                   # pytest + Ruff CI
+├── tests/                       # 139 unit tests (pytest)
+├── data/                        # spaCy patterns, generated images
+├── migrations/                  # SQL migration scripts
 ├── config/
-│   ├── .env.example                 # Template
-│   └── system_prompt_appendix.txt   # RLHF tunable section
-├── models/                          # Siftly model weights
-├── data/                            # Runtime data
-├── logs/                            # PM2 logs
-├── backup/                          # DB dumps
-├── schema.sql                       # PostgreSQL schema
-├── ecosystem.config.js              # PM2 configuration
-├── requirements.txt                 # Python dependencies
-└── README_DEPLOYMENT.md             # This file
+│   └── .env.example             # Template
+├── models/                      # Siftly model weights
+├── logs/                        # PM2 logs
+├── backup/                      # DB dumps
+├── schema.sql                   # PostgreSQL schema
+├── ecosystem.config.js          # PM2 configuration (15 services)
+├── pyproject.toml               # Python project config
+├── requirements.txt             # Python dependencies
+└── README_DEPLOYMENT.md         # This file
 ```
 
 ---
@@ -347,14 +370,22 @@ pm2 restart vip_hitl_bot
 - Strips edge signals (odds, bookies, methodology)
 - Posts to r/esports
 
+### Sunday 00:00 UTC - A/B Model Evaluation
+- `processing/ab_evaluator.py` updates `AB_POOL_AUTO` and `AB_POOL_PREMIUM`
+- `OpenRouterClient` hot-reloads the updated pools without a manual restart
+
 ### Daily - Database Backup
 ```bash
-# Run via cron daily 03:00
-pg_dump $DATABASE_URL | gzip > backup/db_dump_$(date +%Y%m%d).sql.gz
+# Runs via cron daily 03:15
+./scripts/backup_database.sh
 
 # Keep last 14 days
-find backup/ -name "db_dump_*.sql.gz" -mtime +14 -delete
+find backup/ -name "twitter_bot_*.dump" -mtime +14 -delete
 ```
+
+### Quarterly - Entity Refresh
+- `scripts/refresh_cs2_entities.py` rebuilds `data/cs2_entities.jsonl` from current constants
+- Cron schedule: first day of every third month at 02:00 UTC
 
 ---
 
@@ -375,7 +406,7 @@ find backup/ -name "db_dump_*.sql.gz" -mtime +14 -delete
 
 - **No browser-use for posting**: X API v2 only (faster, cheaper, no DOM drift)
 - **4G/5G mobile proxies**: Ingestion uses rotating mobile IPs (reads), posting uses datacenter IP (writes) - fully async
-- **Pre-commit reservation**: Prevents burst quota violations (writes_reserved + writes_executed < 38)
+- **Pre-commit reservation**: Prevents burst quota violations (writes_reserved + writes_executed < 95)
 - **MiroFish veto**: 100-agent swarm for high-risk content (Pillars 3, 7, 12)
 - **HITL timeout**: 4 hours, auto-expires to free slot
 - **Entangled cross-pollination**: Reddit post updates if Twitter thread has viral sub-debate
@@ -391,4 +422,4 @@ find backup/ -name "db_dump_*.sql.gz" -mtime +14 -delete
 
 ---
 
-**Built for 21Core AI** | Last Updated: March 25, 2026
+**Built for 21Core AI** | Last Updated: April 13, 2026
