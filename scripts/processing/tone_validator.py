@@ -10,6 +10,7 @@ Falls back to LLM-based tone check when local model isn't trained.
 import logging
 import os
 import pickle
+import io
 from typing import Dict, Any
 import re
 
@@ -32,6 +33,26 @@ try:
     ML_AVAILABLE = True
 except ImportError:
     ML_AVAILABLE = False
+
+
+# Safe deserialization: only allow sklearn/numpy types
+_SAFE_MODULES = frozenset({
+    'sklearn', 'numpy', 'scipy', 'collections', 'builtins',
+    'copy_reg', 'copyreg', '_codecs', 'encodings',
+})
+
+
+class _RestrictedUnpickler(pickle.Unpickler):
+    def find_class(self, module: str, name: str):
+        top = module.split('.')[0]
+        if top in _SAFE_MODULES:
+            return super().find_class(module, name)
+        raise pickle.UnpicklingError(f"Blocked unsafe class: {module}.{name}")
+
+
+def _restricted_load(f):
+    return _RestrictedUnpickler(f).load()
+
 
 # Logging setup
 logging.basicConfig(
@@ -62,6 +83,10 @@ class ToneValidator:
         (r'\bsure thing\b', "No absolute predictions"),
         (r'\brisk-free\b', "Misleading gambling language"),
         (r'\binvest in\b', "Don't frame gambling as investing"),
+        (r'\bfree money\b', "No pumpy gambling language"),
+        (r'\binside info\b', "Do not claim secret insider information"),
+        (r'\binsider source\b', "Do not claim secret sources"),
+        (r'\bfixed\b', "Never imply match-fixing without sourced evidence"),
     ]
     
     # Corporate/AI tell phrases
@@ -90,7 +115,7 @@ class ToneValidator:
         try:
             if self.MODEL_PATH.exists():
                 with open(self.MODEL_PATH, 'rb') as f:
-                    self.ml_model = pickle.load(f)
+                    self.ml_model = _restricted_load(f)
                 logger.info("✅ Loaded local tone classifier model")
         except Exception as e:
             logger.warning(f"⚠️  Could not load tone model: {e}")
@@ -250,11 +275,11 @@ class ToneValidator:
     
     def llm_tone_check(self, text: str) -> Dict[str, Any]:
         """Use LLM to evaluate tone quality"""
-        system_prompt = """You are a tone validator for a CS2 esports Twitter account.
-The voice should be: casual, short, like a real fan. Never corporate. Never formal.
+        system_prompt = """You are a tone validator for a sharp CS2 trader Twitter account.
+    The voice should be: casual, sharp, short, like someone who watches the market and the games. Never corporate. Never formal.
 Language level: B2 English. Simple words. Short sentences.
 
-Fail if: sounds like a journalist, uses hard vocabulary, too many commas, em-dashes, or reads like a press release.
+    Fail if: sounds like a journalist, sportsbook ad, fake insider, uses hard vocabulary, too many commas, em-dashes, or reads like a press release.
 
 Respond with JSON:
 {"passes": boolean, "issues": ["specific tone problems"], "score": 0-10}"""

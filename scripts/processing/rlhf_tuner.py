@@ -177,10 +177,11 @@ class RLHFTuner:
     
     def analyze_performance_delta(self, top_tweets: List[Dict], bottom_tweets: List[Dict]) -> str:
         """Use LLM to analyze what makes top tweets succeed"""
-        system_prompt = """You are an AI trainer analyzing tweet performance.
-Extract actionable insights about what makes successful tweets work.
-Focus on: tone, length, structure, data usage, humor style.
-Output 2-3 brief rules (max 200 tokens total)."""
+        system_prompt = """You are an AI trainer analyzing tweet performance for a sharp CS2 trader account.
+    Extract actionable insights about what makes successful tweets work.
+    Focus on: tone, length, structure, market framing, public overreaction, data usage, humor style.
+    Preserve the identity: sharp trader voice, grounded market language, no fake insider claims, no guaranteed edges.
+    Output 2-3 brief rules (max 200 tokens total)."""
         
         top_examples = "\n".join([f"- {t['content']} (ER: {t['engagement_rate']:.3f})" for t in top_tweets])
         bottom_examples = "\n".join([f"- {t['content']} (ER: {t['engagement_rate']:.3f})" for t in bottom_tweets])
@@ -192,6 +193,7 @@ BOTTOM PERFORMING TWEETS (Week):
 {bottom_examples}
 
 What linguistic/structural patterns differentiate winners from losers?
+Prefer rules that reinforce sharp trader framing when the winners support it.
 Provide 2-3 actionable rules (be specific, concise):"""
         
         result = self.client.generate(

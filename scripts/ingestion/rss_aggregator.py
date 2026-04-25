@@ -47,7 +47,8 @@ RSS_FEEDS = [
         'url': 'https://www.esportsinsider.com/feed/',
         'category': 'cs2',
         'source': 'esports_insider',
-        'pure_cs2': False,  # Mixed esports — needs CS2 filter
+        'pure_cs2': False,  # Mixed esports — DISABLED: returns HTTP 403
+        'disabled': True,
     },
     {
         'url': 'https://www.dust2.us/rss',
@@ -59,7 +60,8 @@ RSS_FEEDS = [
         'url': 'https://bo3.gg/rss',
         'category': 'cs2',
         'source': 'bo3gg',
-        'pure_cs2': True,  # CS2 match and roster news
+        'pure_cs2': True,  # CS2 match and roster news — DISABLED: feed returns HTML not RSS
+        'disabled': True,
     },
     {
         'url': 'https://www.dexerto.com/feed/',
@@ -107,7 +109,7 @@ class RSSAggregator:
         self.db_conn = None
         self.session = None
         self.seen_hashes = set()
-        self._curl_session = CurlSession(impersonate="chrome")
+        self._curl_session = CurlSession(impersonate="chrome120")
     
     def _count_secondary_hits(self, text: str) -> int:
         """Count secondary keyword matches using word boundaries for ambiguous ones."""
@@ -284,7 +286,7 @@ class RSSAggregator:
         """Run one aggregation cycle across all feeds"""
         logger.info("🔄 Starting RSS aggregation cycle...")
         
-        tasks = [self.fetch_feed(feed) for feed in RSS_FEEDS]
+        tasks = [self.fetch_feed(feed) for feed in RSS_FEEDS if not feed.get('disabled')]
         results = await asyncio.gather(*tasks)
         
         # Flatten results

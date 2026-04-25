@@ -10,7 +10,7 @@ import logging
 import random
 import re
 from datetime import datetime, timezone, timedelta
-from typing import Dict, Any, Optional, List
+from typing import Dict, Any, Optional, List, Tuple
 import os
 
 from dotenv import load_dotenv
@@ -22,7 +22,11 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from processing.content_generator import ContentGenerator
+from processing.content_generator import (
+    ContentGenerator,
+    is_invalid_tweet_candidate,
+    normalize_generated_text,
+)
 from processing.fact_checker import get_fact_checker
 from processing.tone_validator import get_tone_validator
 from processing.mirofish_guard import get_mirofish_guard
@@ -30,6 +34,8 @@ from processing.media_manager import get_media_manager
 from processing.meme_generator import get_meme_generator
 from processing.hashtag_injector import inject_hashtags, inject_hashtags_thread
 from processing.match_analyzer import get_match_analyzer
+from processing.hybrid_prediction_pricer import get_hybrid_prediction_pricer
+from processing.team_rating_engine import get_team_rating_engine
 from utils.account_quota import free_account_slot, reserve_account_slot
 from utils.runtime_schema import ensure_runtime_schema_extensions
 from utils.twitter_accounts import get_bucket_daily_cap, select_account_bucket
@@ -59,10 +65,13 @@ class TweetScheduler:
         self.media_manager = get_media_manager()
         self.meme_generator = get_meme_generator()
         self.match_analyzer = get_match_analyzer()
+        self.hybrid_pricer = get_hybrid_prediction_pricer()
+        self.rating_engine = get_team_rating_engine()
         self._schema_ready = False
         
         self.daily_cap = int(os.getenv('DAILY_TWEET_CAP', 95))
         self.dry_run = os.getenv('DRY_RUN_MODE', 'false').lower() == 'true'
+        self.review_only = os.getenv('DASHBOARD_REVIEW_ONLY', 'false').lower() in ('1', 'true', 'yes', 'on')
         
         # Peak hours (UTC): EU evening 15:00-20:00, NA afternoon 17:00-23:00
         self.peak_hours = list(range(15, 24))  # 15:00-23:00 UTC covers both regions
@@ -76,6 +85,8 @@ class TweetScheduler:
                 self._schema_ready = True
             self.generator.connect_db()
             self.match_analyzer.connect_db(self.db_conn)
+            self.hybrid_pricer.connect_db(self.db_conn)
+            self.rating_engine.connect_db(self.db_conn)
         except Exception as e:
             logger.error(f"❌ Database connection failed: {e}")
             raise
@@ -83,9 +94,8 @@ class TweetScheduler:
     def _ensure_db(self):
         """Lightweight reconnect guard — call before every DB operation"""
         self.db_conn = ensure_db_connection(self.db_conn)
-        if not self._schema_ready:
-            ensure_runtime_schema_extensions(self.db_conn)
-            self._schema_ready = True
+        self.hybrid_pricer.connect_db(self.db_conn)
+        self.rating_engine.connect_db(self.db_conn)
     
     def reserve_slot(self, bucket: str) -> bool:
         """
@@ -131,6 +141,176 @@ class TweetScheduler:
             logger.warning(f"⚠️  Could not check last post time: {e}")
             return None
 
+    @staticmethod
+    def _extract_matchup_teams(metadata: Dict[str, Any]) -> Tuple[Optional[str], Optional[str]]:
+        if not isinstance(metadata, dict):
+            return None, None
+        if metadata.get('team_a') and metadata.get('team_b'):
+            return metadata.get('team_a'), metadata.get('team_b')
+        teams = metadata.get('teams')
+        if isinstance(teams, list) and len(teams) >= 2:
+            return teams[0], teams[1]
+        return metadata.get('team1'), metadata.get('team2')
+
+    @staticmethod
+    def _safe_float(value: Any, default: float = 0.0) -> float:
+        try:
+            if value is None or value == '':
+                return default
+            return float(value)
+        except (TypeError, ValueError):
+            return default
+
+    @staticmethod
+    def _normalize_preview_path(candidate: Any) -> Optional[str]:
+        if not candidate:
+            return None
+
+        raw_path = str(candidate).strip()
+        if not raw_path or raw_path.isdigit() or re.match(r'^https?://', raw_path, re.IGNORECASE):
+            return None
+
+        path = Path(raw_path).expanduser()
+        if not path.is_absolute():
+            path = (Path(__file__).resolve().parents[2] / path).resolve()
+        else:
+            path = path.resolve()
+
+        if not path.exists() or not path.is_file():
+            return None
+
+        return str(path)
+
+    def _build_media_attachment(
+        self,
+        media_ref: Optional[str] = None,
+        preview_path: Optional[str] = None,
+    ) -> Optional[Dict[str, Optional[str]]]:
+        normalized_preview = self._normalize_preview_path(preview_path)
+        if not media_ref and not normalized_preview:
+            return None
+        return {
+            'media_ref': media_ref,
+            'preview_path': normalized_preview,
+        }
+
+    def _dashboard_review_status(self, default_status: str) -> str:
+        return 'draft' if self.review_only else default_status
+
+    def _dashboard_preview_hint(self, event: Dict[str, Any]) -> Optional[str]:
+        metadata = event.get('metadata') if isinstance(event.get('metadata'), dict) else {}
+        preview_candidates = [
+            metadata.get('media_path') if isinstance(metadata, dict) else None,
+            event.get('_screenshot_path'),
+        ]
+        for candidate in preview_candidates:
+            preview_path = self._normalize_preview_path(candidate)
+            if preview_path:
+                return preview_path
+        return None
+
+    @staticmethod
+    def _apply_pricing_context(
+        metadata: Dict[str, Any],
+        pricing_context: Dict[str, Any],
+        rating_context: Optional[Dict[str, Any]] = None,
+    ) -> Dict[str, Any]:
+        metadata['pricing_context'] = pricing_context
+        if rating_context:
+            metadata['rating_context'] = rating_context
+        metadata['internal_win_probability'] = pricing_context.get('hybrid_win_probability')
+        metadata['internal_edge_pct'] = pricing_context.get('signed_edge_pct')
+        metadata['internal_fair_odds'] = pricing_context.get('fair_odds')
+        if pricing_context.get('hybrid_win_probability') is not None:
+            metadata['win_probability'] = pricing_context.get('hybrid_win_probability')
+        if pricing_context.get('display_edge_pct') is not None:
+            metadata['edge_pct'] = pricing_context.get('display_edge_pct')
+        return metadata
+
+    def _inject_pricing_context(self, event: Dict[str, Any]):
+        if event.get('category') != 'match_prediction':
+            return
+
+        metadata = event.get('metadata')
+        if not isinstance(metadata, dict):
+            return
+
+        existing_pricing = metadata.get('pricing_context')
+        if isinstance(existing_pricing, dict) and existing_pricing.get('hybrid_win_probability') is not None:
+            rating_context = metadata.get('rating_context') if isinstance(metadata.get('rating_context'), dict) else None
+            event['metadata'] = self._apply_pricing_context(metadata, existing_pricing, rating_context)
+            return
+
+        team_a, team_b = self._extract_matchup_teams(metadata)
+        pick = metadata.get('pick')
+        if not team_a or not team_b or not pick:
+            return
+
+        provider_win_probability = metadata.get('provider_win_probability')
+        if provider_win_probability is None:
+            provider_win_probability = metadata.get('win_probability')
+
+        try:
+            pricing_context = self.hybrid_pricer.price_prediction(
+                team_a=team_a,
+                team_b=team_b,
+                pick_team=pick,
+                market_type=metadata.get('market_type', 'match_winner'),
+                pick_odds=metadata.get('pick_odds'),
+                provider_win_probability=provider_win_probability,
+                analytics_context=metadata.get('analytics_context') if isinstance(metadata.get('analytics_context'), dict) else None,
+                event_name=metadata.get('event') or metadata.get('event_name') or '',
+            )
+        except Exception as exc:
+            logger.warning(f"⚠️  Hybrid pricing unavailable for {team_a} vs {team_b}: {exc}")
+            return
+
+        if not pricing_context:
+            return
+
+        rating_context = pricing_context.pop('rating_context', None)
+        if 'provider_win_probability' not in metadata:
+            metadata['provider_win_probability'] = self._safe_float(provider_win_probability, 0.0)
+        if 'provider_edge_pct' not in metadata:
+            metadata['provider_edge_pct'] = self._safe_float(metadata.get('edge_pct'), 0.0)
+        event['metadata'] = self._apply_pricing_context(metadata, pricing_context, rating_context)
+
+    def _inject_rating_context(self, event: Dict[str, Any]):
+        metadata = event.get('metadata')
+        if not isinstance(metadata, dict):
+            return
+
+        team_a, team_b = self._extract_matchup_teams(metadata)
+        if not team_a or not team_b:
+            return
+
+        try:
+            rating_context = self.rating_engine.get_matchup_context(
+                team_a=team_a,
+                team_b=team_b,
+                event_name=metadata.get('event') or metadata.get('event_name') or '',
+                pick_team=metadata.get('pick'),
+            )
+        except Exception as exc:
+            logger.warning(f"⚠️  Team ratings unavailable for {team_a} vs {team_b}: {exc}")
+            return
+
+        if not rating_context:
+            return
+
+        metadata['rating_context'] = rating_context
+        if event.get('category') in ('analysis', 'match_preview', 'match_result'):
+            evidence_lines = [
+                str(line).strip()
+                for line in (metadata.get('evidence_lines') or [])
+                if str(line).strip()
+            ]
+            for line in reversed(rating_context.get('evidence_lines') or []):
+                if line and line not in evidence_lines:
+                    evidence_lines.insert(0, line)
+            metadata['evidence_lines'] = evidence_lines[:6]
+        event['metadata'] = metadata
+
     def _prefers_owned_media(self, event: Dict[str, Any]) -> bool:
         metadata = event.get('metadata') or {}
         if not isinstance(metadata, dict):
@@ -151,6 +331,156 @@ class TweetScheduler:
                 return True
 
         return False
+
+    def _owned_media_enabled_types(self) -> set[str]:
+        raw = os.getenv('OWNED_MEDIA_TYPES', 'match_result,match_preview,prediction,player')
+        return {item.strip().lower() for item in raw.split(',') if item.strip()}
+
+    def _determine_owned_media_group(self, event: Dict[str, Any]) -> tuple[Optional[str], Optional[str]]:
+        category = event.get('category') or ''
+        metadata = event.get('metadata') or {}
+        if not isinstance(metadata, dict):
+            metadata = {}
+
+        if category == 'match_result':
+            return 'match_result', 'match_result_card'
+        if category == 'match_preview':
+            return 'match_preview', 'match_preview_card'
+        if category == 'match_prediction':
+            return 'prediction', 'prediction_card'
+        if category == 'engagement_recycle':
+            return 'match_result', 'recycle_match_card'
+        if category in ('cs2', 'match_highlight', 'analysis') and self._prefers_owned_media(event):
+            return 'match_preview', 'headline_vs_card'
+        if metadata.get('media_path'):
+            return 'match_preview', 'prebuilt_owned_media'
+        return None, None
+
+    def _get_media_experiment_stats(
+        self,
+        category: str,
+        card_type: str,
+        lookback_days: int = 30,
+    ) -> Dict[str, Dict[str, Any]]:
+        self._ensure_db()
+        stats: Dict[str, Dict[str, Any]] = {}
+        try:
+            with self.db_conn.cursor() as cur:
+                try:
+                    cur.execute(
+                        """
+                        SELECT variant, avg_er, tweet_count
+                        FROM twitter_bot.mv_media_experiment_30d
+                        WHERE category = %s AND card_type = %s
+                        """,
+                        (category, card_type),
+                    )
+                    rows = cur.fetchall()
+                except Exception:
+                    self.db_conn.rollback()
+                    cur.execute(
+                        """
+                        SELECT COALESCE(e.metadata->'media_experiment'->>'variant', 'unknown') AS variant,
+                               AVG(t.engagement_rate) AS avg_er,
+                               COUNT(*) AS tweet_count
+                        FROM twitter_bot.tweets_v2 t
+                        JOIN twitter_bot.events e ON e.id = t.event_id
+                        WHERE e.category = %s
+                          AND COALESCE(e.metadata->'media_experiment'->>'card_type', 'unknown') = %s
+                          AND t.status = 'posted'
+                          AND t.engagement_rate IS NOT NULL
+                          AND t.posted_at > NOW() - (%s || ' days')::interval
+                        GROUP BY 1
+                        """,
+                        (category, card_type, str(lookback_days)),
+                    )
+                    rows = cur.fetchall()
+
+            for variant, avg_er, tweet_count in rows:
+                stats[str(variant or 'unknown')] = {
+                    'avg_er': float(avg_er) if avg_er is not None else None,
+                    'sample_count': int(tweet_count or 0),
+                }
+        except Exception as e:
+            logger.warning(f"⚠️  Media experiment stats lookup failed: {e}")
+
+        return stats
+
+    def _choose_owned_media_variant(self, event: Dict[str, Any]) -> Dict[str, Any]:
+        enabled_types = self._owned_media_enabled_types()
+        media_group, card_type = self._determine_owned_media_group(event)
+        if not media_group or not card_type:
+            return {
+                'eligible': False,
+                'allow_owned_media': False,
+                'force_text_only': False,
+            }
+
+        if 'none' in enabled_types or media_group not in enabled_types:
+            return {
+                'eligible': True,
+                'allow_owned_media': False,
+                'force_text_only': True,
+                'metadata_patch': {
+                    'media_experiment': {
+                        'card_type': card_type,
+                        'variant': 'text_only_disabled',
+                        'policy': 'disabled',
+                        'assigned_at': datetime.now(timezone.utc).isoformat(),
+                    }
+                },
+            }
+
+        policy = os.getenv('OWNED_MEDIA_POLICY', 'experiment').strip().lower()
+        exploration_rate = float(os.getenv('OWNED_MEDIA_EXPLORATION_RATE', '0.15'))
+        min_samples = int(os.getenv('OWNED_MEDIA_MIN_SAMPLES', '5'))
+        min_lift = float(os.getenv('OWNED_MEDIA_MIN_LIFT', '0.10'))
+        category = event.get('category') or 'unknown'
+
+        variant = 'owned_media'
+        policy_used = policy
+        stats = self._get_media_experiment_stats(category, card_type)
+        owned_stats = stats.get('owned_media', {})
+        text_stats = stats.get('text_only_holdout', {})
+        owned_avg = owned_stats.get('avg_er')
+        text_avg = text_stats.get('avg_er')
+        owned_n = int(owned_stats.get('sample_count', 0) or 0)
+        text_n = int(text_stats.get('sample_count', 0) or 0)
+
+        if policy == 'text_only':
+            variant = 'text_only_holdout'
+        elif policy != 'always':
+            if (
+                owned_n >= min_samples
+                and text_n >= min_samples
+                and owned_avg is not None
+                and text_avg is not None
+                and owned_avg >= (text_avg * (1.0 + min_lift))
+            ):
+                policy_used = 'proven_uplift'
+                variant = 'owned_media' if random.random() >= exploration_rate else 'text_only_holdout'
+            else:
+                policy_used = 'experiment'
+                variant = 'owned_media' if random.random() < exploration_rate else 'text_only_holdout'
+
+        metadata_patch = {
+            'media_experiment': {
+                'card_type': card_type,
+                'variant': variant,
+                'policy': policy_used,
+                'owned_avg_er': owned_avg,
+                'text_avg_er': text_avg,
+                'owned_samples': owned_n,
+                'text_samples': text_n,
+                'assigned_at': datetime.now(timezone.utc).isoformat(),
+            }
+        }
+        return {
+            'eligible': True,
+            'allow_owned_media': variant == 'owned_media',
+            'force_text_only': variant != 'owned_media',
+            'metadata_patch': metadata_patch,
+        }
 
     # ── Fabrication Detection ─────────────────────────────────────
 
@@ -271,12 +601,12 @@ class TweetScheduler:
     # ── Prediction Tweet Formatting ───────────────────────────────
 
     _PREDICTION_TEMPLATES = [
-        "Taking {pick} {market_tag}{emoji}\n\n{analysis}\n\n{conf}% win prob | {edge}% edge",
-        "{pick} {market_short}is the play {emoji}\n\n{analysis}\n\n{conf}% win probability",
-        "Liking {pick} here {emoji}\n\n{analysis}\n\nEdge: {edge}%",
-        "Giving {pick} the edge {market_tag}{emoji}\n\n{analysis}",
-        "Going with {pick} {market_tag}{emoji}\n\n{analysis}\n\n{conf}% chance",
-        "{pick} looking strong {emoji}\n\n{analysis}\n\nEdge: {edge}%",
+        "Taking {pick} {market_tag}{emoji}\n\n{analysis}{metrics_block}",
+        "{pick} {market_short}is the play {emoji}\n\n{analysis}{metrics_block}",
+        "Liking {pick} here {emoji}\n\n{analysis}{metrics_block}",
+        "Giving {pick} the edge {market_tag}{emoji}\n\n{analysis}{metrics_block}",
+        "Going with {pick} {market_tag}{emoji}\n\n{analysis}{metrics_block}",
+        "{pick} looking strong {emoji}\n\n{analysis}{metrics_block}",
     ]
 
     def _format_prediction_tweet(self, event: Dict[str, Any]) -> Optional[str]:
@@ -294,9 +624,11 @@ class TweetScheduler:
         confidence = metadata.get('confidence', 'standard')
         win_prob = float(metadata.get('win_probability', 0) or 0)
         edge = float(metadata.get('edge_pct', 0) or 0)
+        pick_odds = float(metadata.get('pick_odds', 0) or 0)
         factors = metadata.get('factors') or []
         event_name = metadata.get('event', '')
         market_type = metadata.get('market_type', 'match_winner')
+        has_market_price = pick_odds > 1.01 or edge > 0.01
 
         conf_pct = int(win_prob * 100) if win_prob else 75
 
@@ -326,14 +658,44 @@ class TweetScheduler:
 
         # Build readable analysis lines from the raw factors
         analysis_lines = []
+        pricing_context = metadata.get('pricing_context') or {}
+        if isinstance(pricing_context, dict):
+            pricing_line = pricing_context.get('pick_line') or pricing_context.get('tweet_line')
+            provider_line = pricing_context.get('provider_line')
+            analytics_line = pricing_context.get('analytics_line')
+            if pricing_line:
+                analysis_lines.append(pricing_line)
+            if analytics_line and analytics_line not in analysis_lines:
+                analysis_lines.append(analytics_line)
+            if provider_line and provider_line not in analysis_lines:
+                analysis_lines.append(provider_line)
+        rating_context = metadata.get('rating_context') or {}
+        if isinstance(rating_context, dict):
+            rating_line = rating_context.get('pick_line') or rating_context.get('tweet_line')
+            if rating_line and rating_line not in analysis_lines:
+                analysis_lines.append(rating_line)
         for f in factors:
             line = self._humanize_factor(f, pick, opponent, metadata)
             if line:
                 analysis_lines.append(line)
         if not analysis_lines:
-            analysis_lines = [f"{conf_pct}% win probability, {edge:.1f}% edge"]
+            if has_market_price and edge > 0:
+                analysis_lines = [f"{conf_pct}% model win probability, {edge:.1f}% edge"]
+            elif win_prob:
+                analysis_lines = [f"{conf_pct}% model win probability"]
+            else:
+                analysis_lines = [f"Model lean on {pick} here"]
 
-        analysis_text = '\n'.join(f"• {l}" for l in analysis_lines[:4])
+        analysis_text = '\n'.join(f"• {l}" for l in analysis_lines[:3])
+
+        metrics_parts = []
+        if win_prob:
+            metrics_parts.append(f"{conf_pct}% model win prob")
+        if has_market_price and edge > 0:
+            metrics_parts.append(f"{edge:.1f}% edge")
+        elif has_market_price and pick_odds > 1.01:
+            metrics_parts.append(f"@ {pick_odds:.2f}")
+        metrics_block = f"\n\n{' | '.join(metrics_parts)}" if metrics_parts else ''
 
         # Pick emoji based on confidence
         if confidence == 'strong':
@@ -351,10 +713,9 @@ class TweetScheduler:
             opponent=opponent,
             emoji=emoji,
             analysis=analysis_text,
-            conf=conf_pct,
-            edge=f"{edge:.1f}" if edge else "?",
             market_tag=market_tag,
             market_short=market_short,
+            metrics_block=metrics_block,
         )
 
         # Add event name if short enough
@@ -466,9 +827,19 @@ class TweetScheduler:
         tweet_text: str,
         pillar: int,
         account_bucket: str,
-    ) -> Optional[str]:
+    ) -> Optional[Dict[str, Optional[str]]]:
         """Attach pre-existing media or generate match/player cards.
-        Text-only cards (hot take, multi-team) are disabled."""
+        Text-only cards (hot take, multi-team) are disabled.
+
+        Enabled card types are controlled via OWNED_MEDIA_TYPES env var
+        (comma-separated list; default = match_result,match_preview,prediction,player).
+        Set OWNED_MEDIA_TYPES=none to go fully text-only safely.
+        """
+        _enabled_raw = os.getenv('OWNED_MEDIA_TYPES', 'match_result,match_preview,prediction,player')
+        _enabled_types = {t.strip().lower() for t in _enabled_raw.split(',') if t.strip()}
+        if 'none' in _enabled_types:
+            return None
+
         metadata = event.get('metadata') or {}
         if not isinstance(metadata, dict):
             metadata = {}
@@ -478,11 +849,11 @@ class TweetScheduler:
             media_id = self.media_manager.upload_media(pre_media, account_bucket=account_bucket)
             if media_id:
                 logger.info(f"🎨 Owned media attached: {media_id}")
-                return media_id
+                return self._build_media_attachment(media_id, pre_media)
 
         match_context = metadata.get('match_context') or {}
 
-        if event.get('category') == 'match_result':
+        if event.get('category') == 'match_result' and 'match_result' in _enabled_types:
             mvp = match_context.get('mvp')
             mvp_rating = match_context.get('mvp_rating')
             map_scores = metadata.get('map_scores') or metadata.get('maps') or []
@@ -501,22 +872,23 @@ class TweetScheduler:
                 media_id = self.media_manager.upload_media(card_path, account_bucket=account_bucket)
                 if media_id:
                     logger.info(f"🎨 Match result card attached: {media_id}")
-                    return media_id
+                    return self._build_media_attachment(media_id, card_path)
 
-            card_path = self.meme_generator.generate_vs_card(
-                metadata.get('team1', ''),
-                metadata.get('team2', ''),
-                str(metadata.get('score1', '')),
-                str(metadata.get('score2', '')),
-                metadata.get('event', ''),
-            )
-            if card_path:
-                media_id = self.media_manager.upload_media(card_path, account_bucket=account_bucket)
-                if media_id:
-                    logger.info(f"🎨 VS card attached: {media_id}")
-                    return media_id
+            if 'match_preview' in _enabled_types:
+                card_path = self.meme_generator.generate_vs_card(
+                    metadata.get('team1', ''),
+                    metadata.get('team2', ''),
+                    str(metadata.get('score1', '')),
+                    str(metadata.get('score2', '')),
+                    metadata.get('event', ''),
+                )
+                if card_path:
+                    media_id = self.media_manager.upload_media(card_path, account_bucket=account_bucket)
+                    if media_id:
+                        logger.info(f"🎨 VS card attached: {media_id}")
+                    return self._build_media_attachment(media_id, card_path)
 
-            if mvp and match_context.get('player_stats'):
+            if mvp and match_context.get('player_stats') and 'player' in _enabled_types:
                 try:
                     mvp_stats_raw = next(
                         (p for p in match_context['player_stats'] if p['name'] == mvp),
@@ -537,11 +909,11 @@ class TweetScheduler:
                             media_id = self.media_manager.upload_media(card_path, account_bucket=account_bucket)
                             if media_id:
                                 logger.info(f"🎨 Player stat card attached: {media_id}")
-                                return media_id
+                                return self._build_media_attachment(media_id, card_path)
                 except Exception:
                     pass
 
-        if event.get('category') == 'match_preview':
+        if event.get('category') == 'match_preview' and 'match_preview' in _enabled_types:
             card_path = self.meme_generator.generate_vs_card(
                 metadata.get('team1', ''),
                 metadata.get('team2', ''),
@@ -552,15 +924,28 @@ class TweetScheduler:
                 media_id = self.media_manager.upload_media(card_path, account_bucket=account_bucket)
                 if media_id:
                     logger.info(f"🎨 Match preview card attached: {media_id}")
-                    return media_id
+                    return self._build_media_attachment(media_id, card_path)
 
         # Prediction cards
-        if event.get('category') == 'match_prediction':
+        if event.get('category') == 'match_prediction' and 'prediction' in _enabled_types:
             # Build humanized analysis lines for the card
             raw_factors = metadata.get('factors') or []
             card_analysis = []
             pick = metadata.get('pick', metadata.get('team1', ''))
             opp = metadata.get('team2', '')
+            pricing_context = metadata.get('pricing_context') or {}
+            if isinstance(pricing_context, dict):
+                pricing_line = pricing_context.get('pick_line') or pricing_context.get('tweet_line')
+                provider_line = pricing_context.get('provider_line')
+                if pricing_line:
+                    card_analysis.append(pricing_line)
+                if provider_line and provider_line not in card_analysis:
+                    card_analysis.append(provider_line)
+            rating_context = metadata.get('rating_context') or {}
+            if isinstance(rating_context, dict):
+                rating_line = rating_context.get('pick_line') or rating_context.get('tweet_line')
+                if rating_line and rating_line not in card_analysis:
+                    card_analysis.append(rating_line)
             for f in raw_factors:
                 line = self._humanize_factor(f, pick, opp, metadata)
                 if line:
@@ -581,7 +966,7 @@ class TweetScheduler:
                 media_id = self.media_manager.upload_media(card_path, account_bucket=account_bucket)
                 if media_id:
                     logger.info(f"🎯 Prediction card attached: {media_id}")
-                    return media_id
+                    return self._build_media_attachment(media_id, card_path)
             # Fallback: generate a plain VS card
             card_path = self.meme_generator.generate_vs_card(
                 metadata.get('team1', ''), metadata.get('team2', ''),
@@ -591,7 +976,7 @@ class TweetScheduler:
                 media_id = self.media_manager.upload_media(card_path, account_bucket=account_bucket)
                 if media_id:
                     logger.info(f"🎯 Prediction VS fallback attached: {media_id}")
-                    return media_id
+                    return self._build_media_attachment(media_id, card_path)
 
         # Fallback: for CS2 news articles that look like match results,
         # try to extract team names from headline/tweet and generate a VS
@@ -615,7 +1000,7 @@ class TweetScheduler:
                         media_id = self.media_manager.upload_media(card_path, account_bucket=account_bucket)
                         if media_id:
                             logger.info(f"🎨 News VS card (fallback) attached: {media_id}")
-                            return media_id
+                            return self._build_media_attachment(media_id, card_path)
 
         return None
     
@@ -775,6 +1160,9 @@ class TweetScheduler:
                 quote_tweet_id=quote_target_hint,
             )
 
+            self._inject_pricing_context(event)
+            self._inject_rating_context(event)
+
             if not self.reserve_slot(account_bucket):
                 logger.warning(f"⏸️  Event {event_id} held - {account_bucket} quota exhausted")
                 return False
@@ -788,12 +1176,28 @@ class TweetScheduler:
                     logger.error(f"❌ Prediction formatting failed for {event_id}")
                     return False
 
+                media_plan = self._choose_owned_media_variant(event)
+                if media_plan.get('metadata_patch'):
+                    metadata = event.get('metadata') or {}
+                    if not isinstance(metadata, dict):
+                        metadata = {}
+                    metadata.update(media_plan['metadata_patch'])
+                    event['metadata'] = metadata
+
                 # Generate prediction card
-                media_id = None
-                try:
-                    media_id = self._generate_owned_media(event, tweet_text, pillar, account_bucket)
-                except Exception as e:
-                    logger.warning(f"⚠️  Prediction card failed (non-fatal): {e}")
+                media_attachment = None
+                if media_plan.get('force_text_only'):
+                    logger.info("📝 Prediction assigned to text-only baseline")
+                else:
+                    try:
+                        media_attachment = self._generate_owned_media(event, tweet_text, pillar, account_bucket)
+                    except Exception as e:
+                        logger.warning(f"⚠️  Prediction card failed (non-fatal): {e}")
+
+                media_id = media_attachment.get('media_ref') if media_attachment else None
+                media_preview_path = media_attachment.get('preview_path') if media_attachment else self._dashboard_preview_hint(event)
+                prediction_status = self._dashboard_review_status('queued')
+                prediction_auto_approved = not self.review_only
 
                 # Store directly — auto-approved, no guardrails needed
                 with self.db_conn.cursor() as cur:
@@ -801,24 +1205,33 @@ class TweetScheduler:
                         INSERT INTO twitter_bot.tweets_v2
                         (event_id, pillar, pillar_name, content, status, account_bucket,
                          fact_checked, tone_validated, generation_model,
-                         media_path, auto_approved, is_thread, thread_tweets)
-                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                         media_path, media_preview_path, auto_approved, is_thread, thread_tweets)
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                         RETURNING id
                     """, (
                         event['id'], pillar, 'match_prediction', tweet_text,
-                        'queued', account_bucket,
+                        prediction_status, account_bucket,
                         True, True, 'prediction_template',
-                        media_id, True, False, None,
+                        media_id, media_preview_path, prediction_auto_approved, False, None,
                     ))
                     tweet_id = cur.fetchone()[0]
                     cur.execute(
-                        "UPDATE twitter_bot.events SET status = 'scheduled', processed_at = NOW() WHERE id = %s",
-                        (event['id'],),
+                        """
+                        UPDATE twitter_bot.events
+                        SET status = 'scheduled',
+                            processed_at = NOW(),
+                            metadata = %s
+                        WHERE id = %s
+                        """,
+                        (Json(event.get('metadata') or {}), event['id']),
                     )
                     self.db_conn.commit()
 
                 slot_consumed = True
-                logger.info(f"🎯 Prediction tweet {tweet_id} queued (auto-approved)")
+                if self.review_only:
+                    logger.info(f"🧾 Prediction draft {tweet_id} parked in dashboard review")
+                else:
+                    logger.info(f"🎯 Prediction tweet {tweet_id} queued (auto-approved)")
                 return True
 
             # Enrich news events with full article content for better tweet generation
@@ -874,60 +1287,17 @@ class TweetScheduler:
             if not tweet_text:
                 logger.error(f"❌ Content generation returned empty text for event {event_id}")
                 return False
+            tweet_text = normalize_generated_text(tweet_text)
             tweet_text = re.sub(r'@ (\w)', r'@\1', tweet_text)
 
-            # Safety net: reject any tweet that leaked LLM instructions
-            _leak_markers = [
-                'we need to', 'we need a', 'we must', 'we should',
-                'let\'s craft', 'let\'s write', 'let\'s create', 'let\'s generate',
-                'craft a tweet', 'write a tweet', 'generate a tweet', 'create a tweet',
-                'generate one tweet', 'generate a', 'write a',
-                'tweet 1:', 'tweet 2:', 'tweet 3:',
-                'max 280', 'max 270', '280 char', '270 char',
-                'separated by', 'one idea per tweet', 'provide result',
-                'no explanation', 'just the tweet', 'output only',
-                'here is the tweet', 'here\'s the tweet', 'here\'s a tweet',
-                'your critique', 'your task', 'your job',
-                'pillar context', 'event data', 'headline:',
-                'format:', 'rules:', 'ensure no',
-                'b2 english', 'simple words', 'short sentences',
-                'need to identify', 'must be 60', 'mention that', 'add maybe',
-                # Reasoning / chain-of-thought leaks
-                'must identify', 'need to determine', 'let me think',
-                'i should', 'first,', 'step 1', 'step 2',
-                'my task', 'the prompt', 'the headline', 'the event:',
-                'the content:', 'the category', 'the source',
-                'i\'ll write', 'i\'ll craft', 'i\'ll generate',
-                'i will write', 'i will craft', 'i will generate',
-                'must be under', 'keep it under', 'stay under',
-                'analyzing', 'identify the', 'determine the',
-            ]
-            tweet_lower = tweet_text.lower()
-            if any(m in tweet_lower for m in _leak_markers):
-                logger.error(f"❌ REJECTED: Tweet leaked LLM instructions: {tweet_text[:100]}")
+            if is_invalid_tweet_candidate(tweet_text):
+                logger.error(f"❌ REJECTED: Tweet leaked meta/review text: {tweet_text[:100]}")
                 return False
-            # Regex reasoning detector — catches structural chain-of-thought leaks
-            # that the flat marker list might miss (e.g. "Must identify teams. Likely...")
-            _reasoning_re = re.compile(
-                r'(?:'
-                r'^must\s+(?:identify|determine|find|check|verify|include|mention)'
-                r'|^(?:need|trying|going) to (?:identify|determine|find|figure)'
-                r'|^(?:first|okay|alright|so),?\s+(?:i|we|let)'
-                r'|(?:the event|the headline|event data|pillar \d+)\s*[:.] '
-                r')',
-                re.IGNORECASE | re.MULTILINE
-            )
-            if _reasoning_re.search(tweet_text):
-                logger.error(f"❌ REJECTED: Tweet contains reasoning/chain-of-thought: {tweet_text[:100]}")
-                return False
-            # Also check thread tweets
             if is_thread and thread_tweets:
+                thread_tweets = [normalize_generated_text(tt) for tt in thread_tweets]
                 for i, tt in enumerate(thread_tweets):
-                    if any(m in tt.lower() for m in _leak_markers):
-                        logger.error(f"❌ REJECTED: Thread tweet {i} leaked instructions: {tt[:100]}")
-                        return False
-                    if _reasoning_re.search(tt):
-                        logger.error(f"❌ REJECTED: Thread tweet {i} contains reasoning: {tt[:100]}")
+                    if is_invalid_tweet_candidate(tt):
+                        logger.error(f"❌ REJECTED: Thread tweet {i} leaked meta/review text: {tt[:100]}")
                         return False
             
             logger.info(f"✍️  Generated: {tweet_text[:80]}...")
@@ -1051,32 +1421,49 @@ class TweetScheduler:
                 guardrail_failed = True
                 guardrail_issues.append(f"Tone: {tone_result['issues']}")
             
+            media_plan = self._choose_owned_media_variant(event)
+            if media_plan.get('metadata_patch'):
+                metadata = event.get('metadata') or {}
+                if not isinstance(metadata, dict):
+                    metadata = {}
+                metadata.update(media_plan['metadata_patch'])
+                event['metadata'] = metadata
+
             # Try to attach media (player images for matches, article images for news)
-            media_id = None
-            if event.get('category') == 'engagement_recycle':
+            media_attachment = None
+            if media_plan.get('force_text_only'):
+                logger.info(
+                    "📝 Owned media holdout: text-only baseline for %s (%s)",
+                    event.get('category'),
+                    ((event.get('metadata') or {}).get('media_experiment') or {}).get('card_type', 'n/a'),
+                )
+            elif event.get('category') == 'engagement_recycle':
                 # engagement_recycle has no source_url — Google Images returns random photos.
                 # But we CAN generate owned media (team cards, VS cards) from the tweet text.
                 try:
-                    media_id = self._generate_owned_media(event, tweet_text, pillar, account_bucket)
-                    if media_id:
-                        logger.info(f"📸 Generated owned media for engagement_recycle: {media_id}")
+                    media_attachment = self._generate_owned_media(event, tweet_text, pillar, account_bucket)
+                    if media_attachment and media_attachment.get('media_ref'):
+                        logger.info(f"📸 Generated owned media for engagement_recycle: {media_attachment['media_ref']}")
                     else:
                         logger.info("📝 No owned media match for engagement_recycle — posting text-only")
                 except Exception as e:
                     logger.warning(f"⚠️  Owned media generation failed for engagement_recycle: {e}")
             else:
-                prefer_owned_media = self._prefers_owned_media(event)
+                prefer_owned_media = media_plan.get('allow_owned_media', False)
+                if not media_plan.get('eligible'):
+                    prefer_owned_media = self._prefers_owned_media(event)
                 try:
                     if prefer_owned_media:
-                        media_id = self._generate_owned_media(event, tweet_text, pillar, account_bucket)
-                    if not media_id:
-                        media_id = self.media_manager.get_media_for_event(
+                        media_attachment = self._generate_owned_media(event, tweet_text, pillar, account_bucket)
+                    if not media_attachment or not media_attachment.get('media_ref'):
+                        media_ref = self.media_manager.get_media_for_event(
                             event,
                             tweet_text=tweet_text,
                             account_bucket=account_bucket,
                         )
-                    if media_id:
-                        logger.info(f"📸 Media attached: {media_id}")
+                        media_attachment = self._build_media_attachment(media_ref, self._dashboard_preview_hint(event))
+                    if media_attachment and media_attachment.get('media_ref'):
+                        logger.info(f"📸 Media attached: {media_attachment['media_ref']}")
                 except Exception as e:
                     logger.warning(f"⚠️  Media extraction failed (non-fatal): {e}")
 
@@ -1107,7 +1494,7 @@ class TweetScheduler:
 
             # Fallback: Generate meme/stat card if no media found
             # Try structured cards first, then headline card as universal fallback
-            if not media_id:
+            if not media_attachment or not media_attachment.get('media_ref'):
                 category = event.get('category', '')
                 metadata = event.get('metadata') or {}
                 # Check if tweet mentions multiple teams (non-vs) — worth generating a card
@@ -1120,12 +1507,14 @@ class TweetScheduler:
                 )
                 if has_structured_data:
                     try:
-                        media_id = self._generate_owned_media(event, tweet_text, pillar, account_bucket)
+                        media_attachment = self._generate_owned_media(event, tweet_text, pillar, account_bucket)
                     except Exception as e:
                         logger.warning(f"⚠️  Card generation failed (non-fatal): {e}")
 
-            # Ultimate fallback: headline card — every tweet gets an image
-            if not media_id:
+            # Optional headline-card fallback. Disabled by default because generic
+            # cards underperform and look worse than a clean text-only post.
+            enable_headline_card_fallback = os.getenv('ENABLE_HEADLINE_CARD_FALLBACK', 'false').lower() in ('1', 'true', 'yes')
+            if (not media_attachment or not media_attachment.get('media_ref')) and enable_headline_card_fallback:
                 try:
                     _fb_teams = self.media_manager._find_teams_in_text(tweet_text)
                     _fb_meta = event.get('metadata') or {}
@@ -1139,9 +1528,38 @@ class TweetScheduler:
                     if card_path:
                         media_id = self.media_manager.upload_media(card_path, account_bucket=account_bucket)
                         if media_id:
+                            media_attachment = self._build_media_attachment(media_id, card_path)
                             logger.info(f"📰 Headline card fallback attached: {media_id}")
                 except Exception as e:
                     logger.warning(f"⚠️  Headline card fallback failed (non-fatal): {e}")
+            elif not media_attachment or not media_attachment.get('media_ref'):
+                logger.info("🖼️ No curated media found — skipping generic headline card fallback")
+
+            media_id = media_attachment.get('media_ref') if media_attachment else None
+            media_preview_path = media_attachment.get('preview_path') if media_attachment else self._dashboard_preview_hint(event)
+
+            reply_target_id = None
+            quote_tweet_id = None
+            if pillar == 12 and isinstance(event.get('metadata'), dict):
+                target_tweet_id = event['metadata'].get('tweet_id')
+                reply_mode = (event['metadata'].get('reply_mode') or '').lower()
+                if target_tweet_id and reply_mode == 'reply':
+                    reply_target_id = target_tweet_id
+                elif target_tweet_id and reply_mode == 'quote':
+                    quote_tweet_id = target_tweet_id
+                elif target_tweet_id and random.random() < 0.80:
+                    quote_tweet_id = target_tweet_id
+                    logger.info("💬 VIP engagement → Quote Tweet mode")
+                else:
+                    reply_target_id = target_tweet_id
+            elif pillar == 16 and isinstance(event.get('metadata'), dict):
+                target_tweet_id = event['metadata'].get('tweet_id')
+                reply_mode = (event['metadata'].get('reply_mode') or 'reply').lower()
+                if target_tweet_id and reply_mode == 'quote':
+                    quote_tweet_id = target_tweet_id
+                    logger.info("💬 Community disagreement → Quote mode")
+                else:
+                    reply_target_id = target_tweet_id
             
             # Auto-approve logic
             # The 3-agent writer's room + fact check + tone validation already vet content.
@@ -1181,44 +1599,30 @@ class TweetScheduler:
                 auto_approved = True
                 logger.info(f"🤖 Auto-approved: style take (fact=✅, tone={tone_score}/10)")
 
+            if not auto_approved and pillar == 12 and (reply_target_id or quote_tweet_id) and tone_score >= 7 and fact_passed:
+                auto_approved = True
+                logger.info(f"🤖 Auto-approved: VIP engagement (fact=✅, tone={tone_score}/10)")
+
             # Pillar 16 (disagreement replies) always goes through HITL — replies to real
             # people's tweets are high-risk and hard to undo.
             
-            # Force HITL for guardrail failures, VIP replies, or disagreement replies
-            if guardrail_failed or pillar in (12, 16):
+            # Force HITL for guardrail failures or disagreement replies.
+            # VIP engagement can auto-post when guardrails pass; otherwise it stays in HITL.
+            if guardrail_failed or pillar == 16:
                 auto_approved = False
-                if pillar == 12:
-                    logger.info("📱 VIP reply → forcing HITL review")
-                elif pillar == 16:
+                if pillar == 16:
                     logger.info("📱 Disagreement reply → forcing HITL review")
             
-            status = 'queued' if auto_approved else 'hitl_pending'
-            
-            # For VIP replies, set reply_target_id or quote_tweet_id
-            reply_target_id = None
-            quote_tweet_id = None
-            if pillar == 12 and isinstance(event.get('metadata'), dict):
-                target_tweet_id = event['metadata'].get('tweet_id')
-                # 80% quote tweets — replies get 0 impressions (94/94 pruned at 0 imp).
-                # Quote tweets appear in our followers' feeds; replies don't.
-                if target_tweet_id and random.random() < 0.80:
-                    quote_tweet_id = target_tweet_id
-                    logger.info("💬 VIP engagement → Quote Tweet mode")
-                else:
-                    reply_target_id = target_tweet_id
-            elif pillar == 16 and isinstance(event.get('metadata'), dict):
-                target_tweet_id = event['metadata'].get('tweet_id')
-                reply_mode = (event['metadata'].get('reply_mode') or 'reply').lower()
-                if target_tweet_id and reply_mode == 'quote':
-                    quote_tweet_id = target_tweet_id
-                    logger.info("💬 Community disagreement → Quote mode")
-                else:
-                    reply_target_id = target_tweet_id
-            
-            # Peak hour scheduling: stagger non-urgent tweets across 15:00–23:00 UTC
             scheduled_post_at = None
+            status = 'queued' if auto_approved else 'hitl_pending'
+            if self.review_only:
+                status = self._dashboard_review_status(status)
+                auto_approved = False
+                logger.info("🧾 Dashboard review-only mode active — parking generated tweet in pending drafts")
+
+            # Peak hour scheduling: stagger non-urgent tweets across 15:00–23:00 UTC
             now_utc = datetime.now(timezone.utc)
-            if not auto_approved and event.get('urgency') != 'breaking':
+            if not self.review_only and not auto_approved and event.get('urgency') != 'breaking':
                 if now_utc.hour not in self.peak_hours:
                     # Pick a random slot within the peak window to avoid pile-ups
                     peak_hour = random.choice(self.peak_hours)
@@ -1239,9 +1643,9 @@ class TweetScheduler:
                     (event_id, pillar, pillar_name, content, status, account_bucket,
                      fact_checked, tone_validated, mirofish_ratio_risk,
                      generation_model, reply_target_id, quote_tweet_id,
-                     media_path, auto_approved, scheduled_post_at,
+                     media_path, media_preview_path, auto_approved, scheduled_post_at,
                      is_thread, thread_tweets)
-                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                     RETURNING id
                 """, (
                     event['id'],
@@ -1257,6 +1661,7 @@ class TweetScheduler:
                     reply_target_id,
                     quote_tweet_id,
                     media_id,
+                    media_preview_path,
                     auto_approved,
                     scheduled_post_at,
                     is_thread,
@@ -1269,8 +1674,9 @@ class TweetScheduler:
                 cur.execute("""
                     UPDATE twitter_bot.events
                     SET status = 'scheduled', processed_at = NOW()
+                    , metadata = %s
                     WHERE id = %s
-                """, (event['id'],))
+                """, (Json(event.get('metadata') or {}), event['id']))
                 
                 self.db_conn.commit()
             

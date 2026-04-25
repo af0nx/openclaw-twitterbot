@@ -365,23 +365,32 @@ class ClipHunter:
         """
         self._ensure_db()
         try:
-            type_filter = ""
-            params = [f"%{topic}%"]
+            params = [f"%{topic}%", f"%{topic}%"]
             if media_type:
-                type_filter = "AND media_type = %s"
+                sql = """
+                    SELECT id, source_url, local_path, media_type, title, engagement_score
+                    FROM twitter_bot.media_library
+                    WHERE (title ILIKE %s OR source ILIKE %s)
+                    AND media_type = %s
+                    AND used_count < 2
+                    AND discovered_at > NOW() - INTERVAL '7 days'
+                    ORDER BY engagement_score DESC
+                    LIMIT 1
+                """
                 params.append(media_type)
-
-            with self.db_conn.cursor() as cur:
-                cur.execute(f"""
+            else:
+                sql = """
                     SELECT id, source_url, local_path, media_type, title, engagement_score
                     FROM twitter_bot.media_library
                     WHERE (title ILIKE %s OR source ILIKE %s)
                     AND used_count < 2
                     AND discovered_at > NOW() - INTERVAL '7 days'
-                    {type_filter}
                     ORDER BY engagement_score DESC
                     LIMIT 1
-                """, params + [f"%{topic}%"])
+                """
+
+            with self.db_conn.cursor() as cur:
+                cur.execute(sql, params)
 
                 row = cur.fetchone()
                 if row:

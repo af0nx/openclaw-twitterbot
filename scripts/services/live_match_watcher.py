@@ -78,12 +78,17 @@ class LiveMatchWatcher:
         self._match_last_seen: dict = {}     # match_key → timestamp
         self._last_tweet_time: float = 0
 
+    def _bootstrap_runtime_schema(self):
+        if self._schema_ready:
+            return
+
+        self.db_conn = ensure_db_connection(self.db_conn)
+        ensure_runtime_schema_extensions(self.db_conn)
+        self._schema_ready = True
+
     def _ensure_db(self):
         try:
             self.db_conn = ensure_db_connection(self.db_conn)
-            if not self._schema_ready:
-                ensure_runtime_schema_extensions(self.db_conn)
-                self._schema_ready = True
             self._db_backoff = 1  # reset on success
         except Exception as e:
             logger.warning(f"⚠️  DB connect failed (backoff {self._db_backoff}s): {e}")
@@ -118,6 +123,7 @@ class LiveMatchWatcher:
                     WHERE category IN ('match_result', 'match_preview')
                     AND created_at > NOW() - INTERVAL '4 hours'
                     AND metadata->>'team1' IS NOT NULL
+                    AND metadata->>'team2' IS NOT NULL
                     ORDER BY created_at DESC
                     LIMIT 5
                 """)
@@ -310,6 +316,8 @@ class LiveMatchWatcher:
         logger.info(f"   Burst frames on trigger: {BURST_FRAMES}")
         logger.info(f"   Max tweets per match: {MAX_TWEETS_PER_MATCH}")
         logger.info(f"   Cooldown after tweet: {COOLDOWN_AFTER_TWEET}s")
+
+        self._bootstrap_runtime_schema()
 
         while True:
             try:

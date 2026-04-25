@@ -5,9 +5,12 @@ Proactively likes tweets from CS2 community accounts and people who interact wit
 This builds relationships, signals engagement to the algorithm, and grows the account.
 
 Strategy priority:
-  1. Like replies to OUR tweets (reciprocity — always acknowledge your audience)
-  2. Like VIP/monitored account tweets (relationship building)
-  3. Like CS2 keyword search results (community presence)
+    1. Like VIP/monitored account tweets (relationship building)
+    2. Like posts we already engaged with (durable DB-backed targets)
+    3. Like CS2 community account timelines (community presence)
+
+Reply-search lookups for conversation replies are disabled by default because
+Twitter's adaptive search endpoint is currently returning 404s for this flow.
 
 Conservative limits to avoid suspension:
   - Max 200 likes/day (X allows ~500, we stay well under)
@@ -77,7 +80,9 @@ class CommunityLiker:
         self._guest_token = None
         self._guest_token_ts = 0
         self._user_id_cache: Dict[str, str] = {}
-        self._GQL_BEARER = 'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA'
+        self._reply_search_enabled = os.getenv('COMMUNITY_LIKER_ENABLE_REPLY_SEARCH', 'false').lower() in ('1', 'true', 'yes', 'on')
+        self._reply_search_disabled_logged = False
+        self._GQL_BEARER = os.getenv('TWITTER_GQL_BEARER', 'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA')
         self._GQL_FEATURES = json.dumps({
             "rweb_tipjar_consumption_enabled": True,
             "responsive_web_graphql_exclude_directive_enabled": True,
@@ -367,6 +372,10 @@ class CommunityLiker:
                 logger.info(f"Search {r.status_code} — resetting guest token")
                 self._guest_token = None
                 return []
+            if r.status_code == 404:
+                logger.warning("⚠️  Adaptive search returned 404 — disabling reply search strategy")
+                self._reply_search_enabled = False
+                return []
             if r.status_code != 200:
                 logger.info(f"Search unexpected status: {r.status_code}")
                 return []
@@ -403,6 +412,12 @@ class CommunityLiker:
         Uses GraphQL search with conversation_id to discover replies
         (no API tier needed — guest token approach).
         """
+        if not self._reply_search_enabled:
+            if not self._reply_search_disabled_logged:
+                logger.info("📬 Reply search strategy disabled — adaptive search conversation lookups are unavailable")
+                self._reply_search_disabled_logged = True
+            return []
+
         tweets_to_like = []
         try:
             self._ensure_db()
@@ -668,7 +683,7 @@ class CommunityLiker:
         liked = 0
         logger.info(f"💫 Like cycle starting — {daily_count}/{DAILY_LIKE_CAP} today, budget: {cycle_budget}")
 
-        # Strategy 1: Replies to us (highest priority — reciprocity)
+        # Strategy 1: Optional reply search (disabled by default until the endpoint is reliable)
         if liked < cycle_budget:
             reply_tweets = self.get_reply_tweets_to_like()
             random.shuffle(reply_tweets)

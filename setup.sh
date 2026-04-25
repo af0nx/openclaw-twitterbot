@@ -73,9 +73,13 @@ fi
 echo ""
 echo "📦 Installing Node.js 18..."
 if ! command -v node &> /dev/null || [ "$(node -v | cut -d'v' -f2 | cut -d'.' -f1)" -lt 18 ]; then
-    curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+    # Install Node.js via signed apt repository (no curl|bash)
+    sudo mkdir -p /etc/apt/keyrings
+    curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+    echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_22.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
+    sudo apt-get update -qq
     sudo apt-get install -y nodejs
-    log_info "Node.js 18 installed"
+    log_info "Node.js 22 installed"
 else
     log_info "Node.js 18+ already installed"
 fi
@@ -95,8 +99,13 @@ fi
 echo ""
 echo "🐳 Installing Docker..."
 if ! command -v docker &> /dev/null; then
-    curl -fsSL https://get.docker.com | sh
-    sudo usermod -aG docker $USER
+    # Install Docker via signed apt repository (no curl|bash)
+    sudo mkdir -p /etc/apt/keyrings
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list
+    sudo apt-get update -qq
+    sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+    sudo usermod -aG docker "$USER"
     log_warn "Added $USER to docker group. You may need to log out and back in."
     log_info "Docker installed"
 else
@@ -174,7 +183,14 @@ fi
 echo ""
 echo "🗄️  Database setup..."
 if [ -f /dev/shm/.env ]; then
+    # Validate .env contains only safe KEY=VALUE lines before sourcing
+    if grep -qE '[;`]|\\$\\(' /dev/shm/.env; then
+        log_error ".env contains suspicious characters. Review manually before sourcing."
+        exit 1
+    fi
+    set -a
     source /dev/shm/.env
+    set +a
     
     if [ -n "$DATABASE_URL" ]; then
         echo "Testing database connection..."

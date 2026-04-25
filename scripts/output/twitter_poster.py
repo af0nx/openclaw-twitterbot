@@ -22,6 +22,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from processing.media_manager import get_media_manager
+from processing.tweet_quality import normalize_generated_text, tweet_quality_issue
 from utils.account_quota import free_account_slot, get_account_quota_snapshot, increment_account_quota
 from utils.db_utils import ensure_db_connection
 from utils.runtime_schema import ensure_runtime_schema_extensions
@@ -37,6 +38,8 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+MAX_QUEUED_TWEET_AGE_HOURS = int(os.getenv('MAX_QUEUED_TWEET_AGE_HOURS', '24'))
+
 
 class TwitterPoster:
     """X API v2 posting with quota enforcement"""
@@ -48,6 +51,7 @@ class TwitterPoster:
         self.media_manager = get_media_manager()
         self._schema_ready = False
         self.dry_run = os.getenv('DRY_RUN_MODE', 'false').lower() == 'true'
+        self.review_only = os.getenv('DASHBOARD_REVIEW_ONLY', 'false').lower() in ('1', 'true', 'yes', 'on')
         
         # Initialize Twitter API v2 client
         self.init_twitter_clients()
@@ -97,9 +101,6 @@ class TwitterPoster:
     def _ensure_db(self):
         """Lightweight reconnect guard"""
         self.db_conn = ensure_db_connection(self.db_conn)
-        if not self._schema_ready:
-            ensure_runtime_schema_extensions(self.db_conn)
-            self._schema_ready = True
     
     def increment_quota(self, bucket: str):
         """Increment executed writes counter for the posting bucket."""
@@ -108,6 +109,78 @@ class TwitterPoster:
             logger.info(f"📊 Incremented quota counter for {bucket}")
         except Exception as e:
             logger.error(f"❌ Failed to increment quota for {bucket}: {e}")
+
+    def expire_stale_queued_tweets(self):
+        """Prevent old queue items from leaking into live posting."""
+        try:
+            self._ensure_db()
+            with self.db_conn.cursor() as cur:
+                cur.execute(
+                    """
+                    UPDATE twitter_bot.tweets_v2
+                    SET status = 'expired',
+                        updated_at = NOW(),
+                        posting_error = COALESCE(posting_error, 'expired by poster stale queue guard')
+                    WHERE status = 'queued'
+                      AND created_at < NOW() - (%s * INTERVAL '1 hour')
+                    RETURNING COALESCE(account_bucket, 'main')
+                    """,
+                    (MAX_QUEUED_TWEET_AGE_HOURS,),
+                )
+                expired_buckets = [row[0] for row in cur.fetchall()]
+                self.db_conn.commit()
+
+            for bucket in expired_buckets:
+                free_account_slot(self.db_conn, bucket)
+
+            if expired_buckets:
+                logger.warning(
+                    "🗑️  Expired %s stale queued tweet(s) older than %sh",
+                    len(expired_buckets),
+                    MAX_QUEUED_TWEET_AGE_HOURS,
+                )
+        except Exception as e:
+            logger.warning(f"⚠️  Failed to expire stale queued tweets: {e}")
+            try:
+                self.db_conn.rollback()
+            except Exception:
+                pass
+
+    def reject_unpostable_tweet(self, tweet_data: Dict[str, Any], reason: str):
+        """Fail closed if a queued tweet contains prompt leakage or unsafe formatting."""
+        try:
+            with self.db_conn.cursor() as cur:
+                cur.execute("""
+                    UPDATE twitter_bot.tweets_v2
+                    SET status = 'rejected',
+                        posting_error = %s,
+                        updated_at = NOW()
+                    WHERE id = %s
+                """, (f"poster preflight rejected: {reason}", tweet_data['id']))
+                self.db_conn.commit()
+            free_account_slot(self.db_conn, tweet_data.get('account_bucket') or 'main')
+            logger.warning("🚫 Rejected queued tweet %s before posting: %s", tweet_data['id'], reason)
+        except Exception as e:
+            logger.error(f"❌ Failed to reject unpostable tweet {tweet_data.get('id')}: {e}")
+            try:
+                self.db_conn.rollback()
+            except Exception:
+                pass
+
+    def preflight_tweet_content(self, tweet_data: Dict[str, Any]) -> Optional[str]:
+        content = normalize_generated_text(tweet_data.get('content') or '')
+        issue = tweet_quality_issue(content)
+        if issue:
+            return issue
+
+        if tweet_data.get('is_thread') and tweet_data.get('thread_tweets'):
+            for index, thread_tweet in enumerate(tweet_data['thread_tweets'], start=1):
+                thread_content = normalize_generated_text(thread_tweet)
+                issue = tweet_quality_issue(thread_content)
+                if issue:
+                    return f"thread tweet {index}: {issue}"
+
+        return None
     
     def post_single_tweet(self, content: str, media_ids: list = None, bucket: str = 'main') -> Optional[str]:
         """
@@ -321,6 +394,25 @@ class TwitterPoster:
                 if tweet_data['scheduled_post_at'] > now:
                     logger.info(f"⏰ Tweet {tweet_id} scheduled for {tweet_data['scheduled_post_at']}, skipping")
                     return False
+
+            preflight_issue = self.preflight_tweet_content(tweet_data)
+            if preflight_issue:
+                self.reject_unpostable_tweet(tweet_data, preflight_issue)
+                return False
+
+            if self.dry_run:
+                with self.db_conn.cursor() as cur:
+                    cur.execute("""
+                        UPDATE twitter_bot.tweets_v2
+                        SET status = 'dry_run',
+                            posting_error = 'dry run simulated; no X API write executed',
+                            updated_at = NOW()
+                        WHERE id = %s
+                    """, (tweet_id,))
+                    self.db_conn.commit()
+                free_account_slot(self.db_conn, tweet_data['account_bucket'])
+                logger.info("🧪 DRY RUN: validated tweet %s without posting: %s", tweet_id, tweet_data['content'][:100])
+                return True
             
             # Build media_ids list if media is attached
             media_ids = None
@@ -430,8 +522,8 @@ class TwitterPoster:
                     WHERE id = %s
                 """, (posted_id, tweet_id))
                 
-                # Track HITL engagement if this is a VIP reply
-                if tweet_data['reply_target_id'] and tweet_data['pillar'] == 12:
+                # Track posted VIP engagement regardless of whether we quoted or replied.
+                if tweet_data['pillar'] == 12 and (tweet_data['reply_target_id'] or tweet_data['quote_tweet_id']):
                     vip_username = tweet_data['metadata'].get('vip_username', 'unknown')
                     cur.execute("""
                         INSERT INTO twitter_bot.hitl_engaged_7d
@@ -465,6 +557,25 @@ class TwitterPoster:
             self._ensure_db()
             # Rollback any open implicit transaction so CURRENT_DATE is fresh
             self.db_conn.rollback()
+            self.expire_stale_queued_tweets()
+
+            if self.review_only:
+                with self.db_conn.cursor() as cur:
+                    cur.execute("""
+                        SELECT COUNT(*)
+                        FROM twitter_bot.tweets_v2
+                        WHERE status = 'queued'
+                    """)
+                    queued_count = int(cur.fetchone()[0] or 0)
+                if queued_count:
+                    logger.info(
+                        "🧾 Dashboard review-only mode active — holding %s queued tweet(s) for manual review",
+                        queued_count,
+                    )
+                else:
+                    logger.debug("🧾 Dashboard review-only mode active — no queued tweets to hold")
+                return
+
             queued_tweets = []
 
             active_buckets = []
@@ -487,6 +598,7 @@ class TwitterPoster:
                     LEFT JOIN twitter_bot.events e ON t.event_id = e.id
                     WHERE t.status = 'queued'
                       AND (t.scheduled_post_at IS NULL OR t.scheduled_post_at <= NOW())
+                      AND t.created_at >= NOW() - (%s * INTERVAL '1 hour')
                       AND COALESCE(t.account_bucket, 'main') = ANY(%s)
                     ORDER BY 
                         CASE t.pillar
@@ -496,7 +608,7 @@ class TwitterPoster:
                         END,
                         t.created_at ASC
                     LIMIT 10
-                """, (active_buckets,))
+                """, (MAX_QUEUED_TWEET_AGE_HOURS, active_buckets,))
 
                 queued_tweets = [str(row[0]) for row in cur.fetchall()]
             

@@ -148,6 +148,17 @@ def hex_to_rgb(hex_color: str) -> Tuple[int, int, int]:
     return tuple(int(h[i:i+2], 16) for i in (0, 2, 4))
 
 
+def _safe_int_score(value) -> Optional[int]:
+    """Convert a map score (int, float, or str) to int, returning None on failure.
+
+    Prevents the string-comparison bug where '9' > '16' would be True.
+    """
+    try:
+        return int(float(str(value)))
+    except (ValueError, TypeError):
+        return None
+
+
 def _format_market_label(market_type: str) -> str:
     """Convert API market_type to a human-readable card label."""
     _MARKET_LABELS = {
@@ -521,75 +532,131 @@ class MemeGenerator:
                                   maps: List[Dict],
                                   event_name: str = None) -> Optional[str]:
         """
-        Generate a multi-map scoreboard card.
+        Premium multi-map scoreboard card with team-colored RGBA compositing.
 
         Args:
             maps: [{"map": "Mirage", "score1": 16, "score2": 13}, ...]
         """
-        img, draw = self._create_base_card()
+        t1_rgb = hex_to_rgb(get_team_color(team1))
+        t2_rgb = hex_to_rgb(get_team_color(team2))
 
-        # Header
+        # Determine series winner for glow direction
+        total_s1 = sum(1 for m in maps if _safe_int_score(m.get('score1', 0)) > _safe_int_score(m.get('score2', 0)))
+        total_s2 = len(maps) - total_s1
+        winner_rgb = t1_rgb if total_s1 >= total_s2 else t2_rgb
+        glow_left = total_s1 >= total_s2
+
+        # ── RGBA base ──
+        base = Image.new('RGBA', (CARD_WIDTH, CARD_HEIGHT),
+                         hex_to_rgb(COLORS['bg_dark']) + (255,))
+
+        # Winner-side glow
+        glow = Image.new('RGBA', (CARD_WIDTH, CARD_HEIGHT), (0, 0, 0, 0))
+        gd = ImageDraw.Draw(glow)
+        glow_x = 0 if glow_left else CARD_WIDTH - 300
+        for x_off in range(300):
+            alpha = int(28 * (1 - x_off / 300))
+            gd.line([(glow_x + x_off, 0), (glow_x + x_off, CARD_HEIGHT)],
+                    fill=winner_rgb + (alpha,))
+        base = Image.alpha_composite(base, glow)
+
+        # Scan-line texture
+        scan = Image.new('RGBA', (CARD_WIDTH, CARD_HEIGHT), (0, 0, 0, 0))
+        sd = ImageDraw.Draw(scan)
+        for y in range(0, CARD_HEIGHT, 4):
+            sd.line([(0, y), (CARD_WIDTH, y)], fill=(0, 0, 0, 18))
+        base = Image.alpha_composite(base, scan)
+
+        draw = ImageDraw.Draw(base)
+
+        # Event pill
         if event_name:
-            header_font = self._get_font(bold=False, size=22)
-            bbox = draw.textbbox((0, 0), event_name, font=header_font)
-            x = (CARD_WIDTH - (bbox[2] - bbox[0])) // 2
-            draw.text((x, 20), event_name, fill=hex_to_rgb(COLORS['text_gray']), font=header_font)
+            ev_font = self._get_font(weight='medium', size=18)
+            bbox = draw.textbbox((0, 0), event_name.upper(), font=ev_font)
+            ew = bbox[2] - bbox[0]
+            x = (CARD_WIDTH - ew) // 2
+            draw.rounded_rectangle([(x - 12, 12), (x + ew + 12, 38)],
+                                   radius=10, fill=(15, 25, 35, 200))
+            draw.text((x, 15), event_name.upper(),
+                      fill=hex_to_rgb(COLORS['text_gray']), font=ev_font)
 
-        # Team names
-        team_font = self._get_font(bold=True, size=40)
-        draw.text((80, 60), team1.upper(), fill=hex_to_rgb(COLORS['text_white']), font=team_font)
+        # Team names + series score
+        team_font = self._get_font(weight='extrabold', size=40)
+        t1_readable = ensure_readable(t1_rgb) if total_s1 > total_s2 else hex_to_rgb(COLORS['text_white'])
+        t2_readable = ensure_readable(t2_rgb) if total_s2 > total_s1 else hex_to_rgb(COLORS['text_white'])
+        row_y = 55
+        draw.text((70, row_y), team1.upper(), fill=t1_readable, font=team_font)
+        series_font = self._get_font(weight='black', size=52)
+        series_text = f"{total_s1} — {total_s2}"
+        bbox_s = draw.textbbox((0, 0), series_text, font=series_font)
+        sx = (CARD_WIDTH - (bbox_s[2] - bbox_s[0])) // 2
+        draw.text((sx + 2, row_y + 2), series_text, fill=(0, 0, 0, 100), font=series_font)
+        draw.text((sx, row_y), series_text, fill=hex_to_rgb(COLORS['accent_yellow']), font=series_font)
         bbox2 = draw.textbbox((0, 0), team2.upper(), font=team_font)
-        draw.text((CARD_WIDTH - (bbox2[2] - bbox2[0]) - 80, 60), team2.upper(),
-                   fill=hex_to_rgb(COLORS['text_white']), font=team_font)
+        draw.text((CARD_WIDTH - (bbox2[2] - bbox2[0]) - 70, row_y), team2.upper(),
+                  fill=t2_readable, font=team_font)
 
         # Divider
-        draw.rectangle([(60, 120), (CARD_WIDTH - 60, 122)], fill=hex_to_rgb(COLORS['divider']))
+        draw.rectangle([(60, 120), (CARD_WIDTH - 60, 122)],
+                       fill=hex_to_rgb(COLORS['divider']))
 
         # Map rows
-        map_font = self._get_font(bold=False, size=28)
-        score_font = self._get_font(bold=True, size=36)
-        y = 150
+        map_font = self._get_font(weight='medium', size=26)
+        score_font = self._get_font(weight='bold', size=34)
+        y = 140
 
-        for m in maps[:5]:
+        for idx, m in enumerate(maps[:5]):
             map_name = m.get('map', 'Unknown')
-            s1 = str(m.get('score1', '-'))
-            s2 = str(m.get('score2', '-'))
+            s1_raw = m.get('score1', '-')
+            s2_raw = m.get('score2', '-')
+            s1_int = _safe_int_score(s1_raw)
+            s2_int = _safe_int_score(s2_raw)
+            s1_str, s2_str = str(s1_raw), str(s2_raw)
 
-            # Map name (center)
+            # Alternating row tint
+            if idx % 2 == 0:
+                row_bg = Image.new('RGBA', (CARD_WIDTH - 120, 48), (255, 255, 255, 8))
+                base.paste(row_bg, (60, y - 4), row_bg)
+                draw = ImageDraw.Draw(base)
+
+            # Win-bar on winner's side (correct int comparison)
+            if s1_int is not None and s2_int is not None:
+                if s1_int > s2_int:
+                    draw.rectangle([(60, y - 4), (64, y + 42)], fill=ensure_readable(t1_rgb))
+                elif s2_int > s1_int:
+                    draw.rectangle([(CARD_WIDTH - 64, y - 4), (CARD_WIDTH - 60, y + 42)],
+                                   fill=ensure_readable(t2_rgb))
+
+            # Map name centered
             bbox = draw.textbbox((0, 0), map_name, font=map_font)
-            cx = (CARD_WIDTH - (bbox[2] - bbox[0])) // 2
-            draw.text((cx, y + 5), map_name, fill=hex_to_rgb(COLORS['text_gray']), font=map_font)
+            mw = bbox[2] - bbox[0]
+            draw.text(((CARD_WIDTH - mw) // 2, y + 6), map_name,
+                      fill=hex_to_rgb(COLORS['text_gray']), font=map_font)
 
-            # Score 1 (left)
-            s1_color = COLORS['accent_green'] if s1 > s2 else COLORS['text_white']
-            draw.text((200, y), s1, fill=hex_to_rgb(s1_color), font=score_font)
+            # Scores (correct numeric comparison for color)
+            if s1_int is not None and s2_int is not None:
+                c1 = hex_to_rgb(COLORS['accent_green']) if s1_int > s2_int else hex_to_rgb(COLORS['text_white'])
+                c2 = hex_to_rgb(COLORS['accent_green']) if s2_int > s1_int else hex_to_rgb(COLORS['text_white'])
+            else:
+                c1 = c2 = hex_to_rgb(COLORS['text_white'])
 
-            # Score 2 (right)
-            s2_color = COLORS['accent_green'] if s2 > s1 else COLORS['text_white']
-            bbox = draw.textbbox((0, 0), s2, font=score_font)
-            draw.text((CARD_WIDTH - 200 - (bbox[2] - bbox[0]), y), s2,
-                       fill=hex_to_rgb(s2_color), font=score_font)
+            draw.text((230, y + 2), s1_str, fill=c1, font=score_font)
+            bbox_s2 = draw.textbbox((0, 0), s2_str, font=score_font)
+            draw.text((CARD_WIDTH - 230 - (bbox_s2[2] - bbox_s2[0]), y + 2),
+                      s2_str, fill=c2, font=score_font)
 
-            # Row divider
-            y += 60
-            draw.rectangle([(100, y), (CARD_WIDTH - 100, y + 1)], fill=hex_to_rgb(COLORS['divider']))
-            y += 20
+            y += 56
 
-        # Series score at bottom
-        total_s1 = sum(1 for m in maps if m.get('score1', 0) > m.get('score2', 0))
-        total_s2 = sum(1 for m in maps if m.get('score2', 0) > m.get('score1', 0))
-        series_font = self._get_font(bold=True, size=60)
-        series_text = f"{total_s1} — {total_s2}"
-        bbox = draw.textbbox((0, 0), series_text, font=series_font)
-        cx = (CARD_WIDTH - (bbox[2] - bbox[0])) // 2
-        draw.text((cx, CARD_HEIGHT - 120), series_text,
-                   fill=hex_to_rgb(COLORS['accent_yellow']), font=series_font)
+        # Bottom accent bar
+        draw.rectangle([(0, CARD_HEIGHT - 4), (CARD_WIDTH, CARD_HEIGHT)],
+                       fill=hex_to_rgb(COLORS['accent_yellow']))
 
         self._add_watermark(draw)
 
+        final = base.convert('RGB')
         fname = f"score_{hashlib.md5(f'{team1}{team2}{len(maps)}'.encode()).hexdigest()[:8]}.png"
         out_path = OUTPUT_DIR / fname
-        img.save(str(out_path), 'PNG', quality=95)
+        final.save(str(out_path), 'PNG', quality=95)
         logger.info(f"🎨 Scoreboard card generated: {out_path.name}")
         return str(out_path)
 
@@ -1088,91 +1155,96 @@ class MemeGenerator:
         analysis_lines: list = None,
     ) -> Optional[str]:
         """
-        Generate a prediction pick card.
+        Generate a deliberate prediction card for native-media posts.
 
-        Vertical layout:
-          Row 1: "OUR PICK" pill + event name
-          Row 2: Market type banner (prominent when NOT match_winner)
-          Row 3: Pick team (large, highlighted, ▶ arrow) — auto-scaled font
-          Row 4: "vs" divider
-          Row 5: Opponent team (dimmer) — auto-scaled font
-          Row 6: Win probability badge + odds + edge in a horizontal strip
-          Row 7: Analysis lines (up to 3, properly spaced)
-          Bottom: Accent bar
+        The layout favors a clear reading order:
+          1. Pick label + event metadata
+          2. Team-vs-team matchup
+          3. Three metrics tiles
+          4. Analysis notes panel
+
+        Markets without a live price degrade gracefully to a model-only card
+        instead of pretending there is an edge/odds signal.
         """
         try:
             pick_rgb = hex_to_rgb(get_team_color(pick_team))
             opp_rgb = hex_to_rgb(get_team_color(opponent))
+            pick_accent = ensure_readable(pick_rgb, min_lum=120)
+            opp_accent = ensure_readable(opp_rgb, min_lum=100)
+            conf_color = hex_to_rgb(COLORS['accent_green']) if confidence == 'strong' else hex_to_rgb(COLORS['accent_yellow'])
+            has_market_price = (pick_odds is not None and pick_odds > 1.01) or edge_pct > 0.01
+            market_label = _format_market_label(market_type)
 
             # ── RGBA base ──
             base = Image.new('RGBA', (CARD_WIDTH, CARD_HEIGHT),
                              hex_to_rgb(COLORS['bg_dark']) + (255,))
 
-            # Subtle gradient panel — pick team color wash on left
+            # Diagonal two-tone panels
             panel = Image.new('RGBA', (CARD_WIDTH, CARD_HEIGHT), (0, 0, 0, 0))
             pd = ImageDraw.Draw(panel)
-            pd.rectangle(
-                [(0, 0), (CARD_WIDTH, CARD_HEIGHT)],
-                fill=pick_rgb + (20,))
+            pd.polygon(
+                [(0, 0), (CARD_WIDTH // 2 + 120, 0), (CARD_WIDTH // 2 - 80, CARD_HEIGHT), (0, CARD_HEIGHT)],
+                fill=pick_rgb + (58,))
+            pd.polygon(
+                [(CARD_WIDTH // 2 + 60, 0), (CARD_WIDTH, 0), (CARD_WIDTH, CARD_HEIGHT), (CARD_WIDTH // 2 - 140, CARD_HEIGHT)],
+                fill=opp_rgb + (34,))
+            for x in range(0, CARD_WIDTH, 140):
+                alpha = 20 if x < CARD_WIDTH // 2 else 12
+                pd.line([(x, 0), (x + 220, CARD_HEIGHT)], fill=(255, 255, 255, alpha), width=1)
             base = Image.alpha_composite(base, panel)
 
-            # Scan-line texture
-            scan = Image.new('RGBA', (CARD_WIDTH, CARD_HEIGHT), (0, 0, 0, 0))
-            sd = ImageDraw.Draw(scan)
-            for y in range(0, CARD_HEIGHT, 4):
-                sd.line([(0, y), (CARD_WIDTH, y)], fill=(0, 0, 0, 30))
-            base = Image.alpha_composite(base, scan)
+            # Grid overlay to make the card feel intentional rather than generic.
+            grid = Image.new('RGBA', (CARD_WIDTH, CARD_HEIGHT), (0, 0, 0, 0))
+            gd = ImageDraw.Draw(grid)
+            for x in range(0, CARD_WIDTH, 60):
+                gd.line([(x, 0), (x, CARD_HEIGHT)], fill=(255, 255, 255, 10))
+            for y in range(0, CARD_HEIGHT, 60):
+                gd.line([(0, y), (CARD_WIDTH, y)], fill=(255, 255, 255, 8))
+            base = Image.alpha_composite(base, grid)
 
             draw = ImageDraw.Draw(base)
 
-            conf_color = hex_to_rgb(COLORS['accent_green']) if confidence == 'strong' else hex_to_rgb(COLORS['accent_yellow'])
-
-            # ── Row 1: "OUR PICK" pill + event name ──
-            label = "OUR PICK"
+            # Top-left pick/state pill
+            label = "MARKET PICK" if has_market_price else "MODEL LEAN"
             label_font = self._get_font(weight='extrabold', size=18)
             bbox = draw.textbbox((0, 0), label, font=label_font)
             tw = bbox[2] - bbox[0]
-            lx = (CARD_WIDTH - tw) // 2
+            lx = 70
             draw.rounded_rectangle(
-                [(lx - 20, 14), (lx + tw + 20, 48)],
-                radius=14, fill=conf_color + (220,))
-            draw.text((lx, 18), label,
+                [(lx - 18, 34), (lx + tw + 18, 66)],
+                radius=15, fill=conf_color + (220,))
+            draw.text((lx, 42), label,
                       fill=(15, 25, 35), font=label_font)
 
-            # Event name
+            # Market chip
+            chip_text = market_label[:24]
+            chip_font = self._get_font(weight='semibold', size=16)
+            chip_bbox = draw.textbbox((0, 0), chip_text, font=chip_font)
+            chip_w = chip_bbox[2] - chip_bbox[0]
+            chip_x = 70
+            draw.rounded_rectangle(
+                [(chip_x - 14, 82), (chip_x + chip_w + 14, 112)],
+                radius=13, fill=(15, 25, 35, 215), outline=pick_accent + (150,))
+            draw.text((chip_x, 88), chip_text,
+                      fill=hex_to_rgb(COLORS['text_white']), font=chip_font)
+
+            # Event name on the right
             if event_name:
                 ev_font = self._get_font(weight='medium', size=16)
                 ev_text = event_name.upper()
-                if len(ev_text) > 50:
-                    ev_text = ev_text[:47] + "..."
+                if len(ev_text) > 42:
+                    ev_text = ev_text[:39] + "..."
                 bbox_ev = draw.textbbox((0, 0), ev_text, font=ev_font)
                 evw = bbox_ev[2] - bbox_ev[0]
-                draw.text(((CARD_WIDTH - evw) // 2, 56),
-                          ev_text,
+                ev_x = CARD_WIDTH - evw - 72
+                draw.rounded_rectangle(
+                    [(ev_x - 14, 34), (ev_x + evw + 14, 66)],
+                    radius=15, fill=(15, 25, 35, 215))
+                draw.text((ev_x, 42), ev_text,
                           fill=hex_to_rgb(COLORS['text_gray']), font=ev_font)
 
-            # ── Row 2: Market type banner ──
-            # Only show prominently if it's NOT the default match_winner
-            market_label = _format_market_label(market_type)
-            is_special_market = market_type and market_type != 'match_winner'
-            if is_special_market:
-                mkt_font = self._get_font(weight='bold', size=20)
-                bbox_mkt = draw.textbbox((0, 0), market_label, font=mkt_font)
-                mktw = bbox_mkt[2] - bbox_mkt[0]
-                mx = (CARD_WIDTH - mktw) // 2
-                draw.rounded_rectangle(
-                    [(mx - 16, 80), (mx + mktw + 16, 110)],
-                    radius=10, fill=hex_to_rgb(COLORS['accent_blue']) + (180,))
-                draw.text((mx, 84), market_label,
-                          fill=hex_to_rgb(COLORS['text_white']), font=mkt_font)
-                teams_y_start = 124
-            else:
-                teams_y_start = 88
-
-            # ── Row 3 + 4 + 5: Pick team → VS → Opponent ──
-            # Auto-scale: large names get smaller fonts
+            # ── Matchup block ──
             def _fit_team_font(name: str, max_w: int, start_size: int = 52) -> tuple:
-                """Return (font, text_width) that fits within max_w."""
                 for sz in range(start_size, 22, -2):
                     f = self._get_font(weight='black', size=sz)
                     bb = draw.textbbox((0, 0), name.upper(), font=f)
@@ -1183,125 +1255,107 @@ class MemeGenerator:
                 bb = draw.textbbox((0, 0), name.upper(), font=f)
                 return f, bb[2] - bb[0]
 
-            usable_w = CARD_WIDTH - 160  # 80px margin each side
+            usable_w = CARD_WIDTH - 180
+            header_font = self._get_font(weight='medium', size=15)
+            draw.text((70, 150), "MODEL SAYS", fill=pick_accent, font=header_font)
 
-            # Calculate total content height to center vertically
-            # We'll measure everything then offset from center
-            pick_font_test, _ = _fit_team_font(pick_team, usable_w)
-            opp_font_test, _ = _fit_team_font(opponent, usable_w, start_size=44)
-            pick_bb_test = draw.textbbox((0, 0), pick_team.upper(), font=pick_font_test)
-            pick_h_est = pick_bb_test[3] - pick_bb_test[1]
-            opp_bb_test = draw.textbbox((0, 0), opponent.upper(), font=opp_font_test)
-            opp_h_est = opp_bb_test[3] - opp_bb_test[1]
-            # Content block: pick(h) + gap(14) + vs(30) + gap(10) + opp(h) + gap(20) + strip(50) + gap(14+20*lines)
-            n_lines = min(len(analysis_lines), 3) if analysis_lines else (1 if key_factor else 0)
-            content_h = pick_h_est + 14 + 30 + 10 + opp_h_est + 20 + 50 + 18 + n_lines * 20
-            # Center block between teams_y_start and (CARD_HEIGHT - 40)
-            available_h = (CARD_HEIGHT - 40) - teams_y_start
-            y_offset = teams_y_start + max(0, (available_h - content_h) // 2)
-
-            # Pick team — white text, always readable on dark bg
             pick_font, pick_tw = _fit_team_font(pick_team, usable_w)
             pick_x = (CARD_WIDTH - pick_tw) // 2
-            pick_bb = draw.textbbox((pick_x, y_offset), pick_team.upper(), font=pick_font)
-            pick_h = pick_bb[3] - pick_bb[1]
-            # Arrow indicator left of team name
-            arrow_font = self._get_font(weight='bold', size=28)
-            draw.text((pick_x - 40, y_offset + 4), "▶",
-                      fill=conf_color, font=arrow_font)
-            # Team name in white with colored underline
-            draw.text((pick_x, y_offset), pick_team.upper(),
+            pick_y = 172
+            pick_bb = draw.textbbox((pick_x, pick_y), pick_team.upper(), font=pick_font)
+            draw.text((pick_x + 2, pick_y + 2), pick_team.upper(),
+                      fill=(0, 0, 0, 120), font=pick_font)
+            draw.text((pick_x, pick_y), pick_team.upper(),
                       fill=hex_to_rgb(COLORS['text_white']), font=pick_font)
-            # Colored accent underline — below actual rendered bottom
             underline_y = pick_bb[3] + 6
             draw.line(
                 [(pick_x, underline_y), (pick_x + pick_tw, underline_y)],
-                fill=pick_rgb + (200,), width=3)
+                fill=pick_accent + (220,), width=4)
 
-            # "VS" divider
-            vs_y = underline_y + 8
-            vs_font = self._get_font(weight='semibold', size=20)
+            vs_y = underline_y + 18
+            vs_font = self._get_font(weight='extrabold', size=18)
             bbox_vs = draw.textbbox((0, 0), "VS", font=vs_font)
             vsw = bbox_vs[2] - bbox_vs[0]
-            line_y = vs_y + 10
+            line_y = vs_y + 11
             draw.line([(80, line_y), (CARD_WIDTH // 2 - vsw // 2 - 16, line_y)],
-                      fill=hex_to_rgb(COLORS['divider']), width=1)
+                      fill=pick_accent + (90,), width=1)
             draw.text(((CARD_WIDTH - vsw) // 2, vs_y),
-                      "VS", fill=hex_to_rgb(COLORS['text_dim']), font=vs_font)
+                      "VS", fill=hex_to_rgb(COLORS['text_white']), font=vs_font)
             draw.line([(CARD_WIDTH // 2 + vsw // 2 + 16, line_y), (CARD_WIDTH - 80, line_y)],
-                      fill=hex_to_rgb(COLORS['divider']), width=1)
+                      fill=opp_accent + (90,), width=1)
 
-            # Opponent team (dimmer, smaller)
-            opp_y = vs_y + 30
+            opp_y = vs_y + 28
             opp_font, opp_tw = _fit_team_font(opponent, usable_w, start_size=44)
             opp_bb_real = draw.textbbox((0, 0), opponent.upper(), font=opp_font)
             opp_h_real = opp_bb_real[3] - opp_bb_real[1]
             opp_x = (CARD_WIDTH - opp_tw) // 2
             draw.text((opp_x, opp_y), opponent.upper(),
-                      fill=hex_to_rgb(COLORS['text_dim']), font=opp_font)
+                      fill=hex_to_rgb(COLORS['text_gray']), font=opp_font)
 
-            # ── Row 6: Probability | Edge | Odds — horizontal strip ──
-            strip_y = opp_y + opp_h_real + 20
-            # Draw strip background
-            draw.rounded_rectangle(
-                [(60, strip_y), (CARD_WIDTH - 60, strip_y + 50)],
-                radius=12, fill=(26, 38, 52, 200))
-
-            # Win probability (center, large)
+            # ── Metrics row ──
             prob_pct = int(win_probability * 100) if win_probability else 0
-            prob_text = f"{prob_pct}%"
-            prob_font = self._get_font(weight='black', size=32)
-            bbox_p = draw.textbbox((0, 0), prob_text, font=prob_font)
-            pw = bbox_p[2] - bbox_p[0]
-            draw.text(((CARD_WIDTH - pw) // 2, strip_y + 8), prob_text,
-                      fill=conf_color, font=prob_font)
+            tiles_y = opp_y + opp_h_real + 54
+            tile_gap = 18
+            tile_x = 70
+            tile_w = (CARD_WIDTH - 140 - tile_gap * 2) // 3
+            tile_h = 90
+            tile_specs = [
+                ('MODEL', f"{prob_pct}%" if prob_pct > 0 else 'LEAN', conf_color),
+                ('EDGE' if has_market_price else 'MARKET', f"+{edge_pct:.1f}%" if has_market_price and edge_pct > 0 else ('NO LINE' if not has_market_price else 'LIVE'), hex_to_rgb(COLORS['accent_blue']) if not has_market_price else pick_accent),
+                ('ODDS' if has_market_price and pick_odds and pick_odds > 1.01 else 'CONF', f"@ {pick_odds:.2f}" if has_market_price and pick_odds and pick_odds > 1.01 else confidence.upper(), hex_to_rgb(COLORS['text_white']) if has_market_price and pick_odds and pick_odds > 1.01 else opp_accent),
+            ]
+            tile_label_font = self._get_font(weight='medium', size=14)
+            tile_value_font = self._get_font(weight='black', size=30)
+            for idx, (label_text, value_text, accent_rgb) in enumerate(tile_specs):
+                left = tile_x + idx * (tile_w + tile_gap)
+                draw.rounded_rectangle(
+                    [(left, tiles_y), (left + tile_w, tiles_y + tile_h)],
+                    radius=18,
+                    fill=(15, 25, 35, 228),
+                    outline=accent_rgb + (140,),
+                )
+                draw.text((left + 18, tiles_y + 16), label_text,
+                          fill=hex_to_rgb(COLORS['text_dim']), font=tile_label_font)
+                draw.text((left + 18, tiles_y + 42), value_text,
+                          fill=accent_rgb, font=tile_value_font)
 
-            # Edge (left)
-            if edge_pct:
-                edge_text = f"+{edge_pct:.1f}% EDGE"
-                edge_font = self._get_font(weight='bold', size=18)
-                draw.text((90, strip_y + 14), edge_text,
-                          fill=conf_color, font=edge_font)
-
-            # Odds (right)
-            if pick_odds:
-                odds_text = f"@ {pick_odds:.2f}"
-                odds_font = self._get_font(weight='bold', size=18)
-                bbox_o = draw.textbbox((0, 0), odds_text, font=odds_font)
-                ow = bbox_o[2] - bbox_o[0]
-                draw.text((CARD_WIDTH - ow - 90, strip_y + 14), odds_text,
-                          fill=hex_to_rgb(COLORS['text_white']), font=odds_font)
-
-            # Market type label (below strip, small if match_winner)
-            if not is_special_market and market_label:
-                mkt_small_font = self._get_font(weight='medium', size=13)
-                bbox_ms = draw.textbbox((0, 0), market_label, font=mkt_small_font)
-                msw = bbox_ms[2] - bbox_ms[0]
-                draw.text(((CARD_WIDTH - msw) // 2, strip_y + 54), market_label,
-                          fill=hex_to_rgb(COLORS['text_dim']), font=mkt_small_font)
-
-            # ── Row 7: Analysis lines ──
+            # ── Analysis panel ──
             lines_to_show = analysis_lines[:3] if analysis_lines else []
             if not lines_to_show and key_factor:
                 lines_to_show = [key_factor[:80]]
-            kf_font = self._get_font(weight='medium', size=15)
-            kf_y = strip_y + 70
+            if not lines_to_show and not has_market_price:
+                lines_to_show = ['No market line yet, but the model still prefers this side.']
+
+            panel_top = tiles_y + tile_h + 26
+            panel_bottom = CARD_HEIGHT - 42
+            draw.rounded_rectangle(
+                [(70, panel_top), (CARD_WIDTH - 70, panel_bottom)],
+                radius=22,
+                fill=(15, 25, 35, 228),
+                outline=pick_accent + (120,),
+            )
+
+            panel_title = 'Why we like it' if has_market_price else 'Why the model leans here'
+            panel_title_font = self._get_font(weight='extrabold', size=20)
+            draw.text((96, panel_top + 18), panel_title,
+                      fill=hex_to_rgb(COLORS['text_white']), font=panel_title_font)
+
+            kf_font = self._get_font(weight='medium', size=18)
+            kf_y = panel_top + 54
             for line_text in lines_to_show:
-                display = f"• {line_text}"
-                # Truncate to fit card width
-                while True:
-                    bbox_kf = draw.textbbox((0, 0), display, font=kf_font)
-                    kfw = bbox_kf[2] - bbox_kf[0]
-                    if kfw <= CARD_WIDTH - 160 or len(display) <= 10:
+                wrapped_lines = self._text_wrap(f"• {line_text}", kf_font, CARD_WIDTH - 220, draw)
+                for wrapped in wrapped_lines[:2]:
+                    if kf_y > panel_bottom - 32:
                         break
-                    display = display[:len(display) - 4] + "…"
-                draw.text(((CARD_WIDTH - kfw) // 2, kf_y), display,
-                          fill=hex_to_rgb(COLORS['text_gray']), font=kf_font)
-                kf_y += 20
+                    draw.text((96, kf_y), wrapped,
+                              fill=hex_to_rgb(COLORS['text_gray']), font=kf_font)
+                    kf_y += 26
+                if kf_y > panel_bottom - 32:
+                    break
 
             # ── Bottom accent bar ──
             draw.rectangle([(0, CARD_HEIGHT - 4), (CARD_WIDTH, CARD_HEIGHT)],
-                           fill=conf_color)
+                           fill=pick_accent)
 
             self._add_watermark(draw)
 

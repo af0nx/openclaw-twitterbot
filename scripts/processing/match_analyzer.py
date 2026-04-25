@@ -33,6 +33,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from processing.openrouter_client import get_openrouter_client
+from processing.team_rating_engine import canonicalize_team_name
 
 # Load environment
 load_dotenv('/dev/shm/.env')
@@ -148,6 +149,8 @@ class MatchAnalyzer:
             'swarm_confidence': swarm_confidence,
             'hltv_match_id': metadata.get('hltv_match_id'),
             'match_context': metadata.get('match_context', {}),
+            'rating_context': metadata.get('rating_context', {}),
+            'metadata': metadata,
         }
 
     def find_our_predictions(self, team1: str, team2: str) -> List[Dict[str, Any]]:
@@ -244,6 +247,27 @@ class MatchAnalyzer:
                 prompt_parts.append(f"NARRATIVE: {mctx['editorial_headlines'][0]}")
             prompt_parts.append("")
             prompt_parts.append("LEAD WITH THE STAKES. What does this loss/win MEAN? Elimination? Lower bracket? Major qualification? Say it first, score second.")
+
+        rating_context = match_data.get('rating_context', {}) if isinstance(match_data.get('rating_context'), dict) else {}
+        if rating_context:
+            summary_line = rating_context.get('summary_line')
+            if summary_line:
+                prompt_parts.append(f"IN-HOUSE RATING: {summary_line}")
+
+            winner_key = canonicalize_team_name(match_data.get('winner', ''))
+            favorite_key = rating_context.get('favorite_key')
+            favorite_name = rating_context.get('favorite')
+            favorite_prob = rating_context.get('favorite_win_probability_pct')
+            rating_gap = float(rating_context.get('rating_gap', 0) or 0)
+            if winner_key and favorite_key and favorite_name and favorite_prob:
+                if winner_key == favorite_key:
+                    prompt_parts.append(
+                        f"Our in-house board had {favorite_name} at {favorite_prob}% pre-match on a {rating_gap:.0f}-point edge. If it fits, note that the rating edge held."
+                    )
+                elif rating_gap >= 25:
+                    prompt_parts.append(
+                        f"Our in-house board had {favorite_name} at {favorite_prob}% pre-match on a {rating_gap:.0f}-point edge, so this lands as an upset versus our own rating. Mention the upset angle only if the match actually warranted it."
+                    )
 
         if match_data['maps']:
             prompt_parts.append(f"MAPS: {match_data['maps']}")

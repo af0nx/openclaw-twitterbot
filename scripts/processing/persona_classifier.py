@@ -11,6 +11,7 @@ Falls back to rule-based selection when model isn't trained yet.
 import logging
 import os
 import pickle
+import io
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, Any, Optional
@@ -29,6 +30,26 @@ except ImportError:
     ML_AVAILABLE = False
     logging.warning("⚠️  scikit-learn not available. Persona classifier uses rule-based fallback.")
 
+
+# Safe deserialization: only allow sklearn/numpy types
+_SAFE_MODULES = frozenset({
+    'sklearn', 'numpy', 'scipy', 'collections', 'builtins',
+    'copy_reg', 'copyreg', '_codecs', 'encodings',
+})
+
+
+class _RestrictedUnpickler(pickle.Unpickler):
+    def find_class(self, module: str, name: str):
+        top = module.split('.')[0]
+        if top in _SAFE_MODULES:
+            return super().find_class(module, name)
+        raise pickle.UnpicklingError(f"Blocked unsafe class: {module}.{name}")
+
+
+def _restricted_load(f):
+    return _RestrictedUnpickler(f).load()
+
+
 # Load environment
 load_dotenv('/dev/shm/.env')
 
@@ -40,26 +61,32 @@ logger = logging.getLogger(__name__)
 
 # Persona archetypes (aligned with MiroFish guard personas)
 PERSONAS = {
-    'degen_analyst': 'Sharp data drops with gambling humor. Bloomberg meets degen.',
-    'news_breaker': 'Fast, factual, minimal commentary. Speed is the brand.',
-    'hot_take_artist': 'Edgy opinions backed by data. Slightly provocative.',
-    'meme_lord': 'Internet culture native. Betting humor, self-deprecating.',
-    'data_nerd': 'Pure analytics. Numbers speak louder. Casual flex.',
-    'drama_commentator': 'Industry gossip with plausible deniability.',
-    'odds_shark': 'Line movement expert. Sharp action tracker.',
-    'community_engager': 'VIP reply mode. Intelligent, reference their point.',
+    'degen_analyst': 'Sharp desk energy. Reads price, momentum, and overreaction before casuals do.',
+    'news_breaker': 'Fast tape-reader. Posts the news and what it changes for the market.',
+    'hot_take_artist': 'Aggressive market opinion. Fade the public. Slightly provocative.',
+    'meme_lord': 'Internet culture native with trading-desk humor and self-aware edge.',
+    'data_nerd': 'Model-first trader. Numbers, deltas, and clean evidence.',
+    'drama_commentator': 'Roster chaos and org drama through a market lens.',
+    'odds_shark': 'Closest thing to the sharp side of CS2 Twitter. Spots steam, bad numbers, and overreaction.',
+    'community_engager': 'Reply mode. Sharp, grounded, and never salesy.',
 }
 
 # Rule-based fallback mapping: category → persona
 CATEGORY_PERSONA_MAP = {
     'roster_change': 'news_breaker',
-    'match_result': 'degen_analyst',
+    'match_result': 'odds_shark',
     'regulation': 'drama_commentator',
     'drama': 'drama_commentator',
     'odds_movement': 'odds_shark',
+    'match_prediction': 'odds_shark',
     'financial': 'data_nerd',
     'meme': 'meme_lord',
-    'general': 'hot_take_artist',
+    'cs2_update': 'news_breaker',
+    'engagement_take': 'hot_take_artist',
+    'engagement_recycle': 'hot_take_artist',
+    'engagement_conversation': 'community_engager',
+    'community_disagreement': 'community_engager',
+    'general': 'degen_analyst',
 }
 
 
@@ -91,7 +118,7 @@ class PersonaClassifier:
         try:
             if self.model_path.exists():
                 with open(self.model_path, 'rb') as f:
-                    saved = pickle.load(f)
+                    saved = _restricted_load(f)
                 self.model = saved['pipeline']
                 self.label_encoder = saved['label_encoder']
                 self.category_encoder = saved['category_encoder']

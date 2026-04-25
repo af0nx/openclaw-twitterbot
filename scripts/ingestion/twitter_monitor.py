@@ -69,7 +69,7 @@ class TwitterVIPMonitor:
         self._guest_token_ts = 0
         self._user_id_cache = {}
         self._seen_tweet_ids = set()  # dedup across cycles
-        self._BEARER = 'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA'
+        self._BEARER = os.getenv('TWITTER_GQL_BEARER', 'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA')
         self._GQL_FEATURES = json.dumps({
             "rweb_tipjar_consumption_enabled": True,
             "responsive_web_graphql_exclude_directive_enabled": True,
@@ -430,19 +430,19 @@ class TwitterVIPMonitor:
         if tid and (tid in self._seen_tweet_ids or self._tweet_already_recorded(tid, tweet.get('author', ''))):
             return False
         
-        # Only reply to tweets that are 15-30 minutes old (sweet spot for engagement)
+        # Only reply to tweets that are 5-120 minutes old (widened window for reliable capture)
         try:
             ts = tweet.get('timestamp')
             if ts:
                 tweet_time = datetime.strptime(ts, '%a %b %d %H:%M:%S %z %Y')
                 age_minutes = (datetime.now(timezone.utc) - tweet_time).total_seconds() / 60
-                if age_minutes < 15:
-                    logger.debug(f"⏭️  @{tweet['author']}: tweet too fresh ({age_minutes:.0f}m old, need 15m+)")
+                if age_minutes < 5:
+                    logger.debug(f"⏭️  @{tweet['author']}: tweet too fresh ({age_minutes:.0f}m old, need 5m+)")
                     return False
-                if age_minutes > 30:
-                    logger.debug(f"⏭️  @{tweet['author']}: tweet too old ({age_minutes:.0f}m old, max 30m)")
+                if age_minutes > 120:
+                    logger.debug(f"⏭️  @{tweet['author']}: tweet too old ({age_minutes:.0f}m old, max 120m)")
                     return False
-                logger.info(f"✅ @{tweet['author']}: tweet age {age_minutes:.0f}m (15-30m window)")
+                logger.info(f"✅ @{tweet['author']}: tweet age {age_minutes:.0f}m (5-120m window)")
         except Exception as e:
             logger.warning(f"⚠️  Could not parse tweet timestamp for @{tweet['author']}: {e}")
         
@@ -456,7 +456,7 @@ class TwitterVIPMonitor:
             return True
         
         # For lower priority, check if tweet is gaining traction
-        if tweet['likes'] < 50 and tweet['replies'] < 10:
+        if tweet['likes'] < 10 and tweet['replies'] < 3:
             return False
         
         return True

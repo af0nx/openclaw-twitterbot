@@ -21,8 +21,6 @@ Can also be run manually: python3 processing/ab_evaluator.py
 import logging
 import os
 import re
-import sys
-from datetime import datetime, timezone
 
 import psycopg2
 from dotenv import load_dotenv
@@ -35,12 +33,66 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-DB_URL = os.getenv('DATABASE_URL', 'postgresql://postgres:izGsmCbbtxIXxFumxgCAoXmNaTdFFzTV@crossover.proxy.rlwy.net:55156/railway')
+_DATE_SUFFIX_RE = re.compile(r'-\d{6,8}$')
+_VERSIONED_MODEL_PREFIXES = (
+    ('z-ai/glm-5.1-', 'z-ai/glm-5.1'),
+    ('minimax/minimax-m2.7-', 'minimax/minimax-m2.7'),
+    ('xiaomi/mimo-v2-pro-', 'xiaomi/mimo-v2-pro'),
+)
+
+
+def canonicalize_model_id(model_id: str | None) -> str:
+    cleaned = (model_id or '').strip()
+    if not cleaned:
+        return ''
+    for prefix, canonical in _VERSIONED_MODEL_PREFIXES:
+        if cleaned.startswith(prefix):
+            return canonical
+    return _DATE_SUFFIX_RE.sub('', cleaned)
+
+
+def _dedupe_weighted_pool(pool: list[tuple[str, int]]) -> list[tuple[str, int]]:
+    combined: dict[str, int] = {}
+    order: list[str] = []
+    for model_id, weight in pool:
+        canonical = canonicalize_model_id(model_id)
+        if not canonical or weight <= 0:
+            continue
+        if canonical not in combined:
+            order.append(canonical)
+            combined[canonical] = 0
+        combined[canonical] += weight
+    return [(model_id, combined[model_id]) for model_id in order]
+
+DB_URL = os.getenv('DATABASE_URL')
+if not DB_URL:
+    raise RuntimeError('DATABASE_URL environment variable is required')
 ENV_PATH = '/dev/shm/.env'
 MIN_SAMPLE = 5          # minimum tweets with engagement before scoring
 EVAL_DAYS = 7           # look back window
-BASELINE_WEIGHT = 2     # minimum weight any model gets (never drops to 0)
-MAX_WEIGHT = 5           # maximum weight cap
+BASELINE_WEIGHT = 1     # low performers should fall close to zero traffic
+MAX_WEIGHT = 8          # keep the current winner heavily favored
+HARD_ER_FLOOR = 0.05    # near-zero ER models get nearly no traffic
+SOFT_ER_FLOOR = 0.18    # middling ER models stay in the mix, but lightly
+
+
+def get_ab_pool_defaults(tier: str) -> list[tuple[str, int]]:
+    baseline = canonicalize_model_id(
+        os.getenv('LLM_TIER_AUTO' if tier == 'auto' else 'LLM_TIER_PREMIUM', 'free/deepseek-v3.2')
+    ) or 'free/deepseek-v3.2'
+    defaults = {
+        'auto': [
+            (baseline, 8),
+            ('minimax/minimax-m2.7', 2),
+            ('z-ai/glm-5.1', 1),
+        ],
+        'premium': [
+            (baseline, 6),
+            ('minimax/minimax-m2.7', 2),
+            ('z-ai/glm-5.1', 1),
+        ],
+    }
+    return _dedupe_weighted_pool(defaults[tier])
 
 
 def get_db():
@@ -52,7 +104,12 @@ def fetch_model_stats(conn, days: int = EVAL_DAYS):
     with conn.cursor() as cur:
         cur.execute("""
             SELECT 
-                generation_model,
+                CASE
+                    WHEN generation_model LIKE 'z-ai/glm-5.1-%%' THEN 'z-ai/glm-5.1'
+                    WHEN generation_model LIKE 'minimax/minimax-m2.7-%%' THEN 'minimax/minimax-m2.7'
+                    WHEN generation_model LIKE 'xiaomi/mimo-v2-pro-%%' THEN 'xiaomi/mimo-v2-pro'
+                    ELSE generation_model
+                END AS generation_model,
                 COUNT(*) as tweet_count,
                 COUNT(*) FILTER (WHERE impressions IS NOT NULL AND impressions > 0) as with_engagement,
                 COALESCE(AVG(likes) FILTER (WHERE impressions > 0), 0) as avg_likes,
@@ -67,7 +124,7 @@ def fetch_model_stats(conn, days: int = EVAL_DAYS):
               AND generation_model IS NOT NULL
               AND generation_model NOT IN ('unknown', 'prediction_template')
             GROUP BY generation_model
-            ORDER BY avg_likes DESC
+                        ORDER BY avg_er DESC, avg_impressions DESC
         """, (days,))
         
         columns = ['model', 'total', 'with_engagement', 'avg_likes', 'avg_retweets',
@@ -78,11 +135,11 @@ def fetch_model_stats(conn, days: int = EVAL_DAYS):
 def score_model(stats: dict) -> float:
     """Compute a weighted engagement score for a model."""
     return (
-        stats['avg_likes'] * 3 +
-        stats['avg_retweets'] * 5 +
-        stats['avg_bookmarks'] * 2 +
-        stats['avg_quotes'] * 4 +
-        stats['avg_impressions'] * 0.01
+        float(stats['avg_likes']) * 3 +
+        float(stats['avg_retweets']) * 5 +
+        float(stats['avg_bookmarks']) * 2 +
+        float(stats['avg_quotes']) * 4 +
+        float(stats['avg_impressions']) * 0.01
     )
 
 
@@ -97,7 +154,7 @@ def compute_weights(model_stats: list, pool_models: set) -> dict:
     scored = {}
     unscored = set()
     
-    stats_by_model = {s['model']: s for s in model_stats}
+    stats_by_model = {canonicalize_model_id(s['model']): s for s in model_stats}
     
     for model in pool_models:
         s = stats_by_model.get(model)
@@ -119,8 +176,15 @@ def compute_weights(model_stats: list, pool_models: set) -> dict:
     for model in pool_models:
         if model in scored:
             # Scale: score/max_score * MAX_WEIGHT, but at least BASELINE_WEIGHT
-            raw = (scored[model] / max_score) * MAX_WEIGHT
-            weights[model] = max(BASELINE_WEIGHT, round(raw))
+            score_ratio = scored[model] / max_score
+            raw = score_ratio * MAX_WEIGHT
+            avg_er = float(stats_by_model[model]['avg_er'] or 0)
+            if avg_er <= HARD_ER_FLOOR or score_ratio <= 0.25:
+                weights[model] = 1
+            elif avg_er < SOFT_ER_FLOOR:
+                weights[model] = max(BASELINE_WEIGHT, min(2, round(raw * 0.5)))
+            else:
+                weights[model] = max(BASELINE_WEIGHT, round(raw))
         else:
             weights[model] = BASELINE_WEIGHT
     
@@ -176,21 +240,11 @@ def run_evaluation():
     logger.info("=" * 80)
     
     # Current pools (from openrouter_client defaults)
-    auto_models = {
-        os.getenv('LLM_TIER_AUTO', 'free/deepseek-v3.2'),
-        'z-ai/glm-5.1',
-        'minimax/minimax-m2.7',
-        'xiaomi/mimo-v2-pro',
-    }
-    premium_models = {
-        'anthropic/claude-sonnet-4.6',
-        'z-ai/glm-5.1',
-        'minimax/minimax-m2.7',
-        'xiaomi/mimo-v2-pro',
-    }
+    auto_models = {model for model, _weight in get_ab_pool_defaults('auto')}
+    premium_models = {model for model, _weight in get_ab_pool_defaults('premium')}
     
     # Check if we have enough data to auto-tune
-    models_with_data = {s['model'] for s in stats if s['with_engagement'] >= MIN_SAMPLE}
+    models_with_data = {canonicalize_model_id(s['model']) for s in stats if s['with_engagement'] >= MIN_SAMPLE}
     auto_have_data = auto_models & models_with_data
     premium_have_data = premium_models & models_with_data
     

@@ -27,6 +27,58 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+_INLINE_COMMENT_RE = re.compile(r'\s+#.*$')
+_DATE_SUFFIX_RE = re.compile(r'-\d{6,8}$')
+_VERSIONED_MODEL_PREFIXES = (
+    ('z-ai/glm-5.1-', 'z-ai/glm-5.1'),
+    ('minimax/minimax-m2.7-', 'minimax/minimax-m2.7'),
+    ('xiaomi/mimo-v2-pro-', 'xiaomi/mimo-v2-pro'),
+)
+
+
+def _clean_env_value(value: Optional[str]) -> Optional[str]:
+    if value is None:
+        return None
+    return _INLINE_COMMENT_RE.sub('', str(value)).strip()
+
+
+def _canonicalize_model_id(model_id: Optional[str]) -> str:
+    cleaned = _clean_env_value(model_id) or ''
+    if not cleaned:
+        return ''
+    for prefix, canonical in _VERSIONED_MODEL_PREFIXES:
+        if cleaned.startswith(prefix):
+            return canonical
+    return _DATE_SUFFIX_RE.sub('', cleaned)
+
+
+def _dedupe_weighted_pool(pool: List[tuple[str, int]]) -> List[tuple[str, int]]:
+    combined: Dict[str, int] = {}
+    order: List[str] = []
+    for model_id, weight in pool:
+        canonical = _canonicalize_model_id(model_id)
+        if not canonical or weight <= 0:
+            continue
+        if canonical not in combined:
+            order.append(canonical)
+            combined[canonical] = 0
+        combined[canonical] += weight
+    return [(model_id, combined[model_id]) for model_id in order]
+
+
+def _parse_weighted_pool(value: str) -> List[tuple[str, int]]:
+    parsed: List[tuple[str, int]] = []
+    for entry in (_clean_env_value(value) or '').split(','):
+        entry = entry.strip()
+        if not entry:
+            continue
+        if ':' in entry:
+            model_id, weight = entry.rsplit(':', 1)
+            parsed.append((_canonicalize_model_id(model_id), int(weight)))
+        else:
+            parsed.append((_canonicalize_model_id(entry), 1))
+    return _dedupe_weighted_pool(parsed)
+
 
 class OpenRouterClient:
     """
@@ -52,10 +104,10 @@ class OpenRouterClient:
         
         # Tier model mapping
         self.models = {
-            'eco': os.getenv('LLM_TIER_ECO', 'google/gemini-2.5-flash'),
-            'auto': os.getenv('LLM_TIER_AUTO', 'deepseek/deepseek-chat'),
-            'premium': os.getenv('LLM_TIER_PREMIUM', 'anthropic/claude-3.5-sonnet'),
-            'vision': os.getenv('LLM_TIER_VISION', 'google/gemini-2.5-flash'),
+            'eco': _clean_env_value(os.getenv('LLM_TIER_ECO', 'google/gemini-2.5-flash')) or 'google/gemini-2.5-flash',
+            'auto': _clean_env_value(os.getenv('LLM_TIER_AUTO', 'free/deepseek-v3.2')) or 'free/deepseek-v3.2',
+            'premium': _clean_env_value(os.getenv('LLM_TIER_PREMIUM', 'free/deepseek-v3.2')) or 'free/deepseek-v3.2',
+            'vision': _clean_env_value(os.getenv('LLM_TIER_VISION', 'google/gemini-2.5-flash')) or 'google/gemini-2.5-flash',
         }
         
         # ── A/B Testing ──────────────────────────────────────────────
@@ -71,42 +123,36 @@ class OpenRouterClient:
         )
         # Models that need direct OpenRouter (not in ClawRouter's model list)
         self._direct_models = {
-            'z-ai/glm-5.1', 'minimax/minimax-m2.7', 'xiaomi/mimo-v2-pro',
+            _canonicalize_model_id(model_id)
+            for model_id in ('z-ai/glm-5.1', 'minimax/minimax-m2.7', 'xiaomi/mimo-v2-pro')
         }
         # Reasoning models that need higher max_tokens (thinking eats tokens)
         self._reasoning_models = {
-            'z-ai/glm-5.1', 'minimax/minimax-m2.7',
+            _canonicalize_model_id(model_id)
+            for model_id in ('z-ai/glm-5.1', 'minimax/minimax-m2.7')
         }
         
         # Candidate pools for A/B testing — each tuple: (model_id, weight)
         # Higher weight = more traffic. Weights don't need to sum to 1.
         self.ab_pools = {
             'auto': [
-                (os.getenv('LLM_TIER_AUTO', 'free/deepseek-v3.2'), 3),       # current baseline
-                ('z-ai/glm-5.1', 2),                                          # zhipu GLM — strong chinese LLM
-                ('minimax/minimax-m2.7', 2),                                   # minimax latest
-                ('xiaomi/mimo-v2-pro', 2),                                     # xiaomi mimo
+                (_canonicalize_model_id(self.models['auto']), 8),
+                ('minimax/minimax-m2.7', 2),
+                ('z-ai/glm-5.1', 1),
             ],
             'premium': [
-                ('anthropic/claude-sonnet-4.6', 3),                            # best judgment
-                ('z-ai/glm-5.1', 2),                                           # zhipu GLM
-                ('minimax/minimax-m2.7', 2),                                   # minimax latest
-                ('xiaomi/mimo-v2-pro', 1),                                     # xiaomi mimo
+                (_canonicalize_model_id(self.models['premium']), 6),
+                ('minimax/minimax-m2.7', 2),
+                ('z-ai/glm-5.1', 1),
             ],
         }
+        self.ab_pools = {tier_name: _dedupe_weighted_pool(pool) for tier_name, pool in self.ab_pools.items()}
         
         # Override pools from env: AB_POOL_AUTO="model1:3,model2:2"
         for tier_name in ('auto', 'premium'):
             env_pool = os.getenv(f'AB_POOL_{tier_name.upper()}', '')
             if env_pool:
-                parsed = []
-                for entry in env_pool.split(','):
-                    entry = entry.strip()
-                    if ':' in entry:
-                        model_id, weight = entry.rsplit(':', 1)
-                        parsed.append((model_id.strip(), int(weight)))
-                    else:
-                        parsed.append((entry, 1))
+                parsed = _parse_weighted_pool(env_pool)
                 if parsed:
                     self.ab_pools[tier_name] = parsed
         
@@ -198,6 +244,7 @@ class OpenRouterClient:
         """
         try:
             model = self._pick_model(tier)
+            canonical_model = _canonicalize_model_id(model)
             
             messages = []
             if system_prompt:
@@ -205,12 +252,12 @@ class OpenRouterClient:
             messages.append({'role': 'user', 'content': prompt})
             
             # Use direct OpenRouter for models not in ClawRouter
-            client = self.direct_client if model in self._direct_models else self.client
+            client = self.direct_client if canonical_model in self._direct_models else self.client
             
             # Reasoning models burn tokens on thinking — boost budget so
             # actual content isn't truncated.
             effective_max = max_tokens
-            if model in self._reasoning_models and max_tokens < 2500:
+            if canonical_model in self._reasoning_models and max_tokens < 2500:
                 effective_max = 2500
                 logger.debug(f"🧠 Boosted max_tokens {max_tokens}→{effective_max} for reasoning model {model}")
             

@@ -60,6 +60,12 @@ _LEAK_MARKERS = [
     'format:', 'rules:', 'ensure no',
     'b2 english', 'simple words', 'short sentences',
     'need to identify', 'must be 60', 'mention that', 'add maybe',
+    'the user wants', 'the user asked', 'user wants', 'user asked',
+    'rewrite the original', 'original tweet:', 'original poll question',
+    'make this poll', 'good angles:', 'must reference', 'must be <',
+    'in the style of', 'study the format', 'study the length',
+    'respond with', 'return only', 'nothing else',
+    'as an ai', 'i cannot', "i can't", "i’m sorry", "i'm sorry",
     # Reasoning / chain-of-thought leaks (added after tweet 2042562239551418546)
     'must identify', 'need to determine', 'let me think',
     'i should', 'first,', 'step 1', 'step 2',
@@ -85,6 +91,79 @@ _REASONING_PATTERNS = re.compile(
     re.IGNORECASE | re.MULTILINE
 )
 
+_META_RESPONSE_PATTERNS = [
+    re.compile(r"it seems like there(?:'s| is) a missing element in your request", re.IGNORECASE),
+    re.compile(r'\bplease provide\b.{0,80}\b(?:tweet|draft)\s+text\b', re.IGNORECASE | re.DOTALL),
+    re.compile(r'\bdraft tweet text\b', re.IGNORECASE),
+    re.compile(r"\byou(?:'d| would) like me to review\b", re.IGNORECASE),
+    re.compile(r'\brespond with only\b', re.IGNORECASE),
+    re.compile(r'\bone short reason to reject\b', re.IGNORECASE),
+    re.compile(r'\byour request\b', re.IGNORECASE),
+    re.compile(r'\b(?:editor feedback|realitychecker)\b', re.IGNORECASE),
+]
+
+
+def normalize_generated_text(text: Optional[str]) -> str:
+    if text is None:
+        return ''
+
+    cleaned = str(text).strip()
+    for preamble in (
+        'Tweet:', 'Here\'s', 'Sure,', 'Here is', 'Output:', 'Draft:',
+        'Revised:', 'Revision:'
+    ):
+        if cleaned.lower().startswith(preamble.lower()):
+            cleaned = cleaned[len(preamble):].lstrip(' :')
+
+    cleaned = re.sub(
+        r'^(okay,?\s*|so,?\s*|alright,?\s*|let me|i\'ll|i will|we need to|we should|let\'s)\s*.{0,60}(tweet|post|write|craft|generate)\b[^.]*\.\s*',
+        '', cleaned, count=1, flags=re.IGNORECASE
+    ).strip()
+
+    if ((cleaned.startswith('"') and cleaned.endswith('"'))
+            or (cleaned.startswith("'") and cleaned.endswith("'"))):
+        cleaned = cleaned[1:-1]
+
+    return cleaned.strip()
+
+
+def is_invalid_tweet_candidate(text: Optional[str]) -> bool:
+    cleaned = normalize_generated_text(text)
+    if not cleaned:
+        return True
+
+    return tweet_quality_issue(cleaned) is not None
+
+
+def tweet_quality_issue(text: Optional[str]) -> Optional[str]:
+    cleaned = normalize_generated_text(text)
+    if not cleaned:
+        return 'empty tweet'
+
+    if len(cleaned) > 280:
+        return f'tweet exceeds 280 chars ({len(cleaned)})'
+
+    lower = cleaned.lower()
+    if any(marker in lower for marker in _LEAK_MARKERS):
+        return 'prompt or reasoning leakage'
+    if _REASONING_PATTERNS.search(cleaned):
+        return 'reasoning leakage'
+    if cleaned.upper() in ('APPROVED', 'REJECTED'):
+        return 'review verdict leaked'
+    if cleaned.upper().startswith('APPROVED '):
+        return 'review verdict leaked'
+    if any(pattern.search(cleaned) for pattern in _META_RESPONSE_PATTERNS):
+        return 'meta response leaked'
+    if re.search(r'\n\s*(?:[-*]|\d+\.)\s+', cleaned):
+        return 'list formatting leaked'
+    if re.search(r'https?://', cleaned, re.IGNORECASE):
+        return 'raw URL in tweet'
+    if re.search(r'(^|\s)#\w+', cleaned):
+        return 'hashtag in tweet'
+    if cleaned.count('"') >= 4 and len(cleaned) > 180:
+        return 'quote-heavy generated text'
+    return None
+
 
 class ContentGenerator:
     """Dual-agent content generation system with ML persona selection and episodic memory"""
@@ -108,7 +187,7 @@ class ContentGenerator:
     
     def load_system_prompt(self) -> str:
         """Load the base system prompt + tunable appendix"""
-        base_prompt = """You are a CS2 fan running a Twitter account. You sound like a real person who watches every match and always has something to say.
+        base_prompt = """You are running a sharp CS2 market Twitter account. You sound like the trader who watches every match, every line move, and every overreaction before the rest of the timeline catches up.
 
 LANGUAGE LEVEL: B2 English (upper intermediate).
 - Use simple, common words. No fancy vocabulary.
@@ -118,9 +197,10 @@ LANGUAGE LEVEL: B2 English (upper intermediate).
 - NOT OK to use rare English words, literary phrases, or complex grammar.
 
 VOICE:
-- Sound like @Ozzny_CS2, @ThourCS2, @CS2News_EN, @RazedEsport
+- Sound like the sharp side of CS2 Twitter. Fast. Clear. A little smug when the number is wrong.
 - One thought per tweet. React to the moment.
-- You are a fan. Not a reporter. Not an analyst.
+- You are a trader. Not a reporter. Not a sportsbook ad. Not a fake insider.
+- Call out price, momentum, overreaction, market panic, or public bias when the event supports it.
 - Short sentences. Say less.
 
 HARD RULES:
@@ -138,14 +218,17 @@ HARD RULES:
    - If the event mentions forfeits, eliminations, etc: NAME THE TEAMS. "Three forfeits on day one" is useless. "MOUZ, Vitality, and Spirit all forfeited on day one" is clear.
    - NEVER post a tweet where a casual reader would ask "who?" or "what team?"
    - If you don't have enough info to identify teams/players, use the info you DO have. Don't post vague tweets.
+10. NEVER claim secret info, fixed matches, or guaranteed edges. No fake insider talk.
 
 TONE:
-- React like a real person. Surprise. Humor. Excitement.
+- React like a sharp trader who actually watches the games. Surprise. Humor. Excitement.
 - "no way" energy. Not "according to my analysis" energy.
 - If the news is crazy just say it simply. The fact IS the content.
 - Community memes are OK when natural: EZ4ENCE, cry is free, Liquid curse, rip bozo
 - Never say: "degens", "cashing", "fodder", "chalk", "bloodbath", "yeets", "implications", "significant"
-- Never sound like a sports reporter or betting guy
+- If the market is slow, say the market is slow.
+- If the public is overreacting, say that.
+- Never sound like a sports reporter or casino promo bot.
 
 STAKES & ENERGY:
 - If a team is ELIMINATED, dropped to lower bracket, or fighting for Major spots — LEAD WITH THE STAKES.
@@ -153,6 +236,7 @@ STAKES & ENERGY:
 - Big events (Majors, IEM, BLAST) deserve more energy than random online matches.
 - Use CAPS for emphasis on key words (ONE, ELIMINATED, MAJOR, OUT). Not full sentences.
 - If it's a grand final, elimination match, or Major qualifier — the stakes ARE the content.
+- If the event changes the market, public sentiment, or likely price — lead with that shift.
 
 GROUNDING:
 - Build every tweet from the EVENT data you get
@@ -161,6 +245,7 @@ GROUNDING:
 - VIP reply? Answer what they actually said. Be natural.
 - If the headline contains a direct QUOTE from a player, USE the strongest part of that quote in your tweet. Don't just say "heavy quote" or "tough words" — include the actual words.
 - ALWAYS use the actual team name. Never write "his team" or "their team" — write the real name (e.g. "EYEBALLERS" not "JW's team").
+- If you mention odds, market moves, price, value, or the public side, it must be grounded in the event data or direct context. Never invent a line move.
 
 OUTPUT:
 - Output ONLY the tweet text. Nothing else.
@@ -182,30 +267,30 @@ OUTPUT:
     
     # Style examples are injected in the USER prompt (not system) to prevent LLM echoing
     STYLE_EXAMPLES = """STYLE REFERENCE (study the energy but do NOT copy or mention these):
-  "FaZe played against a top-1 team in ROBLOX CS and LOST 6-16 and 3-16 respectively 😭"
-  "FaZe are 1 MAP LOSS AWAY from MISSING THE Cologne Major. Crazy..."
-  "Spirit just got ELIMINATED from the Major. In groups. What is happening."
-  "NaVi are in the lower bracket. One more loss and they're OUT. 😭"
-  "m0nesy has unfollowed @FalconsEsport on Instagram right after the match today"
-  "New Overpass looks so sick. I love it."
-  "G2 dropped to the lower bracket after losing to MOUZ. Must win everything from here."
-  "Vitality 2-0 FaZe. Grand final. This is the best CS2 we've ever seen."
+    "Market was asleep on Spirit again. That number was wrong from the second it opened."
+    "NaVi are ONE loss from going home. Public is still going to overrate them next round."
+    "That 2-0 was cleaner than the scoreline even says. Books were late."
+    "Everyone will chase the obvious side after this result. Usually the worst time to click it."
+    "Vitality closed that like a title favorite. No fluff. Just better."
+    "One bad map and the whole timeline starts panicking. That's where the value usually shows up."
+    "Spirit just sent the market into a full overreaction cycle again."
+    "That roster move is not just news. It changes how people price the team."
 """
     
     def generate_writer_draft(self, event: Dict[str, Any], pillar: int) -> str:
         """Agent A: The Writer - Generate initial draft with ML persona + episodic memory"""
         
         pillar_context = {
-            1: "CS2 news. Say what happened. React like a fan. Simple words.",
-            2: "Match result. Lead with what's at stake (elimination? bracket? Major?). Then who won. Use CAPS on key stakes words. Energy.",
-            3: "Hot take. One strong opinion. Say it simply.",
+            1: "CS2 news. Say what happened. Say what it changes. Sharp trader voice. Simple words.",
+            2: "Match result. Lead with the stakes or the market meaning. Elimination. Bracket pressure. Public overreaction. Then who won.",
+            3: "Hot take. One strong market opinion. Fade the public if the spot is there. Say it simply.",
             5: "Meme moment. If it's funny just show it. Don't explain.",
-            7: "Drama. What happened and why people care. Stay casual.",
-            12: "VIP reply. Answer what they said. Be natural. Simple English.",
-            13: "Poll question. Make people want to vote AND argue in replies.",
-            14: "Conversation starter. Provocative question. Get people replying.",
-            15: "Style-banked take. Match the energy of viral tweets that worked.",
-            16: "Disagreement reply. Push back with one stat or one grounded statement. Be sharp. Not angry.",
+            7: "Drama. What happened and what it means for the market or the team. Stay casual.",
+            12: "VIP reply. Answer what they said. Sound like a sharp trader. Simple English.",
+            13: "Poll question. Make people choose sides like a market and argue in replies.",
+            14: "Conversation starter. Start a market argument. Get people replying.",
+            15: "Style-banked take. Match the energy of sharp CS2 trader Twitter.",
+            16: "Disagreement reply. Push back with one grounded stat or one market angle. Be sharp. Not angry.",
         }
         
         context = pillar_context.get(pillar, "CS2 esports content")
@@ -341,21 +426,8 @@ OUTPUT:
             max_tokens=100
         )
         self._last_writer_model = result.get('model', 'unknown')
-        
-        draft = result['text'].strip()
-        # Strip common LLM preambles that leak through
-        for preamble in ['Tweet:', 'Here\'s', 'Sure,', 'Here is', 'Output:', 'Draft:']:
-            if draft.startswith(preamble):
-                draft = draft[len(preamble):].lstrip(' :')
-        # Strip instruction-echoing preambles (regex)
-        draft = re.sub(
-            r'^(okay,?\s*|so,?\s*|alright,?\s*|let me|i\'ll|i will|we need to|we should|let\'s)\s*.{0,60}(tweet|post|write|craft|generate)\b[^.]*\.\s*',
-            '', draft, count=1, flags=re.IGNORECASE
-        ).strip()
-        # Strip wrapping quotes
-        if (draft.startswith('"') and draft.endswith('"')) or (draft.startswith("'") and draft.endswith("'")):
-            draft = draft[1:-1]
-        return draft
+
+        return normalize_generated_text(result['text'])
     
     def generate_editor_feedback(self, draft: str, pillar: int) -> str:
         """Agent B: The Editor (RealityChecker) - Critique the draft.
@@ -372,19 +444,29 @@ REJECT if ANY of these:
 - More than 1 comma → REJECT (use periods instead)
 - Has em-dashes (—) → REJECT
 - Over 280 chars → REJECT
-- Sounds like a journalist or analyst → REJECT
+- Sounds like a journalist, desk segment, or fake TV analyst → REJECT
 - Uses hard words like "implications", "significant", "devastating", "unprecedented" → REJECT
 - Uses slang like "degens", "cashing", "fodder", "chalk", "bloodbath" → REJECT
 - Chains ideas with commas → REJECT
 - Press release tone ("It's official!", "Big news!") → REJECT
 - More than 1 emoji → REJECT
 - Made-up stats or numbers → REJECT
+- Claims insider info, fixed games, guaranteed edges, or fake line moves → REJECT
 - Would a real CS2 fan cringe at this? → REJECT
 - Mentions a player or team without identifying them → REJECT. A casual CS2 fan must know WHO the tweet is about. If the tweet says a name like "Marsborne" without their team, REJECT. If it says "Three forfeits" without naming the teams, REJECT.
 - Says "his team", "their team", "JW's team" instead of using the ACTUAL team name → REJECT. Use the real name.
 - References a quote ("heavy quote", "tough words") without including the actual quote or key phrase → REJECT. If there's a quote, USE IT.
 
-APPROVE if it sounds like a real CS2 fan tweeting. Short. Natural. Simple English. One idea.
+ALLOW these when grounded in the event or clear context:
+- market
+- price
+- line move
+- public side
+- overreaction
+- value
+- buy low / sell high
+
+APPROVE if it sounds like a real CS2 fan with sharp trader instincts. Short. Natural. Simple English. One idea.
 
 Respond with ONLY: "APPROVED" or one short reason to reject."""
         
@@ -424,21 +506,56 @@ Revise the tweet addressing the feedback. Max 280 chars. Output ONLY the revised
             temperature=0.7,
             max_tokens=100
         )
-        
-        text = result['text'].strip()
-        # Strip common LLM preambles that leak through
-        for preamble in ['Tweet:', 'Here\'s', 'Sure,', 'Here is', 'Output:', 'Revised:', 'Revision:', 'Draft:']:
-            if text.lower().startswith(preamble.lower()):
-                text = text[len(preamble):].lstrip(' :')
-        # Strip instruction-echoing preambles (regex)
-        text = re.sub(
-            r'^(okay,?\s*|so,?\s*|alright,?\s*|let me|i\'ll|i will|we need to|we should|let\'s)\s*.{0,60}(tweet|post|write|craft|generate)\b[^.]*\.\s*',
-            '', text, count=1, flags=re.IGNORECASE
-        ).strip()
-        # Strip wrapping quotes
-        if (text.startswith('"') and text.endswith('"')) or (text.startswith("'") and text.endswith("'")):
-            text = text[1:-1]
-        return text
+
+        return normalize_generated_text(result['text'])
+
+    def force_clean_rewrite(self, event: Dict[str, Any], pillar: int, bad_output: str) -> str:
+        metadata = event.get('metadata') or {}
+        category = event.get('category', 'general')
+
+        prompt_parts = [
+            'Your last output was meta-commentary or review text. Rewrite it as a real tweet.',
+            f'BAD OUTPUT:\n"{bad_output}"',
+            f'PILLAR {pillar}',
+        ]
+
+        if pillar == 12 and event.get('content'):
+            vip_user = metadata.get('vip_username', '') if isinstance(metadata, dict) else ''
+            prompt_parts.extend([
+                'VIP TWEET TO REPLY TO:',
+                f'@{vip_user} said: "{event.get("content", "")}"',
+            ])
+        elif pillar == 16 and event.get('content'):
+            target_user = metadata.get('target_username', '') if isinstance(metadata, dict) else ''
+            prompt_parts.extend([
+                'COMMUNITY POST TO RESPOND TO:',
+                f'@{target_user} said: "{event.get("content", "")}"',
+            ])
+        else:
+            prompt_parts.extend([
+                'EVENT:',
+                f'Headline: {event.get("headline", "")}',
+                f'Content: {event.get("content", "")}',
+                f'Category: {category}',
+            ])
+
+        prompt_parts.extend([
+            'Rules:',
+            '- Output ONLY the final tweet text.',
+            '- Do NOT mention request, draft, review, approval, rejection, or feedback.',
+            '- Do NOT explain yourself.',
+            '- Max 280 chars.',
+            '- Grounded market language is allowed. Fake insider claims are not.',
+        ])
+
+        result = self.client.generate(
+            prompt='\n'.join(prompt_parts),
+            system_prompt=self.system_prompt,
+            tier='auto',
+            temperature=0.4,
+            max_tokens=100,
+        )
+        return normalize_generated_text(result['text'])
     
     def generate_whimsy_check(self, draft: str, pillar: int, community_vibe: dict) -> str:
         """Agent C: WhimsyInjector — ensures the tweet has personality, not just accuracy.
@@ -509,21 +626,16 @@ Respond with ONLY: "APPROVED" or the better tweet text (no explanation)."""
         # 1 LLM call instead of 3-5 — critical when rate-limited to 60 req/hr
         if pillar in (13, 14):
             logger.info(f"⚡ Fast-path generation for pillar {pillar}")
-            draft = self.generate_writer_draft(event, pillar)
+            draft = normalize_generated_text(self.generate_writer_draft(event, pillar))
             logger.info(f"✍️  Fast draft: {draft[:80]}...")
+            if is_invalid_tweet_candidate(draft):
+                logger.warning("⚠️  Fast-path returned meta output — forcing clean rewrite")
+                draft = self.force_clean_rewrite(event, pillar, draft)
             if len(draft) > 280:
                 draft = draft[:277] + "..."
-            # Strip wrapping quotes
-            if (draft.startswith('"') and draft.endswith('"')) or (draft.startswith("'") and draft.endswith("'")):
-                draft = draft[1:-1]
-            # Leak detection — fast path had NONE before
-            if any(m in draft.lower() for m in _LEAK_MARKERS) or _REASONING_PATTERNS.search(draft):
-                logger.warning(f"⚠️  Fast-path leaked instructions — retrying once")
-                draft = self.generate_writer_draft(event, pillar)
-                draft = draft.strip().strip('"').strip("'")
-                if any(m in draft.lower() for m in _LEAK_MARKERS) or _REASONING_PATTERNS.search(draft):
-                    logger.error(f"❌ Fast-path leaked twice — giving up: {draft[:80]}")
-                    return {'final_text': '', 'iterations': 2, 'approved': False, 'char_count': 0, 'model': getattr(self, '_last_writer_model', 'unknown')}
+            if is_invalid_tweet_candidate(draft):
+                logger.error(f"❌ Fast-path leaked twice — giving up: {draft[:80]}")
+                return {'final_text': '', 'iterations': 2, 'approved': False, 'char_count': 0, 'model': getattr(self, '_last_writer_model', 'unknown')}
             return {
                 'final_text': draft,
                 'iterations': 1,
@@ -535,8 +647,14 @@ Respond with ONLY: "APPROVED" or the better tweet text (no explanation)."""
         logger.info(f"🎭 Starting 3-agent writer's room for pillar {pillar}")
         
         # Agent A: Initial draft
-        draft = self.generate_writer_draft(event, pillar)
+        draft = normalize_generated_text(self.generate_writer_draft(event, pillar))
         logger.info(f"✍️  Writer draft: {draft[:80]}...")
+        if is_invalid_tweet_candidate(draft):
+            logger.warning("⚠️  Writer draft was meta output — forcing clean rewrite")
+            draft = self.force_clean_rewrite(event, pillar, draft)
+            if is_invalid_tweet_candidate(draft):
+                logger.error(f"❌ Writer draft unrecoverable — giving up: {draft[:80]}")
+                return {'final_text': '', 'iterations': 1, 'approved': False, 'char_count': 0, 'model': getattr(self, '_last_writer_model', 'unknown')}
         
         iterations = 1
         approved = False
@@ -552,12 +670,12 @@ Respond with ONLY: "APPROVED" or the better tweet text (no explanation)."""
                 break
             
             # Agent A: Revise
-            revised = self.generate_revision(draft, feedback, event)
+            revised = normalize_generated_text(self.generate_revision(draft, feedback, event))
             iterations += 1
             logger.info(f"✍️  Revision #{iterations}: {revised[:80]}...")
             
             # Safety: if revision leaked instructions, keep the previous draft
-            if any(m in revised.lower() for m in _LEAK_MARKERS) or _REASONING_PATTERNS.search(revised):
+            if is_invalid_tweet_candidate(revised):
                 logger.warning(f"⚠️  Revision leaked instructions — keeping previous draft")
             else:
                 draft = revised
@@ -571,15 +689,20 @@ Respond with ONLY: "APPROVED" or the better tweet text (no explanation)."""
             draft = self.generate_whimsy_check(draft, pillar, community_vibe)
         else:
             logger.info("⏭️  Skipping WhimsyInjector for engagement content")
+
+        draft = normalize_generated_text(draft)
+        if is_invalid_tweet_candidate(draft):
+            logger.warning("⚠️  Final draft still looks meta — forcing clean rewrite")
+            draft = self.force_clean_rewrite(event, pillar, draft)
+            if is_invalid_tweet_candidate(draft):
+                logger.error(f"❌ Final draft unrecoverable — giving up: {draft[:80]}")
+                return {'final_text': '', 'iterations': iterations, 'approved': False, 'char_count': 0, 'model': getattr(self, '_last_writer_model', 'unknown')}
         
         # Final length check
         if len(draft) > 280:
             logger.warning(f"⚠️  Tweet too long ({len(draft)} chars), truncating...")
             draft = draft[:277] + "..."
-        
-        # Final quote stripping — LLMs love wrapping output in quotes
-        if (draft.startswith('"') and draft.endswith('"')) or (draft.startswith("'") and draft.endswith("'")):
-            draft = draft[1:-1]
+        draft = normalize_generated_text(draft)
         
         return {
             'final_text': draft,

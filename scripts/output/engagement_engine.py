@@ -23,6 +23,7 @@ The algorithm rewards:
 """
 
 import asyncio
+import math
 import logging
 import os
 import json
@@ -42,6 +43,10 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from processing.meme_generator import get_meme_generator
 from processing.openrouter_client import get_openrouter_client
+from processing.tweet_quality import (
+    normalize_generated_text,
+    tweet_quality_issue,
+)
 from ingestion.style_scraper import get_style_scraper
 from utils.db_utils import ensure_db_connection
 from utils.twitter_accounts import get_account_credentials
@@ -61,6 +66,14 @@ POLL_TEMPLATES = [
     {
         'question': 'Best AWPer in CS2 right now?',
         'options': ['ZywOo', 'm0NESY', 'sh1ro', 'other'],
+    },
+    {
+        'question': 'Best buy-low team in CS2 right now?',
+        'options': ['NaVi', 'FaZe', 'G2', 'Liquid'],
+    },
+    {
+        'question': 'Biggest public trap in CS2 right now?',
+        'options': ['FaZe', 'G2', 'Falcons', 'other'],
     },
     {
         'question': 'Which team wins the next Major?',
@@ -89,16 +102,18 @@ POLL_TEMPLATES = [
 ]
 
 CONVERSATION_STARTERS = [
-    "Our AI tipster just hit another one. Free CS2 picks daily on Telegram — link in bio.",
-    "100+ predictions tracked. Win rate public. No paywall. That's the SkinBetHubAI difference.",
-    "Tier 2/3 is where the real value is. That's exactly where SkinBetHubAI focuses. Free picks on Telegram.",
-    "If you're still tailing random Twitter cappers with no track record... our AI tipster is free and tracks every pick publicly.",
-    "SkinBetHubAI skips when there's no edge. That one feature alone saves more bankroll than most tip channels.",
-    "Free AI CS2 picks. Confidence levels. Smart stake sizing. No sub, no paywall. Telegram link in bio.",
-    "We don't force picks when the setup is weak. SkinBetHubAI says skip. That's discipline you won't get from most tipsters.",
-    "Why pay for CS2 tips when SkinBetHubAI gives you structured picks with confidence levels for free?",
-    "Our CS2 AI tipster focuses on Tier 2/3 where lines are less efficient. That's where the value lives.",
-    "Every SkinBetHubAI pick comes with confidence level and stake guidance. Free on Telegram. Link in bio.",
+    "what's the most mispriced team in cs2 right now?",
+    "which team does the public keep rating too high?",
+    "one player the market still hasn't fully caught up to. who is it?",
+    "which org move will change how people price that team the most?",
+    "what result from the last month got overreacted to the hardest?",
+    "who's the fakest contender in tier 1 right now?",
+    "which team is one good event away from a full price reset?",
+    "what's the most obvious public trap in cs2 right now?",
+    "which lineup looks better than the numbers say?",
+    "what's one cs2 take you would actually stake money on?",
+    "which team keeps winning without ever looking that clean?",
+    "who's the best buy-low team in cs2 today?",
 ]
 
 MILESTONE_DATES = {
@@ -109,6 +124,30 @@ MILESTONE_DATES = {
     (9, 27): "CS2 limited test was announced on this day in 2023.",
     (9, 28): "CS2 was fully released on this day in 2023.",
 }
+
+# ─── Generator ER Gating ─────────────────────────────────────────
+
+# Maps strategy name → the events.category value used when it posts
+STRATEGY_CATEGORY_MAP: Dict[str, str] = {
+    'disagreement': 'community_disagreement',
+    'poll': 'engagement_poll',
+    'conversation': 'engagement_conversation',
+    'milestone': 'engagement_milestone',
+    'style_take': 'engagement_take',
+    'recycle': 'engagement_recycle',
+    'match_preview': 'match_preview',
+}
+
+# Suppress a generator when its 30-day avg ER is below this floor
+# (only applied once we have at least GENERATOR_MIN_SAMPLES data points).
+# Set GENERATOR_MIN_ER=0 in .env to disable gating entirely.
+GENERATOR_MIN_ER: float = float(os.getenv('GENERATOR_MIN_ER', '0.003'))
+GENERATOR_MIN_SAMPLES: int = int(os.getenv('GENERATOR_MIN_SAMPLES', '3'))
+GENERATOR_TEMPLATE_TRIAL_BUDGET: int = int(os.getenv('GENERATOR_TEMPLATE_TRIAL_BUDGET', '3'))
+GENERATOR_TEMPLATE_MIN_SAMPLES: int = int(os.getenv('GENERATOR_TEMPLATE_MIN_SAMPLES', '3'))
+GENERATOR_TEMPLATE_RETIRE_ER: float = float(os.getenv('GENERATOR_TEMPLATE_RETIRE_ER', '0.003'))
+GENERATOR_TEMPLATE_EXPLORE_BONUS: float = float(os.getenv('GENERATOR_TEMPLATE_EXPLORE_BONUS', '0.02'))
+GENERATOR_TEMPLATE_EPSILON: float = float(os.getenv('GENERATOR_TEMPLATE_EPSILON', '0.15'))
 
 DISAGREEMENT_PATTERNS = [
     (r'\boverrated\b', 'Push back on the overrated label with current form.'),
@@ -259,6 +298,166 @@ class EngagementEngine:
             return float(str(value).strip())
         except Exception:
             return None
+
+    def _get_category_avg_er(
+        self, category: str, lookback_days: int = 30
+    ) -> tuple[Optional[float], int]:
+        """Return (avg_engagement_rate, sample_count) for a posted tweet category.
+
+        Returns (None, 0) on DB error or when no samples exist.
+        """
+        self._ensure_db()
+        try:
+            with self.db_conn.cursor() as cur:
+                cur.execute(
+                    """
+                    SELECT AVG(t.engagement_rate), COUNT(*)
+                    FROM twitter_bot.tweets_v2 t
+                    JOIN twitter_bot.events e ON t.event_id = e.id
+                    WHERE e.category = %s
+                    AND t.status = 'posted'
+                    AND t.engagement_rate IS NOT NULL
+                    AND t.posted_at > NOW() - (%s || ' days')::interval
+                    """,
+                    (category, str(lookback_days)),
+                )
+                row = cur.fetchone()
+                if row and row[1]:
+                    avg_er = float(row[0]) if row[0] is not None else None
+                    return avg_er, int(row[1])
+            return None, 0
+        except Exception as e:
+            logger.warning(f"⚠️  ER lookup for '{category}' failed: {e}")
+            return None, 0
+
+    def _slugify_template_seed(self, seed: str, max_parts: int = 8) -> str:
+        cleaned = re.sub(r'[^a-z0-9]+', '-', (seed or '').lower()).strip('-')
+        parts = [part for part in cleaned.split('-') if part]
+        return '-'.join(parts[:max_parts]) or 'template'
+
+    def _build_template_key(self, strategy: str, seed: str) -> str:
+        return f"{strategy}:{self._slugify_template_seed(seed)}"
+
+    def _clean_generated_text(self, text: str, label: str, max_chars: int = 280) -> Optional[str]:
+        cleaned = normalize_generated_text(text).strip('"').strip("'")
+        if max_chars and len(cleaned) > max_chars:
+            cleaned = cleaned[:max_chars - 3].rstrip() + "..."
+        issue = tweet_quality_issue(cleaned)
+        if issue:
+            logger.warning(f"⏭️  Rejected {label}: {issue} — {cleaned[:100]}")
+            return None
+        return cleaned
+
+    def _get_template_stats(
+        self, category: str, lookback_days: int = 30
+    ) -> Dict[str, Dict[str, Any]]:
+        """Return engagement stats keyed by events.metadata.template_key.
+
+        Prefers the rollup materialized view when present, then falls back to a live query.
+        """
+        self._ensure_db()
+        stats: Dict[str, Dict[str, Any]] = {}
+
+        try:
+            with self.db_conn.cursor() as cur:
+                try:
+                    cur.execute(
+                        """
+                        SELECT template_key, avg_er, tweet_count
+                        FROM twitter_bot.mv_generator_template_30d
+                        WHERE category = %s
+                        """,
+                        (category,),
+                    )
+                    rows = cur.fetchall()
+                except Exception:
+                    self.db_conn.rollback()
+                    cur.execute(
+                        """
+                        SELECT COALESCE(e.metadata->>'template_key', ''),
+                               AVG(t.engagement_rate),
+                               COUNT(*)
+                        FROM twitter_bot.tweets_v2 t
+                        JOIN twitter_bot.events e ON t.event_id = e.id
+                        WHERE e.category = %s
+                        AND t.status = 'posted'
+                        AND t.engagement_rate IS NOT NULL
+                        AND t.posted_at > NOW() - (%s || ' days')::interval
+                        GROUP BY 1
+                        """,
+                        (category, str(lookback_days)),
+                    )
+                    rows = cur.fetchall()
+
+            for template_key, avg_er, tweet_count in rows:
+                stats[str(template_key or '')] = {
+                    'avg_er': float(avg_er) if avg_er is not None else None,
+                    'sample_count': int(tweet_count or 0),
+                }
+        except Exception as e:
+            logger.warning(f"⚠️  Template stats lookup for '{category}' failed: {e}")
+
+        return stats
+
+    def _pick_template_variant(
+        self,
+        strategy: str,
+        category: str,
+        candidates: List[Any],
+        seed_builder,
+    ) -> Optional[tuple[Any, str]]:
+        """Pick the next template using a simple bandit-style policy.
+
+        New variants get a short trial budget. Bad variants are retired.
+        Proven variants get most of the traffic, with a small exploration rate.
+        """
+        if not candidates:
+            return None
+
+        stats = self._get_template_stats(category)
+        exploratory: List[tuple[int, float, Any, str]] = []
+        established: List[tuple[float, float, Any, str]] = []
+
+        for candidate in candidates:
+            seed = seed_builder(candidate)
+            template_key = self._build_template_key(strategy, seed)
+            template_stats = stats.get(template_key, {})
+            avg_er = template_stats.get('avg_er')
+            sample_count = int(template_stats.get('sample_count', 0) or 0)
+
+            if (
+                sample_count >= GENERATOR_TEMPLATE_MIN_SAMPLES
+                and avg_er is not None
+                and avg_er < GENERATOR_TEMPLATE_RETIRE_ER
+            ):
+                logger.info(
+                    f"⏭️  Template '{template_key}' retired — avg ER {avg_er:.4f} "
+                    f"< {GENERATOR_TEMPLATE_RETIRE_ER:.4f} (n={sample_count})"
+                )
+                continue
+
+            if sample_count < GENERATOR_TEMPLATE_TRIAL_BUDGET:
+                exploratory.append((sample_count, random.random(), candidate, template_key))
+                continue
+
+            score = (avg_er or 0.0) + (GENERATOR_TEMPLATE_EXPLORE_BONUS / max(1.0, math.sqrt(sample_count)))
+            established.append((score, random.random(), candidate, template_key))
+
+        if exploratory:
+            exploratory.sort(key=lambda item: (item[0], item[1]))
+            choice = exploratory[0]
+            return choice[2], choice[3]
+
+        if not established:
+            return None
+
+        if random.random() < GENERATOR_TEMPLATE_EPSILON:
+            _, _, candidate, template_key = random.choice(established)
+            return candidate, template_key
+
+        established.sort(key=lambda item: (item[0], item[1]), reverse=True)
+        _, _, candidate, template_key = established[0]
+        return candidate, template_key
 
     def _recent_match_metadata(self, days: int = 45, limit: int = 150) -> List[Dict[str, Any]]:
         self._ensure_db()
@@ -667,8 +866,16 @@ class EngagementEngine:
             if cur.fetchone()[0] > 0:
                 return None
 
-        # Pick a random poll template and personalize via LLM
-        template = random.choice(POLL_TEMPLATES)
+        selected = self._pick_template_variant(
+            strategy='poll',
+            category='engagement_poll',
+            candidates=POLL_TEMPLATES,
+            seed_builder=lambda template: f"{template['question']} {' '.join(template['options'])}",
+        )
+        if not selected:
+            return None
+
+        template, template_key = selected
 
         try:
             result = self.client.generate(
@@ -676,16 +883,22 @@ class EngagementEngine:
                     f"Original poll question: \"{template['question']}\"\n"
                     f"Options: {', '.join(template['options'])}\n\n"
                     "Make this poll question more engaging and current. "
-                    "Keep it short (under 100 chars). Sound like a CS2 fan, not a brand.\n"
+                    "Keep it short (under 100 chars). Sound like a sharp CS2 trader, not a brand.\n"
+                    "Good angles: buy low, sell high, public trap, overreaction, market reset.\n"
                     "Return ONLY the question text. Nothing else."
                 ),
                 tier='eco',
                 temperature=0.9,
                 max_tokens=60
             )
-            question = result['text'].strip().strip('"')[:100]
+            question = self._clean_generated_text(result['text'], 'poll rewrite', max_chars=100)
         except Exception:
-            question = template['question']
+            question = None
+
+        if not question:
+            question = self._clean_generated_text(template['question'], 'poll template', max_chars=100)
+        if not question:
+            return None
 
         return {
             'headline': question,
@@ -697,6 +910,7 @@ class EngagementEngine:
                 'poll_options': template['options'],
                 'poll_duration_minutes': 1440,  # 24 hours
                 'strategy': 'poll_generator',
+                'template_key': template_key,
             }
         }
 
@@ -730,15 +944,23 @@ class EngagementEngine:
             if cur.fetchone()[0] > 0:
                 return None
 
-        # Pick starter and make it fresh
-        starter = random.choice(CONVERSATION_STARTERS)
+        selected = self._pick_template_variant(
+            strategy='conversation',
+            category='engagement_conversation',
+            candidates=CONVERSATION_STARTERS,
+            seed_builder=lambda starter: starter,
+        )
+        if not selected:
+            return None
+
+        starter, template_key = selected
 
         try:
             result = self.client.generate(
                 prompt=(
                     f"Original tweet: \"{starter}\"\n\n"
-                    "Rewrite to sound natural and casual — like a real CS2 fan sharing something useful.\n"
-                    "KEEP the SkinBetHubAI / Telegram / free picks message — that's the point.\n"
+                    "Rewrite to sound natural and casual. Sound like a sharp CS2 trader starting an argument.\n"
+                    "Good angles: line moves, market panic, buy low, sell high, public trap, overreaction.\n"
                     "Max 250 chars. No hashtags. No emojis spam (1 max).\n"
                     "Do NOT add generic questions like 'what do you think?' at the end.\n"
                     "Return ONLY the tweet text."
@@ -747,9 +969,14 @@ class EngagementEngine:
                 temperature=0.9,
                 max_tokens=80
             )
-            text = result['text'].strip().strip('"')
+            text = self._clean_generated_text(result['text'], 'conversation rewrite', max_chars=250)
         except Exception:
-            text = starter
+            text = None
+
+        if not text:
+            text = self._clean_generated_text(starter, 'conversation template', max_chars=250)
+        if not text:
+            return None
 
         return {
             'headline': text,
@@ -759,6 +986,7 @@ class EngagementEngine:
             'source': 'engagement_engine',
             'metadata': {
                 'strategy': 'conversation_starter',
+                'template_key': template_key,
             }
         }
 
@@ -792,6 +1020,7 @@ class EngagementEngine:
             'metadata': {
                 'strategy': 'milestone',
                 'date': now.strftime('%Y-%m-%d'),
+                'template_key': self._build_template_key('milestone', template),
             }
         }
 
@@ -841,6 +1070,7 @@ class EngagementEngine:
                                 'team2': team2,
                                 'event': event_name,
                                 'media_path': img_path,
+                                'template_key': self._build_template_key('match_preview', f'{team1}-{team2}'),
                             }
                         })
         except Exception as e:
@@ -954,21 +1184,21 @@ class EngagementEngine:
                     "- NEVER invent match results, scores, or outcomes. NEVER say a team beat/lost/swept another unless it's in the news above.\n"
                     "- You CAN write opinions, hype, hot takes, or predictions about the news above.\n"
                     "- Do NOT assume which team a player is on unless stated in the news above.\n"
-                    "Max 140 chars. Sound like a fan, not a brand.\n"
+                    "- Best angles: market overreaction, buy low, sell high, public trap, price reset, line move only if grounded in the news.\n"
+                    "- Sound like a sharp CS2 trader reading the room early, not a brand.\n"
+                    "Max 140 chars.\n"
                     "Return ONLY the tweet text."
                 ),
                 tier='auto',
                 temperature=0.9,
                 max_tokens=60
             )
-            text = result['text'].strip().strip('"')
+            text = self._clean_generated_text(result['text'], 'style take', max_chars=140)
         except Exception as e:
             logger.warning(f"⚠️  Style take generation failed: {e}")
             return None
 
-        # Guard: reject if LLM echoed instructions instead of tweet
-        if any(text.lower().startswith(p) for p in ['we need to', 'let me', "i'll ", 'here is', "here's", 'sure,', 'okay,']):
-            logger.warning(f"⏭️  Style take output looks like instructions, not a tweet — rejecting")
+        if not text:
             return None
 
         return {
@@ -980,6 +1210,7 @@ class EngagementEngine:
             'metadata': {
                 'strategy': 'style_informed_take',
                 'style_examples_used': len(examples),
+                'template_key': self._build_template_key('style_take', examples[0] if examples else 'style-bank'),
             }
         }
 
@@ -1053,18 +1284,17 @@ class EngagementEngine:
                     "- NEVER claim a team beat/lost to another team unless it appears in the recent news above\n"
                     "- You CAN write opinions, hype, hot takes, or general CS2 commentary\n"
                     "- You CAN reference real events from the recent news above\n"
-                    "- Max 140 chars. Sound like a fan, not a brand.\n"
+                    "- Best angles: market overreaction, buy low, sell high, public trap, price reset\n"
+                    "- Sound like a sharp CS2 trader, not a brand.\n"
+                    "- Max 140 chars.\n"
                     "Return ONLY the tweet text."
                 ),
                 tier='auto',
                 temperature=0.85,
                 max_tokens=60
             )
-            text = result['text'].strip().strip('"')
-
-            # Guard: reject if LLM echoed instructions instead of tweet
-            if any(text.lower().startswith(p) for p in ['we need to', 'let me', 'i\'ll ', 'here is', 'here\'s', 'sure,', 'okay,']):
-                logger.warning(f"⏭️  Recycle output looks like instructions, not a tweet — rejecting")
+            text = self._clean_generated_text(result['text'], 'recycle take', max_chars=140)
+            if not text:
                 return None
 
             return {
@@ -1076,6 +1306,7 @@ class EngagementEngine:
                 'metadata': {
                     'strategy': 'recycle_banger',
                     'inspired_by_count': len(bangers),
+                    'template_key': self._build_template_key('recycle', bangers[0][0] if bangers else 'recycle-bank'),
                 }
             }
         except Exception as e:
@@ -1109,6 +1340,23 @@ class EngagementEngine:
 
         for name, strategy_fn in strategies:
             try:
+                # ── ER gate: suppress zero-engagement generators ──────────────
+                if GENERATOR_MIN_ER > 0:
+                    category = STRATEGY_CATEGORY_MAP.get(name)
+                    if category:
+                        avg_er, sample_count = self._get_category_avg_er(category)
+                        if (
+                            sample_count >= GENERATOR_MIN_SAMPLES
+                            and avg_er is not None
+                            and avg_er < GENERATOR_MIN_ER
+                        ):
+                            logger.info(
+                                f"⏭️  Generator '{name}' suppressed — "
+                                f"30d avg ER {avg_er:.4f} < threshold {GENERATOR_MIN_ER:.4f} "
+                                f"(n={sample_count})"
+                            )
+                            continue
+
                 result = await strategy_fn()
                 if result:
                     generated.append(result)
@@ -1126,6 +1374,17 @@ class EngagementEngine:
         # Insert generated events into the pipeline
         for event_data in generated:
             try:
+                headline = normalize_generated_text(event_data.get('headline', ''))
+                content = normalize_generated_text(event_data.get('content', ''))
+                payload_issue = tweet_quality_issue(content) or tweet_quality_issue(headline)
+                if payload_issue:
+                    logger.warning(
+                        "⏭️  Dropping generated event before insert: %s — %s",
+                        payload_issue,
+                        content[:100] or headline[:100],
+                    )
+                    continue
+
                 self._ensure_db()
                 with self.db_conn.cursor() as cur:
                     cur.execute("""
@@ -1134,8 +1393,8 @@ class EngagementEngine:
                         VALUES (%s, %s, %s, %s, %s, %s)
                         RETURNING id
                     """, (
-                        event_data['headline'],
-                        event_data['content'],
+                        headline,
+                        content,
                         event_data.get('source', 'engagement_engine'),
                         event_data['category'],
                         event_data.get('urgency', 'normal'),

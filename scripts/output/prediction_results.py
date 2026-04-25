@@ -1,33 +1,18 @@
 #!/usr/bin/env python3
-"""
-Prediction Result Tracker — polls the prediction API for settled bets,
-matches them to posted prediction tweets, and replies with the result.
+"""Prediction Result Tracker backed by our own `match_result` events.
 
-Flow:
-  1. Poll prediction API for all bets
-  2. For each bet with result in (win, loss):
-     a. Look up the prediction tweet in DB via bet_id
-     b. Skip if already replied (result_tweet_id in event metadata)
-     c. Generate a result card (green WIN / red LOSS) with running record
-     d. Reply to the original prediction tweet
-     e. Store the reply tweet ID in event metadata
-
-Running record is computed live from the DB — no separate table needed.
-
-PM2 process: prediction_results
-Runs every 10 minutes.
+This no longer talks to the external signal API. It resolves posted
+`match_prediction` tweets against match results already stored in
+`twitter_bot.events` and replies when the prediction settles.
 """
 
-import asyncio
 import logging
 import os
 import time
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from typing import Dict, Any, Optional, List
 
-import httpx
 from dotenv import load_dotenv
-import psycopg2
 from psycopg2.extras import Json
 import tweepy
 
@@ -37,6 +22,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from processing.meme_generator import get_meme_generator
 from processing.media_manager import get_media_manager
+from processing.team_rating_engine import canonicalize_team_name
 from utils.db_utils import ensure_db_connection
 from utils.twitter_accounts import get_account_credentials
 
@@ -48,14 +34,8 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# ── Config ────────────────────────────────────────────────────────────
 DATABASE_URL = os.getenv('DATABASE_URL', '')
-PREDICTION_API_URL = os.getenv(
-    'PREDICTION_API_URL',
-    'http://91.134.255.50/skinbetai/api/v3/bets/latest'
-)
-PREDICTION_API_KEY = os.getenv('PREDICTION_API_KEY', '')
-POLL_INTERVAL = 600  # 10 minutes
+POLL_INTERVAL = 600
 DRY_RUN = os.getenv('DRY_RUN_MODE', 'false').lower() == 'true'
 
 
@@ -83,63 +63,145 @@ class PredictionResultTracker:
     def _ensure_db(self):
         self.db_conn = ensure_db_connection(self.db_conn)
 
-    # ── API Polling ─────────────────────────────────────────────────
-
-    def _fetch_bets(self) -> List[Dict[str, Any]]:
-        """Fetch latest bets from the prediction API."""
-        try:
-            with httpx.Client(timeout=20) as client:
-                resp = client.get(
-                    PREDICTION_API_URL,
-                    headers={'X-API-Key': PREDICTION_API_KEY},
-                )
-                resp.raise_for_status()
-                data = resp.json()
-                bets = data if isinstance(data, list) else data.get('bets', data.get('data', []))
-                return bets
-        except Exception as e:
-            logger.error(f"❌ Failed to fetch bets: {e}")
-            return []
-
     # ── DB Lookups ──────────────────────────────────────────────────
 
-    def _find_prediction_tweet(self, bet_id: str) -> Optional[Dict[str, Any]]:
-        """Find the posted prediction tweet for a given bet_id.
-        Returns dict with event_id, twitter_tweet_id, metadata, pick, opponent, etc."""
+    def _find_open_predictions(self) -> List[Dict[str, Any]]:
+        """Find posted predictions that do not yet have a result reply."""
         self._ensure_db()
         try:
             with self.db_conn.cursor() as cur:
                 cur.execute("""
-                    SELECT e.id, e.metadata, t.twitter_tweet_id, t.account_bucket
+                    SELECT e.id, e.created_at, e.metadata, t.twitter_tweet_id, t.account_bucket
                     FROM twitter_bot.events e
                     JOIN twitter_bot.tweets_v2 t ON t.event_id = e.id
                     WHERE e.category = 'match_prediction'
-                      AND e.metadata->>'bet_id' = %s
                       AND t.status = 'posted'
                       AND t.twitter_tweet_id IS NOT NULL
-                    LIMIT 1
-                """, (bet_id,))
-                row = cur.fetchone()
-                if not row:
-                    return None
-                meta = row[1] if isinstance(row[1], dict) else {}
-                return {
+                      AND NOT (e.metadata ? 'result_tweet_id')
+                    ORDER BY e.created_at DESC
+                    LIMIT 100
+                """)
+                rows = cur.fetchall()
+
+            predictions = []
+            for row in rows:
+                meta = row[2] if isinstance(row[2], dict) else {}
+                predictions.append({
                     'event_id': row[0],
+                    'created_at': row[1],
                     'metadata': meta,
-                    'twitter_tweet_id': row[2],
-                    'account_bucket': row[3] or 'main',
+                    'twitter_tweet_id': row[3],
+                    'account_bucket': row[4] or 'main',
                     'pick': meta.get('pick', ''),
                     'opponent': meta.get('team2', ''),
+                    'team_a': meta.get('team_a') or meta.get('pick', ''),
+                    'team_b': meta.get('team_b') or meta.get('team2', ''),
+                    'hltv_match_id': meta.get('hltv_match_id') or meta.get('match_id'),
                     'confidence': meta.get('confidence', 'standard'),
                     'win_probability': float(meta.get('win_probability', 0) or 0),
                     'edge_pct': float(meta.get('edge_pct', 0) or 0),
                     'pick_odds': float(meta.get('pick_odds', 0) or 0),
                     'event_name': meta.get('event', ''),
                     'market_type': meta.get('market_type', 'match_winner'),
-                }
+                })
+            return predictions
         except Exception as e:
-            logger.error(f"❌ DB lookup failed for bet {bet_id}: {e}")
+            logger.error(f"❌ Failed to load open predictions: {e}")
+            return []
+
+    def _find_result_by_match_id(self, hltv_match_id: str, prediction_created_at: datetime) -> Optional[Dict[str, Any]]:
+        if not hltv_match_id:
             return None
+
+        self._ensure_db()
+        try:
+            with self.db_conn.cursor() as cur:
+                cur.execute(
+                    """
+                    SELECT id, metadata, created_at
+                    FROM twitter_bot.events
+                    WHERE category = 'match_result'
+                      AND metadata->>'hltv_match_id' = %s
+                      AND created_at > %s - INTERVAL '12 hours'
+                    ORDER BY created_at DESC
+                    LIMIT 1
+                    """,
+                    (str(hltv_match_id), prediction_created_at),
+                )
+                row = cur.fetchone()
+            if not row:
+                return None
+            return {
+                'event_id': row[0],
+                'metadata': row[1] if isinstance(row[1], dict) else {},
+                'created_at': row[2],
+            }
+        except Exception as e:
+            logger.error(f"❌ Exact match-result lookup failed for HLTV match {hltv_match_id}: {e}")
+            return None
+
+    def _find_result_by_matchup(self, pred: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+        pred_keys = {
+            canonicalize_team_name(pred.get('team_a')),
+            canonicalize_team_name(pred.get('team_b')),
+        }
+        pred_keys.discard(None)
+        if len(pred_keys) != 2:
+            return None
+
+        lower_bound = max(
+            pred['created_at'] - timedelta(hours=6),
+            datetime.now(timezone.utc) - timedelta(days=7),
+        )
+
+        self._ensure_db()
+        try:
+            with self.db_conn.cursor() as cur:
+                cur.execute(
+                    """
+                    SELECT id, metadata, created_at
+                    FROM twitter_bot.events
+                    WHERE category = 'match_result'
+                      AND created_at > %s
+                    ORDER BY created_at DESC
+                    LIMIT 100
+                    """,
+                    (lower_bound,),
+                )
+                rows = cur.fetchall()
+        except Exception as e:
+            logger.error(f"❌ Matchup result lookup failed for {pred.get('pick')}: {e}")
+            return None
+
+        for row in rows:
+            meta = row[1] if isinstance(row[1], dict) else {}
+            result_keys = {
+                canonicalize_team_name(meta.get('team1')),
+                canonicalize_team_name(meta.get('team2')),
+            }
+            result_keys.discard(None)
+            if result_keys == pred_keys:
+                return {
+                    'event_id': row[0],
+                    'metadata': meta,
+                    'created_at': row[2],
+                }
+        return None
+
+    def _find_settled_result(self, pred: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+        exact = self._find_result_by_match_id(pred.get('hltv_match_id'), pred['created_at'])
+        if exact:
+            return exact
+        return self._find_result_by_matchup(pred)
+
+    @staticmethod
+    def _determine_result(pred: Dict[str, Any], result_event: Dict[str, Any]) -> Optional[str]:
+        metadata = result_event.get('metadata') or {}
+        winner_key = canonicalize_team_name(metadata.get('winner'))
+        pick_key = canonicalize_team_name(pred.get('pick'))
+        if not winner_key or not pick_key:
+            return None
+        return 'win' if winner_key == pick_key else 'loss'
 
     def _already_replied(self, event_id: str) -> bool:
         """Check if we already posted a result reply for this prediction."""
@@ -181,7 +243,13 @@ class PredictionResultTracker:
             logger.error(f"❌ Running record query failed: {e}")
             return {'wins': 0, 'losses': 0, 'voids': 0}
 
-    def _store_result(self, event_id: str, result: str, result_tweet_id: str = None):
+    def _store_result(
+        self,
+        event_id: str,
+        result: str,
+        result_tweet_id: str = None,
+        resolved_match_event_id: str = None,
+    ):
         """Store the bet result and reply tweet ID in event metadata."""
         self._ensure_db()
         try:
@@ -189,6 +257,8 @@ class PredictionResultTracker:
                 update_parts = {"bet_result": result}
                 if result_tweet_id:
                     update_parts["result_tweet_id"] = result_tweet_id
+                if resolved_match_event_id:
+                    update_parts["resolved_match_event_id"] = str(resolved_match_event_id)
                 cur.execute("""
                     UPDATE twitter_bot.events
                     SET metadata = metadata || %s::jsonb
@@ -300,58 +370,46 @@ class PredictionResultTracker:
     # ── Main Loop ───────────────────────────────────────────────────
 
     def process_results(self):
-        """Check all bets for settled results and post follow-ups."""
-        bets = self._fetch_bets()
-        if not bets:
+        """Resolve posted predictions against our own stored match results."""
+        predictions = self._find_open_predictions()
+        if not predictions:
+            logger.info("📭 No open prediction replies to resolve")
             return
 
-        settled = [b for b in bets if b.get('result') in ('win', 'loss')]
-        if not settled:
-            logger.info("📊 No settled bets to process")
-            return
+        logger.info(f"📊 Checking {len(predictions)} open predictions against in-house match results")
 
-        logger.info(f"📊 Found {len(settled)} settled bets to check")
-
-        for bet in settled:
-            bet_id = bet.get('id') or bet.get('bet_id')
-            result = bet['result']
-
-            if not bet_id:
-                logger.warning(f"⚠️  Settled bet missing ID, skipping")
-                continue
-
-            # Find the original prediction tweet
-            pred = self._find_prediction_tweet(bet_id)
-            if not pred:
-                logger.debug(f"⏭️  No posted tweet for bet {bet_id}")
-                continue
-
-            # Already replied?
+        for pred in predictions:
             if self._already_replied(pred['event_id']):
-                logger.debug(f"⏭️  Already replied for bet {bet_id}")
+                continue
+
+            result_event = self._find_settled_result(pred)
+            if not result_event:
+                continue
+
+            result = self._determine_result(pred, result_event)
+            if result not in ('win', 'loss'):
                 continue
 
             logger.info(
-                f"🎯 Processing result: {result.upper()} for {pred['pick']} "
-                f"vs {pred['opponent']} (bet {bet_id})"
+                f"🎯 Processing result: {result.upper()} for {pred['pick']} vs "
+                f"{pred['opponent']} (match event {str(result_event['event_id'])[:12]})"
             )
 
-            # Store result first (so record is accurate)
-            self._store_result(pred['event_id'], result)
+            self._store_result(
+                pred['event_id'],
+                result,
+                resolved_match_event_id=result_event['event_id'],
+            )
 
-            # Get running record (includes this result now)
             record = self._get_running_record()
             logger.info(f"📊 Running record: {record['wins']}W - {record['losses']}L")
 
-            # Generate card
             card_path = self._generate_result_card(pred, result, record)
             if card_path:
                 logger.info(f"🎨 Result card: {card_path}")
 
-            # Format tweet
             tweet_text = self._format_result_tweet(pred, result, record)
 
-            # Post reply to original prediction tweet
             try:
                 reply_id = self._post_reply(
                     tweet_text=tweet_text,
@@ -360,27 +418,19 @@ class PredictionResultTracker:
                     bucket=pred.get('account_bucket', 'main'),
                 )
                 if reply_id:
-                    # Update metadata with result tweet ID
-                    self._store_result(pred['event_id'], result, reply_id)
+                    self._store_result(
+                        pred['event_id'],
+                        result,
+                        result_tweet_id=reply_id,
+                        resolved_match_event_id=result_event['event_id'],
+                    )
                     logger.info(
-                        f"✅ Result posted: {result.upper()} — "
-                        f"{pred['pick']} vs {pred['opponent']} — reply {reply_id}"
+                        f"✅ Result posted: {result.upper()} — {pred['pick']} vs "
+                        f"{pred['opponent']} — reply {reply_id}"
                     )
             except tweepy.TweepyException:
-                # Rate/billing — stop processing, will retry next cycle
                 logger.warning("⏸️  Pausing result processing due to rate limit")
                 break
-
-        # Also store results for void bets (no tweet, just record)
-        voids = [b for b in bets if b.get('result') == 'void']
-        for bet in voids:
-            bet_id = bet.get('id') or bet.get('bet_id')
-            if not bet_id:
-                continue
-            pred = self._find_prediction_tweet(bet_id)
-            if pred and not self._already_replied(pred['event_id']):
-                self._store_result(pred['event_id'], 'void')
-                logger.info(f"📝 Stored void result for {pred['pick']} (no tweet)")
 
 
 def main():

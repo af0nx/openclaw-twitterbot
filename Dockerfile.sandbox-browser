@@ -30,6 +30,10 @@ RUN useradd --create-home --shell /bin/bash sandbox
 USER sandbox
 WORKDIR /home/sandbox
 
-EXPOSE 9222 5900 6080
+# VNC password and security: set via VNC_PASSWORD env at runtime
+# CDP bound to loopback only — use socat for controlled forwarding
+ENV VNC_PASSWORD="changeme"
+
+EXPOSE 6080
 
 CMD ["openclaw-sandbox-browser"]

@@ -57,6 +57,11 @@ CREATE INDEX idx_events_created ON events(created_at DESC);
 CREATE INDEX idx_events_twitter_vip_source_url
 ON events(source_url)
 WHERE source = 'twitter' AND category = 'vip_engagement' AND source_url IS NOT NULL;
+CREATE INDEX idx_events_live_match_recent
+ON events(created_at DESC)
+WHERE category IN ('match_result', 'match_preview')
+    AND metadata->>'team1' IS NOT NULL
+    AND metadata->>'team2' IS NOT NULL;
 
 -- ============================================================
 -- GENERATED TWEET QUEUE
@@ -66,13 +71,18 @@ CREATE TABLE tweets_v2 (
     event_id UUID REFERENCES events(id) ON DELETE CASCADE,
     status TEXT DEFAULT 'draft',        -- 'draft', 'hitl_pending', 'mirofish_veto', 
                                         -- 'queued', 'posted', 'failed', 'expired'
-    pillar INT NOT NULL,                -- Content pillar (1-13)
+    pillar INT NOT NULL CHECK (pillar >= 1 AND pillar <= 14),  -- Content pillar (1-14)
     pillar_name TEXT,
     content TEXT NOT NULL,
     reply_target_id TEXT,               -- Original tweet ID we are replying to
     quote_tweet_id TEXT,                -- Tweet ID for quote tweets
     media_path TEXT,                    -- Path to generated media if applicable
+    media_preview_path TEXT,            -- Local preview asset for dashboard review
     account_bucket TEXT,                -- main / live / replies
+    auto_approved BOOLEAN DEFAULT FALSE,
+    scheduled_post_at TIMESTAMPTZ,
+    is_thread BOOLEAN DEFAULT FALSE,
+    thread_tweets JSONB,
     
     -- Guardrails & Review
     mirofish_ratio_risk FLOAT,          -- 0.0 to 1.0 risk score from 100-agent swarm
@@ -109,6 +119,32 @@ CREATE INDEX idx_tweets_posted ON tweets_v2(posted_at DESC);
 CREATE INDEX idx_tweets_rlhf ON tweets_v2(rlhf_classified);
 CREATE INDEX idx_tweets_twitter_id ON tweets_v2(twitter_tweet_id);
 CREATE INDEX idx_tweets_account_bucket ON tweets_v2(account_bucket);
+CREATE INDEX idx_tweets_status_scheduled_post_at ON tweets_v2(status, scheduled_post_at);
+CREATE INDEX idx_tweets_posted_recent_lookup
+ON tweets_v2(posted_at DESC)
+WHERE status = 'posted' AND twitter_tweet_id IS NOT NULL;
+CREATE INDEX idx_tweets_vip_reply_targets_posted
+ON tweets_v2(posted_at DESC)
+WHERE reply_target_id IS NOT NULL AND pillar = 12;
+CREATE INDEX idx_tweets_engagement_targets_created
+ON tweets_v2(created_at DESC)
+WHERE reply_target_id IS NOT NULL OR quote_tweet_id IS NOT NULL;
+
+CREATE TABLE engagement_tracking (
+    id BIGSERIAL PRIMARY KEY,
+    tweet_v2_id UUID REFERENCES tweets_v2(id) ON DELETE CASCADE,
+    twitter_tweet_id TEXT,
+    impressions INT DEFAULT 0,
+    likes INT DEFAULT 0,
+    replies INT DEFAULT 0,
+    retweets INT DEFAULT 0,
+    quotes INT DEFAULT 0,
+    bookmarks INT DEFAULT 0,
+    engagement_rate FLOAT DEFAULT 0,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+CREATE INDEX idx_engagement_tracking_tweet_v2_id ON engagement_tracking(tweet_v2_id, created_at DESC);
+CREATE INDEX idx_engagement_tracking_twitter_tweet_id ON engagement_tracking(twitter_tweet_id, created_at DESC);
 
 -- ============================================================
 -- STRICT 40/DAY RATE LIMIT TRACKER WITH PRE-COMMIT RESERVATION
@@ -152,8 +188,8 @@ BEGIN
         -- First tweet of the day, initialize
         INSERT INTO api_quotas (date, writes_reserved) VALUES (CURRENT_DATE, 1);
         RETURN TRUE;
-    ELSIF current_total < 38 THEN
-        -- Space available, reserve slot
+    ELSIF current_total < 100 THEN
+        -- Space available, reserve slot (cap matches DAILY_TWEET_CAP env default)
         UPDATE api_quotas 
         SET writes_reserved = writes_reserved + 1,
             updated_at = now()
@@ -281,12 +317,23 @@ CREATE INDEX idx_metrics_timestamp ON system_metrics(timestamp DESC);
 
 -- ============================================================
 -- GRANT PERMISSIONS (for separated DB users)
+-- Run these after creating the roles on your PostgreSQL instance:
+--   CREATE ROLE twitterbot_rw WITH LOGIN PASSWORD '...';
+--   CREATE ROLE analytics_ro WITH LOGIN PASSWORD '...';
 -- ============================================================
--- GRANT USAGE ON SCHEMA twitter_bot TO twitterbot_rw;
--- GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA twitter_bot TO twitterbot_rw;
--- GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA twitter_bot TO twitterbot_rw;
--- GRANT USAGE ON SCHEMA twitter_bot TO analytics_ro;
--- GRANT SELECT ON ALL TABLES IN SCHEMA twitter_bot TO analytics_ro;
+DO $$
+BEGIN
+  IF EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'twitterbot_rw') THEN
+    EXECUTE 'GRANT USAGE ON SCHEMA twitter_bot TO twitterbot_rw';
+    EXECUTE 'GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA twitter_bot TO twitterbot_rw';
+    EXECUTE 'GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA twitter_bot TO twitterbot_rw';
+  END IF;
+  IF EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'analytics_ro') THEN
+    EXECUTE 'GRANT USAGE ON SCHEMA twitter_bot TO analytics_ro';
+    EXECUTE 'GRANT SELECT ON ALL TABLES IN SCHEMA twitter_bot TO analytics_ro';
+  END IF;
+END
+$$;
 
 -- ============================================================
 -- SEED DATA (Initial VIP List)
@@ -332,10 +379,69 @@ SELECT
     writes_executed,
     writes_reserved,
     (writes_executed + writes_reserved) as total_committed,
-    (38 - writes_executed - writes_reserved) as slots_available,
+    (100 - writes_executed - writes_reserved) as slots_available,
     hard_capped,
     last_post_at
 FROM api_quotas
 WHERE date = CURRENT_DATE;
+
+CREATE MATERIALIZED VIEW IF NOT EXISTS mv_generator_template_30d AS
+SELECT
+        e.category,
+        COALESCE(e.metadata->>'strategy', 'unknown') AS strategy,
+        COALESCE(e.metadata->>'template_key', 'unknown') AS template_key,
+        COUNT(*)::INT AS tweet_count,
+        AVG(t.engagement_rate) AS avg_er,
+        AVG(t.impressions) AS avg_impressions,
+        SUM(t.likes)::INT AS total_likes,
+        SUM(t.replies)::INT AS total_replies
+FROM tweets_v2 t
+JOIN events e ON e.id = t.event_id
+WHERE t.status = 'posted'
+    AND t.posted_at > NOW() - INTERVAL '30 days'
+    AND t.engagement_rate IS NOT NULL
+    AND e.metadata IS NOT NULL
+    AND e.metadata ? 'template_key'
+GROUP BY 1, 2, 3;
+CREATE UNIQUE INDEX IF NOT EXISTS idx_mv_generator_template_30d_key
+ON mv_generator_template_30d(category, strategy, template_key);
+
+CREATE MATERIALIZED VIEW IF NOT EXISTS mv_generator_daily_metrics AS
+SELECT
+        DATE(t.posted_at) AS day,
+        e.category,
+        COALESCE(e.metadata->>'strategy', 'unknown') AS strategy,
+        COUNT(*)::INT AS tweet_count,
+        AVG(t.engagement_rate) AS avg_er,
+        AVG(t.impressions) AS avg_impressions,
+        SUM(t.likes)::INT AS total_likes,
+        SUM(t.replies)::INT AS total_replies
+FROM tweets_v2 t
+JOIN events e ON e.id = t.event_id
+WHERE t.status = 'posted'
+    AND t.posted_at > NOW() - INTERVAL '30 days'
+GROUP BY 1, 2, 3;
+CREATE UNIQUE INDEX IF NOT EXISTS idx_mv_generator_daily_metrics_key
+ON mv_generator_daily_metrics(day, category, strategy);
+
+CREATE MATERIALIZED VIEW IF NOT EXISTS mv_media_experiment_30d AS
+SELECT
+        e.category,
+        COALESCE(e.metadata->'media_experiment'->>'card_type', 'unknown') AS card_type,
+        COALESCE(e.metadata->'media_experiment'->>'variant', 'unknown') AS variant,
+        COUNT(*)::INT AS tweet_count,
+        AVG(t.engagement_rate) AS avg_er,
+        AVG(t.impressions) AS avg_impressions,
+        AVG(t.likes) AS avg_likes,
+        AVG(t.replies) AS avg_replies
+FROM tweets_v2 t
+JOIN events e ON e.id = t.event_id
+WHERE t.status = 'posted'
+    AND t.posted_at > NOW() - INTERVAL '30 days'
+    AND e.metadata IS NOT NULL
+    AND e.metadata ? 'media_experiment'
+GROUP BY 1, 2, 3;
+CREATE UNIQUE INDEX IF NOT EXISTS idx_mv_media_experiment_30d_key
+ON mv_media_experiment_30d(category, card_type, variant);
 
 COMMENT ON SCHEMA twitter_bot IS 'Twitter Bot Pipeline V2 - Autonomous omnichannel media engine';

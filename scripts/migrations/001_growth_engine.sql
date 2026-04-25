@@ -71,6 +71,7 @@ ALTER TABLE tweets_v2 ADD COLUMN IF NOT EXISTS auto_approved BOOLEAN DEFAULT FAL
 ALTER TABLE tweets_v2 ADD COLUMN IF NOT EXISTS scheduled_post_at TIMESTAMPTZ;
 ALTER TABLE tweets_v2 ADD COLUMN IF NOT EXISTS is_thread BOOLEAN DEFAULT FALSE;
 ALTER TABLE tweets_v2 ADD COLUMN IF NOT EXISTS thread_tweets JSONB;
+ALTER TABLE tweets_v2 ADD COLUMN IF NOT EXISTS media_preview_path TEXT;
 
 CREATE INDEX IF NOT EXISTS idx_tweets_pruned ON tweets_v2(pruned) WHERE pruned = FALSE;
 CREATE INDEX IF NOT EXISTS idx_tweets_scheduled ON tweets_v2(scheduled_post_at) WHERE scheduled_post_at IS NOT NULL;

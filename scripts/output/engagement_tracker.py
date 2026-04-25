@@ -23,6 +23,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from utils.db_utils import ensure_db_connection
+from utils.runtime_schema import ensure_runtime_schema_extensions, refresh_runtime_rollups
 
 try:
     from curl_cffi.requests import Session as CurlSession
@@ -41,10 +42,11 @@ OUR_USERNAME = os.getenv('TWITTER_USERNAME', 'SkinBetHub')
 class EngagementTracker:
     def __init__(self):
         self.db_conn = None
+        self._schema_ready = False
         self._curl = CurlSession(impersonate='chrome')
         self._guest_token = None
         self._guest_token_ts = 0
-        self._GQL_BEARER = 'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA'
+        self._GQL_BEARER = os.getenv('TWITTER_GQL_BEARER', 'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA')
         self._GQL_FEATURES = json.dumps({
             "rweb_tipjar_consumption_enabled": True,
             "responsive_web_graphql_exclude_directive_enabled": True,
@@ -71,6 +73,9 @@ class EngagementTracker:
 
     def connect_db(self):
         self.db_conn = ensure_db_connection(self.db_conn)
+        if not self._schema_ready:
+            ensure_runtime_schema_extensions(self.db_conn)
+            self._schema_ready = True
 
     def _refresh_guest_token(self, force: bool = False) -> bool:
         now = time.time()
@@ -225,6 +230,9 @@ class EngagementTracker:
                 time.sleep(0.5)
 
             logger.info(f"📊 Updated metrics for {matched}/{len(rows)} tracked tweets")
+            if matched:
+                refresh_runtime_rollups(self.db_conn)
+                logger.info("📈 Refreshed analytics rollups")
 
         except Exception as e:
             logger.error(f"❌ Engagement tracking failed: {e}")

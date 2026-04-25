@@ -35,7 +35,8 @@ module.exports = {
       restart_delay: 10000,      // Delay to avoid spamming target servers
       env: {
         NODE_ENV: 'production',
-        PYTHONUNBUFFERED: '1'
+        PYTHONUNBUFFERED: '1',
+        DASHBOARD_REVIEW_ONLY: 'true'
       },
       error_file: './logs/scrapling-error.log',
       out_file: './logs/scrapling-out.log',
@@ -53,7 +54,8 @@ module.exports = {
       restart_delay: 5000,
       env: {
         NODE_ENV: 'production',
-        PYTHONUNBUFFERED: '1'
+        PYTHONUNBUFFERED: '1',
+        DASHBOARD_REVIEW_ONLY: 'true'
       },
       error_file: './logs/scheduler-error.log',
       out_file: './logs/scheduler-out.log',
@@ -267,11 +269,15 @@ module.exports = {
       instances: 1,
       autorestart: true,
       watch: false,
-      max_memory_restart: '150M',
+      max_memory_restart: '500M',
       restart_delay: 5000,
       env: {
         NODE_ENV: 'production',
-        PYTHONUNBUFFERED: '1'
+        PYTHONUNBUFFERED: '1',
+        IN_HOUSE_PREDICTION_FETCH_TIMEOUT: '45',
+        IN_HOUSE_PREDICTION_FIXTURE_TIMEOUT: '75',
+        IN_HOUSE_PREDICTION_CYCLE_TIMEOUT: '180',
+        IN_HOUSE_PREDICTION_PARSER_TIMEOUT: '12'
       },
       error_file: './logs/prediction-webhook-error.log',
       out_file: './logs/prediction-webhook-out.log',

@@ -1,7 +1,7 @@
 # SkinBetHub — CS2 Twitter Bot: Full Pipeline Architecture
 
 > Autonomous CS2 Esports Media Engine
-> Last updated: April 13, 2026
+> Last updated: April 16, 2026
 > **Status: LIVE — 15/15 PM2 services online | 100 tweets/day cap | configurable LLM tiers + Gemini Flash vision**
 
 ---
@@ -52,6 +52,7 @@
 13. [Vision Pipeline](#13-vision-pipeline)
 14. [Safety & Guardrails](#14-safety--guardrails)
 15. [File Map](#15-file-map)
+16. [Prediction Modeling Guardrails](#16-prediction-modeling-guardrails)
 
 ---
 
@@ -853,8 +854,30 @@ skinbethub_twitter/
 
 ---
 
+## 16. Prediction Modeling Guardrails
+
+The current production prediction layer is intentionally smaller than the broader research stack sometimes discussed around CS2 modeling.
+
+| Topic | Current Repo Truth | Guardrail |
+|---|---|---|
+| Rating layer | `scripts/processing/team_rating_engine.py` is a confidence-shrunk Elo-style team prior rebuilt from `match_result` events | Do not describe it as a player-level Glicko-2 map-side system. `7 maps × 2 sides = 14` streams per player, not 70 rating systems. `70` only makes sense as a 5-player feature dimension. |
+| Pre-match vs live | `match_prediction` events are pre-match picks; `services/live_match_watcher.py` is a separate live screenshot + vision path | Do not compare pre-match match-winner metrics to in-round round-win or tactical-classification metrics as if they are the same benchmark. |
+| THGNN evidence | The Sloan 2025 THGNN paper supports live round-state valuation and action attribution | Treat it as evidence for a future live model, not as proof of pre-match betting accuracy. |
+| Calibration evidence | Walsh & Joshi, `arXiv:2303.06021`, is the primary calibration and Kelly-sizing source in this stack | Use it for calibration, implied-probability baselines, and bankroll-policy discussion, not for CS2-specific architecture claims. |
+| PandaScore | PandaScore documents a Markov Binomial in-play round-dynamics model | Do not label it as a transformer or GNN deployment. |
+
+- Market-odds features must be timestamped strictly before every downstream label. Training on market odds and then scoring edge against that same closing market without a market-only baseline is circular.
+- Feature counts must be explicit. Do not use loose phrases like `25-feature vector` unless every field and construction timestamp is enumerated.
+- Kelly fraction, EV threshold, and bankroll caps are tuned hyperparameters, not fixed conclusions from the cited papers.
+- Every future model claim in docs or code should name the task, label, metric, evidence quality, and source URL.
+
+Primary references:
+- THGNN round-state paper: https://www.sloansportsconference.com/research-papers/evaluating-player-actions-in-professional-counter-strike-using-temporal-heterogeneous-graph-neural-networks
+- Calibration paper: https://arxiv.org/abs/2303.06021
+- PandaScore round model: https://www.pandascore.co/blog/cs-go-round-modeling
+
 **END OF PIPELINE ARCHITECTURE**
 
-Last verified: April 13, 2026 — 15/15 PM2 services configured, 139 unit tests passing.
+Last reviewed: April 16, 2026 — prediction-modeling guardrails updated. Full pipeline inventory last verified April 13, 2026.
 Codebase: 44+ Python files · 23 DB tables · 4 LLM tiers · 30 team colors · 56 player roles · 26 stream mappings · 113 spaCy entity patterns.
 Text generation: env-configured tiers with live A/B pools. Vision: Gemini Flash (paid, rate-limited to highlights only).

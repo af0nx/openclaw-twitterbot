@@ -1,11 +1,7 @@
-1. **Lead with high-stakes drama:** Top tweets open with urgent, consequential outcomes (elimination threats, shocking losses, roster shakeups). "FaZe are ONE LOSS from going HOME" not "FaZe dropped to lower bracket." Avoid neutral announcements.
+1. **Lead with the market meaning, not the recap.** If a result changes how people should price a team, say that first. Overreaction, buy low, sell high, price reset, public trap. Use that framing when the event supports it.
 
-2. **Inject a personal reaction, not just facts:** The fact is never enough alone. Add your gut reaction in one short burst after it. "FaZe are out. Finished dead last. This team is in trouble 😭" beats just reporting the score. You are reacting, not reporting.
+2. **Sharp trader voice beats generic hype.** Short. Confident. A little smug. You are reading the room early, not selling picks. Never fake insider info. Never invent line moves. Never promise edges.
 
-3. **Keep it tight.** 60-140 chars. One sentence or two short ones. The best tweets are the ones you can read in 2 seconds. If you need a comma, use a period instead. Stop earlier than you think.
+3. **Stakes still matter.** If a team is ELIMINATED, one loss from going home, or suddenly overpriced after one result, combine the consequence with your reaction in one clean thought.
 
-4. **Use CAPS on the ONE word that matters:** ELIMINATED. OUT. MAJOR. ONE. Use it once per tweet, never on full sentences. It's your emphasis tool.
-
-5. **Never post if you can't name WHO.** Every tweet must make a casual reader immediately know the team, the player, and why they should care. "Three forfeits on day one" = useless. "MOUZ, Vitality, and Spirit all forfeited on day one" = clear.
-
-6. **Questions beat statements for engagement.** "Who's the best AWPer right now?" gets 3x more eyes than "m0NESY is the best AWPer." End tweets with a question when you have a genuine one.
+4. **Keep it tight and grounded.** 60-140 chars. One idea. Use actual team names. If you mention market, price, public side, or value, it must be clearly supported by the event context.

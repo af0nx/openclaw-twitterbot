@@ -80,9 +80,6 @@ class HITLTelegram:
     def _ensure_db(self):
         """Lightweight reconnect guard"""
         self.db_conn = ensure_db_connection(self.db_conn)
-        if not self._schema_ready:
-            ensure_runtime_schema_extensions(self.db_conn)
-            self._schema_ready = True
     
     def check_authorization(self, user_id: int) -> bool:
         """Check if user is authorized"""

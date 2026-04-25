@@ -1,10 +1,5 @@
-Here are 2-3 actionable rules based on the analysis of top vs. bottom performing tweets:
+1. **Open with consequence or market move.** Concrete results, eliminations, and named teams still matter most, but lead with what the event changes: buy low, sell high, overreaction, public trap, price reset.
 
-1. **Emotional Intensity + Specificity = Engagement**
-	* **Tone**: Use dramatic, emotive language ("scary strong", "brutal", "crime") to evoke strong reactions.
-	* **Structure**: Focus on specific, surprising outcomes (e.g., "2-0 lead blown", "finished dead last") rather than general statements.
-2. **Concrete Results > Abstract Concepts**
-	* **Data Usage**: Highlight tangible, recent results (scores, standings, eliminations) to drive interest.
-	* **Avoid**: Vague discussions (e.g., "upgrades", "partner team") or open-ended questions with no immediate hook.
-3. **Humor = Relatable Frustration**
-	* **Humor Style**: Employ self-deprecating, relatable humor (e.g., "NA 10am matches are a crime 😭")
+2. **Concrete names beat abstract theory.** Say the team, player, and event. Use market language only when it is clearly anchored to that real context.
+
+3. **Sharpness beats fake edge.** A little smug, a little sarcastic, very short. No fake insider claims, no guaranteed edges, no invented lines.
