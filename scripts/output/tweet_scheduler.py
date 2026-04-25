@@ -202,6 +202,7 @@ class TweetScheduler:
         preview_candidates = [
             metadata.get('media_path') if isinstance(metadata, dict) else None,
             event.get('_screenshot_path'),
+            event.get('_external_media_preview_path'),
         ]
         for candidate in preview_candidates:
             preview_path = self._normalize_preview_path(candidate)

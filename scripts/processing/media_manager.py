@@ -507,6 +507,112 @@ class MediaManager:
     # Team names that are common English words — require ALL-CAPS in original text
     _AMBIGUOUS_TEAMS = {'big', 'saw', 'pain', 'imperial', 'loud', 'wildcard', 'rare atom'}
 
+    _NO_EXTERNAL_MEDIA_CATEGORIES = {
+        'engagement_poll',
+        'engagement_conversation',
+        'engagement_take',
+        'engagement_recycle',
+        'engagement_milestone',
+        'vip_engagement',
+        'community_disagreement',
+    }
+
+    _SUBJECT_REQUIRED_CATEGORIES = {
+        'cs2',
+        'cs2_update',
+        'match_highlight',
+        'analysis',
+        'roster_change',
+        'match_result',
+        'match_preview',
+    }
+
+    @staticmethod
+    def _metadata_subject_text(metadata: dict) -> str:
+        if not isinstance(metadata, dict):
+            return ''
+
+        parts = []
+        for key in (
+            'team1', 'team2', 'team_a', 'team_b', 'pick', 'opponent',
+            'winner', 'loser', 'player', 'player_name', 'mvp',
+        ):
+            value = metadata.get(key)
+            if value:
+                parts.append(str(value))
+
+        teams = metadata.get('teams')
+        if isinstance(teams, list):
+            parts.extend(str(team) for team in teams if team)
+
+        match_context = metadata.get('match_context')
+        if isinstance(match_context, dict):
+            for key in ('mvp', 'team1', 'team2', 'winner', 'loser'):
+                value = match_context.get(key)
+                if value:
+                    parts.append(str(value))
+
+        return ' '.join(parts)
+
+    def _media_subjects(
+        self,
+        event: dict,
+        tweet_text: str = '',
+        include_event_text: bool = True,
+    ) -> Dict[str, List[str]]:
+        metadata = event.get('metadata') if isinstance(event.get('metadata'), dict) else {}
+        event_parts = []
+        if include_event_text:
+            event_parts = [event.get('headline') or '', event.get('content') or '']
+
+        subject_text = ' '.join(
+            part for part in (
+                tweet_text or '',
+                self._metadata_subject_text(metadata),
+                *event_parts,
+            )
+            if part
+        )
+        return {
+            'players': self.find_players_in_text(subject_text),
+            'teams': self._find_teams_in_text(subject_text),
+        }
+
+    def _allows_external_media(self, event: dict, tweet_text: str = '') -> bool:
+        """Fail closed on media matching.
+
+        Article OG images, social-card images, and image-search results are often
+        generic or stale. Only allow them when the tweet/event has an explicit
+        CS2 player/team/match subject. Engagement and VIP replies stay text-only
+        unless the scheduler attaches owned media before this point.
+        """
+        category = event.get('category', '')
+        source = event.get('source', '')
+        metadata = event.get('metadata') if isinstance(event.get('metadata'), dict) else {}
+
+        if metadata.get('media_path'):
+            return True
+
+        if source in ('twitter', 'engagement_engine'):
+            logger.info("⏭️ External media disabled for %s/%s", source, category)
+            return False
+
+        if category in self._NO_EXTERNAL_MEDIA_CATEGORIES:
+            logger.info("⏭️ External media disabled for %s tweets", category)
+            return False
+
+        subjects = self._media_subjects(event, tweet_text, include_event_text=False)
+        has_subject = bool(subjects['players'] or subjects['teams'])
+
+        if category in self._SUBJECT_REQUIRED_CATEGORIES and not has_subject:
+            logger.info(
+                "⏭️ No concrete player/team subject for %s media — posting text-only",
+                category or 'unknown',
+            )
+            return False
+
+        return has_subject or category == 'match_prediction'
+
     def _find_teams_in_text(self, text: str) -> List[str]:
         """Find known CS2 team names in text, ordered by first appearance."""
         if not text:
@@ -588,12 +694,14 @@ class MediaManager:
                     logger.debug(f"🔍 Image search: team '{team}' from tweet text")
                     return q
 
-        # 2. Fall back to headline + content for player names
+        # 2. Fall back to headline + content only when no generated tweet text
+        # exists yet. Once text exists, media must anchor to what users can read,
+        # not to unrelated names buried in source article body text.
         fallback_text = (
             (event.get('headline') or '') + ' ' +
             (event.get('content') or '')
         )
-        fallback_players = self.find_players_in_text(fallback_text)
+        fallback_players = self.find_players_in_text(fallback_text) if not tweet_text else []
         if fallback_players:
             logger.debug(f"🔍 Image search: player '{fallback_players[0]}' from event content (not in tweet)")
             return f"{fallback_players[0]} cs2 esports 2025"
@@ -607,24 +715,9 @@ class MediaManager:
         elif team1:
             return f"{team1} cs2 team esports 2025"
 
-        # 4. Headline words as last resort — ONLY if specific enough
-        # Generic headline fragments produce random/irrelevant images.
-        # Better to post with no image than a random CS2 premier screenshot.
-        headline = event.get('headline') or ''
-        # Only use headline if it contains a recognizable proper noun (capitalized word > 3 chars)
-        proper_nouns = [w for w in headline.split() if w[0:1].isupper() and len(w) > 3
-                        and w.lower() not in ('three', 'after', 'first', 'every', 'their',
-                                               'they', 'just', 'with', 'from', 'this',
-                                               'that', 'what', 'about', 'best', 'right',
-                                               'some', 'over', 'into', 'back', 'down',
-                                               'major', 'season', 'event', 'match',
-                                               'game', 'team', 'player', 'group', 'round')]
-        if proper_nouns:
-            query = ' '.join(proper_nouns[:3]) + ' cs2 esports'
-            logger.debug(f"🔍 Image search: headline proper nouns: {query}")
-            return query
-
-        # No useful keywords — return empty to skip image search entirely
+        # No useful player/team keywords — return empty to skip image search.
+        # Proper-noun headline searches are intentionally disabled because they
+        # produced stale venue, tournament, and generic CS2 images.
         logger.info("⏭️ No identifiable player/team for image search — skipping")
         return ''
 
@@ -642,6 +735,7 @@ class MediaManager:
                 if local_path:
                     media_id = self.upload_media(local_path, account_bucket=account_bucket)
                     if media_id:
+                        event['_external_media_preview_path'] = local_path
                         logger.info(f"\U0001f4f8 Google image for: {query[:40]}")
                         return media_id
             except Exception as e:
@@ -924,6 +1018,14 @@ class MediaManager:
             source_url = metadata.get('source_url') or ''
         prefer_generated_media = bool(metadata.get('prefer_generated_media'))
         skip_external_media = prefer_generated_media or ('bo3.gg' in source_url.lower())
+        allow_external_media = self._allows_external_media(event, tweet_text)
+        is_social_source_url = any(
+            domain in source_url.lower()
+            for domain in ('twitter.com', 'x.com', 't.co/')
+        )
+
+        if not allow_external_media:
+            return None
 
         # 0. Twitch live screenshot — real-time game footage for match results
         if category == 'match_result':
@@ -938,7 +1040,7 @@ class MediaManager:
         # OG images are curated by the article author and always show the correct
         # event/tournament. Google Images often returns photos from wrong years
         # (e.g. PGL Astana 2025 for a PGL Bucharest 2026 article).
-        if source_url and not skip_external_media:
+        if source_url and not skip_external_media and not is_social_source_url:
             try:
                 page_data = self.fetch_article_page(source_url)
                 og_url = page_data.get('og_image')
@@ -947,10 +1049,13 @@ class MediaManager:
                     if local_path:
                         media_id = self.upload_media(local_path, account_bucket=account_bucket)
                         if media_id:
+                            event['_external_media_preview_path'] = local_path
                             logger.info(f"📸 OG image from article")
                             return media_id
             except Exception as e:
                 logger.warning(f"⚠️  OG image extraction failed (non-fatal): {e}")
+        elif source_url and is_social_source_url:
+            logger.info("⏭️ Skipping social-card OG image for %s", source_url[:60])
 
         # 2. Google Images search — good for player-specific photos when OG image unavailable
         if not skip_external_media:
@@ -971,16 +1076,14 @@ class MediaManager:
                 logger.warning(f"\u26a0\ufe0f  HLTV bodyshot failed (non-fatal): {e}")
 
         # 4. Last resort: scan for known team names \u2192 team player image
-        all_text = (tweet_text + ' ' + (event.get('headline') or '')).lower()
-        for team_name in self.HLTV_TEAM_IDS:
-            if team_name in all_text:
-                try:
-                    media_id = self.get_team_player_image(team_name, account_bucket=account_bucket)
-                    if media_id:
-                        return media_id
-                except Exception as e:
-                    logger.warning(f"\u26a0\ufe0f  Team player lookup failed (non-fatal): {e}")
-                break
+        all_text = tweet_text + ' ' + (event.get('headline') or '')
+        for team_name in self._find_teams_in_text(all_text)[:1]:
+            try:
+                media_id = self.get_team_player_image(team_name, account_bucket=account_bucket)
+                if media_id:
+                    return media_id
+            except Exception as e:
+                logger.warning(f"\u26a0\ufe0f  Team player lookup failed (non-fatal): {e}")
 
         return None
 
