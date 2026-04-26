@@ -9,6 +9,7 @@ falls back to the older in-house HLTV scanner.
 import asyncio
 import logging
 import os
+import signal
 import uuid
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timedelta, timezone
@@ -675,6 +676,7 @@ class PredictionWebhook:
                     (id, siftly_event_id, headline, content, category,
                      urgency, status, metadata, source, source_url)
                     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                    ON CONFLICT DO NOTHING
                     """,
                     (
                         dedup_uuid,
@@ -689,7 +691,12 @@ class PredictionWebhook:
                         prediction['source_url'],
                     ),
                 )
+                inserted = cur.rowcount
                 self.db_conn.commit()
+            if inserted == 0:
+                self._seen_prediction_keys.add(prediction_key)
+                logger.info(f"⏭️  Prediction {prediction_key} already exists, skipping")
+                return False
             self._seen_prediction_keys.add(prediction_key)
             logger.info(
                 f"✅ Prediction created: {prediction['pick']} over "
@@ -752,6 +759,18 @@ class PredictionWebhook:
 
 async def main():
     engine = PredictionWebhook()
+    stop_event = asyncio.Event()
+    loop = asyncio.get_running_loop()
+
+    def request_shutdown():
+        logger.info("⏹️  Prediction ingester shutdown requested")
+        stop_event.set()
+
+    for sig in (signal.SIGINT, signal.SIGTERM):
+        try:
+            loop.add_signal_handler(sig, request_shutdown)
+        except (NotImplementedError, RuntimeError):
+            signal.signal(sig, lambda *_args: request_shutdown())
     if EXTERNAL_PREDICTION_API_ENABLED:
         logger.info("🚀 External prediction API ingester started")
         logger.info(
@@ -766,7 +785,7 @@ async def main():
         )
 
     try:
-        while True:
+        while not stop_event.is_set():
             try:
                 await asyncio.wait_for(engine.run_cycle(), timeout=CYCLE_TIMEOUT_SECONDS)
             except asyncio.TimeoutError:
@@ -774,7 +793,10 @@ async def main():
                 await engine._reset_session("cycle timeout")
             except Exception as exc:
                 logger.error(f"❌ Prediction cycle error: {exc}", exc_info=True)
-            await asyncio.sleep(POLL_INTERVAL)
+            try:
+                await asyncio.wait_for(stop_event.wait(), timeout=POLL_INTERVAL)
+            except asyncio.TimeoutError:
+                pass
     finally:
         await engine.cleanup()
 

@@ -7,6 +7,7 @@ Handles single tweets, replies, quote tweets, and threads
 
 import asyncio
 import logging
+import signal
 import time
 from datetime import datetime, timezone
 from typing import Dict, Any, Optional, List
@@ -122,6 +123,7 @@ class TwitterPoster:
                         updated_at = NOW(),
                         posting_error = COALESCE(posting_error, 'expired by poster stale queue guard')
                     WHERE status = 'queued'
+                      AND (scheduled_post_at IS NULL OR scheduled_post_at <= NOW())
                       AND created_at < NOW() - (%s * INTERVAL '1 hour')
                     RETURNING COALESCE(account_bucket, 'main')
                     """,
@@ -557,7 +559,6 @@ class TwitterPoster:
             self._ensure_db()
             # Rollback any open implicit transaction so CURRENT_DATE is fresh
             self.db_conn.rollback()
-            self.expire_stale_queued_tweets()
 
             if self.review_only:
                 with self.db_conn.cursor() as cur:
@@ -575,6 +576,11 @@ class TwitterPoster:
                 else:
                     logger.debug("🧾 Dashboard review-only mode active — no queued tweets to hold")
                 return
+
+            if self.dry_run:
+                logger.debug("🧪 Dry-run mode active — skipping stale queue expiration")
+            else:
+                self.expire_stale_queued_tweets()
 
             queued_tweets = []
 
@@ -640,19 +646,23 @@ class TwitterPoster:
             except Exception:
                 pass
     
-    async def run_forever(self):
+    async def run_forever(self, stop_event: Optional[asyncio.Event] = None):
         """Main loop - runs every 2 minutes"""
+        stop_event = stop_event or asyncio.Event()
         self.connect_db()
         logger.info("🚀 Twitter Poster started")
         
-        while True:
+        while not stop_event.is_set():
             try:
                 await self.run_cycle()
             except Exception as e:
                 logger.error(f"❌ Run cycle failed: {e}")
             
             # Run every minute
-            await asyncio.sleep(60)
+            try:
+                await asyncio.wait_for(stop_event.wait(), timeout=60)
+            except asyncio.TimeoutError:
+                pass
     
     def cleanup(self):
         """Cleanup resources"""
@@ -662,8 +672,20 @@ class TwitterPoster:
 
 async def main():
     poster = TwitterPoster()
+    stop_event = asyncio.Event()
+    loop = asyncio.get_running_loop()
+
+    def request_shutdown():
+        logger.info("⏹️  Twitter Poster shutdown requested")
+        stop_event.set()
+
+    for sig in (signal.SIGINT, signal.SIGTERM):
+        try:
+            loop.add_signal_handler(sig, request_shutdown)
+        except (NotImplementedError, RuntimeError):
+            signal.signal(sig, lambda *_args: request_shutdown())
     try:
-        await poster.run_forever()
+        await poster.run_forever(stop_event)
     except KeyboardInterrupt:
         logger.info("⏹️  Shutting down Twitter Poster...")
     finally:

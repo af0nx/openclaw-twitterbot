@@ -9,6 +9,7 @@ import asyncio
 import logging
 import random
 import re
+import signal
 from datetime import datetime, timezone, timedelta
 from typing import Dict, Any, Optional, List, Tuple
 import os
@@ -96,6 +97,25 @@ class TweetScheduler:
         self.db_conn = ensure_db_connection(self.db_conn)
         self.hybrid_pricer.connect_db(self.db_conn)
         self.rating_engine.connect_db(self.db_conn)
+
+    def mark_event_processed(self, event_id: str, status: str, reason: str) -> None:
+        """Mark a filtered event as processed so pipeline metrics reflect scheduler decisions."""
+        try:
+            with self.db_conn.cursor() as cur:
+                cur.execute(
+                    """
+                    UPDATE twitter_bot.events
+                    SET status = %s,
+                        processed_at = NOW(),
+                        metadata = COALESCE(metadata, '{}'::jsonb) || %s::jsonb
+                    WHERE id = %s
+                    """,
+                    (status, Json({'processing_reason': reason}), event_id),
+                )
+                self.db_conn.commit()
+        except Exception:
+            self.db_conn.rollback()
+            raise
     
     def reserve_slot(self, bucket: str) -> bool:
         """
@@ -1066,8 +1086,7 @@ class TweetScheduler:
                 fail_count = cur.fetchone()[0]
                 if fail_count >= 3:
                     logger.warning(f"⏭️  Skipping event {event['id'][:8]} after {fail_count} failed attempts")
-                    cur.execute("UPDATE twitter_bot.events SET status = 'skipped' WHERE id = %s", (event['id'],))
-                    self.db_conn.commit()
+                    self.mark_event_processed(event['id'], 'skipped', 'failed_attempts')
                     return False
             
             # Pure CS2 sources — everything they publish is CS2 by definition
@@ -1080,9 +1099,7 @@ class TweetScheduler:
             is_other_game = any(k in text_lower for k in NON_CS2_KEYWORDS)
             if is_other_game:
                 logger.info(f"⏭️  Skipping non-CS2 event: {event['headline'][:60]}")
-                with self.db_conn.cursor() as cur:
-                    cur.execute("UPDATE twitter_bot.events SET status = 'skipped' WHERE id = %s", (event['id'],))
-                    self.db_conn.commit()
+                self.mark_event_processed(event['id'], 'skipped', 'non_cs2_keyword')
                 return False
 
             # For mixed-feed sources, require a CS2 keyword signal
@@ -1090,9 +1107,7 @@ class TweetScheduler:
                 has_cs2_signal = is_cs2_relevant(text_lower)
                 if event['category'] not in ('match_result', 'vip_engagement', 'cs2_update', 'roster_change') and not has_cs2_signal:
                     logger.info(f"⏭️  Skipping non-CS2 event: {event['headline'][:60]}")
-                    with self.db_conn.cursor() as cur:
-                        cur.execute("UPDATE twitter_bot.events SET status = 'skipped' WHERE id = %s", (event['id'],))
-                        self.db_conn.commit()
+                    self.mark_event_processed(event['id'], 'skipped', 'non_cs2_relevance')
                     return False
             
             # T1-only filter: skip T2/T3 team matches and minor event news
@@ -1105,9 +1120,7 @@ class TweetScheduler:
                     logger.info(f"🔓 Relaxing T1 filter — {minutes_since_last_post:.0f}min since last post: {event['headline'][:60]}")
                 else:
                     logger.info(f"⏭️  Skipping T2/T3 event: {event['headline'][:60]}")
-                    with self.db_conn.cursor() as cur:
-                        cur.execute("UPDATE twitter_bot.events SET status = 'skipped' WHERE id = %s", (event['id'],))
-                        self.db_conn.commit()
+                    self.mark_event_processed(event['id'], 'skipped', 'non_t1_content')
                     return False
             
             # Smart category reclassification for VIP tweets
@@ -1763,12 +1776,13 @@ class TweetScheduler:
         except Exception as e:
             logger.error(f"❌ Cycle failed: {e}")
     
-    async def run_forever(self):
+    async def run_forever(self, stop_event: Optional[asyncio.Event] = None):
         """Main loop - runs every 5 minutes"""
+        stop_event = stop_event or asyncio.Event()
         self.connect_db()
         logger.info("🚀 Tweet Scheduler started")
         
-        while True:
+        while not stop_event.is_set():
             try:
                 self._ensure_db()
                 # Auto-expire stale pending events older than 12 hours
@@ -1804,7 +1818,10 @@ class TweetScheduler:
                 logger.error(f"❌ Run cycle failed: {e}")
             
             # Run every 5 minutes
-            await asyncio.sleep(300)
+            try:
+                await asyncio.wait_for(stop_event.wait(), timeout=300)
+            except asyncio.TimeoutError:
+                pass
     
     def cleanup(self):
         """Cleanup resources"""
@@ -1814,8 +1831,20 @@ class TweetScheduler:
 
 async def main():
     scheduler = TweetScheduler()
+    stop_event = asyncio.Event()
+    loop = asyncio.get_running_loop()
+
+    def request_shutdown():
+        logger.info("⏹️  Tweet Scheduler shutdown requested")
+        stop_event.set()
+
+    for sig in (signal.SIGINT, signal.SIGTERM):
+        try:
+            loop.add_signal_handler(sig, request_shutdown)
+        except (NotImplementedError, RuntimeError):
+            signal.signal(sig, lambda *_args: request_shutdown())
     try:
-        await scheduler.run_forever()
+        await scheduler.run_forever(stop_event)
     except KeyboardInterrupt:
         logger.info("⏹️  Shutting down Tweet Scheduler...")
     finally:

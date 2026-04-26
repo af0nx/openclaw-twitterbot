@@ -8,8 +8,9 @@ This no longer talks to the external signal API. It resolves posted
 
 import logging
 import os
-import time
+import signal
 from datetime import datetime, timedelta, timezone
+from threading import Event
 from typing import Dict, Any, Optional, List
 
 from dotenv import load_dotenv
@@ -37,6 +38,12 @@ logger = logging.getLogger(__name__)
 DATABASE_URL = os.getenv('DATABASE_URL', '')
 POLL_INTERVAL = 600
 DRY_RUN = os.getenv('DRY_RUN_MODE', 'false').lower() == 'true'
+SHUTDOWN_EVENT = Event()
+
+
+def request_shutdown(_signum=None, _frame=None):
+    logger.info("⏹️  Prediction Result Tracker shutdown requested")
+    SHUTDOWN_EVENT.set()
 
 
 class PredictionResultTracker:
@@ -434,17 +441,25 @@ class PredictionResultTracker:
 
 
 def main():
+    for sig in (signal.SIGINT, signal.SIGTERM):
+        signal.signal(sig, request_shutdown)
+
     tracker = PredictionResultTracker()
     logger.info("🚀 Prediction Result Tracker started")
     logger.info(f"   Poll interval: {POLL_INTERVAL}s | Dry run: {DRY_RUN}")
 
-    while True:
-        try:
-            tracker.process_results()
-        except Exception as e:
-            logger.error(f"❌ Cycle error: {e}", exc_info=True)
+    try:
+        while not SHUTDOWN_EVENT.is_set():
+            try:
+                tracker.process_results()
+            except Exception as e:
+                logger.error(f"❌ Cycle error: {e}", exc_info=True)
 
-        time.sleep(POLL_INTERVAL)
+            if SHUTDOWN_EVENT.wait(POLL_INTERVAL):
+                break
+    finally:
+        if tracker.db_conn:
+            tracker.db_conn.close()
 
 
 if __name__ == '__main__':
