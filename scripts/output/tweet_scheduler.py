@@ -601,18 +601,45 @@ class TweetScheduler:
 
     # ── Prediction Tweet Formatting ───────────────────────────────
 
-    _PREDICTION_TEMPLATES = [
-        "Taking {pick} {market_tag}{emoji}\n\n{analysis}{metrics_block}",
-        "{pick} {market_short}is the play {emoji}\n\n{analysis}{metrics_block}",
-        "Liking {pick} here {emoji}\n\n{analysis}{metrics_block}",
-        "Giving {pick} the edge {market_tag}{emoji}\n\n{analysis}{metrics_block}",
-        "Going with {pick} {market_tag}{emoji}\n\n{analysis}{metrics_block}",
-        "{pick} looking strong {emoji}\n\n{analysis}{metrics_block}",
-    ]
+    @staticmethod
+    def _clean_prediction_reason(metadata: Dict[str, Any], pick: str, opponent: str) -> str:
+        """Turn model/debug wording into one short fan-readable reason."""
+        candidates: List[str] = []
+        reasoning_summary = metadata.get('reasoning_summary')
+        if reasoning_summary:
+            candidates.append(str(reasoning_summary))
+        pricing_context = metadata.get('pricing_context') or {}
+        if isinstance(pricing_context, dict):
+            for key in ('provider_line', 'analytics_line', 'pick_line', 'tweet_line'):
+                value = pricing_context.get(key)
+                if value:
+                    candidates.append(str(value))
+        factors = metadata.get('factors') or []
+        candidates.extend(str(factor) for factor in factors if factor)
+
+        joined = ' '.join(candidates)
+        lower = joined.lower()
+        if not joined:
+            return ''
+        if 'ranking' in lower and 'form' in lower:
+            return f"rankings and recent form both point to {pick}"
+        if 'ranking' in lower:
+            return f"the ranking gap favors {pick}"
+        if 'form' in lower:
+            return f"recent form leans toward {pick}"
+        if 'model' in lower and ('agree' in lower or 'probability' in lower):
+            return "the model numbers are on the same side"
+        if 'value' in lower or 'edge' in lower:
+            return "the price leaves enough value"
+
+        cleaned = re.sub(r'\s+', ' ', joined)
+        cleaned = cleaned.encode('ascii', 'ignore').decode('ascii').strip(' .')
+        cleaned = re.sub(r'\b[A-Z]\s+\d+%\s+vs\s+[A-Z]\s+\d+%\b', '', cleaned).strip(' .')
+        return cleaned[:95]
 
     def _format_prediction_tweet(self, event: Dict[str, Any]) -> Optional[str]:
-        """Format a prediction event into a casual pick-style tweet.
-        No LLM — deterministic template + structured data."""
+        """Format a prediction event into simple CS fan language.
+        No LLM: this keeps external model picks consistent and predictable."""
         metadata = event.get('metadata') or {}
         if not isinstance(metadata, dict):
             return None
@@ -622,108 +649,70 @@ class TweetScheduler:
         if not pick or not opponent:
             return None
 
-        confidence = metadata.get('confidence', 'standard')
-        win_prob = float(metadata.get('win_probability', 0) or 0)
-        edge = float(metadata.get('edge_pct', 0) or 0)
-        pick_odds = float(metadata.get('pick_odds', 0) or 0)
-        factors = metadata.get('factors') or []
+        def _num(value: Any) -> float:
+            try:
+                if value is None or value == '':
+                    return 0.0
+                return float(value)
+            except (TypeError, ValueError):
+                return 0.0
+
+        win_prob = _num(metadata.get('win_probability'))
+        win_prob_pct = _num(metadata.get('win_probability_pct'))
+        if win_prob_pct <= 0 and win_prob:
+            win_prob_pct = win_prob if win_prob > 1 else win_prob * 100.0
+        conf_pct = int(round(win_prob_pct)) if win_prob_pct else 0
+
+        edge = _num(metadata.get('edge_pct'))
+        pick_odds = _num(metadata.get('pick_odds') or metadata.get('market_odds'))
         event_name = metadata.get('event', '')
         market_type = metadata.get('market_type', 'match_winner')
-        has_market_price = pick_odds > 1.01 or edge > 0.01
+        reason = self._clean_prediction_reason(metadata, pick, opponent)
 
-        conf_pct = int(win_prob * 100) if win_prob else 75
-
-        # Market-specific phrasing
-        _MARKET_TAGS = {
-            'match_winner': f'over {opponent} ',
-            'map_winner': '(map winner) ',
-            'map_handicap': '(map handicap) ',
-            'total_maps': '',            # pick is "Over 2.5" etc.
-            'total_rounds': '',
-            'round_handicap': '(round handicap) ',
-            'over_under': '',
-            'pistol_round': '(pistol round) ',
-        }
-        _MARKET_SHORTS = {
-            'match_winner': 'ML ',
-            'map_winner': '(map) ',
-            'map_handicap': '(maps) ',
-            'total_maps': '',
-            'total_rounds': '',
-            'round_handicap': '',
-            'over_under': '',
-            'pistol_round': '',
-        }
-        market_tag = _MARKET_TAGS.get(market_type, f'({market_type}) ' if market_type != 'match_winner' else '')
-        market_short = _MARKET_SHORTS.get(market_type, '')
-
-        # Build readable analysis lines from the raw factors
-        analysis_lines = []
-        pricing_context = metadata.get('pricing_context') or {}
-        if isinstance(pricing_context, dict):
-            pricing_line = pricing_context.get('pick_line') or pricing_context.get('tweet_line')
-            provider_line = pricing_context.get('provider_line')
-            analytics_line = pricing_context.get('analytics_line')
-            if pricing_line:
-                analysis_lines.append(pricing_line)
-            if analytics_line and analytics_line not in analysis_lines:
-                analysis_lines.append(analytics_line)
-            if provider_line and provider_line not in analysis_lines:
-                analysis_lines.append(provider_line)
-        rating_context = metadata.get('rating_context') or {}
-        if isinstance(rating_context, dict):
-            rating_line = rating_context.get('pick_line') or rating_context.get('tweet_line')
-            if rating_line and rating_line not in analysis_lines:
-                analysis_lines.append(rating_line)
-        for f in factors:
-            line = self._humanize_factor(f, pick, opponent, metadata)
-            if line:
-                analysis_lines.append(line)
-        if not analysis_lines:
-            if has_market_price and edge > 0:
-                analysis_lines = [f"{conf_pct}% model win probability, {edge:.1f}% edge"]
-            elif win_prob:
-                analysis_lines = [f"{conf_pct}% model win probability"]
-            else:
-                analysis_lines = [f"Model lean on {pick} here"]
-
-        analysis_text = '\n'.join(f"• {l}" for l in analysis_lines[:3])
-
-        metrics_parts = []
-        if win_prob:
-            metrics_parts.append(f"{conf_pct}% model win prob")
-        if has_market_price and edge > 0:
-            metrics_parts.append(f"{edge:.1f}% edge")
-        elif has_market_price and pick_odds > 1.01:
-            metrics_parts.append(f"@ {pick_odds:.2f}")
-        metrics_block = f"\n\n{' | '.join(metrics_parts)}" if metrics_parts else ''
-
-        # Pick emoji based on confidence
-        if confidence == 'strong':
-            emojis = ['🔥', '💰', '📈', '🎯']
+        if market_type == 'match_winner':
+            opener = f"I like {pick} over {opponent}."
         else:
-            emojis = ['👀', '📊', '🤔', '💭']
+            label = market_type.replace('_', ' ')
+            opener = f"I like {pick} for {label}."
 
-        import hashlib as _hl
-        seed = int(_hl.md5(f"{pick}{opponent}".encode()).hexdigest()[:8], 16)
-        emoji = emojis[seed % len(emojis)]
-        template = self._PREDICTION_TEMPLATES[seed % len(self._PREDICTION_TEMPLATES)]
+        lines = [opener]
+        if conf_pct:
+            lines.append(f"Model has it around {conf_pct}%.")
+        if pick_odds > 1.01 and edge >= 1:
+            lines.append(f"Price is {pick_odds:.2f}, edge {edge:.1f}%.")
+        elif pick_odds > 1.01:
+            lines.append(f"Price is {pick_odds:.2f}.")
+        elif edge >= 1:
+            lines.append(f"Edge is {edge:.1f}%.")
+        if reason:
+            lines.append(f"Main reason: {reason}.")
 
-        tweet = template.format(
-            pick=pick,
-            opponent=opponent,
-            emoji=emoji,
-            analysis=analysis_text,
-            market_tag=market_tag,
-            market_short=market_short,
-            metrics_block=metrics_block,
-        )
+        optional_lines = []
+        scheduled_at = metadata.get('scheduled_at')
+        if scheduled_at:
+            try:
+                scheduled_dt = datetime.fromisoformat(str(scheduled_at).replace('Z', '+00:00'))
+                optional_lines.append(scheduled_dt.astimezone(timezone.utc).strftime('%H:%M UTC'))
+            except ValueError:
+                pass
+        if event_name and str(event_name).lower() not in {'cs2 match', 'external prediction'}:
+            optional_lines.insert(0, str(event_name))
+        if optional_lines:
+            lines.append(' | '.join(optional_lines[:2]))
+        lines.append("No lock. Just the lean.")
 
-        # Add event name if short enough
-        if event_name and len(tweet) + len(event_name) + 3 < 270:
-            tweet += f"\n\n{event_name}"
+        while lines and len('\n'.join(lines)) > 280:
+            optional_text = ' | '.join(optional_lines[:2])
+            if optional_text and optional_text in lines:
+                lines.remove(optional_text)
+            elif "No lock. Just the lean." in lines:
+                lines.remove("No lock. Just the lean.")
+            elif reason and f"Main reason: {reason}." in lines:
+                lines.remove(f"Main reason: {reason}.")
+            else:
+                lines.pop()
 
-        return tweet.strip()
+        return '\n'.join(lines).strip()
 
     @staticmethod
     def _humanize_factor(raw: str, pick: str, opponent: str, metadata: dict) -> Optional[str]:
@@ -1178,6 +1167,30 @@ class TweetScheduler:
                     return False
 
                 media_plan = self._choose_owned_media_variant(event)
+                metadata_for_media = event.get('metadata') or {}
+                if not isinstance(metadata_for_media, dict):
+                    metadata_for_media = {}
+                force_prediction_media = (
+                    event.get('source') == 'external_prediction_api'
+                    or bool(metadata_for_media.get('prefer_generated_media'))
+                )
+                experiment_patch = media_plan.get('metadata_patch') or {}
+                experiment_meta = experiment_patch.get('media_experiment') or {}
+                if (
+                    force_prediction_media
+                    and media_plan.get('eligible')
+                    and experiment_meta.get('policy') != 'disabled'
+                ):
+                    media_plan['allow_owned_media'] = True
+                    media_plan['force_text_only'] = False
+                    media_plan['metadata_patch'] = {
+                        'media_experiment': {
+                            'card_type': 'prediction_card',
+                            'variant': 'owned_media_forced',
+                            'policy': 'external_prediction',
+                            'assigned_at': datetime.now(timezone.utc).isoformat(),
+                        }
+                    }
                 if media_plan.get('metadata_patch'):
                     metadata = event.get('metadata') or {}
                     if not isinstance(metadata, dict):

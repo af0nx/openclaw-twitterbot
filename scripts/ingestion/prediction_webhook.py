@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Internal prediction engine driven by upcoming HLTV fixtures.
+"""Prediction event ingester.
 
-This replaces the external signal API path. The process scans upcoming HLTV
-matches, prices them with the in-house rating model, and writes
-`match_prediction` events directly into the bot pipeline.
+When EXTERNAL_PREDICTION_API_URL and EXTERNAL_PREDICTION_API_TOKEN are set this
+polls the private external prediction API. If those env vars are absent, it
+falls back to the older in-house HLTV scanner.
 """
 
 import asyncio
@@ -14,7 +14,9 @@ from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timedelta, timezone
 from functools import partial
 from typing import Any, Dict, List, Optional
+from urllib.parse import quote
 
+import httpx
 from dotenv import load_dotenv
 from psycopg2.extras import Json
 from scrapling.fetchers import StealthySession
@@ -49,6 +51,15 @@ FIXTURE_TIMEOUT_SECONDS = int(os.getenv('IN_HOUSE_PREDICTION_FIXTURE_TIMEOUT', '
 CYCLE_TIMEOUT_SECONDS = int(os.getenv('IN_HOUSE_PREDICTION_CYCLE_TIMEOUT', '180'))
 PARSER_TIMEOUT_SECONDS = int(os.getenv('IN_HOUSE_PREDICTION_PARSER_TIMEOUT', '12'))
 
+EXTERNAL_PREDICTION_API_URL = os.getenv('EXTERNAL_PREDICTION_API_URL', '').rstrip('/')
+EXTERNAL_PREDICTION_API_TOKEN = os.getenv('EXTERNAL_PREDICTION_API_TOKEN', '')
+EXTERNAL_PREDICTION_API_TIMEOUT_MS = int(os.getenv('EXTERNAL_PREDICTION_API_TIMEOUT_MS', '5000'))
+EXTERNAL_PREDICTION_API_LIMIT = int(os.getenv('EXTERNAL_PREDICTION_API_LIMIT', '8'))
+EXTERNAL_PREDICTION_API_ENABLED = bool(EXTERNAL_PREDICTION_API_URL and EXTERNAL_PREDICTION_API_TOKEN)
+IN_HOUSE_PREDICTION_FALLBACK = os.getenv('IN_HOUSE_PREDICTION_FALLBACK', 'false').lower() in (
+    '1', 'true', 'yes', 'on'
+)
+
 
 def _event_is_t1(event_name: str) -> bool:
     event_lower = str(event_name or '').lower()
@@ -62,6 +73,33 @@ def _safe_int(value: Any) -> Optional[int]:
         return int(value)
     except (TypeError, ValueError):
         return None
+
+
+def _safe_float(value: Any) -> Optional[float]:
+    try:
+        if value is None or value == '':
+            return None
+        return float(value)
+    except (TypeError, ValueError):
+        return None
+
+
+def _parse_iso_utc(value: Any) -> Optional[datetime]:
+    if not value:
+        return None
+    try:
+        parsed = datetime.fromisoformat(str(value).replace('Z', '+00:00'))
+        if parsed.tzinfo is None:
+            parsed = parsed.replace(tzinfo=timezone.utc)
+        return parsed.astimezone(timezone.utc)
+    except ValueError:
+        return None
+
+
+def _ascii_line(value: Any, max_len: int = 140) -> str:
+    line = str(value or '').encode('ascii', 'ignore').decode('ascii')
+    line = ' '.join(line.replace('\n', ' ').split())
+    return line[:max_len].strip()
 
 
 def _fixture_priority_score(*, is_ranked: bool, is_t1_event: bool, has_t1_team: bool) -> int:
@@ -112,6 +150,180 @@ class PredictionWebhook:
             except Exception:
                 pass
         old_executor.shutdown(wait=False, cancel_futures=True)
+
+    @staticmethod
+    def _external_factor_lines(reasoning_summary: str, pick: str) -> List[str]:
+        summary = _ascii_line(reasoning_summary, 240)
+        if not summary:
+            return []
+
+        lower = summary.lower()
+        factors: List[str] = []
+        if 'ranking' in lower:
+            factors.append(f"Ranking points toward {pick}")
+        if 'form' in lower:
+            factors.append("Recent form matters here")
+        if 'value' in lower or 'edge' in lower:
+            factors.append("Price leaves some value")
+        if not factors:
+            factors.append(summary)
+        return factors[:3]
+
+    def _external_to_prediction(
+        self,
+        item: Dict[str, Any],
+        payload: Dict[str, Any],
+    ) -> Optional[Dict[str, Any]]:
+        external_id = str(item.get('externalId') or '').strip()
+        match_id = str(item.get('matchId') or external_id).strip()
+        team_a = _ascii_line(item.get('teamA'), 80)
+        team_b = _ascii_line(item.get('teamB'), 80)
+        pick = _ascii_line(item.get('pick'), 80)
+        if not match_id or not team_a or not team_b or not pick:
+            return None
+        if pick not in {team_a, team_b}:
+            return None
+
+        status = str(item.get('status') or '').strip().lower()
+        if status and status not in {'active', 'pending', 'ready'}:
+            return None
+
+        now_utc = datetime.now(timezone.utc)
+        expires_at = _parse_iso_utc(item.get('expiresAt'))
+        if expires_at and expires_at < now_utc - timedelta(minutes=5):
+            return None
+
+        start_time = _parse_iso_utc(item.get('startTime') or item.get('scheduledAt'))
+        opponent = team_b if pick == team_a else team_a
+        prediction_key = f"external:{external_id or match_id}"
+
+        win_pct = _safe_float(item.get('winProbabilityPct'))
+        win_probability = (win_pct / 100.0) if win_pct and win_pct > 1 else (win_pct or 0.0)
+        fair_odds = _safe_float(item.get('fairOdds'))
+        market_odds = _safe_float(item.get('marketOdds'))
+        edge_pct = _safe_float(item.get('edgePct')) or 0.0
+        confidence = _ascii_line(item.get('confidence') or 'standard', 32).lower() or 'standard'
+        verdict = _ascii_line(item.get('verdict'), 40)
+        reasoning = _ascii_line(item.get('reasoningSummary'), 240)
+        factors = self._external_factor_lines(reasoning, pick)
+
+        event_name = _ascii_line(
+            item.get('eventName') or item.get('tournament') or item.get('event') or 'CS2 match',
+            80,
+        )
+        config = payload.get('config') if isinstance(payload.get('config'), dict) else {}
+        health = payload.get('health') if isinstance(payload.get('health'), dict) else {}
+        model_version = _ascii_line(config.get('modelVersion') or payload.get('source'), 80)
+        source_updated_at = _ascii_line(item.get('sourceUpdatedAt') or health.get('lastUpdatedAt'), 40)
+
+        pricing_context = {
+            'model_version': model_version or 'external-vps',
+            'display_edge_pct': edge_pct,
+            'signed_edge_pct': edge_pct,
+            'fair_odds': fair_odds,
+            'market_odds': market_odds,
+            'verdict': verdict,
+            'pick_line': f"{pick} gets {win_pct:.0f}% from the model" if win_pct else '',
+            'provider_line': factors[0] if factors else '',
+        }
+
+        metadata = {
+            'team1': pick,
+            'team2': opponent,
+            'team_a': team_a,
+            'team_b': team_b,
+            'pick': pick,
+            'pick_odds': market_odds if market_odds and market_odds > 1.01 else None,
+            'fair_odds': fair_odds,
+            'market_odds': market_odds,
+            'confidence': confidence,
+            'edge_pct': edge_pct,
+            'win_probability': win_probability,
+            'win_probability_pct': win_pct,
+            'provider_edge_pct': edge_pct,
+            'provider_win_probability': win_probability,
+            'event': event_name,
+            'format': _ascii_line(item.get('format') or item.get('matchFormat'), 24),
+            'market_type': 'match_winner',
+            'factors': factors,
+            'match_id': match_id,
+            'hltv_match_id': match_id,
+            'bet_id': prediction_key,
+            'prediction_key': prediction_key,
+            'external_prediction_id': external_id,
+            'external_source': _ascii_line(payload.get('source') or 'external-vps', 80),
+            'source_model': model_version or 'external-vps',
+            'source_updated_at': source_updated_at,
+            'scheduled_at': start_time.isoformat() if start_time else None,
+            'expires_at': expires_at.isoformat() if expires_at else None,
+            'reasoning_summary': reasoning,
+            'verdict': verdict,
+            'pricing_context': pricing_context,
+            'prefer_generated_media': True,
+        }
+
+        scheduled_label = start_time.strftime('%H:%M UTC') if start_time else ''
+        content_parts = [
+            f"{team_a} vs {team_b}",
+            f"Pick: {pick}",
+            f"Win probability: {win_pct:.0f}%" if win_pct else '',
+            f"Market odds: {market_odds:.2f}" if market_odds else '',
+            f"Edge: {edge_pct:.1f}%" if edge_pct else '',
+            f"Confidence: {confidence}",
+            f"Event: {event_name}" if event_name else '',
+            f"Start: {scheduled_label}" if scheduled_label else '',
+            f"Reason: {reasoning}" if reasoning else '',
+        ]
+
+        source_ref = quote(external_id or match_id, safe='')
+
+        return {
+            'prediction_key': prediction_key,
+            'headline': f"Prediction: {pick} over {opponent} ({confidence})",
+            'content': '\n'.join(part for part in content_parts if part),
+            'metadata': metadata,
+            'source': 'external_prediction_api',
+            'source_url': f"{EXTERNAL_PREDICTION_API_URL}/v1/predictions/dashboard?externalId={source_ref}",
+            'pick': pick,
+            'opponent': opponent,
+            'confidence': confidence,
+        }
+
+    async def _fetch_external_predictions(self) -> List[Dict[str, Any]]:
+        url = f"{EXTERNAL_PREDICTION_API_URL}/v1/predictions/dashboard"
+        headers = {
+            'Authorization': f"Bearer {EXTERNAL_PREDICTION_API_TOKEN}",
+            'Accept': 'application/json',
+            'User-Agent': 'openclaw-twitter-bot/1.0',
+        }
+        params = {
+            'limit': EXTERNAL_PREDICTION_API_LIMIT,
+            'lookaheadHours': LOOKAHEAD_HOURS,
+        }
+        timeout = max(1.0, EXTERNAL_PREDICTION_API_TIMEOUT_MS / 1000.0)
+        async with httpx.AsyncClient(timeout=timeout) as client:
+            response = await client.get(url, headers=headers, params=params)
+            response.raise_for_status()
+            payload = response.json()
+
+        recent = payload.get('recent') if isinstance(payload, dict) else None
+        if not isinstance(recent, list):
+            raise ValueError('external prediction API returned no recent list')
+
+        predictions = []
+        for item in recent:
+            if not isinstance(item, dict):
+                continue
+            prediction = self._external_to_prediction(item, payload)
+            if prediction:
+                predictions.append(prediction)
+
+        health = payload.get('health') if isinstance(payload.get('health'), dict) else {}
+        logger.info(
+            f"🌐 External prediction API health={health.get('status', 'unknown')} "
+            f"recent={len(recent)} mapped={len(predictions)}"
+        )
+        return predictions
 
     async def _fetch_page(self, url: str, *, label: str):
         if not url:
@@ -473,19 +685,19 @@ class PredictionWebhook:
                         'normal',
                         'pending',
                         Json(prediction['metadata']),
-                        'prediction_model',
+                        prediction.get('source') or 'prediction_model',
                         prediction['source_url'],
                     ),
                 )
                 self.db_conn.commit()
             self._seen_prediction_keys.add(prediction_key)
             logger.info(
-                f"✅ In-house prediction created: {prediction['pick']} over "
+                f"✅ Prediction created: {prediction['pick']} over "
                 f"{prediction['opponent']} ({prediction['confidence']})"
             )
             return True
         except Exception as exc:
-            logger.error(f"❌ Failed to insert in-house prediction {prediction_key}: {exc}")
+            logger.error(f"❌ Failed to insert prediction {prediction_key}: {exc}")
             try:
                 self.db_conn.rollback()
             except Exception:
@@ -493,6 +705,24 @@ class PredictionWebhook:
             return False
 
     async def run_cycle(self):
+        if EXTERNAL_PREDICTION_API_ENABLED:
+            try:
+                predictions = await self._fetch_external_predictions()
+            except Exception as exc:
+                logger.error(f"❌ External prediction API cycle failed: {exc}", exc_info=True)
+                if not IN_HOUSE_PREDICTION_FALLBACK:
+                    return
+                logger.warning("↩️  Falling back to in-house HLTV prediction scanner")
+            else:
+                inserted = 0
+                for prediction in predictions:
+                    if self._insert_prediction_event(prediction):
+                        inserted += 1
+                logger.info(
+                    f"🔎 Polled external predictions, created {inserted} new events"
+                )
+                return
+
         fixtures = await self._fetch_upcoming_fixtures()
         if not fixtures:
             logger.info("📭 No tweetworthy upcoming HLTV fixtures found")
@@ -522,11 +752,18 @@ class PredictionWebhook:
 
 async def main():
     engine = PredictionWebhook()
-    logger.info("🚀 Internal prediction engine started")
-    logger.info(
-        f"   Poll interval: {POLL_INTERVAL}s | Lookahead: {LOOKAHEAD_HOURS}h | "
-        f"Min fair prob: {MIN_FAVORITE_PROBABILITY_PCT}%"
-    )
+    if EXTERNAL_PREDICTION_API_ENABLED:
+        logger.info("🚀 External prediction API ingester started")
+        logger.info(
+            f"   Poll interval: {POLL_INTERVAL}s | Lookahead: {LOOKAHEAD_HOURS}h | "
+            f"Limit: {EXTERNAL_PREDICTION_API_LIMIT} | Fallback: {IN_HOUSE_PREDICTION_FALLBACK}"
+        )
+    else:
+        logger.info("🚀 Internal prediction engine started")
+        logger.info(
+            f"   Poll interval: {POLL_INTERVAL}s | Lookahead: {LOOKAHEAD_HOURS}h | "
+            f"Min fair prob: {MIN_FAVORITE_PROBABILITY_PCT}%"
+        )
 
     try:
         while True:
