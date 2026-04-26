@@ -25,7 +25,7 @@ from pathlib import Path
 from typing import Optional, Dict, Tuple, List
 import re
 
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageFilter
 from curl_cffi.requests import Session as CurlSession
 import hashlib
 import io
@@ -40,23 +40,29 @@ ASSETS_DIR = Path(__file__).parent.parent.parent / 'assets'
 FONTS_DIR = ASSETS_DIR / 'fonts'
 OUTPUT_DIR = Path(__file__).parent.parent.parent / 'data' / 'generated_images'
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+BRAND_LOGO_CANDIDATES = [
+    Path('/home/ubuntu/data/logo/logo.png'),
+    Path(__file__).parent.parent.parent / 'data' / 'logo' / 'logo.png',
+    Path('/home/ubuntu/skinbethub_twitter/data/logo/logo.png'),
+    Path('/home/ubuntu/openclaw/data/logo/logo.png'),
+]
 
 # Twitter card dimensions (16:9)
 CARD_WIDTH = 1200
 CARD_HEIGHT = 675
 
-# CS2 Dark Theme colors
+# SkinBetHub premium dark theme colors
 COLORS = {
-    'bg_dark': '#0F1923',      # CS2 dark blue
-    'bg_card': '#1A2634',      # Slightly lighter
-    'accent_yellow': '#E8B849', # CS2 gold/yellow
-    'accent_blue': '#4A9FD9',   # CS2 blue accent
-    'accent_red': '#E74C3C',    # Alert/upset red
-    'accent_green': '#2ECC71',  # Win green
+    'bg_dark': '#050505',
+    'bg_card': '#0B0D0F',
+    'accent_yellow': '#F6C65B',
+    'accent_blue': '#4A9FD9',
+    'accent_red': '#FF5B63',
+    'accent_green': '#35E69B',
     'text_white': '#FFFFFF',
-    'text_gray': '#8899AA',
-    'text_dim': '#556677',
-    'divider': '#2A3A4A',
+    'text_gray': '#B8B8B8',
+    'text_dim': '#727272',
+    'divider': '#272727',
 }
 
 # CS2 team brand colors — accent colors for personalized cards
@@ -243,19 +249,21 @@ class MemeGenerator:
         return self._font_cache[key]
 
     def _create_base_card(self) -> Tuple[Image.Image, ImageDraw.ImageDraw]:
-        """Create a base dark card with CS2 theme"""
+        """Create a base dark card with SkinBetHub's premium card theme."""
         img = Image.new('RGB', (CARD_WIDTH, CARD_HEIGHT), hex_to_rgb(COLORS['bg_dark']))
         draw = ImageDraw.Draw(img)
 
-        # Subtle gradient effect: darker at top, lighter at bottom
         for y in range(CARD_HEIGHT):
             alpha = y / CARD_HEIGHT
-            r = int(15 + alpha * 10)
-            g = int(25 + alpha * 10)
-            b = int(35 + alpha * 10)
-            draw.line([(0, y), (CARD_WIDTH, y)], fill=(r, g, b))
+            shade = int(5 + alpha * 12)
+            warmth = int(4 + alpha * 8)
+            draw.line([(0, y), (CARD_WIDTH, y)], fill=(shade, warmth, shade))
 
-        # Bottom accent line
+        for x in range(0, CARD_WIDTH, 60):
+            draw.line([(x, 0), (x, CARD_HEIGHT)], fill=(18, 18, 18))
+        for y in range(0, CARD_HEIGHT, 60):
+            draw.line([(0, y), (CARD_WIDTH, y)], fill=(15, 15, 15))
+
         draw.rectangle(
             [(0, CARD_HEIGHT - 4), (CARD_WIDTH, CARD_HEIGHT)],
             fill=hex_to_rgb(COLORS['accent_yellow'])
@@ -263,14 +271,191 @@ class MemeGenerator:
 
         return img, draw
 
-    def _add_watermark(self, draw: ImageDraw.ImageDraw):
-        """Add @SkinBetHub watermark"""
-        font = self._get_font(bold=False, size=18)
+    def _get_brand_logo(self) -> Optional[Image.Image]:
+        """Load the SkinBetHub logo mark from the shared data/logo asset."""
+        if hasattr(self, '_brand_logo_cache'):
+            return self._brand_logo_cache
+
+        self._brand_logo_cache = None
+        for path in BRAND_LOGO_CANDIDATES:
+            if not path.exists():
+                continue
+            try:
+                with Image.open(path) as logo:
+                    logo = logo.convert('RGBA')
+                    bbox = logo.getbbox()
+                    self._brand_logo_cache = logo.crop(bbox) if bbox else logo
+                    return self._brand_logo_cache
+            except Exception as e:
+                logger.debug(f"⚠️  Brand logo load failed from {path}: {e}")
+        return None
+
+    def _paste_contained_logo(
+        self,
+        base: Image.Image,
+        logo: Optional[Image.Image],
+        box: Tuple[int, int, int, int],
+        opacity: float = 1.0,
+    ):
+        """Paste a logo centered inside a fixed box without distorting it."""
+        if logo is None:
+            return
+        left, top, right, bottom = box
+        max_w = max(1, right - left)
+        max_h = max(1, bottom - top)
+        logo = logo.copy()
+        bbox = logo.getbbox()
+        if bbox:
+            logo = logo.crop(bbox)
+        logo.thumbnail((max_w, max_h), Image.Resampling.LANCZOS)
+        if opacity < 1:
+            alpha = logo.getchannel('A').point(lambda value: int(value * max(0, min(1, opacity))))
+            logo.putalpha(alpha)
+        x = left + (max_w - logo.width) // 2
+        y = top + (max_h - logo.height) // 2
+        base.alpha_composite(logo, (x, y))
+
+    def _draw_brand_lockup(
+        self,
+        base: Image.Image,
+        draw: ImageDraw.ImageDraw,
+        x: int,
+        y: int,
+        width: int = 282,
+        height: int = 62,
+        compact: bool = False,
+    ):
+        """Draw a reusable SkinBetHub header/watermark with the real logo asset."""
+        if compact:
+            logo_size = height - 8
+            logo_y = y + 4
+            self._paste_contained_logo(
+                base,
+                self._get_brand_logo(),
+                (x, logo_y, x + logo_size, logo_y + logo_size),
+            )
+            text_font = self._get_font(weight='extrabold', size=18)
+            draw.text(
+                (x + logo_size + 10, y + 13),
+                '@SkinBetHub',
+                fill=hex_to_rgb(COLORS['text_gray']),
+                font=text_font,
+            )
+            return
+
+        draw.rounded_rectangle(
+            [(x, y), (x + width, y + height)],
+            radius=18,
+            fill=(5, 6, 7, 205),
+            outline=(255, 255, 255, 22),
+            width=1,
+        )
+        logo_size = height - 18
+        logo_x = x + 12
+        logo_y = y + 9
+        draw.ellipse(
+            [(logo_x - 3, logo_y - 3), (logo_x + logo_size + 3, logo_y + logo_size + 3)],
+            fill=(5, 6, 7, 225),
+            outline=(255, 255, 255, 34),
+            width=1,
+        )
+        self._paste_contained_logo(
+            base,
+            self._get_brand_logo(),
+            (logo_x + 4, logo_y + 4, logo_x + logo_size - 4, logo_y + logo_size - 4),
+        )
+
+        brand_font = self._get_font(weight='black', size=23)
+        draw.text((x + height + 8, y + 18), 'SkinBetHub', fill=hex_to_rgb(COLORS['text_white']), font=brand_font)
+
+    def _add_brand_ghost(
+        self,
+        base: Image.Image,
+        box: Tuple[int, int, int, int],
+        opacity: float = 0.075,
+        blur: int = 0,
+    ):
+        """Place a low-opacity oversized brand mark into the background."""
+        logo = self._get_brand_logo()
+        if not logo:
+            return
+        ghost = logo.copy()
+        ghost.thumbnail((box[2] - box[0], box[3] - box[1]), Image.Resampling.LANCZOS)
+        alpha = ghost.getchannel('A').point(lambda value: int(value * opacity))
+        ghost.putalpha(alpha)
+        if blur:
+            ghost = ghost.filter(ImageFilter.GaussianBlur(blur))
+        x = box[0] + ((box[2] - box[0]) - ghost.width) // 2
+        y = box[1] + ((box[3] - box[1]) - ghost.height) // 2
+        base.alpha_composite(ghost, (x, y))
+
+    def _create_premium_canvas(
+        self,
+        primary: Tuple[int, int, int],
+        secondary: Tuple[int, int, int],
+    ) -> Tuple[Image.Image, ImageDraw.ImageDraw]:
+        """Create a clean black social-card canvas with subtle team-color depth."""
+        base = Image.new('RGBA', (CARD_WIDTH, CARD_HEIGHT), (3, 3, 4, 255))
+        layer = Image.new('RGBA', (CARD_WIDTH, CARD_HEIGHT), (0, 0, 0, 0))
+        draw = ImageDraw.Draw(layer)
+
+        for y in range(CARD_HEIGHT):
+            alpha = y / CARD_HEIGHT
+            shade = int(4 + alpha * 9)
+            warmth = int(3 + alpha * 6)
+            draw.line([(0, y), (CARD_WIDTH, y)], fill=(shade, warmth, shade, 255))
+
+        draw.polygon(
+            [(-110, 0), (CARD_WIDTH * 0.55, 0), (CARD_WIDTH * 0.39, CARD_HEIGHT), (-180, CARD_HEIGHT)],
+            fill=primary + (30,),
+        )
+        draw.polygon(
+            [(CARD_WIDTH * 0.58, 0), (CARD_WIDTH + 130, 0), (CARD_WIDTH + 70, CARD_HEIGHT), (CARD_WIDTH * 0.46, CARD_HEIGHT)],
+            fill=secondary + (22,),
+        )
+        draw.polygon(
+            [(CARD_WIDTH * 0.30, 0), (CARD_WIDTH * 0.39, 0), (CARD_WIDTH * 0.23, CARD_HEIGHT), (CARD_WIDTH * 0.14, CARD_HEIGHT)],
+            fill=(255, 255, 255, 7),
+        )
+
+        base = Image.alpha_composite(base, layer)
+
+        soft = Image.new('RGBA', (CARD_WIDTH, CARD_HEIGHT), (0, 0, 0, 0))
+        sd = ImageDraw.Draw(soft)
+        sd.polygon([(-120, 70), (560, -90), (360, 710), (-200, 720)], fill=primary + (55,))
+        sd.polygon([(780, -80), (1320, 50), (1280, 710), (660, 730)], fill=secondary + (42,))
+        soft = soft.filter(ImageFilter.GaussianBlur(46))
+        base = Image.alpha_composite(base, soft)
+
+        edge = Image.new('RGBA', (CARD_WIDTH, CARD_HEIGHT), (0, 0, 0, 0))
+        ed = ImageDraw.Draw(edge)
+        ed.rectangle([(0, 0), (CARD_WIDTH, 5)], fill=hex_to_rgb(COLORS['accent_yellow']) + (210,))
+        ed.rectangle([(0, CARD_HEIGHT - 5), (CARD_WIDTH, CARD_HEIGHT)], fill=primary + (230,))
+        base = Image.alpha_composite(base, edge)
+
+        self._add_brand_ghost(base, (440, 40, 930, 590), opacity=0.026)
+        return base, ImageDraw.Draw(base)
+
+    def _add_watermark(self, draw: ImageDraw.ImageDraw, base: Image.Image = None):
+        """Add the SkinBetHub watermark to generated post cards."""
+        if base is not None:
+            self._draw_brand_lockup(
+                base,
+                draw,
+                CARD_WIDTH - 214,
+                CARD_HEIGHT - 52,
+                width=188,
+                height=36,
+                compact=True,
+            )
+            return
+
         text = "@SkinBetHub"
-        bbox = draw.textbbox((0, 0), text, font=font)
-        x = CARD_WIDTH - (bbox[2] - bbox[0]) - 20
-        y = CARD_HEIGHT - (bbox[3] - bbox[1]) - 20
-        draw.text((x, y), text, fill=hex_to_rgb(COLORS['text_dim']), font=font)
+        text_font = self._get_font(weight='semibold', size=18)
+        text_bbox = draw.textbbox((0, 0), text, font=text_font)
+        x = CARD_WIDTH - (text_bbox[2] - text_bbox[0]) - 28
+        y = CARD_HEIGHT - 42
+        draw.text((x, y), text, fill=hex_to_rgb(COLORS['text_dim']), font=text_font)
 
     def _download_player_image(self, player_name: str) -> Optional[Image.Image]:
         """Download a player bodyshot and return as PIL Image"""
@@ -303,6 +488,58 @@ class MemeGenerator:
                 return Image.open(io.BytesIO(img_r.content)).convert('RGBA')
         except Exception as e:
             logger.debug(f"⚠️  Player image download: {e}")
+        return None
+
+    def _get_team_logo(self, team_name: str) -> Optional[Image.Image]:
+        """Load a bundled team logo if available."""
+        if not team_name:
+            return None
+
+        raw = str(team_name).lower().strip()
+        slug = re.sub(r'[^a-z0-9]+', '_', raw).strip('_')
+        aliases = {
+            '3dmax': '3dmax',
+            '3d_max': '3dmax',
+            'team_liquid': 'liquid',
+            'liquid': 'liquid',
+            'natus_vincere': 'navi',
+            'navi': 'navi',
+            'faze_clan': 'faze',
+            'faze': 'faze',
+            'g2_esports': 'g2',
+            'g2': 'g2',
+            'mousesports': 'mouz',
+            'mouz': 'mouz',
+            'team_spirit': 'spirit',
+            'spirit': 'spirit',
+            'virtus_pro': 'virtuspro',
+            'virtuspro': 'virtuspro',
+        }
+        candidates = [
+            aliases.get(slug),
+            slug,
+            slug.replace('team_', ''),
+            slug.replace('_esports', ''),
+            slug.replace('_clan', ''),
+        ]
+        logo_dirs = [
+            ASSETS_DIR / 'team_logos',
+            Path('/home/ubuntu/skinbethub_twitter/assets/team_logos'),
+        ]
+
+        seen = set()
+        for candidate in candidates:
+            if not candidate or candidate in seen:
+                continue
+            seen.add(candidate)
+            for logo_dir in logo_dirs:
+                path = logo_dir / f'{candidate}.png'
+                if path.exists():
+                    try:
+                        with Image.open(path) as img:
+                            return img.convert('RGBA')
+                    except Exception as e:
+                        logger.debug(f"⚠️  Team logo load failed for {team_name}: {e}")
         return None
 
     def _text_wrap(self, text: str, font: ImageFont.FreeTypeFont, max_width: int, draw: ImageDraw.ImageDraw) -> List[str]:
@@ -1155,209 +1392,119 @@ class MemeGenerator:
         analysis_lines: list = None,
     ) -> Optional[str]:
         """
-        Generate a deliberate prediction card for native-media posts.
-
-        The layout favors a clear reading order:
-          1. Pick label + event metadata
-          2. Team-vs-team matchup
-          3. Three metrics tiles
-          4. Analysis notes panel
-
-        Markets without a live price degrade gracefully to a model-only card
-        instead of pretending there is an edge/odds signal.
+        Generate a branded prediction card for native-media posts.
         """
         try:
-            pick_rgb = hex_to_rgb(get_team_color(pick_team))
-            opp_rgb = hex_to_rgb(get_team_color(opponent))
-            pick_accent = ensure_readable(pick_rgb, min_lum=120)
-            opp_accent = ensure_readable(opp_rgb, min_lum=100)
-            conf_color = hex_to_rgb(COLORS['accent_green']) if confidence == 'strong' else hex_to_rgb(COLORS['accent_yellow'])
-            has_market_price = (pick_odds is not None and pick_odds > 1.01) or edge_pct > 0.01
+            pick_name = str(pick_team or 'TBD').strip() or 'TBD'
+            opp_name = str(opponent or 'TBD').strip() or 'TBD'
+            pick_rgb = hex_to_rgb(get_team_color(pick_name))
+            pick_accent = ensure_readable(pick_rgb, min_lum=132)
+            has_market_price = pick_odds is not None and pick_odds > 1.01
             market_label = _format_market_label(market_type)
+            edge_num = float(edge_pct or 0.0)
 
-            # ── RGBA base ──
-            base = Image.new('RGBA', (CARD_WIDTH, CARD_HEIGHT),
-                             hex_to_rgb(COLORS['bg_dark']) + (255,))
+            prob_raw = float(win_probability or 0)
+            prob_pct = int(round(prob_raw * 100 if prob_raw <= 1 else prob_raw))
+            prob_pct = max(0, min(100, prob_pct))
+            display_prob = f'{prob_pct}%' if prob_pct else 'LEAN'
 
-            # Diagonal two-tone panels
-            panel = Image.new('RGBA', (CARD_WIDTH, CARD_HEIGHT), (0, 0, 0, 0))
-            pd = ImageDraw.Draw(panel)
-            pd.polygon(
-                [(0, 0), (CARD_WIDTH // 2 + 120, 0), (CARD_WIDTH // 2 - 80, CARD_HEIGHT), (0, CARD_HEIGHT)],
-                fill=pick_rgb + (58,))
-            pd.polygon(
-                [(CARD_WIDTH // 2 + 60, 0), (CARD_WIDTH, 0), (CARD_WIDTH, CARD_HEIGHT), (CARD_WIDTH // 2 - 140, CARD_HEIGHT)],
-                fill=opp_rgb + (34,))
-            for x in range(0, CARD_WIDTH, 140):
-                alpha = 20 if x < CARD_WIDTH // 2 else 12
-                pd.line([(x, 0), (x + 220, CARD_HEIGHT)], fill=(255, 255, 255, alpha), width=1)
-            base = Image.alpha_composite(base, panel)
-
-            # Grid overlay to make the card feel intentional rather than generic.
-            grid = Image.new('RGBA', (CARD_WIDTH, CARD_HEIGHT), (0, 0, 0, 0))
-            gd = ImageDraw.Draw(grid)
-            for x in range(0, CARD_WIDTH, 60):
-                gd.line([(x, 0), (x, CARD_HEIGHT)], fill=(255, 255, 255, 10))
-            for y in range(0, CARD_HEIGHT, 60):
-                gd.line([(0, y), (CARD_WIDTH, y)], fill=(255, 255, 255, 8))
-            base = Image.alpha_composite(base, grid)
-
+            base = Image.new('RGBA', (CARD_WIDTH, CARD_HEIGHT), (3, 3, 4, 255))
+            shade_layer = Image.new('RGBA', (CARD_WIDTH, CARD_HEIGHT), (0, 0, 0, 0))
+            shade_draw = ImageDraw.Draw(shade_layer)
+            for y in range(CARD_HEIGHT):
+                shade = int(4 + (y / CARD_HEIGHT) * 9)
+                shade_draw.line([(0, y), (CARD_WIDTH, y)], fill=(shade, shade, shade + 1, 255))
+            glow_layer = Image.new('RGBA', (CARD_WIDTH, CARD_HEIGHT), (0, 0, 0, 0))
+            glow_draw = ImageDraw.Draw(glow_layer)
+            glow_draw.polygon([(-100, 76), (604, -76), (442, 742), (-185, 720)], fill=pick_accent + (50,))
+            glow_draw.polygon([(760, 0), (CARD_WIDTH, 0), (CARD_WIDTH, CARD_HEIGHT), (950, CARD_HEIGHT)], fill=(255, 255, 255, 8))
+            glow_layer = glow_layer.filter(ImageFilter.GaussianBlur(52))
+            base = Image.alpha_composite(base, shade_layer)
+            base = Image.alpha_composite(base, glow_layer)
+            self._add_brand_ghost(base, (630, 126, 1208, 610), opacity=0.016, blur=1)
             draw = ImageDraw.Draw(base)
 
-            # Top-left pick/state pill
-            label = "MARKET PICK" if has_market_price else "MODEL LEAN"
-            label_font = self._get_font(weight='extrabold', size=18)
-            bbox = draw.textbbox((0, 0), label, font=label_font)
-            tw = bbox[2] - bbox[0]
-            lx = 70
-            draw.rounded_rectangle(
-                [(lx - 18, 34), (lx + tw + 18, 66)],
-                radius=15, fill=conf_color + (220,))
-            draw.text((lx, 42), label,
-                      fill=(15, 25, 35), font=label_font)
+            def fit_font(text: str, max_w: int, start_size: int, min_size: int = 24, weight: str = 'black'):
+                value = str(text or '').upper()
+                for size in range(start_size, min_size - 1, -2):
+                    font = self._get_font(weight=weight, size=size)
+                    bbox = draw.textbbox((0, 0), value, font=font)
+                    if bbox[2] - bbox[0] <= max_w:
+                        return font, bbox[2] - bbox[0], value
+                font = self._get_font(weight=weight, size=min_size)
+                bbox = draw.textbbox((0, 0), value, font=font)
+                return font, bbox[2] - bbox[0], value
 
-            # Market chip
-            chip_text = market_label[:24]
-            chip_font = self._get_font(weight='semibold', size=16)
-            chip_bbox = draw.textbbox((0, 0), chip_text, font=chip_font)
-            chip_w = chip_bbox[2] - chip_bbox[0]
-            chip_x = 70
-            draw.rounded_rectangle(
-                [(chip_x - 14, 82), (chip_x + chip_w + 14, 112)],
-                radius=13, fill=(15, 25, 35, 215), outline=pick_accent + (150,))
-            draw.text((chip_x, 88), chip_text,
-                      fill=hex_to_rgb(COLORS['text_white']), font=chip_font)
+            def trim_text(text: str, font, max_w: int, upper: bool = True) -> str:
+                value = str(text or '').strip()
+                value = value.upper() if upper else value
+                if not value:
+                    return ''
+                bbox = draw.textbbox((0, 0), value, font=font)
+                if bbox[2] - bbox[0] <= max_w:
+                    return value
+                while len(value) > 4:
+                    value = value[:-4].rstrip() + '...'
+                    bbox = draw.textbbox((0, 0), value, font=font)
+                    if bbox[2] - bbox[0] <= max_w:
+                        return value
+                    value = value[:-3].rstrip()
+                return value
 
-            # Event name on the right
-            if event_name:
-                ev_font = self._get_font(weight='medium', size=16)
-                ev_text = event_name.upper()
-                if len(ev_text) > 42:
-                    ev_text = ev_text[:39] + "..."
-                bbox_ev = draw.textbbox((0, 0), ev_text, font=ev_font)
-                evw = bbox_ev[2] - bbox_ev[0]
-                ev_x = CARD_WIDTH - evw - 72
-                draw.rounded_rectangle(
-                    [(ev_x - 14, 34), (ev_x + evw + 14, 66)],
-                    radius=15, fill=(15, 25, 35, 215))
-                draw.text((ev_x, 42), ev_text,
-                          fill=hex_to_rgb(COLORS['text_gray']), font=ev_font)
-
-            # ── Matchup block ──
-            def _fit_team_font(name: str, max_w: int, start_size: int = 52) -> tuple:
-                for sz in range(start_size, 22, -2):
-                    f = self._get_font(weight='black', size=sz)
-                    bb = draw.textbbox((0, 0), name.upper(), font=f)
-                    w = bb[2] - bb[0]
-                    if w <= max_w:
-                        return f, w
-                f = self._get_font(weight='black', size=22)
-                bb = draw.textbbox((0, 0), name.upper(), font=f)
-                return f, bb[2] - bb[0]
-
-            usable_w = CARD_WIDTH - 180
-            header_font = self._get_font(weight='medium', size=15)
-            draw.text((70, 150), "MODEL SAYS", fill=pick_accent, font=header_font)
-
-            pick_font, pick_tw = _fit_team_font(pick_team, usable_w)
-            pick_x = (CARD_WIDTH - pick_tw) // 2
-            pick_y = 172
-            pick_bb = draw.textbbox((pick_x, pick_y), pick_team.upper(), font=pick_font)
-            draw.text((pick_x + 2, pick_y + 2), pick_team.upper(),
-                      fill=(0, 0, 0, 120), font=pick_font)
-            draw.text((pick_x, pick_y), pick_team.upper(),
-                      fill=hex_to_rgb(COLORS['text_white']), font=pick_font)
-            underline_y = pick_bb[3] + 6
-            draw.line(
-                [(pick_x, underline_y), (pick_x + pick_tw, underline_y)],
-                fill=pick_accent + (220,), width=4)
-
-            vs_y = underline_y + 18
-            vs_font = self._get_font(weight='extrabold', size=18)
-            bbox_vs = draw.textbbox((0, 0), "VS", font=vs_font)
-            vsw = bbox_vs[2] - bbox_vs[0]
-            line_y = vs_y + 11
-            draw.line([(80, line_y), (CARD_WIDTH // 2 - vsw // 2 - 16, line_y)],
-                      fill=pick_accent + (90,), width=1)
-            draw.text(((CARD_WIDTH - vsw) // 2, vs_y),
-                      "VS", fill=hex_to_rgb(COLORS['text_white']), font=vs_font)
-            draw.line([(CARD_WIDTH // 2 + vsw // 2 + 16, line_y), (CARD_WIDTH - 80, line_y)],
-                      fill=opp_accent + (90,), width=1)
-
-            opp_y = vs_y + 28
-            opp_font, opp_tw = _fit_team_font(opponent, usable_w, start_size=44)
-            opp_bb_real = draw.textbbox((0, 0), opponent.upper(), font=opp_font)
-            opp_h_real = opp_bb_real[3] - opp_bb_real[1]
-            opp_x = (CARD_WIDTH - opp_tw) // 2
-            draw.text((opp_x, opp_y), opponent.upper(),
-                      fill=hex_to_rgb(COLORS['text_gray']), font=opp_font)
-
-            # ── Metrics row ──
-            prob_pct = int(win_probability * 100) if win_probability else 0
-            tiles_y = opp_y + opp_h_real + 54
-            tile_gap = 18
-            tile_x = 70
-            tile_w = (CARD_WIDTH - 140 - tile_gap * 2) // 3
-            tile_h = 90
-            tile_specs = [
-                ('MODEL', f"{prob_pct}%" if prob_pct > 0 else 'LEAN', conf_color),
-                ('EDGE' if has_market_price else 'MARKET', f"+{edge_pct:.1f}%" if has_market_price and edge_pct > 0 else ('NO LINE' if not has_market_price else 'LIVE'), hex_to_rgb(COLORS['accent_blue']) if not has_market_price else pick_accent),
-                ('ODDS' if has_market_price and pick_odds and pick_odds > 1.01 else 'CONF', f"@ {pick_odds:.2f}" if has_market_price and pick_odds and pick_odds > 1.01 else confidence.upper(), hex_to_rgb(COLORS['text_white']) if has_market_price and pick_odds and pick_odds > 1.01 else opp_accent),
-            ]
-            tile_label_font = self._get_font(weight='medium', size=14)
-            tile_value_font = self._get_font(weight='black', size=30)
-            for idx, (label_text, value_text, accent_rgb) in enumerate(tile_specs):
-                left = tile_x + idx * (tile_w + tile_gap)
-                draw.rounded_rectangle(
-                    [(left, tiles_y), (left + tile_w, tiles_y + tile_h)],
-                    radius=18,
-                    fill=(15, 25, 35, 228),
-                    outline=accent_rgb + (140,),
-                )
-                draw.text((left + 18, tiles_y + 16), label_text,
-                          fill=hex_to_rgb(COLORS['text_dim']), font=tile_label_font)
-                draw.text((left + 18, tiles_y + 42), value_text,
-                          fill=accent_rgb, font=tile_value_font)
-
-            # ── Analysis panel ──
-            lines_to_show = analysis_lines[:3] if analysis_lines else []
-            if not lines_to_show and key_factor:
-                lines_to_show = [key_factor[:80]]
-            if not lines_to_show and not has_market_price:
-                lines_to_show = ['No market line yet, but the model still prefers this side.']
-
-            panel_top = tiles_y + tile_h + 26
-            panel_bottom = CARD_HEIGHT - 42
-            draw.rounded_rectangle(
-                [(70, panel_top), (CARD_WIDTH - 70, panel_bottom)],
-                radius=22,
-                fill=(15, 25, 35, 228),
-                outline=pick_accent + (120,),
+            # Header.
+            self._draw_brand_lockup(base, draw, 46, 28, width=270, height=58)
+            meta_font = self._get_font(weight='semibold', size=14)
+            draw.text(
+                (354, 48),
+                trim_text(market_label, meta_font, 235),
+                fill=hex_to_rgb(COLORS['text_gray']),
+                font=meta_font,
             )
 
-            panel_title = 'Why we like it' if has_market_price else 'Why the model leans here'
-            panel_title_font = self._get_font(weight='extrabold', size=20)
-            draw.text((96, panel_top + 18), panel_title,
-                      fill=hex_to_rgb(COLORS['text_white']), font=panel_title_font)
+            if event_name:
+                ev_text = str(event_name).upper()
+                ev_font = self._get_font(weight='extrabold', size=14)
+                ev_text = trim_text(ev_text, ev_font, 250)
+                ev_bbox = draw.textbbox((0, 0), ev_text, font=ev_font)
+                ev_w = ev_bbox[2] - ev_bbox[0]
+                ev_x = CARD_WIDTH - ev_w - 48
+                draw.text((ev_x, 47), ev_text, fill=hex_to_rgb(COLORS['text_gray']), font=ev_font)
 
-            kf_font = self._get_font(weight='medium', size=18)
-            kf_y = panel_top + 54
-            for line_text in lines_to_show:
-                wrapped_lines = self._text_wrap(f"• {line_text}", kf_font, CARD_WIDTH - 220, draw)
-                for wrapped in wrapped_lines[:2]:
-                    if kf_y > panel_bottom - 32:
-                        break
-                    draw.text((96, kf_y), wrapped,
-                              fill=hex_to_rgb(COLORS['text_gray']), font=kf_font)
-                    kf_y += 26
-                if kf_y > panel_bottom - 32:
-                    break
+            # Hero.
+            pick_logo = self._get_team_logo(pick_name)
+            if pick_logo:
+                self._paste_contained_logo(base, pick_logo, (58, 176, 166, 284), opacity=0.94)
 
-            # ── Bottom accent bar ──
-            draw.rectangle([(0, CARD_HEIGHT - 4), (CARD_WIDTH, CARD_HEIGHT)],
-                           fill=pick_accent)
+            team_x = 190 if pick_logo else 58
+            team_font, _, team_text = fit_font(pick_name, 610 if pick_logo else 744, 86, 42)
+            draw.text((team_x, 164), team_text, fill=hex_to_rgb(COLORS['text_white']), font=team_font)
+            vs_font = self._get_font(weight='semibold', size=28)
+            vs_text = trim_text(f'vs {opp_name}', vs_font, 700, upper=False)
+            draw.text((team_x + 4, 252), vs_text, fill=hex_to_rgb(COLORS['text_gray']), font=vs_font)
 
-            self._add_watermark(draw)
+            prob_font, prob_w, _ = fit_font(display_prob, 330, 116, 68)
+            prob_x = CARD_WIDTH - prob_w - 64
+            draw.text((prob_x, 154), display_prob, fill=pick_accent, font=prob_font)
+            prob_label_font = self._get_font(weight='extrabold', size=15)
+            draw.text((prob_x + 7, 266), 'MODEL PROB', fill=hex_to_rgb(COLORS['text_dim']), font=prob_label_font)
+
+            draw.rectangle([(58, 386), (510, 390)], fill=pick_accent + (210,))
+
+            metric_label_font = self._get_font(weight='semibold', size=13)
+            odds_font = self._get_font(weight='black', size=36)
+            market_font = self._get_font(weight='black', size=30)
+            odds_value = f'@ {pick_odds:.2f}' if has_market_price else 'NO LINE'
+            value_text = f'{edge_num:+.1f}%' if abs(edge_num) > 0.01 else 'MODEL'
+            value_color = hex_to_rgb(COLORS['accent_green']) if edge_num > 0.01 else hex_to_rgb(COLORS['accent_red']) if edge_num < -0.01 else hex_to_rgb(COLORS['text_gray'])
+            draw.text((58, 438), 'ODDS', fill=hex_to_rgb(COLORS['text_dim']), font=metric_label_font)
+            draw.text((58, 466), odds_value, fill=hex_to_rgb(COLORS['text_white']), font=odds_font)
+            draw.text((300, 438), 'VALUE', fill=hex_to_rgb(COLORS['text_dim']), font=metric_label_font)
+            draw.text((300, 466), value_text, fill=value_color, font=odds_font)
+            draw.text((542, 438), 'MARKET', fill=hex_to_rgb(COLORS['text_dim']), font=metric_label_font)
+            draw.text((542, 470), trim_text(market_label, market_font, 430), fill=hex_to_rgb(COLORS['text_gray']), font=market_font)
+
+            draw.rectangle([(0, CARD_HEIGHT - 5), (CARD_WIDTH, CARD_HEIGHT)], fill=pick_accent)
+            self._add_watermark(draw, base)
 
             final = base.convert('RGB')
             key = f"{pick_team}{opponent}{win_probability}"
@@ -1385,165 +1532,117 @@ class MemeGenerator:
     ) -> Optional[str]:
         """
         Generate a WIN or LOSS result card for a settled prediction bet.
-
-        Layout:
-          - Full-width result banner: green ✅ WIN or red ❌ LOSS
-          - Pick team name (large, centered)
-          - "vs {opponent}" dimmed
-          - Stats row: odds | probability | edge
-          - Running record: "Season: W-L (pct%)"
-          - Bottom accent bar in result color
         """
         try:
             is_win = result.lower() == 'win'
+            pick_name = str(pick_team or 'TBD').strip() or 'TBD'
+            opp_name = str(opponent or 'TBD').strip() or 'TBD'
             result_color = hex_to_rgb(COLORS['accent_green']) if is_win else hex_to_rgb(COLORS['accent_red'])
-            pick_rgb = hex_to_rgb(get_team_color(pick_team))
+            pick_rgb = hex_to_rgb(get_team_color(pick_name))
+            pick_accent = ensure_readable(pick_rgb, min_lum=132)
+            market_label = _format_market_label(market_type)
+            prob_raw = float(win_probability or 0)
+            prob_pct = int(round(prob_raw * 100 if prob_raw <= 1 else prob_raw))
+            prob_pct = max(0, min(100, prob_pct))
+            display_prob = f'{prob_pct}%' if prob_pct else 'LEAN'
 
-            # ── RGBA base ──
-            base = Image.new('RGBA', (CARD_WIDTH, CARD_HEIGHT),
-                             hex_to_rgb(COLORS['bg_dark']) + (255,))
-
-            # Result-colored glow from top
-            glow = Image.new('RGBA', (CARD_WIDTH, CARD_HEIGHT), (0, 0, 0, 0))
-            gd = ImageDraw.Draw(glow)
-            for y_off in range(200):
-                alpha = int(40 * (1 - y_off / 200))
-                gd.line([(0, y_off), (CARD_WIDTH, y_off)],
-                        fill=result_color + (alpha,))
-            base = Image.alpha_composite(base, glow)
-
-            # Scan-line texture
-            scan = Image.new('RGBA', (CARD_WIDTH, CARD_HEIGHT), (0, 0, 0, 0))
-            sd = ImageDraw.Draw(scan)
-            for y in range(0, CARD_HEIGHT, 4):
-                sd.line([(0, y), (CARD_WIDTH, y)], fill=(0, 0, 0, 30))
-            base = Image.alpha_composite(base, scan)
-
+            base, draw = self._create_premium_canvas(result_color, pick_accent)
+            self._add_brand_ghost(base, (805, 94, 1240, 585), opacity=0.036, blur=1)
             draw = ImageDraw.Draw(base)
 
-            # ── Row 1: Result banner ──
-            banner_text = "W I N" if is_win else "L O S S"
-            banner_font = self._get_font(weight='black', size=56)
-            bbox = draw.textbbox((0, 0), banner_text, font=banner_font)
-            bw = bbox[2] - bbox[0]
-            bh = bbox[3] - bbox[1]
-            bx = (CARD_WIDTH - bw) // 2
-            by = 40
-            # Banner background pill
-            draw.rounded_rectangle(
-                [(bx - 40, by - 10), (bx + bw + 40, by + bh + 16)],
-                radius=18, fill=result_color + (200,))
-            draw.text((bx, by), banner_text,
-                      fill=(255, 255, 255), font=banner_font)
+            def fit_font(text: str, max_w: int, start_size: int, min_size: int = 26, weight: str = 'black'):
+                value = str(text or '').upper()
+                for size in range(start_size, min_size - 1, -2):
+                    font = self._get_font(weight=weight, size=size)
+                    bbox = draw.textbbox((0, 0), value, font=font)
+                    if bbox[2] - bbox[0] <= max_w:
+                        return font, value
+                return self._get_font(weight=weight, size=min_size), value
 
-            # ── Row 2: "BET RESULT" subtitle ──
-            sub_font = self._get_font(weight='medium', size=16)
-            sub_text = "BET RESULT"
-            bbox_sub = draw.textbbox((0, 0), sub_text, font=sub_font)
-            sw = bbox_sub[2] - bbox_sub[0]
-            draw.text(((CARD_WIDTH - sw) // 2, by + bh + 28), sub_text,
-                      fill=hex_to_rgb(COLORS['text_dim']), font=sub_font)
+            def trim_text(text: str, font, max_w: int, upper: bool = True) -> str:
+                value = str(text or '').strip()
+                value = value.upper() if upper else value
+                if not value:
+                    return ''
+                bbox = draw.textbbox((0, 0), value, font=font)
+                if bbox[2] - bbox[0] <= max_w:
+                    return value
+                while len(value) > 4:
+                    value = value[:-4].rstrip() + '...'
+                    bbox = draw.textbbox((0, 0), value, font=font)
+                    if bbox[2] - bbox[0] <= max_w:
+                        return value
+                    value = value[:-3].rstrip()
+                return value
 
-            # ── Row 3: Pick team (large, centered) ──
-            def _fit_font(name: str, max_w: int, start: int = 52) -> tuple:
-                for sz in range(start, 22, -2):
-                    f = self._get_font(weight='black', size=sz)
-                    bb = draw.textbbox((0, 0), name.upper(), font=f)
-                    w = bb[2] - bb[0]
-                    if w <= max_w:
-                        return f, w
-                f = self._get_font(weight='black', size=22)
-                bb = draw.textbbox((0, 0), name.upper(), font=f)
-                return f, bb[2] - bb[0]
+            # Brand and context.
+            self._draw_brand_lockup(base, draw, 46, 28, width=270, height=58)
+            tag_font = self._get_font(weight='extrabold', size=15)
+            draw.text((354, 46), 'PREDICTION RESULT', fill=result_color, font=tag_font)
 
-            usable_w = CARD_WIDTH - 160
-            pick_font, pick_tw = _fit_font(pick_team, usable_w, 56)
-            pick_x = (CARD_WIDTH - pick_tw) // 2
-            pick_y = 175
-            # Shadow
-            draw.text((pick_x + 2, pick_y + 2), pick_team.upper(),
-                      fill=(0, 0, 0, 100), font=pick_font)
-            draw.text((pick_x, pick_y), pick_team.upper(),
-                      fill=hex_to_rgb(COLORS['text_white']), font=pick_font)
+            if event_name:
+                ev_text = str(event_name).upper()
+                ev_font = self._get_font(weight='extrabold', size=14)
+                ev_text = trim_text(ev_text, ev_font, 250)
+                ev_bbox = draw.textbbox((0, 0), ev_text, font=ev_font)
+                ev_w = ev_bbox[2] - ev_bbox[0]
+                ev_x = CARD_WIDTH - ev_w - 48
+                draw.text((ev_x, 47), ev_text, fill=hex_to_rgb(COLORS['text_gray']), font=ev_font)
 
-            # Colored accent underline
-            pick_bb = draw.textbbox((pick_x, pick_y), pick_team.upper(), font=pick_font)
-            pick_h = pick_bb[3] - pick_bb[1]
-            underline_y = pick_bb[3] + 6
-            draw.line(
-                [(pick_x, underline_y), (pick_x + pick_tw, underline_y)],
-                fill=pick_rgb + (200,), width=3)
+            # Hero.
+            result_word = 'CASHED' if is_win else 'MISSED'
+            state_text = 'WIN' if is_win else 'LOSS'
+            status_font, status_text = fit_font(result_word, 680, 112, 70)
+            draw.text((58, 124), status_text, fill=result_color, font=status_font)
+            draw.rectangle([(62, 242), (292, 247)], fill=result_color + (220,))
+            state_font = self._get_font(weight='black', size=24)
+            draw.text((314, 224), state_text, fill=hex_to_rgb(COLORS['text_white']), font=state_font)
 
-            # ── Row 4: "vs OPPONENT" dimmed ──
-            vs_text = f"vs {opponent}"
-            vs_font = self._get_font(weight='semibold', size=24)
-            bbox_vs = draw.textbbox((0, 0), vs_text, font=vs_font)
-            vsw = bbox_vs[2] - bbox_vs[0]
-            draw.text(((CARD_WIDTH - vsw) // 2, underline_y + 16), vs_text,
-                      fill=hex_to_rgb(COLORS['text_dim']), font=vs_font)
+            team_logo = self._get_team_logo(pick_name)
+            if team_logo:
+                self._paste_contained_logo(base, team_logo, (850, 132, 1136, 410), opacity=0.26)
+                self._paste_contained_logo(base, team_logo, (58, 292, 150, 384), opacity=0.95)
 
-            # ── Row 5: Stats strip ──
-            strip_y = underline_y + 64
-            draw.rounded_rectangle(
-                [(100, strip_y), (CARD_WIDTH - 100, strip_y + 50)],
-                radius=12, fill=(26, 38, 52, 200))
+            pick_font, pick_text = fit_font(pick_name, 720, 66, 38)
+            team_x = 168 if team_logo else 58
+            draw.text((team_x, 292), pick_text, fill=hex_to_rgb(COLORS['text_white']), font=pick_font)
+            vs_font = self._get_font(weight='semibold', size=27)
+            vs_text = trim_text(f'vs {opp_name}', vs_font, 700, upper=False)
+            draw.text((team_x + 4, 358), vs_text, fill=hex_to_rgb(COLORS['text_gray']), font=vs_font)
 
-            # Odds (left)
-            if pick_odds:
-                odds_text = f"@ {pick_odds:.2f}"
-                odds_font = self._get_font(weight='bold', size=22)
-                draw.text((140, strip_y + 12), odds_text,
-                          fill=hex_to_rgb(COLORS['text_white']), font=odds_font)
+            # Metrics.
+            metric_y = 438
+            metrics = [
+                ('ODDS', f'@ {pick_odds:.2f}' if pick_odds else 'NO LINE', hex_to_rgb(COLORS['text_white'])),
+                ('MODEL', display_prob, result_color),
+                ('MARKET', market_label[:18], pick_accent),
+            ]
+            label_font = self._get_font(weight='semibold', size=13)
+            value_font = self._get_font(weight='black', size=30)
+            metric_xs = [58, 390, 722]
+            for idx, (metric_label, value, accent) in enumerate(metrics):
+                left = metric_xs[idx]
+                if idx:
+                    draw.rectangle([(left - 30, metric_y + 2), (left - 28, metric_y + 70)], fill=(255, 255, 255, 28))
+                draw.text((left, metric_y), metric_label, fill=hex_to_rgb(COLORS['text_dim']), font=label_font)
+                value_text = trim_text(value, value_font, 280)
+                draw.text((left, metric_y + 25), value_text, fill=accent, font=value_font)
 
-            # Probability (center)
-            prob_pct = int(win_probability * 100) if win_probability else 0
-            if prob_pct > 0:
-                prob_text = f"{prob_pct}% PROB"
-                prob_font = self._get_font(weight='bold', size=22)
-                bbox_p = draw.textbbox((0, 0), prob_text, font=prob_font)
-                pw = bbox_p[2] - bbox_p[0]
-                draw.text(((CARD_WIDTH - pw) // 2, strip_y + 12), prob_text,
-                          fill=result_color, font=prob_font)
-
-            # Market type (right)
-            market_label = _format_market_label(market_type)
-            mkt_font = self._get_font(weight='medium', size=18)
-            bbox_m = draw.textbbox((0, 0), market_label, font=mkt_font)
-            mw = bbox_m[2] - bbox_m[0]
-            draw.text((CARD_WIDTH - 140 - mw, strip_y + 14),
-                      market_label,
-                      fill=hex_to_rgb(COLORS['text_gray']), font=mkt_font)
-
-            # ── Row 6: Running record ──
             total = record_wins + record_losses
             pct = (record_wins / total * 100) if total > 0 else 0
-            record_text = f"RECORD: {record_wins}W-{record_losses}L"
-            if total > 0:
-                record_text += f"  ({pct:.0f}% win rate)"
-            rec_font = self._get_font(weight='extrabold', size=30)
-            bbox_r = draw.textbbox((0, 0), record_text, font=rec_font)
-            rw_text = bbox_r[2] - bbox_r[0]
-            rec_y = strip_y + 72
-            draw.text(((CARD_WIDTH - rw_text) // 2, rec_y), record_text,
-                      fill=result_color, font=rec_font)
+            record_text = f'{record_wins}W-{record_losses}L'
+            rate_text = f'{pct:.0f}% win rate' if total > 0 else 'record pending'
+            record_y = 548
+            draw.rectangle([(58, record_y), (912, record_y + 2)], fill=result_color + (155,))
+            record_label_font = self._get_font(weight='extrabold', size=14)
+            record_font = self._get_font(weight='black', size=32)
+            rate_font = self._get_font(weight='semibold', size=18)
+            draw.text((58, record_y + 19), 'RUNNING RECORD', fill=result_color, font=record_label_font)
+            draw.text((218, record_y + 11), record_text, fill=hex_to_rgb(COLORS['text_white']), font=record_font)
+            draw.text((390, record_y + 23), rate_text, fill=hex_to_rgb(COLORS['text_gray']), font=rate_font)
 
-            # Event name (small, below record)
-            if event_name:
-                ev_font = self._get_font(weight='medium', size=16)
-                ev_text = event_name.upper()
-                if len(ev_text) > 50:
-                    ev_text = ev_text[:47] + "..."
-                bbox_ev = draw.textbbox((0, 0), ev_text, font=ev_font)
-                evw = bbox_ev[2] - bbox_ev[0]
-                draw.text(((CARD_WIDTH - evw) // 2, rec_y + 40),
-                          ev_text,
-                          fill=hex_to_rgb(COLORS['text_gray']), font=ev_font)
-
-            # ── Bottom accent bar ──
-            draw.rectangle([(0, CARD_HEIGHT - 6), (CARD_WIDTH, CARD_HEIGHT)],
-                           fill=result_color)
-
-            self._add_watermark(draw)
+            draw.rectangle([(0, CARD_HEIGHT - 5), (CARD_WIDTH, CARD_HEIGHT)], fill=result_color)
+            self._add_watermark(draw, base)
 
             final = base.convert('RGB')
             tag = "win" if is_win else "loss"
