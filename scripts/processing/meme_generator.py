@@ -1656,6 +1656,150 @@ class MemeGenerator:
             logger.warning(f"⚠️  Result card generation failed: {e}")
             return None
 
+    def generate_market_result_card(
+        self,
+        winner_team: str,
+        opponent: str,
+        score: str = '',
+        event_name: str = '',
+        market_type: str = 'match_winner',
+        win_probability: float = None,
+        pick_odds: float = None,
+    ) -> Optional[str]:
+        """Generate a result card using the same visual system as prediction cards."""
+        try:
+            winner = str(winner_team or 'TBD').strip() or 'TBD'
+            loser = str(opponent or 'TBD').strip() or 'TBD'
+            score_text = str(score or '').strip()
+            winner_rgb = hex_to_rgb(get_team_color(winner))
+            winner_accent = ensure_readable(winner_rgb, min_lum=132)
+            market_label = _format_market_label(market_type)
+
+            def as_float(value):
+                try:
+                    if value is None or value == '':
+                        return None
+                    return float(value)
+                except (TypeError, ValueError):
+                    return None
+
+            probability = as_float(win_probability)
+            odds = as_float(pick_odds)
+            if probability is not None:
+                probability = probability * 100 if probability <= 1 else probability
+                probability = max(0, min(100, probability))
+
+            base = Image.new('RGBA', (CARD_WIDTH, CARD_HEIGHT), (3, 3, 4, 255))
+            shade_layer = Image.new('RGBA', (CARD_WIDTH, CARD_HEIGHT), (0, 0, 0, 0))
+            shade_draw = ImageDraw.Draw(shade_layer)
+            for y in range(CARD_HEIGHT):
+                shade = int(4 + (y / CARD_HEIGHT) * 9)
+                shade_draw.line([(0, y), (CARD_WIDTH, y)], fill=(shade, shade, shade + 1, 255))
+            glow_layer = Image.new('RGBA', (CARD_WIDTH, CARD_HEIGHT), (0, 0, 0, 0))
+            glow_draw = ImageDraw.Draw(glow_layer)
+            glow_draw.polygon([(-100, 76), (604, -76), (442, 742), (-185, 720)], fill=winner_accent + (50,))
+            glow_draw.polygon([(760, 0), (CARD_WIDTH, 0), (CARD_WIDTH, CARD_HEIGHT), (950, CARD_HEIGHT)], fill=(255, 255, 255, 8))
+            glow_layer = glow_layer.filter(ImageFilter.GaussianBlur(52))
+            base = Image.alpha_composite(base, shade_layer)
+            base = Image.alpha_composite(base, glow_layer)
+            self._add_brand_ghost(base, (630, 126, 1208, 610), opacity=0.016, blur=1)
+            draw = ImageDraw.Draw(base)
+
+            def fit_font(text: str, max_w: int, start_size: int, min_size: int = 24, weight: str = 'black'):
+                value = str(text or '').upper()
+                for size in range(start_size, min_size - 1, -2):
+                    font = self._get_font(weight=weight, size=size)
+                    bbox = draw.textbbox((0, 0), value, font=font)
+                    if bbox[2] - bbox[0] <= max_w:
+                        return font, bbox[2] - bbox[0], value
+                font = self._get_font(weight=weight, size=min_size)
+                bbox = draw.textbbox((0, 0), value, font=font)
+                return font, bbox[2] - bbox[0], value
+
+            def trim_text(text: str, font, max_w: int, upper: bool = True) -> str:
+                value = str(text or '').strip()
+                value = value.upper() if upper else value
+                if not value:
+                    return ''
+                bbox = draw.textbbox((0, 0), value, font=font)
+                if bbox[2] - bbox[0] <= max_w:
+                    return value
+                while len(value) > 4:
+                    value = value[:-4].rstrip() + '...'
+                    bbox = draw.textbbox((0, 0), value, font=font)
+                    if bbox[2] - bbox[0] <= max_w:
+                        return value
+                    value = value[:-3].rstrip()
+                return value
+
+            self._draw_brand_lockup(base, draw, 46, 28, width=270, height=58)
+            meta_font = self._get_font(weight='semibold', size=14)
+            draw.text(
+                (354, 48),
+                trim_text(market_label, meta_font, 235),
+                fill=hex_to_rgb(COLORS['text_gray']),
+                font=meta_font,
+            )
+
+            if event_name:
+                ev_font = self._get_font(weight='extrabold', size=14)
+                ev_text = trim_text(event_name, ev_font, 290)
+                ev_bbox = draw.textbbox((0, 0), ev_text, font=ev_font)
+                draw.text(
+                    (CARD_WIDTH - (ev_bbox[2] - ev_bbox[0]) - 48, 47),
+                    ev_text,
+                    fill=hex_to_rgb(COLORS['text_gray']),
+                    font=ev_font,
+                )
+
+            winner_logo = self._get_team_logo(winner)
+            if winner_logo:
+                self._paste_contained_logo(base, winner_logo, (58, 176, 166, 284), opacity=0.94)
+
+            team_x = 190 if winner_logo else 58
+            team_font, _, team_text = fit_font(winner, 610 if winner_logo else 744, 86, 42)
+            draw.text((team_x, 164), team_text, fill=hex_to_rgb(COLORS['text_white']), font=team_font)
+            vs_font = self._get_font(weight='semibold', size=27)
+            vs_text = trim_text(f'over {loser}', vs_font, 700, upper=False)
+            draw.text((team_x + 4, 252), vs_text, fill=hex_to_rgb(COLORS['text_gray']), font=vs_font)
+
+            result_value = score_text or 'FINAL'
+            result_font, result_w, _ = fit_font(result_value, 330, 116, 68)
+            result_x = CARD_WIDTH - result_w - 64
+            draw.text((result_x, 154), result_value.upper(), fill=winner_accent, font=result_font)
+            result_label_font = self._get_font(weight='extrabold', size=15)
+            draw.text((result_x + 7, 266), 'FINAL RESULT', fill=hex_to_rgb(COLORS['text_dim']), font=result_label_font)
+
+            draw.rectangle([(58, 386), (510, 390)], fill=winner_accent + (210,))
+
+            label_font = self._get_font(weight='semibold', size=13)
+            value_font = self._get_font(weight='black', size=36)
+            market_font = self._get_font(weight='black', size=30)
+            left_label = 'LINE' if odds is not None and odds > 1 else 'RESULT'
+            left_value = f'@ {odds:.2f}' if odds is not None and odds > 1 else result_value
+            middle_label = 'MODEL' if probability is not None else 'WINNER'
+            middle_value = f'{probability:.0f}%' if probability is not None else winner
+            draw.text((58, 438), left_label, fill=hex_to_rgb(COLORS['text_dim']), font=label_font)
+            draw.text((58, 466), trim_text(left_value, value_font, 210), fill=hex_to_rgb(COLORS['text_white']), font=value_font)
+            draw.text((300, 438), middle_label, fill=hex_to_rgb(COLORS['text_dim']), font=label_font)
+            draw.text((300, 466), trim_text(middle_value, value_font, 210), fill=winner_accent, font=value_font)
+            draw.text((542, 438), 'MARKET', fill=hex_to_rgb(COLORS['text_dim']), font=label_font)
+            draw.text((542, 470), trim_text(market_label, market_font, 430), fill=hex_to_rgb(COLORS['text_gray']), font=market_font)
+
+            draw.rectangle([(0, CARD_HEIGHT - 5), (CARD_WIDTH, CARD_HEIGHT)], fill=winner_accent)
+            self._add_watermark(draw, base)
+
+            final = base.convert('RGB')
+            key = f"{winner}{loser}{score_text}{event_name}"
+            fname = f"market_result_{hashlib.md5(key.encode()).hexdigest()[:8]}.png"
+            out_path = OUTPUT_DIR / fname
+            final.save(str(out_path), 'PNG', quality=95)
+            logger.info(f"🎨 Market result card generated: {out_path.name}")
+            return str(out_path)
+        except Exception as e:
+            logger.warning(f"⚠️  Market result card generation failed: {e}")
+            return None
+
     def generate_multi_team_card(self, teams: List[str],
                                   headline: str = '',
                                   event_name: str = None) -> Optional[str]:

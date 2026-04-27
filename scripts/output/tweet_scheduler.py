@@ -353,6 +353,22 @@ class TweetScheduler:
 
         return False
 
+    @staticmethod
+    def _requires_premium_result_media(event: Dict[str, Any]) -> bool:
+        metadata = event.get('metadata') or {}
+        if not isinstance(metadata, dict):
+            return False
+        return (
+            event.get('category') == 'match_result'
+            and metadata.get('prefer_generated_media') == 'premium_result'
+            and bool(metadata.get('team1'))
+            and bool(metadata.get('team2'))
+        )
+
+    @staticmethod
+    def _media_plan_blocks_fallback(media_plan: Dict[str, Any]) -> bool:
+        return bool(media_plan.get('force_text_only'))
+
     def _owned_media_enabled_types(self) -> set[str]:
         raw = os.getenv('OWNED_MEDIA_TYPES', 'match_result,match_preview,prediction,player')
         return {item.strip().lower() for item in raw.split(',') if item.strip()}
@@ -364,6 +380,8 @@ class TweetScheduler:
             metadata = {}
 
         if category == 'match_result':
+            if self._requires_premium_result_media(event):
+                return 'match_result', 'market_result_card'
             return 'match_result', 'match_result_card'
         if category == 'match_preview':
             return 'match_preview', 'match_preview_card'
@@ -447,6 +465,21 @@ class TweetScheduler:
                         'card_type': card_type,
                         'variant': 'text_only_disabled',
                         'policy': 'disabled',
+                        'assigned_at': datetime.now(timezone.utc).isoformat(),
+                    }
+                },
+            }
+
+        if self._requires_premium_result_media(event):
+            return {
+                'eligible': True,
+                'allow_owned_media': True,
+                'force_text_only': False,
+                'metadata_patch': {
+                    'media_experiment': {
+                        'card_type': card_type,
+                        'variant': 'owned_media',
+                        'policy': 'required',
                         'assigned_at': datetime.now(timezone.utc).isoformat(),
                     }
                 },
@@ -864,6 +897,29 @@ class TweetScheduler:
         match_context = metadata.get('match_context') or {}
 
         if event.get('category') == 'match_result' and 'match_result' in _enabled_types:
+            if self._requires_premium_result_media(event):
+                score1 = str(metadata.get('score1', '')).strip()
+                score2 = str(metadata.get('score2', '')).strip()
+                score_text = f"{score1}-{score2}" if score1 and score2 else ''
+                team1 = str(metadata.get('team1', '')).strip()
+                team2 = str(metadata.get('team2', '')).strip()
+                winner = str(metadata.get('winner') or team1).strip()
+                opponent = team2 if winner.casefold() == team1.casefold() else team1
+                card_path = self.meme_generator.generate_market_result_card(
+                    winner_team=winner,
+                    opponent=opponent,
+                    score=score_text,
+                    event_name=metadata.get('event', ''),
+                    market_type=metadata.get('market_type', 'match_winner'),
+                    win_probability=metadata.get('win_probability') or metadata.get('provider_win_probability'),
+                    pick_odds=metadata.get('pick_odds'),
+                )
+                if card_path:
+                    media_id = self.media_manager.upload_media(card_path, account_bucket=account_bucket)
+                    if media_id:
+                        logger.info(f"🎨 Premium result card attached: {media_id}")
+                        return self._build_media_attachment(media_id, card_path)
+
             mvp = match_context.get('mvp')
             mvp_rating = match_context.get('mvp_rating')
             map_scores = metadata.get('map_scores') or metadata.get('maps') or []
@@ -1458,7 +1514,9 @@ class TweetScheduler:
 
             # Try to attach media (player images for matches, article images for news)
             media_attachment = None
+            media_blocked_by_plan = False
             if media_plan.get('force_text_only'):
+                media_blocked_by_plan = self._media_plan_blocks_fallback(media_plan)
                 logger.info(
                     "📝 Owned media holdout: text-only baseline for %s (%s)",
                     event.get('category'),
@@ -1521,7 +1579,7 @@ class TweetScheduler:
 
             # Fallback: Generate meme/stat card if no media found
             # Try structured cards first, then headline card as universal fallback
-            if not media_attachment or not media_attachment.get('media_ref'):
+            if not media_blocked_by_plan and (not media_attachment or not media_attachment.get('media_ref')):
                 category = event.get('category', '')
                 metadata = event.get('metadata') or {}
                 # Check if tweet mentions multiple teams (non-vs) — worth generating a card

@@ -38,6 +38,18 @@ logger = logging.getLogger(__name__)
 
 class HLTVMonitor:
     """Monitor HLTV for CS2 esports news and match results"""
+
+    _RESULT_NEWS_PATTERNS = [
+        re.compile(
+            r"^\s*(?P<winner>[A-Z0-9][A-Za-z0-9&.'\- ]{0,50}?)\s+"
+            r"(?:beat|beats|defeat|defeats|defeated|down|downs|sweep|sweeps|swept|"
+            r"edge|edges|edged|outlast|outlasts|upset|upsets|stun|stuns)\s+"
+            r"(?P<loser>[A-Z0-9][A-Za-z0-9&.'\- ]{0,50}?)\s+"
+            r"(?P<score1>[0-9])\s*[-:]\s*(?P<score2>[0-9])"
+            r"(?:\s+(?:to|in|at|for)\s+(?P<context>.+))?\s*$",
+            re.IGNORECASE,
+        )
+    ]
     
     def __init__(self):
         self.db_conn = None
@@ -726,7 +738,68 @@ class HLTVMonitor:
             logger.error(f"❌ Database insert failed: {e}")
             self.db_conn.rollback()
     
-    def _classify_news_category(self, headline: str) -> str:
+    @staticmethod
+    def _clean_result_event_name(context: str) -> str:
+        event_name = re.sub(r'\s+', ' ', str(context or '')).strip(' .')
+        event_name = re.sub(
+            r'^(?:win|wins|claim|claims|take|takes|secure|secures|lift|lifts)\s+(?:the\s+)?',
+            '',
+            event_name,
+            flags=re.IGNORECASE,
+        )
+        event_name = re.sub(
+            r'^(?:qualify|qualifies|qualified)\s+for\s+(?:the\s+)?',
+            '',
+            event_name,
+            flags=re.IGNORECASE,
+        )
+        return event_name.strip(' .')
+
+    @classmethod
+    def _parse_result_news_headline(cls, headline: str) -> Optional[Dict[str, str]]:
+        """Extract structured result data from HLTV article headlines."""
+        headline = re.sub(r'\s+', ' ', str(headline or '')).strip()
+        if not headline:
+            return None
+
+        for pattern in cls._RESULT_NEWS_PATTERNS:
+            match = pattern.search(headline)
+            if not match:
+                continue
+
+            winner = match.group('winner').strip()
+            loser = match.group('loser').strip()
+            if not winner or not loser:
+                continue
+
+            return {
+                'team1': winner,
+                'team2': loser,
+                'score1': match.group('score1'),
+                'score2': match.group('score2'),
+                'winner': winner,
+                'event': cls._clean_result_event_name(match.group('context') or ''),
+                'result_source': 'hltv_news_headline',
+                'prefer_generated_media': 'premium_result',
+            }
+
+        return None
+
+    @classmethod
+    def _build_news_event_payload(cls, news: Dict[str, Any]) -> Dict[str, Any]:
+        headline = str(news.get('headline') or '')
+        metadata: Dict[str, Any] = {'hltv_article_id': news.get('article_id')}
+
+        result_metadata = cls._parse_result_news_headline(headline)
+        if result_metadata:
+            metadata.update(result_metadata)
+            return {'category': 'match_result', 'metadata': metadata}
+
+        category = cls._classify_news_category(headline)
+        return {'category': category, 'metadata': metadata}
+
+    @staticmethod
+    def _classify_news_category(headline: str) -> str:
         """Classify HLTV news article into the right category based on headline."""
         h = headline.lower()
         roster_signals = ['sign', 'leave', 'join', 'bench', 'replace', 'roster', 'transfer', 'acquire', 'release', 'step down', 'step up']
@@ -742,7 +815,7 @@ class HLTVMonitor:
         try:
             with self.db_conn.cursor() as cur:
                 for news in news_items:
-                    category = self._classify_news_category(news['headline'])
+                    payload = self._build_news_event_payload(news)
                     cur.execute("""
                         INSERT INTO twitter_bot.events
                         (headline, source, source_url, category, urgency, status, metadata)
@@ -751,9 +824,9 @@ class HLTVMonitor:
                     """, (
                         news['headline'],
                         news['url'],
-                        category,
+                        payload['category'],
                         news['urgency'],
-                        Json({'hltv_article_id': news['article_id']})
+                        Json(payload['metadata'])
                     ))
                 
                 self.db_conn.commit()
