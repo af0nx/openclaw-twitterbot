@@ -37,7 +37,11 @@ from processing.hashtag_injector import inject_hashtags, inject_hashtags_thread
 from processing.match_analyzer import get_match_analyzer
 from processing.hybrid_prediction_pricer import get_hybrid_prediction_pricer
 from processing.team_rating_engine import get_team_rating_engine
-from utils.account_quota import free_account_slot, reserve_account_slot
+from utils.account_quota import (
+    free_account_slot,
+    reconcile_account_reservations,
+    reserve_account_slot,
+)
 from utils.runtime_schema import ensure_runtime_schema_extensions
 from utils.twitter_accounts import get_bucket_daily_cap, select_account_bucket
 from utils.db_utils import ensure_db_connection
@@ -144,6 +148,22 @@ class TweetScheduler:
             logger.info(f"🎟️  Freed reserved slot for {bucket} bucket")
         except Exception as e:
             logger.error(f"❌ Failed to free slot for {bucket}: {e}")
+
+    def reconcile_reserved_slots(self):
+        """Repair anonymous quota reservations left behind by killed workers."""
+        try:
+            result = reconcile_account_reservations(self.db_conn)
+            changed = [
+                f"{bucket}:{data['previous_reserved']}->{data['writes_reserved']}"
+                for bucket, data in result.items()
+                if data.get('changed')
+            ]
+            if changed:
+                logger.warning("🧮 Reconciled account reservations: %s", ", ".join(changed))
+            else:
+                logger.info("🧮 Account reservations already match open tweets")
+        except Exception as e:
+            logger.warning(f"⚠️  Failed to reconcile account reservations: {e}")
 
     def _minutes_since_last_post(self) -> Optional[float]:
         """Return minutes since the most recent posted tweet, or None if no posts."""
@@ -1839,6 +1859,7 @@ class TweetScheduler:
         stop_event = stop_event or asyncio.Event()
         self.connect_db()
         logger.info("🚀 Tweet Scheduler started")
+        self.reconcile_reserved_slots()
         
         while not stop_event.is_set():
             try:
@@ -1860,10 +1881,14 @@ class TweetScheduler:
                             SET status = 'expired', updated_at = NOW()
                             WHERE status = 'hitl_pending'
                             AND created_at < NOW() - INTERVAL '7 days'
+                            RETURNING COALESCE(account_bucket, 'main')
                         """)
-                        hitl_expired = cur.rowcount
+                        hitl_expired_buckets = [row[0] for row in cur.fetchall()]
+                        hitl_expired = len(hitl_expired_buckets)
                         
                         self.db_conn.commit()
+                        for bucket in hitl_expired_buckets:
+                            self.free_slot(bucket)
                         if expired:
                             logger.info(f"🗑️  Auto-expired {expired} stale events (>12h old)")
                         if hitl_expired:

@@ -55,7 +55,7 @@ module.exports = {
       env: {
         NODE_ENV: 'production',
         PYTHONUNBUFFERED: '1',
-        DASHBOARD_REVIEW_ONLY: 'true'
+        DASHBOARD_REVIEW_ONLY: 'false'
       },
       error_file: './logs/scheduler-error.log',
       out_file: './logs/scheduler-out.log',
