@@ -288,6 +288,33 @@ pm2 status
 /stats   - Today's quota status
 ```
 
+### Daily Operator Updates
+
+Daily and urgent private updates are sent through Telegram with `scripts/ops/daily_status_report.py`.
+The reporter reads `/dev/shm/.env`, PM2 status, and the existing DB-backed ops dashboard, then sends a sanitized summary without raw logs or secrets.
+
+```bash
+# Preview the daily message without sending
+cd /home/ubuntu/openclaw
+python3 scripts/ops/daily_status_report.py --mode daily --dry-run
+
+# Preview structured status for debugging
+python3 scripts/ops/daily_status_report.py --mode daily --dry-run --json
+
+# Send only if critical issues are new or the cooldown has elapsed
+python3 scripts/ops/daily_status_report.py --mode alert
+```
+
+Recommended cron:
+
+```cron
+0 9 * * * cd /home/ubuntu/openclaw && python3 scripts/ops/daily_status_report.py --mode daily >> logs/daily-status-report.log 2>&1
+*/15 * * * * cd /home/ubuntu/openclaw && python3 scripts/ops/daily_status_report.py --mode alert >> logs/daily-status-report.log 2>&1
+```
+
+Alert de-duplication state is stored in `logs/daily-status-report-state.json`.
+Disable urgent alerts by removing the `*/15` cron entry.
+
 ### Logs
 
 ```bash

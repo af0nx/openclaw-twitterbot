@@ -93,7 +93,7 @@ TEAM_COLORS: Dict[str, str] = {
     'mibr': '#E1C564',       # Gold/yellow
     'pain': '#009B3A',       # Green
     'the mongolz': '#DC241F', # Red
-    'monte': '#FF8C00',      # Orange
+    'monte': '#00D0F0',      # Cyan
     'apeks': '#00A859',      # Green
     'gamerlegion': '#8B5CF6', # Purple
     'saw': '#1A1A1A',        # Dark
