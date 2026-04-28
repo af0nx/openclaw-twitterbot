@@ -18,7 +18,8 @@ CS2_KEYWORDS = {
     # Events
     'major', 'blast', 'esl', 'iem', 'faceit', 'hltv', 'pgl',
     'esl pro league', 'blast premier', 'betboom', 'perfect world',
-    'thunderpick', 'cct', 'roobet cup',
+    'thunderpick', 'cct', 'roobet cup', 'starladder', 'starseries',
+    'esports world cup', 'ewc', 'cs asia championships',
     # Maps
     'awp', 'deagle', 'nuke', 'mirage', 'inferno', 'ancient', 'anubis',
     'dust2', 'vertigo', 'overpass', 'train',
@@ -170,9 +171,14 @@ T1_TEAMS = {
 T1_EVENTS = {
     'major', 'pgl major', 'pgl', 'blast premier', 'blast open', 'blast',
     'esl pro league', 'esl challenger', 'iem', 'iem katowice', 'iem cologne',
-    'iem rio', 'iem dallas', 'iem chengdu',
+    'iem rio', 'iem dallas', 'iem chengdu', 'iem krakow', 'iem china',
+    'blast bounty', 'blast rivals', 'blast open rotterdam', 'blast premier open porto',
+    'pgl major singapore', 'pgl cluj-napoca', 'pgl bucharest', 'pgl astana',
+    'pgl masters bucharest', 'starladder', 'starseries', 'starseries fall',
+    'esports world cup', 'ewc', 'cs asia championships', 'cac',
     'perfect world', 'betboom', 'thunderpick',
     'cologne', 'katowice', 'rotterdam', 'bucharest', 'copenhagen',
+    'cluj-napoca', 'astana', 'singapore', 'porto', 'hong kong', 'riyadh',
     'gamers assembly',
 }
 

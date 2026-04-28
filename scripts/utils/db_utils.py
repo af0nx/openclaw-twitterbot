@@ -15,17 +15,27 @@ load_dotenv('/dev/shm/.env')
 logger = logging.getLogger(__name__)
 
 
-def ensure_db_connection(conn, autocommit=False):
+def reset_connection_pools():
+    """Compatibility hook for the pooled root helper; script helper is unpooled."""
+    return None
+
+
+def ensure_db_connection(conn, database_url=None, autocommit=False):
     """
     Check if a psycopg2 connection is alive, reconnect if not.
 
     Args:
         conn: Existing psycopg2 connection (or None)
+        database_url: Optional DSN override. Supports legacy positional caller.
         autocommit: Whether to set autocommit on the connection
 
     Returns:
         A live psycopg2 connection (may be the same object or a fresh one)
     """
+    if isinstance(database_url, bool) and autocommit is False:
+        autocommit = database_url
+        database_url = None
+
     if conn is not None:
         try:
             # Rollback any stale implicit transaction before health check
@@ -42,6 +52,7 @@ def ensure_db_connection(conn, autocommit=False):
             # (not idle-in-transaction). Without this, idle_in_transaction_session_timeout
             # kills the session after 5 min, defeating keepalives.
             conn.rollback()
+            conn.autocommit = autocommit
             return conn
         except (psycopg2.OperationalError, psycopg2.InterfaceError, psycopg2.DatabaseError):
             logger.warning("⚠️  DB connection stale — reconnecting…")
@@ -57,15 +68,14 @@ def ensure_db_connection(conn, autocommit=False):
     # keepalives_idle=30 sends the first heartbeat after 30s of idle,
     # then every 10s, failing after 5 missed probes (~80s total).
     new_conn = psycopg2.connect(
-        os.getenv('DATABASE_URL'),
+        database_url or os.getenv('DATABASE_URL'),
         connect_timeout=30,
         keepalives=1,
         keepalives_idle=30,
         keepalives_interval=10,
         keepalives_count=5,
-        options='-c statement_timeout=120000 -c idle_in_transaction_session_timeout=300000',  # 120s query / 5min idle-in-txn
+        options='-c statement_timeout=120000 -c idle_in_transaction_session_timeout=300000 -c search_path=twitter_bot,public',
     )
-    if autocommit:
-        new_conn.autocommit = True
+    new_conn.autocommit = autocommit
     logger.info("✅ Reconnected to PostgreSQL")
     return new_conn

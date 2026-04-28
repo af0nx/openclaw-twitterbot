@@ -36,6 +36,8 @@ RSS_FEEDS = [
         'category': 'cs2',
         'source': 'hltv',
         'pure_cs2': True,  # No filtering needed
+        'fallback_provider': 'hltv_monitor',
+        'soft_fail_statuses': {403},
     },
     {
         'url': 'https://store.steampowered.com/feeds/news/app/730',
@@ -180,6 +182,13 @@ class RSSAggregator:
             )
             
             if response.status_code != 200:
+                soft_fail_statuses = feed_config.get('soft_fail_statuses') or set()
+                if response.status_code in soft_fail_statuses:
+                    logger.warning(
+                        f"⚠️  {feed_config['source']}: HTTP {response.status_code}; "
+                        f"relying on {feed_config.get('fallback_provider', 'fallback provider')} for coverage"
+                    )
+                    return []
                 logger.warning(f"⚠️  {feed_config['source']}: HTTP {response.status_code}")
                 return []
             

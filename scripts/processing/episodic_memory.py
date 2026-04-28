@@ -41,6 +41,17 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
+def _get_env(key: str, default: str | None = None) -> str | None:
+    return os.getenv(key, default)
+
+
+def _get_bool_env(key: str, default: bool = False) -> bool:
+    value = _get_env(key)
+    if value in (None, ''):
+        return default
+    return str(value).strip().lower() in {'1', 'true', 'yes', 'on'}
+
+
 class EpisodicMemory:
     """Semantic recall engine for VIP interaction context"""
 
@@ -49,13 +60,27 @@ class EpisodicMemory:
         self.embedding_model = None
         self.MAX_RECALL_ITEMS = 5
         self.RECALL_WINDOW_DAYS = 30
+        self.enabled = _get_bool_env('EPISODIC_MEMORY_ENABLED', True)
+        self.model_name = _get_env('SENTENCE_TRANSFORMERS_MODEL', 'all-MiniLM-L6-v2')
+        self.local_files_only = _get_bool_env('SENTENCE_TRANSFORMERS_LOCAL_ONLY', False)
+
+        if not self.enabled:
+            logger.info("ℹ️  Episodic memory disabled by EPISODIC_MEMORY_ENABLED")
+            return
 
         if EMBEDDINGS_AVAILABLE:
             try:
-                self.embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
+                self.embedding_model = SentenceTransformer(
+                    self.model_name,
+                    local_files_only=self.local_files_only,
+                )
                 logger.info("✅ Episodic memory embedding model loaded")
             except Exception as e:
-                logger.warning(f"⚠️  Failed to load embedding model: {e}")
+                logger.warning(
+                    "⚠️  Failed to load episodic memory embedding model "
+                    f"'{self.model_name}' (local_only={self.local_files_only}); "
+                    f"continuing without semantic recall: {e}"
+                )
 
     def connect_db(self):
         try:

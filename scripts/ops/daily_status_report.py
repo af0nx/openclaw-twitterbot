@@ -54,6 +54,8 @@ STALE_SUCCESS_THRESHOLDS_HOURS = {
 
 RESTART_WARNING_THRESHOLD = 20
 RESTART_CRITICAL_THRESHOLD = 100
+RESTART_RECENT_WINDOW_HOURS = 1
+RESTART_WARNING_STABLE_WINDOW_HOURS = 24
 DEFAULT_ALERT_COOLDOWN_HOURS = 6
 
 SECRET_PATTERNS = (
@@ -115,10 +117,21 @@ def parse_timestamp(value: Any) -> dt.datetime | None:
         return None
     if isinstance(value, dt.datetime):
         parsed = value
+    elif isinstance(value, (int, float)):
+        timestamp = float(value)
+        if timestamp > 10_000_000_000:
+            timestamp = timestamp / 1000
+        parsed = dt.datetime.fromtimestamp(timestamp, tz=dt.timezone.utc)
     else:
         text = str(value).strip()
         if not text:
             return None
+        if re.fullmatch(r"\d+(?:\.\d+)?", text):
+            timestamp = float(text)
+            if timestamp > 10_000_000_000:
+                timestamp = timestamp / 1000
+            parsed = dt.datetime.fromtimestamp(timestamp, tz=dt.timezone.utc)
+            return parsed.astimezone(dt.timezone.utc)
         if text.endswith("Z"):
             text = f"{text[:-1]}+00:00"
         try:
@@ -143,6 +156,16 @@ def format_age(value: Any, now: dt.datetime) -> str:
         return "never"
     age = hours_since(parsed, now)
     return f"{parsed:%Y-%m-%d %H:%M UTC} ({age:.1f}h ago)"
+
+
+def format_duration_hours(value: float | None) -> str:
+    if value is None:
+        return "unknown"
+    if value < 1:
+        return f"{value * 60:.0f}m"
+    if value < 48:
+        return f"{value:.1f}h"
+    return f"{value / 24:.1f}d"
 
 
 def _load_status_dashboard_module():
@@ -238,11 +261,21 @@ def build_report(dashboard: dict[str, Any], now: dt.datetime | None = None) -> d
 
         status = row.get("status", "unknown")
         restarts = parse_int(row.get("restart_count"))
+        uptime_age = hours_since(row.get("pm_uptime"), now)
         if status != "online":
             critical.append(f"{name} is {status}")
+        elif restarts >= RESTART_CRITICAL_THRESHOLD and (
+            uptime_age is None or uptime_age <= RESTART_RECENT_WINDOW_HOURS
+        ):
+            critical.append(f"{name} restarted recently with high lifetime restart count ({restarts})")
         elif restarts >= RESTART_CRITICAL_THRESHOLD:
-            critical.append(f"{name} restart count is high ({restarts})")
-        elif restarts >= RESTART_WARNING_THRESHOLD:
+            warnings.append(
+                f"{name} has high historical restarts "
+                f"({restarts}; stable {format_duration_hours(uptime_age)})"
+            )
+        elif restarts >= RESTART_WARNING_THRESHOLD and (
+            uptime_age is None or uptime_age <= RESTART_WARNING_STABLE_WINDOW_HOURS
+        ):
             warnings.append(f"{name} has {restarts} restarts")
 
     for name in OPTIONAL_SERVICES:

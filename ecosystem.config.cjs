@@ -55,7 +55,12 @@ module.exports = {
       env: {
         NODE_ENV: 'production',
         PYTHONUNBUFFERED: '1',
-        DASHBOARD_REVIEW_ONLY: 'false'
+        EPISODIC_MEMORY_ENABLED: 'true',
+        SENTENCE_TRANSFORMERS_MODEL: 'all-MiniLM-L6-v2',
+        SENTENCE_TRANSFORMERS_LOCAL_ONLY: 'true',
+        HF_HUB_OFFLINE: '1',
+        TRANSFORMERS_OFFLINE: '1',
+        DASHBOARD_REVIEW_ONLY: 'true'
       },
       error_file: './logs/scheduler-error.log',
       out_file: './logs/scheduler-out.log',
@@ -91,7 +96,9 @@ module.exports = {
       restart_delay: 5000,
       env: {
         NODE_ENV: 'production',
-        PYTHONUNBUFFERED: '1'
+        PYTHONUNBUFFERED: '1',
+        DRY_RUN_MODE: 'false',
+        DASHBOARD_REVIEW_ONLY: 'true'
       },
       error_file: './logs/poster-error.log',
       out_file: './logs/poster-out.log',
