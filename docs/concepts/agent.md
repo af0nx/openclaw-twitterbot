@@ -69,6 +69,12 @@ The embedded agent runtime is built on the Pi agent core (models, tools, and
 prompt pipeline). Session management, discovery, tool wiring, and channel
 delivery are OpenClaw-owned layers on top of that core.
 
+For consciousness-adjacent design work, use the conservative framework in
+[Consciousness framework](/concepts/consciousness-framework): global workspace
+for shared agent state, attention schema for self-modeling, predictive
+processing for uncertainty, and metacognition for accountability. This is an
+architecture lens, not a claim that the runtime is sentient.
+
 ## Sessions
 
 Session transcripts are stored as JSONL at:

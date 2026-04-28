@@ -55,7 +55,9 @@ STALE_SUCCESS_THRESHOLDS_HOURS = {
 RESTART_WARNING_THRESHOLD = 20
 RESTART_CRITICAL_THRESHOLD = 100
 RESTART_RECENT_WINDOW_HOURS = 1
+RESTART_CRITICAL_ACTIVE_WINDOW_HOURS = 0.25
 RESTART_WARNING_STABLE_WINDOW_HOURS = 24
+MEMORY_RESTART_CAP_WARN_RATIO = 0.9
 DEFAULT_ALERT_COOLDOWN_HOURS = 6
 
 SECRET_PATTERNS = (
@@ -110,6 +112,27 @@ def parse_int(value: Any, default: int = 0) -> int:
         return int(value)
     except (TypeError, ValueError):
         return default
+
+
+def parse_memory_bytes(value: Any, default: int = 0) -> int:
+    if isinstance(value, (int, float)):
+        return int(value)
+    text = str(value or "").strip()
+    if not text:
+        return default
+    match = re.fullmatch(r"(\d+(?:\.\d+)?)\s*([kmgt]?b?|[kmgt])?", text, re.IGNORECASE)
+    if not match:
+        return default
+    number = float(match.group(1))
+    unit = (match.group(2) or "b").lower().rstrip("b")
+    multiplier = {
+        "": 1,
+        "k": 1024,
+        "m": 1024**2,
+        "g": 1024**3,
+        "t": 1024**4,
+    }.get(unit, 1)
+    return int(number * multiplier)
 
 
 def parse_timestamp(value: Any) -> dt.datetime | None:
@@ -168,6 +191,20 @@ def format_duration_hours(value: float | None) -> str:
     return f"{value / 24:.1f}d"
 
 
+def memory_near_restart_cap(row: dict[str, Any]) -> bool:
+    memory_bytes = parse_int(row.get("memory_bytes"))
+    cap_bytes = parse_int(row.get("max_memory_restart_bytes"))
+    return cap_bytes > 0 and memory_bytes >= cap_bytes * MEMORY_RESTART_CAP_WARN_RATIO
+
+
+def is_active_restart_risk(row: dict[str, Any], uptime_age: float | None) -> bool:
+    if uptime_age is None or uptime_age <= RESTART_CRITICAL_ACTIVE_WINDOW_HOURS:
+        return True
+    if parse_int(row.get("unstable_restarts")) > 0:
+        return True
+    return memory_near_restart_cap(row)
+
+
 def _load_status_dashboard_module():
     try:
         from scripts.ops import status_dashboard
@@ -196,7 +233,9 @@ def collect_pm2() -> tuple[list[dict[str, Any]], str | None]:
                     "name": item.get("name"),
                     "status": env.get("status", "unknown"),
                     "restart_count": parse_int(env.get("restart_time")),
+                    "unstable_restarts": parse_int(env.get("unstable_restarts")),
                     "memory_bytes": parse_int((item.get("monit") or {}).get("memory")),
+                    "max_memory_restart_bytes": parse_memory_bytes(env.get("max_memory_restart")),
                     "pid": parse_int(item.get("pid")),
                     "pm_uptime": env.get("pm_uptime"),
                 }
@@ -267,7 +306,15 @@ def build_report(dashboard: dict[str, Any], now: dt.datetime | None = None) -> d
         elif restarts >= RESTART_CRITICAL_THRESHOLD and (
             uptime_age is None or uptime_age <= RESTART_RECENT_WINDOW_HOURS
         ):
-            critical.append(f"{name} restarted recently with high lifetime restart count ({restarts})")
+            if is_active_restart_risk(row, uptime_age):
+                critical.append(
+                    f"{name} restarted recently with high lifetime restart count ({restarts})"
+                )
+            else:
+                warnings.append(
+                    f"{name} restarted recently with high historical restarts "
+                    f"({restarts}; stable {format_duration_hours(uptime_age)})"
+                )
         elif restarts >= RESTART_CRITICAL_THRESHOLD:
             warnings.append(
                 f"{name} has high historical restarts "

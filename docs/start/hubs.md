@@ -43,6 +43,7 @@ Use these hubs to discover every page, including deep dives and reference docs t
 - [Network hub](/network)
 - [Agent runtime](/concepts/agent)
 - [Agent workspace](/concepts/agent-workspace)
+- [Consciousness framework](/concepts/consciousness-framework)
 - [Memory](/concepts/memory)
 - [Agent loop](/concepts/agent-loop)
 - [Streaming + chunking](/concepts/streaming)
