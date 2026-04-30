@@ -1,0 +1,156 @@
+2026-04-06 16:25:29 +00:00: 2026-04-06 16:25:29,976 - __main__ - INFO - 🚀 ML Retrainer starting — all learning systems
+2026-04-06 16:25:29 +00:00: 2026-04-06 16:25:29,976 - __main__ - INFO - ==================================================
+2026-04-06 16:25:29 +00:00: 2026-04-06 16:25:29,976 - __main__ - INFO - 🧠 [1/3] Running RLHF Tuner...
+2026-04-06 16:25:36 +00:00: 2026-04-06 16:25:36,559 - processing.openrouter_client - INFO - ✅ OpenRouter client initialized
+2026-04-06 16:25:36 +00:00: 2026-04-06 16:25:36,559 - processing.openrouter_client - INFO -    eco: free/nemotron-ultra-253b
+2026-04-06 16:25:36 +00:00: 2026-04-06 16:25:36,559 - processing.openrouter_client - INFO -    auto: free/deepseek-v3.2
+2026-04-06 16:25:36 +00:00: 2026-04-06 16:25:36,559 - processing.openrouter_client - INFO -    premium: free/deepseek-v3.2
+2026-04-06 16:25:36 +00:00: 2026-04-06 16:25:36,559 - processing.openrouter_client - INFO -    vision: google/gemini-2.5-flash
+2026-04-06 16:25:36 +00:00: 2026-04-06 16:25:36,560 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2026-04-06 16:25:36 +00:00: 2026-04-06 16:25:36,560 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-04-06 16:25:36 +00:00: 2026-04-06 16:25:36,739 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/modules.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-06 16:25:36 +00:00: Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-06 16:25:36 +00:00: 2026-04-06 16:25:36,740 - huggingface_hub.utils._http - WARNING - Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-06 16:25:36 +00:00: 2026-04-06 16:25:36,749 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/modules.json "HTTP/1.1 200 OK"
+2026-04-06 16:25:36 +00:00: 2026-04-06 16:25:36,851 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/config_sentence_transformers.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-06 16:25:36 +00:00: 2026-04-06 16:25:36,860 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/config_sentence_transformers.json "HTTP/1.1 200 OK"
+2026-04-06 16:25:36 +00:00: 2026-04-06 16:25:36,963 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/config_sentence_transformers.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-06 16:25:36 +00:00: 2026-04-06 16:25:36,972 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/config_sentence_transformers.json "HTTP/1.1 200 OK"
+2026-04-06 16:25:37 +00:00: 2026-04-06 16:25:37,074 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-04-06 16:25:37 +00:00: 2026-04-06 16:25:37,083 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/README.md "HTTP/1.1 200 OK"
+2026-04-06 16:25:37 +00:00: 2026-04-06 16:25:37,188 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/modules.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-06 16:25:37 +00:00: 2026-04-06 16:25:37,196 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/modules.json "HTTP/1.1 200 OK"
+2026-04-06 16:25:37 +00:00: 2026-04-06 16:25:37,298 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/sentence_bert_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-06 16:25:37 +00:00: 2026-04-06 16:25:37,306 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/sentence_bert_config.json "HTTP/1.1 200 OK"
+2026-04-06 16:25:37 +00:00: 2026-04-06 16:25:37,407 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/adapter_config.json "HTTP/1.1 404 Not Found"
+2026-04-06 16:25:37 +00:00: 2026-04-06 16:25:37,511 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-06 16:25:37 +00:00: 2026-04-06 16:25:37,521 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/config.json "HTTP/1.1 200 OK"
+2026-04-06 16:25:37 +00:00: Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]
+2026-04-06 16:25:37 +00:00: Loading weights: 100%|██████████| 103/103 [00:00<00:00, 3432.63it/s]
+2026-04-06 16:25:37 +00:00: [1mBertModel LOAD REPORT[0m from: sentence-transformers/all-MiniLM-L6-v2
+2026-04-06 16:25:37 +00:00: Key                     | Status     |  | 
+2026-04-06 16:25:37 +00:00: ------------------------+------------+--+-
+2026-04-06 16:25:37 +00:00: embeddings.position_ids | UNEXPECTED |  | 
+2026-04-06 16:25:37 +00:00: 
+2026-04-06 16:25:37 +00:00: [3mNotes:
+2026-04-06 16:25:37 +00:00: - UNEXPECTED[3m	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.[0m
+2026-04-06 16:25:37 +00:00: 2026-04-06 16:25:37,760 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-06 16:25:37 +00:00: 2026-04-06 16:25:37,769 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/config.json "HTTP/1.1 200 OK"
+2026-04-06 16:25:37 +00:00: 2026-04-06 16:25:37,874 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-06 16:25:37 +00:00: 2026-04-06 16:25:37,885 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-06 16:25:37 +00:00: 2026-04-06 16:25:37,990 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/sentence-transformers/all-MiniLM-L6-v2/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-06 16:25:38 +00:00: 2026-04-06 16:25:38,095 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/sentence-transformers/all-MiniLM-L6-v2/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-06 16:25:38 +00:00: 2026-04-06 16:25:38,308 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/1_Pooling/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-06 16:25:38 +00:00: 2026-04-06 16:25:38,317 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/1_Pooling%2Fconfig.json "HTTP/1.1 200 OK"
+2026-04-06 16:25:38 +00:00: 2026-04-06 16:25:38,422 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/sentence-transformers/all-MiniLM-L6-v2 "HTTP/1.1 200 OK"
+2026-04-06 16:25:38 +00:00: 2026-04-06 16:25:38,432 - processing.rlhf_tuner - INFO - ✅ Loaded sentence-transformer model for drift ceiling
+2026-04-06 16:25:38 +00:00: 2026-04-06 16:25:38,432 - processing.rlhf_tuner - INFO - 🔄 Starting weekly RLHF tuning...
+2026-04-06 16:25:39 +00:00: 2026-04-06 16:25:39,372 - processing.rlhf_tuner - INFO - ✅ Connected to PostgreSQL
+2026-04-06 16:25:40 +00:00: 2026-04-06 16:25:40,293 - processing.rlhf_tuner - INFO - 📊 Fetched 5 top and 5 bottom performers
+2026-04-06 16:25:40 +00:00: 2026-04-06 16:25:40,828 - httpx - INFO - HTTP Request: POST http://localhost:8402/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-06 16:25:40 +00:00: 2026-04-06 16:25:40,842 - processing.rlhf_tuner - INFO - 📊 Analysis: Here are 2-3 actionable rules based on the analysis of top vs. bottom performing tweets:
+2026-04-06 16:25:40 +00:00: 
+2026-04-06 16:25:40 +00:00: 1. **Emoti...
+2026-04-06 16:25:40 +00:00: Batches:   0%|          | 0/1 [00:00<?, ?it/s]
+2026-04-06 16:25:41 +00:00: Batches: 100%|██████████| 1/1 [00:00<00:00,  2.27it/s]
+2026-04-06 16:25:41 +00:00: Batches: 100%|██████████| 1/1 [00:00<00:00,  2.27it/s]
+2026-04-06 16:25:41 +00:00: Batches:   0%|          | 0/1 [00:00<?, ?it/s]
+2026-04-06 16:25:41 +00:00: Batches: 100%|██████████| 1/1 [00:00<00:00,  2.82it/s]
+2026-04-06 16:25:41 +00:00: Batches: 100%|██████████| 1/1 [00:00<00:00,  2.82it/s]
+2026-04-06 16:25:41 +00:00: 2026-04-06 16:25:41,646 - processing.rlhf_tuner - INFO - 📐 Drift check: Weekly=1.00, Cumulative=0.12
+2026-04-06 16:25:41 +00:00: 2026-04-06 16:25:41,647 - processing.rlhf_tuner - WARNING - ❌ RLHF update REJECTED: Cumulative drift too high (similarity: 0.12 < 0.55)
+2026-04-06 16:25:42 +00:00: 2026-04-06 16:25:42,108 - processing.rlhf_tuner - INFO - 📝 Stored RLHF history
+2026-04-06 16:25:42 +00:00: 2026-04-06 16:25:42,109 - processing.rlhf_tuner - INFO - ✅ Weekly RLHF tuning complete
+2026-04-06 16:25:42 +00:00: 2026-04-06 16:25:42,109 - __main__ - INFO - ✅ RLHF Tuner complete
+2026-04-06 16:25:42 +00:00: 2026-04-06 16:25:42,109 - __main__ - INFO - ==================================================
+2026-04-06 16:25:42 +00:00: 2026-04-06 16:25:42,109 - __main__ - INFO - 🎭 [2/3] Training Persona Classifier...
+2026-04-06 16:25:43 +00:00: 2026-04-06 16:25:43,282 - processing.persona_classifier - INFO - ✅ Connected to PostgreSQL
+2026-04-06 16:25:43 +00:00: 2026-04-06 16:25:43,637 - processing.persona_classifier - WARNING - ⚠️  Insufficient training data (6 rows), need 30+
+2026-04-06 16:25:43 +00:00: 2026-04-06 16:25:43,638 - __main__ - INFO - ✅ Persona Classifier trained
+2026-04-06 16:25:43 +00:00: 2026-04-06 16:25:43,638 - __main__ - INFO - ==================================================
+2026-04-06 16:25:43 +00:00: 2026-04-06 16:25:43,638 - __main__ - INFO - 🎨 [3/3] Training Tone Validator...
+2026-04-06 16:25:43 +00:00: 2026-04-06 16:25:43,663 - processing.tone_validator - INFO - ✅ Loaded local tone classifier model
+2026-04-06 16:25:45 +00:00: 2026-04-06 16:25:45,237 - processing.tone_validator - INFO - ✅ Trained tone classifier on 232 samples
+2026-04-06 16:25:45 +00:00: 2026-04-06 16:25:45,237 - __main__ - INFO - ✅ Tone Validator trained
+2026-04-06 16:25:45 +00:00: 2026-04-06 16:25:45,237 - __main__ - INFO - ==================================================
+2026-04-06 16:25:45 +00:00: 2026-04-06 16:25:45,237 - __main__ - INFO - ✅ All ML retraining complete
+2026-04-12 23:00:00 +00:00: 2026-04-12 23:00:00,073 - __main__ - INFO - 🚀 ML Retrainer starting — all learning systems
+2026-04-12 23:00:00 +00:00: 2026-04-12 23:00:00,074 - __main__ - INFO - ==================================================
+2026-04-12 23:00:00 +00:00: 2026-04-12 23:00:00,074 - __main__ - INFO - 🧠 [1/3] Running RLHF Tuner...
+2026-04-12 23:00:06 +00:00: 2026-04-12 23:00:06,822 - processing.openrouter_client - INFO - ✅ OpenRouter client initialized
+2026-04-12 23:00:06 +00:00: 2026-04-12 23:00:06,822 - processing.openrouter_client - INFO -    eco: free/nemotron-ultra-253b
+2026-04-12 23:00:06 +00:00: 2026-04-12 23:00:06,822 - processing.openrouter_client - INFO -    auto: free/deepseek-v3.2
+2026-04-12 23:00:06 +00:00: 2026-04-12 23:00:06,822 - processing.openrouter_client - INFO -    premium: free/deepseek-v3.2
+2026-04-12 23:00:06 +00:00: 2026-04-12 23:00:06,822 - processing.openrouter_client - INFO -    vision: google/gemini-2.5-flash
+2026-04-12 23:00:06 +00:00: 2026-04-12 23:00:06,822 - processing.openrouter_client - INFO -    🧪 A/B auto: free/deepseek-v3.2(w=3), z-ai/glm-5.1(w=2), minimax/minimax-m2.7(w=2), xiaomi/mimo-v2-pro(w=2)
+2026-04-12 23:00:06 +00:00: 2026-04-12 23:00:06,822 - processing.openrouter_client - INFO -    🧪 A/B premium: anthropic/claude-sonnet-4.6(w=3), z-ai/glm-5.1(w=2), minimax/minimax-m2.7(w=2), xiaomi/mimo-v2-pro(w=1)
+2026-04-12 23:00:06 +00:00: 2026-04-12 23:00:06,822 - processing.openrouter_client - INFO -    💰 Daily budget cap: $0.40
+2026-04-12 23:00:06 +00:00: 2026-04-12 23:00:06,823 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2026-04-12 23:00:06 +00:00: 2026-04-12 23:00:06,823 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-04-12 23:00:07 +00:00: 2026-04-12 23:00:07,007 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/modules.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-12 23:00:07 +00:00: Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-12 23:00:07 +00:00: 2026-04-12 23:00:07,008 - huggingface_hub.utils._http - WARNING - Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-12 23:00:07 +00:00: 2026-04-12 23:00:07,018 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/modules.json "HTTP/1.1 200 OK"
+2026-04-12 23:00:07 +00:00: 2026-04-12 23:00:07,132 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/config_sentence_transformers.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-12 23:00:07 +00:00: 2026-04-12 23:00:07,144 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/config_sentence_transformers.json "HTTP/1.1 200 OK"
+2026-04-12 23:00:07 +00:00: 2026-04-12 23:00:07,241 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/config_sentence_transformers.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-12 23:00:07 +00:00: 2026-04-12 23:00:07,251 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/config_sentence_transformers.json "HTTP/1.1 200 OK"
+2026-04-12 23:00:07 +00:00: 2026-04-12 23:00:07,348 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-04-12 23:00:07 +00:00: 2026-04-12 23:00:07,360 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/README.md "HTTP/1.1 200 OK"
+2026-04-12 23:00:07 +00:00: 2026-04-12 23:00:07,459 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/modules.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-12 23:00:07 +00:00: 2026-04-12 23:00:07,470 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/modules.json "HTTP/1.1 200 OK"
+2026-04-12 23:00:07 +00:00: 2026-04-12 23:00:07,569 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/sentence_bert_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-12 23:00:07 +00:00: 2026-04-12 23:00:07,581 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/sentence_bert_config.json "HTTP/1.1 200 OK"
+2026-04-12 23:00:07 +00:00: 2026-04-12 23:00:07,678 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/adapter_config.json "HTTP/1.1 404 Not Found"
+2026-04-12 23:00:07 +00:00: 2026-04-12 23:00:07,778 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-12 23:00:07 +00:00: 2026-04-12 23:00:07,789 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/config.json "HTTP/1.1 200 OK"
+2026-04-12 23:00:08 +00:00: Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]
+2026-04-12 23:00:08 +00:00: Loading weights: 100%|██████████| 103/103 [00:00<00:00, 4289.38it/s]
+2026-04-12 23:00:08 +00:00: [1mBertModel LOAD REPORT[0m from: sentence-transformers/all-MiniLM-L6-v2
+2026-04-12 23:00:08 +00:00: Key                     | Status     |  | 
+2026-04-12 23:00:08 +00:00: ------------------------+------------+--+-
+2026-04-12 23:00:08 +00:00: embeddings.position_ids | UNEXPECTED |  | 
+2026-04-12 23:00:08 +00:00: 
+2026-04-12 23:00:08 +00:00: [3mNotes:
+2026-04-12 23:00:08 +00:00: - UNEXPECTED[3m	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.[0m
+2026-04-12 23:00:08 +00:00: 2026-04-12 23:00:08,222 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-12 23:00:08 +00:00: 2026-04-12 23:00:08,233 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/config.json "HTTP/1.1 200 OK"
+2026-04-12 23:00:08 +00:00: 2026-04-12 23:00:08,336 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-12 23:00:08 +00:00: 2026-04-12 23:00:08,347 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-12 23:00:08 +00:00: 2026-04-12 23:00:08,475 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/sentence-transformers/all-MiniLM-L6-v2/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-12 23:00:08 +00:00: 2026-04-12 23:00:08,609 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/sentence-transformers/all-MiniLM-L6-v2/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-12 23:00:08 +00:00: 2026-04-12 23:00:08,797 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/1_Pooling/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-12 23:00:08 +00:00: 2026-04-12 23:00:08,808 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/1_Pooling%2Fconfig.json "HTTP/1.1 200 OK"
+2026-04-12 23:00:08 +00:00: 2026-04-12 23:00:08,906 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/sentence-transformers/all-MiniLM-L6-v2 "HTTP/1.1 200 OK"
+2026-04-12 23:00:08 +00:00: 2026-04-12 23:00:08,916 - processing.rlhf_tuner - INFO - ✅ Loaded sentence-transformer model for drift ceiling
+2026-04-12 23:00:08 +00:00: 2026-04-12 23:00:08,916 - processing.rlhf_tuner - INFO - 🔄 Starting weekly RLHF tuning...
+2026-04-12 23:00:09 +00:00: 2026-04-12 23:00:09,892 - processing.rlhf_tuner - INFO - ✅ Connected to PostgreSQL
+2026-04-12 23:00:10 +00:00: 2026-04-12 23:00:10,821 - processing.rlhf_tuner - INFO - 📊 Fetched 5 top and 5 bottom performers
+2026-04-12 23:00:52 +00:00: 2026-04-12 23:00:52,983 - httpx - INFO - HTTP Request: POST http://localhost:8402/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-12 23:00:52 +00:00: 2026-04-12 23:00:52,995 - processing.rlhf_tuner - INFO - 📊 Analysis: 1. **Frame events as unfolding narratives, not final outcomes.** Top tweets use phrases like "in fre...
+2026-04-12 23:00:52 +00:00: 2026-04-12 23:00:52,997 - processing.rlhf_tuner - INFO - 📐 Week0 baseline loaded (790 chars): Here are 2-3 actionable rules based on the analysis of top vs. bottom performing tweets:
+2026-04-12 23:00:52 +00:00: 
+2026-04-12 23:00:52 +00:00: 1. **Emoti...
+2026-04-12 23:00:53 +00:00: Batches:   0%|          | 0/1 [00:00<?, ?it/s]
+2026-04-12 23:00:53 +00:00: Batches: 100%|██████████| 1/1 [00:00<00:00,  5.71it/s]
+2026-04-12 23:00:53 +00:00: Batches: 100%|██████████| 1/1 [00:00<00:00,  5.70it/s]
+2026-04-12 23:00:53 +00:00: Batches:   0%|          | 0/1 [00:00<?, ?it/s]
+2026-04-12 23:00:53 +00:00: Batches: 100%|██████████| 1/1 [00:00<00:00, 13.92it/s]
+2026-04-12 23:00:53 +00:00: 2026-04-12 23:00:53,252 - processing.rlhf_tuner - INFO - 📐 Drift check: Weekly=0.60, Cumulative=0.74
+2026-04-12 23:00:53 +00:00: 2026-04-12 23:00:53,252 - processing.rlhf_tuner - INFO - 📐 Thresholds: Weekly>0.7, Cumulative>0.3
+2026-04-12 23:00:53 +00:00: 2026-04-12 23:00:53,252 - processing.rlhf_tuner - WARNING - ❌ RLHF update REJECTED: Weekly drift too high (similarity: 0.60 < 0.7)
+2026-04-12 23:00:53 +00:00: 2026-04-12 23:00:53,718 - processing.rlhf_tuner - INFO - 📝 Stored RLHF history
+2026-04-12 23:00:53 +00:00: 2026-04-12 23:00:53,719 - processing.rlhf_tuner - INFO - ✅ Weekly RLHF tuning complete
+2026-04-12 23:00:53 +00:00: 2026-04-12 23:00:53,719 - __main__ - INFO - ✅ RLHF Tuner complete
+2026-04-12 23:00:53 +00:00: 2026-04-12 23:00:53,719 - __main__ - INFO - ==================================================
+2026-04-12 23:00:53 +00:00: 2026-04-12 23:00:53,719 - __main__ - INFO - 🎭 [2/3] Training Persona Classifier...
+2026-04-12 23:00:54 +00:00: 2026-04-12 23:00:54,699 - processing.persona_classifier - INFO - ✅ Connected to PostgreSQL
+2026-04-12 23:00:55 +00:00: 2026-04-12 23:00:55,007 - processing.persona_classifier - WARNING - ⚠️  Insufficient training data (4 rows), need 30+
+2026-04-12 23:00:55 +00:00: 2026-04-12 23:00:55,007 - __main__ - INFO - ✅ Persona Classifier trained
+2026-04-12 23:00:55 +00:00: 2026-04-12 23:00:55,007 - __main__ - INFO - ==================================================
+2026-04-12 23:00:55 +00:00: 2026-04-12 23:00:55,007 - __main__ - INFO - 🎨 [3/3] Training Tone Validator...
+2026-04-12 23:00:55 +00:00: 2026-04-12 23:00:55,027 - processing.tone_validator - INFO - ✅ Loaded local tone classifier model
+2026-04-12 23:00:56 +00:00: 2026-04-12 23:00:56,593 - processing.tone_validator - INFO - ✅ Trained tone classifier on 250 samples
+2026-04-12 23:00:56 +00:00: 2026-04-12 23:00:56,593 - __main__ - INFO - ✅ Tone Validator trained
+2026-04-12 23:00:56 +00:00: 2026-04-12 23:00:56,593 - __main__ - INFO - ==================================================
+2026-04-12 23:00:56 +00:00: 2026-04-12 23:00:56,593 - __main__ - INFO - ✅ All ML retraining complete

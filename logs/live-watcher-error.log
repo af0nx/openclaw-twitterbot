@@ -1,0 +1,207 @@
+2026-04-01 13:44:00 +00:00: 2026-04-01 13:44:00,133 - openrouter_client - INFO - ✅ OpenRouter client initialized
+2026-04-01 13:44:00 +00:00: 2026-04-01 13:44:00,133 - openrouter_client - INFO -    eco: free/nemotron-ultra-253b
+2026-04-01 13:44:00 +00:00: 2026-04-01 13:44:00,134 - openrouter_client - INFO -    auto: free/deepseek-v3.2
+2026-04-01 13:44:00 +00:00: 2026-04-01 13:44:00,134 - openrouter_client - INFO -    premium: free/deepseek-v3.2
+2026-04-01 13:44:00 +00:00: 2026-04-01 13:44:00,134 - openrouter_client - INFO -    vision: google/gemini-2.5-flash
+2026-04-01 13:44:00 +00:00: 2026-04-01 13:44:00,136 - live_match_watcher - INFO - 🔴 Live Match Watcher started
+2026-04-01 13:44:00 +00:00: 2026-04-01 13:44:00,137 - live_match_watcher - INFO -    Screenshot interval: 75s
+2026-04-01 13:44:00 +00:00: 2026-04-01 13:44:00,137 - live_match_watcher - INFO -    Max tweets per match: 4
+2026-04-01 13:44:00 +00:00: 2026-04-01 13:44:00,137 - live_match_watcher - INFO -    Cooldown after tweet: 180s
+2026-04-01 13:44:01 +00:00: 2026-04-01 13:44:01,062 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-04-01 13:44:01 +00:00: 2026-04-01 13:44:01,366 - live_match_watcher - WARNING - ⚠️  Failed to fetch active matches: for SELECT DISTINCT, ORDER BY expressions must appear in select list
+2026-04-01 13:44:01 +00:00: LINE 11:                     ORDER BY created_at DESC
+2026-04-01 13:44:01 +00:00:                                       ^
+2026-04-01 13:44:01 +00:00: 
+2026-04-01 13:44:33 +00:00: Traceback (most recent call last):
+2026-04-01 13:44:33 +00:00:   File "/home/ubuntu/openclaw/scripts/services/live_match_watcher.py", line 303, in <module>
+2026-04-01 13:44:33 +00:00:     asyncio.run(watcher.run_forever())
+2026-04-01 13:44:33 +00:00:   File "/usr/lib/python3.10/asyncio/runners.py", line 44, in run
+2026-04-01 13:44:33 +00:00:     return loop.run_until_complete(main)
+2026-04-01 13:44:33 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 636, in run_until_complete
+2026-04-01 13:44:33 +00:00:     self.run_forever()
+2026-04-01 13:44:33 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 603, in run_forever
+2026-04-01 13:44:33 +00:00:     self._run_once()
+2026-04-01 13:44:33 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 1871, in _run_once
+2026-04-01 13:44:33 +00:00:     event_list = self._selector.select(timeout)
+2026-04-01 13:44:33 +00:00:   File "/usr/lib/python3.10/selectors.py", line 469, in select
+2026-04-01 13:44:33 +00:00:     fd_event_list = self._selector.poll(timeout, max_ev)
+2026-04-01 13:44:33 +00:00: KeyboardInterrupt
+2026-04-01 13:44:34 +00:00: 2026-04-01 13:44:34,783 - openrouter_client - INFO - ✅ OpenRouter client initialized
+2026-04-01 13:44:34 +00:00: 2026-04-01 13:44:34,783 - openrouter_client - INFO -    eco: free/nemotron-ultra-253b
+2026-04-01 13:44:34 +00:00: 2026-04-01 13:44:34,783 - openrouter_client - INFO -    auto: free/deepseek-v3.2
+2026-04-01 13:44:34 +00:00: 2026-04-01 13:44:34,783 - openrouter_client - INFO -    premium: free/deepseek-v3.2
+2026-04-01 13:44:34 +00:00: 2026-04-01 13:44:34,783 - openrouter_client - INFO -    vision: google/gemini-2.5-flash
+2026-04-01 13:44:34 +00:00: 2026-04-01 13:44:34,786 - live_match_watcher - INFO - 🔴 Live Match Watcher started
+2026-04-01 13:44:34 +00:00: 2026-04-01 13:44:34,786 - live_match_watcher - INFO -    Screenshot interval: 75s
+2026-04-01 13:44:34 +00:00: 2026-04-01 13:44:34,786 - live_match_watcher - INFO -    Max tweets per match: 4
+2026-04-01 13:44:34 +00:00: 2026-04-01 13:44:34,786 - live_match_watcher - INFO -    Cooldown after tweet: 180s
+2026-04-01 13:44:35 +00:00: 2026-04-01 13:44:35,714 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-04-01 14:13:01 +00:00: Traceback (most recent call last):
+2026-04-01 14:13:01 +00:00:   File "/home/ubuntu/openclaw/scripts/services/live_match_watcher.py", line 303, in <module>
+2026-04-01 14:13:01 +00:00:     asyncio.run(watcher.run_forever())
+2026-04-01 14:13:01 +00:00:   File "/usr/lib/python3.10/asyncio/runners.py", line 44, in run
+2026-04-01 14:13:01 +00:00:     return loop.run_until_complete(main)
+2026-04-01 14:13:01 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 636, in run_until_complete
+2026-04-01 14:13:01 +00:00:     self.run_forever()
+2026-04-01 14:13:01 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 603, in run_forever
+2026-04-01 14:13:01 +00:00:     self._run_once()
+2026-04-01 14:13:01 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 1871, in _run_once
+2026-04-01 14:13:01 +00:00:     event_list = self._selector.select(timeout)
+2026-04-01 14:13:01 +00:00:   File "/usr/lib/python3.10/selectors.py", line 469, in select
+2026-04-01 14:13:01 +00:00:     fd_event_list = self._selector.poll(timeout, max_ev)
+2026-04-01 14:13:01 +00:00: KeyboardInterrupt
+2026-04-01 14:13:02 +00:00: 2026-04-01 14:13:02,900 - openrouter_client - INFO - ✅ OpenRouter client initialized
+2026-04-01 14:13:02 +00:00: 2026-04-01 14:13:02,900 - openrouter_client - INFO -    eco: free/nemotron-ultra-253b
+2026-04-01 14:13:02 +00:00: 2026-04-01 14:13:02,900 - openrouter_client - INFO -    auto: free/deepseek-v3.2
+2026-04-01 14:13:02 +00:00: 2026-04-01 14:13:02,900 - openrouter_client - INFO -    premium: free/deepseek-v3.2
+2026-04-01 14:13:02 +00:00: 2026-04-01 14:13:02,900 - openrouter_client - INFO -    vision: google/gemini-2.5-flash
+2026-04-01 14:13:02 +00:00: 2026-04-01 14:13:02,903 - live_match_watcher - INFO - 🔴 Live Match Watcher started
+2026-04-01 14:13:02 +00:00: 2026-04-01 14:13:02,903 - live_match_watcher - INFO -    Screenshot interval: 75s
+2026-04-01 14:13:02 +00:00: 2026-04-01 14:13:02,903 - live_match_watcher - INFO -    Max tweets per match: 4
+2026-04-01 14:13:02 +00:00: 2026-04-01 14:13:02,903 - live_match_watcher - INFO -    Cooldown after tweet: 180s
+2026-04-01 14:13:03 +00:00: 2026-04-01 14:13:03,812 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-04-01 22:17:14 +00:00: Traceback (most recent call last):
+2026-04-01 22:17:14 +00:00:   File "/home/ubuntu/openclaw/scripts/services/live_match_watcher.py", line 303, in <module>
+2026-04-01 22:17:14 +00:00:     logger.error(f"❌ Cycle error: {e}", exc_info=True)
+2026-04-01 22:17:14 +00:00:   File "/usr/lib/python3.10/asyncio/runners.py", line 44, in run
+2026-04-01 22:17:14 +00:00:     return loop.run_until_complete(main)
+2026-04-01 22:17:14 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 636, in run_until_complete
+2026-04-01 22:17:14 +00:00:     self.run_forever()
+2026-04-01 22:17:14 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 603, in run_forever
+2026-04-01 22:17:14 +00:00:     self._run_once()
+2026-04-01 22:17:14 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 1871, in _run_once
+2026-04-01 22:17:14 +00:00:     event_list = self._selector.select(timeout)
+2026-04-01 22:17:14 +00:00:   File "/usr/lib/python3.10/selectors.py", line 469, in select
+2026-04-01 22:17:14 +00:00:     fd_event_list = self._selector.poll(timeout, max_ev)
+2026-04-01 22:17:14 +00:00: KeyboardInterrupt
+2026-04-01 22:17:16 +00:00: 2026-04-01 22:17:16,252 - openrouter_client - INFO - ✅ OpenRouter client initialized
+2026-04-01 22:17:16 +00:00: 2026-04-01 22:17:16,252 - openrouter_client - INFO -    eco: free/nemotron-ultra-253b
+2026-04-01 22:17:16 +00:00: 2026-04-01 22:17:16,252 - openrouter_client - INFO -    auto: free/deepseek-v3.2
+2026-04-01 22:17:16 +00:00: 2026-04-01 22:17:16,252 - openrouter_client - INFO -    premium: free/deepseek-v3.2
+2026-04-01 22:17:16 +00:00: 2026-04-01 22:17:16,252 - openrouter_client - INFO -    vision: google/gemini-2.5-flash
+2026-04-01 22:17:16 +00:00: 2026-04-01 22:17:16,254 - live_match_watcher - INFO - 🔴 Live Match Watcher started
+2026-04-01 22:17:16 +00:00: 2026-04-01 22:17:16,254 - live_match_watcher - INFO -    Monitor interval: 12s
+2026-04-01 22:17:16 +00:00: 2026-04-01 22:17:16,254 - live_match_watcher - INFO -    Local monitor window: 8s @ 1.0 FPS
+2026-04-01 22:17:16 +00:00: 2026-04-01 22:17:16,254 - live_match_watcher - INFO -    Burst frames on trigger: 3
+2026-04-01 22:17:16 +00:00: 2026-04-01 22:17:16,254 - live_match_watcher - INFO -    Max tweets per match: 4
+2026-04-01 22:17:16 +00:00: 2026-04-01 22:17:16,254 - live_match_watcher - INFO -    Cooldown after tweet: 180s
+2026-04-01 22:17:17 +00:00: 2026-04-01 22:17:17,273 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-04-01 23:35:24 +00:00: 2026-04-01 23:35:24,442 - openrouter_client - INFO - ✅ OpenRouter client initialized
+2026-04-01 23:35:24 +00:00: 2026-04-01 23:35:24,443 - openrouter_client - INFO -    eco: free/nemotron-ultra-253b
+2026-04-01 23:35:24 +00:00: 2026-04-01 23:35:24,443 - openrouter_client - INFO -    auto: free/deepseek-v3.2
+2026-04-01 23:35:24 +00:00: 2026-04-01 23:35:24,443 - openrouter_client - INFO -    premium: free/deepseek-v3.2
+2026-04-01 23:35:24 +00:00: 2026-04-01 23:35:24,443 - openrouter_client - INFO -    vision: google/gemini-2.5-flash
+2026-04-01 23:35:24 +00:00: 2026-04-01 23:35:24,445 - live_match_watcher - INFO - 🔴 Live Match Watcher started
+2026-04-01 23:35:24 +00:00: 2026-04-01 23:35:24,445 - live_match_watcher - INFO -    Monitor interval: 12s
+2026-04-01 23:35:24 +00:00: 2026-04-01 23:35:24,445 - live_match_watcher - INFO -    Local monitor window: 8s @ 1.0 FPS
+2026-04-01 23:35:24 +00:00: 2026-04-01 23:35:24,446 - live_match_watcher - INFO -    Burst frames on trigger: 3
+2026-04-01 23:35:24 +00:00: 2026-04-01 23:35:24,446 - live_match_watcher - INFO -    Max tweets per match: 4
+2026-04-01 23:35:24 +00:00: 2026-04-01 23:35:24,446 - live_match_watcher - INFO -    Cooldown after tweet: 180s
+2026-04-01 23:35:25 +00:00: 2026-04-01 23:35:25,353 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-04-02 15:14:03 +00:00: 2026-04-02 15:14:03,103 - live_match_watcher - WARNING - ⚠️  DB connect failed (backoff 1s): duplicate key value violates unique constraint "pg_type_typname_nsp_index"
+2026-04-02 15:14:03 +00:00: DETAIL:  Key (typname, typnamespace)=(account_quotas, 17407) already exists.
+2026-04-02 15:14:03 +00:00: 
+2026-04-02 15:14:04 +00:00: 2026-04-02 15:14:04,104 - live_match_watcher - WARNING - ⚠️  Failed to fetch active matches: duplicate key value violates unique constraint "pg_type_typname_nsp_index"
+2026-04-02 15:14:04 +00:00: DETAIL:  Key (typname, typnamespace)=(account_quotas, 17407) already exists.
+2026-04-02 15:14:04 +00:00: 
+2026-04-02 15:14:17 +00:00: 2026-04-02 15:14:17,119 - utils.db_utils - WARNING - ⚠️  DB connection stale — reconnecting…
+2026-04-02 15:14:18 +00:00: 2026-04-02 15:14:18,011 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-04-02 15:14:24 +00:00: Traceback (most recent call last):
+2026-04-02 15:14:24 +00:00:   File "/home/ubuntu/openclaw/scripts/services/live_match_watcher.py", line 322, in <module>
+2026-04-02 15:14:24 +00:00:     asyncio.run(watcher.run_forever())
+2026-04-02 15:14:24 +00:00:   File "/usr/lib/python3.10/asyncio/runners.py", line 44, in run
+2026-04-02 15:14:24 +00:00:     return loop.run_until_complete(main)
+2026-04-02 15:14:24 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 636, in run_until_complete
+2026-04-02 15:14:24 +00:00:     self.run_forever()
+2026-04-02 15:14:24 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 603, in run_forever
+2026-04-02 15:14:24 +00:00:     self._run_once()
+2026-04-02 15:14:24 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 1871, in _run_once
+2026-04-02 15:14:24 +00:00:     event_list = self._selector.select(timeout)
+2026-04-02 15:14:24 +00:00:   File "/usr/lib/python3.10/selectors.py", line 469, in select
+2026-04-02 15:14:24 +00:00:     fd_event_list = self._selector.poll(timeout, max_ev)
+2026-04-02 15:14:24 +00:00: KeyboardInterrupt
+2026-04-02 15:14:27 +00:00: 2026-04-02 15:14:27,459 - openrouter_client - INFO - ✅ OpenRouter client initialized
+2026-04-02 15:14:27 +00:00: 2026-04-02 15:14:27,461 - openrouter_client - INFO -    eco: free/nemotron-ultra-253b
+2026-04-02 15:14:27 +00:00: 2026-04-02 15:14:27,462 - openrouter_client - INFO -    auto: free/deepseek-v3.2
+2026-04-02 15:14:27 +00:00: 2026-04-02 15:14:27,462 - openrouter_client - INFO -    premium: free/deepseek-v3.2
+2026-04-02 15:14:27 +00:00: 2026-04-02 15:14:27,462 - openrouter_client - INFO -    vision: google/gemini-2.5-flash
+2026-04-02 15:14:27 +00:00: 2026-04-02 15:14:27,464 - live_match_watcher - INFO - 🔴 Live Match Watcher started
+2026-04-02 15:14:27 +00:00: 2026-04-02 15:14:27,465 - live_match_watcher - INFO -    Monitor interval: 12s
+2026-04-02 15:14:27 +00:00: 2026-04-02 15:14:27,465 - live_match_watcher - INFO -    Local monitor window: 8s @ 1.0 FPS
+2026-04-02 15:14:27 +00:00: 2026-04-02 15:14:27,466 - live_match_watcher - INFO -    Burst frames on trigger: 3
+2026-04-02 15:14:27 +00:00: 2026-04-02 15:14:27,466 - live_match_watcher - INFO -    Max tweets per match: 4
+2026-04-02 15:14:27 +00:00: 2026-04-02 15:14:27,466 - live_match_watcher - INFO -    Cooldown after tweet: 180s
+2026-04-02 15:14:28 +00:00: 2026-04-02 15:14:28,361 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-04-02 15:19:02 +00:00: 2026-04-02 15:19:02,599 - live_match_watcher - WARNING - ⚠️  DB connect failed (backoff 1s): SSL connection has been closed unexpectedly
+2026-04-02 15:19:02 +00:00: 
+2026-04-02 15:19:03 +00:00: 2026-04-02 15:19:03,601 - live_match_watcher - WARNING - ⚠️  Failed to fetch active matches: SSL connection has been closed unexpectedly
+2026-04-02 15:19:03 +00:00: 
+2026-04-02 15:19:12 +00:00: Traceback (most recent call last):
+2026-04-02 15:19:12 +00:00:   File "/home/ubuntu/openclaw/scripts/services/live_match_watcher.py", line 322, in <module>
+2026-04-02 15:19:12 +00:00:     asyncio.run(watcher.run_forever())
+2026-04-02 15:19:12 +00:00:   File "/usr/lib/python3.10/asyncio/runners.py", line 44, in run
+2026-04-02 15:19:12 +00:00:     return loop.run_until_complete(main)
+2026-04-02 15:19:12 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 636, in run_until_complete
+2026-04-02 15:19:12 +00:00:     self.run_forever()
+2026-04-02 15:19:12 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 603, in run_forever
+2026-04-02 15:19:12 +00:00:     self._run_once()
+2026-04-02 15:19:12 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 1871, in _run_once
+2026-04-02 15:19:12 +00:00:     event_list = self._selector.select(timeout)
+2026-04-02 15:19:12 +00:00:   File "/usr/lib/python3.10/selectors.py", line 469, in select
+2026-04-02 15:19:12 +00:00:     fd_event_list = self._selector.poll(timeout, max_ev)
+2026-04-02 15:19:12 +00:00: KeyboardInterrupt
+2026-04-02 15:19:15 +00:00: 2026-04-02 15:19:15,106 - openrouter_client - INFO - ✅ OpenRouter client initialized
+2026-04-02 15:19:15 +00:00: 2026-04-02 15:19:15,107 - openrouter_client - INFO -    eco: free/nemotron-ultra-253b
+2026-04-02 15:19:15 +00:00: 2026-04-02 15:19:15,107 - openrouter_client - INFO -    auto: free/deepseek-v3.2
+2026-04-02 15:19:15 +00:00: 2026-04-02 15:19:15,107 - openrouter_client - INFO -    premium: free/deepseek-v3.2
+2026-04-02 15:19:15 +00:00: 2026-04-02 15:19:15,107 - openrouter_client - INFO -    vision: google/gemini-2.5-flash
+2026-04-02 15:19:15 +00:00: 2026-04-02 15:19:15,108 - live_match_watcher - INFO - 🔴 Live Match Watcher started
+2026-04-02 15:19:15 +00:00: 2026-04-02 15:19:15,108 - live_match_watcher - INFO -    Monitor interval: 12s
+2026-04-02 15:19:15 +00:00: 2026-04-02 15:19:15,108 - live_match_watcher - INFO -    Local monitor window: 8s @ 1.0 FPS
+2026-04-02 15:19:15 +00:00: 2026-04-02 15:19:15,108 - live_match_watcher - INFO -    Burst frames on trigger: 3
+2026-04-02 15:19:15 +00:00: 2026-04-02 15:19:15,108 - live_match_watcher - INFO -    Max tweets per match: 4
+2026-04-02 15:19:15 +00:00: 2026-04-02 15:19:15,108 - live_match_watcher - INFO -    Cooldown after tweet: 180s
+2026-04-02 15:19:16 +00:00: 2026-04-02 15:19:16,044 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-04-06 17:22:14 +00:00: Traceback (most recent call last):
+2026-04-06 17:22:14 +00:00:   File "/home/ubuntu/openclaw/scripts/services/live_match_watcher.py", line 322, in <module>
+2026-04-06 17:22:14 +00:00:     await asyncio.sleep(SCREENSHOT_INTERVAL + jitter)
+2026-04-06 17:22:14 +00:00:   File "/usr/lib/python3.10/asyncio/runners.py", line 44, in run
+2026-04-06 17:22:14 +00:00:     return loop.run_until_complete(main)
+2026-04-06 17:22:14 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 636, in run_until_complete
+2026-04-06 17:22:14 +00:00:     self.run_forever()
+2026-04-06 17:22:14 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 603, in run_forever
+2026-04-06 17:22:14 +00:00:     self._run_once()
+2026-04-06 17:22:14 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 1871, in _run_once
+2026-04-06 17:22:14 +00:00:     event_list = self._selector.select(timeout)
+2026-04-06 17:22:14 +00:00:   File "/usr/lib/python3.10/selectors.py", line 469, in select
+2026-04-06 17:22:14 +00:00:     fd_event_list = self._selector.poll(timeout, max_ev)
+2026-04-06 17:22:14 +00:00: KeyboardInterrupt
+2026-04-06 17:22:17 +00:00: 2026-04-06 17:22:17,196 - openrouter_client - INFO - ✅ OpenRouter client initialized
+2026-04-06 17:22:17 +00:00: 2026-04-06 17:22:17,196 - openrouter_client - INFO -    eco: free/nemotron-ultra-253b
+2026-04-06 17:22:17 +00:00: 2026-04-06 17:22:17,196 - openrouter_client - INFO -    auto: free/deepseek-v3.2
+2026-04-06 17:22:17 +00:00: 2026-04-06 17:22:17,196 - openrouter_client - INFO -    premium: free/deepseek-v3.2
+2026-04-06 17:22:17 +00:00: 2026-04-06 17:22:17,196 - openrouter_client - INFO -    vision: google/gemini-2.5-flash
+2026-04-06 17:22:17 +00:00: 2026-04-06 17:22:17,199 - live_match_watcher - INFO - 🔴 Live Match Watcher started
+2026-04-06 17:22:17 +00:00: 2026-04-06 17:22:17,199 - live_match_watcher - INFO -    Monitor interval: 12s
+2026-04-06 17:22:17 +00:00: 2026-04-06 17:22:17,199 - live_match_watcher - INFO -    Local monitor window: 8s @ 1.0 FPS
+2026-04-06 17:22:17 +00:00: 2026-04-06 17:22:17,199 - live_match_watcher - INFO -    Burst frames on trigger: 3
+2026-04-06 17:22:17 +00:00: 2026-04-06 17:22:17,199 - live_match_watcher - INFO -    Max tweets per match: 4
+2026-04-06 17:22:17 +00:00: 2026-04-06 17:22:17,199 - live_match_watcher - INFO -    Cooldown after tweet: 180s
+2026-04-06 17:22:18 +00:00: 2026-04-06 17:22:18,127 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-04-06 17:22:24 +00:00: 2026-04-06 17:22:24,186 - utils.runtime_schema - WARNING - ⚠️  DDL lock_timeout on tweets_v2 (column likely exists): canceling statement due to lock timeout
+2026-04-06 17:22:24 +00:00: 
+2026-04-17 00:33:18 +00:00: 2026-04-17 00:33:18,202 - live_match_watcher - WARNING - ⚠️  Failed to fetch active matches: canceling statement due to statement timeout
+2026-04-17 00:33:18 +00:00: 
+2026-04-26 09:28:21 +00:00: Traceback (most recent call last):
+2026-04-26 09:28:21 +00:00:   File "/home/ubuntu/openclaw/scripts/services/live_match_watcher.py", line 327, in <module>
+2026-04-26 09:28:21 +00:00:   File "/usr/lib/python3.10/asyncio/runners.py", line 44, in run
+2026-04-26 09:28:21 +00:00:     return loop.run_until_complete(main)
+2026-04-26 09:28:21 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 636, in run_until_complete
+2026-04-26 09:28:21 +00:00:     self.run_forever()
+2026-04-26 09:28:21 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 603, in run_forever
+2026-04-26 09:28:21 +00:00:     self._run_once()
+2026-04-26 09:28:21 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 1871, in _run_once
+2026-04-26 09:28:21 +00:00:     event_list = self._selector.select(timeout)
+2026-04-26 09:28:21 +00:00:   File "/usr/lib/python3.10/selectors.py", line 469, in select
+2026-04-26 09:28:21 +00:00:     fd_event_list = self._selector.poll(timeout, max_ev)
+2026-04-26 09:28:21 +00:00: KeyboardInterrupt

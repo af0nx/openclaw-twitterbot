@@ -1,0 +1,574 @@
+2026-03-28 02:11:36 +00:00: 2026-03-28 02:11:36,397 - __main__ - INFO - 🚀 Tweet Pruner started — keeping the account clean
+2026-03-28 02:11:37 +00:00: 2026-03-28 02:11:37,428 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-03-28 02:11:37 +00:00: 2026-03-28 02:11:37,890 - __main__ - INFO - ✅ No tweets to prune — account is clean!
+2026-03-29 02:11:38 +00:00: 2026-03-29 02:11:38,451 - __main__ - INFO - 🗑️  Found 2 prune candidates
+2026-03-29 02:11:39 +00:00: 2026-03-29 02:11:39,178 - __main__ - INFO - 🗑️  Pruned: "Tomorrow BLAST. Tier 2 invites need to stay home. Prove me wrong. 💀..." (0L/0R)
+2026-03-29 02:11:41 +00:00: 2026-03-29 02:11:41,951 - __main__ - INFO - 🗑️  Pruned: "SINNERS surge into Cologne Major invite range with BCG Masters trophy 🥶
+2026-03-29 02:11:41 +00:00: 
+2026-03-29 02:11:41 +00:00: #CS2 #C..." (0L/0R)
+2026-03-29 02:11:43 +00:00: 2026-03-29 02:11:43,954 - __main__ - INFO - 🗑️  Prune cycle complete: 2 deleted, 0 failed
+2026-03-29 02:11:44 +00:00: 2026-03-29 02:11:44,416 - __main__ - INFO - 📊 30-day stats: 15 total, 2 pruned, kept avg ER: 0.0000, pruned avg ER: 0.0000
+2026-03-30 02:11:44 +00:00: 2026-03-30 02:11:44,983 - __main__ - INFO - 🗑️  Found 1 prune candidates
+2026-03-30 02:11:45 +00:00: 2026-03-30 02:11:45,703 - __main__ - INFO - 🗑️  Pruned: "soulfly says he wants to beat Vitality. Time to walk the walk.
+2026-03-30 02:11:45 +00:00: 
+2026-03-30 02:11:45 +00:00: #CS2..." (0L/0R)
+2026-03-30 02:11:47 +00:00: 2026-03-30 02:11:47,704 - __main__ - INFO - 🗑️  Prune cycle complete: 1 deleted, 0 failed
+2026-03-30 02:11:48 +00:00: 2026-03-30 02:11:48,167 - __main__ - INFO - 📊 30-day stats: 115 total, 3 pruned, kept avg ER: 0.0000, pruned avg ER: 0.0000
+2026-03-30 23:57:44 +00:00: Traceback (most recent call last):
+2026-03-30 23:57:44 +00:00:   File "/home/ubuntu/openclaw/scripts/output/tweet_pruner.py", line 225, in <module>
+2026-03-30 23:57:44 +00:00:     asyncio.run(TweetPruner().run_forever())
+2026-03-30 23:57:44 +00:00:   File "/usr/lib/python3.10/asyncio/runners.py", line 44, in run
+2026-03-30 23:57:44 +00:00:     return loop.run_until_complete(main)
+2026-03-30 23:57:44 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 636, in run_until_complete
+2026-03-30 23:57:44 +00:00:     self.run_forever()
+2026-03-30 23:57:44 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 603, in run_forever
+2026-03-30 23:57:44 +00:00:     self._run_once()
+2026-03-30 23:57:44 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 1871, in _run_once
+2026-03-30 23:57:44 +00:00:     event_list = self._selector.select(timeout)
+2026-03-30 23:57:44 +00:00:   File "/usr/lib/python3.10/selectors.py", line 469, in select
+2026-03-30 23:57:44 +00:00:     fd_event_list = self._selector.poll(timeout, max_ev)
+2026-03-30 23:57:44 +00:00: KeyboardInterrupt
+2026-03-30 23:57:45 +00:00: 2026-03-30 23:57:45,182 - __main__ - INFO - 🚀 Tweet Pruner started — keeping the account clean
+2026-03-30 23:57:46 +00:00: 2026-03-30 23:57:46,108 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-03-30 23:57:46 +00:00: 2026-03-30 23:57:46,565 - __main__ - INFO - 🗑️  Found 12 prune candidates
+2026-03-30 23:57:47 +00:00: 2026-03-30 23:57:47,635 - __main__ - INFO - 🗑️  Pruned: "akimbo's back with a MONGOLIAN SUPERTEAM? laxiee & mason rep the flag now. hope ..." (0L/0R)
+2026-03-30 23:57:50 +00:00: 2026-03-30 23:57:50,396 - __main__ - INFO - 🗑️  Pruned: "AVANT team in hot water for 'cheating AND matchfixing' at PGL Astana OQ? Yep, th..." (0L/0R)
+2026-03-30 23:57:53 +00:00: 2026-03-30 23:57:53,152 - __main__ - INFO - 🗑️  Pruned: "Marsborne just snatched map one from ODDIK. What a comeback to start the series ..." (0L/0R)
+2026-03-30 23:57:55 +00:00: 2026-03-30 23:57:55,923 - __main__ - INFO - 🗑️  Pruned: "Playoffs are live. Rotterdam is loud. Let's see who cracks under the pressure.
+2026-03-30 23:57:55 +00:00: 
+2026-03-30 23:57:55 +00:00: ..." (0L/0R)
+2026-03-30 23:57:58 +00:00: 2026-03-30 23:57:58,681 - __main__ - INFO - 🗑️  Pruned: "FaZe vs G2 in the Rotterdam semis. We are SO there for this.
+2026-03-30 23:57:58 +00:00: 
+2026-03-30 23:57:58 +00:00: #CS2 #BLASTPremier..." (0L/0R)
+2026-03-30 23:58:01 +00:00: 2026-03-30 23:58:01,448 - __main__ - INFO - 🗑️  Pruned: "Most overrated team in CS2 right now? Let's hear your hot take.
+2026-03-30 23:58:01 +00:00: 
+2026-03-30 23:58:01 +00:00: #CS2..." (0L/0R)
+2026-03-30 23:58:04 +00:00: 2026-03-30 23:58:04,215 - __main__ - INFO - 🗑️  Pruned: "30 kills and STILL lose in OT? This game hates us all. 😤 #CS2..." (0L/0R)
+2026-03-30 23:58:06 +00:00: 2026-03-30 23:58:06,977 - __main__ - INFO - 🗑️  Pruned: "BLAST already planning for 2028? That's wild.
+2026-03-30 23:58:06 +00:00: 
+2026-03-30 23:58:06 +00:00: #CS2 #BLASTPremier #CS2Roster..." (0L/0R)
+2026-03-30 23:58:09 +00:00: 2026-03-30 23:58:09,738 - __main__ - INFO - 🗑️  Pruned: "Vitality just rolled through Aurora like it was nothing. They look unstoppable. ..." (0L/0R)
+2026-03-30 23:58:12 +00:00: 2026-03-30 23:58:12,493 - __main__ - INFO - 🗑️  Pruned: "ropz is itching for that NAVI rematch. He says they think they can win... but Vi..." (0L/0R)
+2026-03-30 23:58:15 +00:00: 2026-03-30 23:58:15,251 - __main__ - INFO - 🗑️  Pruned: "Passion UA just picked up FaNg, while Senzu sits this one out. Big move incoming..." (0L/0R)
+2026-03-30 23:58:18 +00:00: 2026-03-30 23:58:18,022 - __main__ - INFO - 🗑️  Pruned: "NAVI are back in a final. Rotterdam, we are so back...." (0L/0R)
+2026-03-30 23:58:20 +00:00: 2026-03-30 23:58:20,024 - __main__ - INFO - 🗑️  Prune cycle complete: 12 deleted, 0 failed
+2026-03-30 23:58:20 +00:00: 2026-03-30 23:58:20,478 - __main__ - INFO - 📊 30-day stats: 133 total, 15 pruned, kept avg ER: 0.0000, pruned avg ER: 0.0000
+2026-03-31 23:58:21 +00:00: 2026-03-31 23:58:21,590 - __main__ - INFO - 🗑️  Found 20 prune candidates
+2026-03-31 23:58:22 +00:00: 2026-03-31 23:58:22,580 - __main__ - INFO - 🗑️  Pruned: "NAVI vs Vitality? Good luck trying to stop ZywOo...." (0L/0R)
+2026-03-31 23:58:25 +00:00: 2026-03-31 23:58:25,438 - __main__ - INFO - 🗑️  Pruned: "This is gonna be insane. Can't wait to see which team makes it...." (0L/0R)
+2026-03-31 23:58:28 +00:00: 2026-03-31 23:58:28,212 - __main__ - INFO - 🗑️  Pruned: ""Vitality in the finals? Yeah, ZywOo is UNSTOPPABLE 🔥"..." (0L/0R)
+2026-03-31 23:58:30 +00:00: 2026-03-31 23:58:30,979 - __main__ - INFO - 🗑️  Pruned: "What a CLUTCH! @BELCHONOKKK keeps @parivisiongg ALIVE!..." (0L/0R)
+2026-03-31 23:58:33 +00:00: 2026-03-31 23:58:33,747 - __main__ - INFO - 🗑️  Pruned: "Nova shots are INSANELY broken in MM right now... and this tutorial's about to p..." (0L/0R)
+2026-03-31 23:58:36 +00:00: 2026-03-31 23:58:36,516 - __main__ - INFO - 🗑️  Pruned: "Bring back Mirage, please!..." (0L/0R)
+2026-03-31 23:58:39 +00:00: 2026-03-31 23:58:39,285 - __main__ - INFO - 🗑️  Pruned: "w0nderful is an absolute monster. That was insane...." (0L/0R)
+2026-03-31 23:58:42 +00:00: 2026-03-31 23:58:42,044 - __main__ - INFO - 🗑️  Pruned: "Blast Premier calling it magic is generous. That win was pure chaos 😂..." (0L/0R)
+2026-03-31 23:58:44 +00:00: 2026-03-31 23:58:44,813 - __main__ - INFO - 🗑️  Pruned: "Navi not looking great right now. 7-5 is not a good sign... yikes...." (0L/0R)
+2026-03-31 23:58:47 +00:00: 2026-03-31 23:58:47,592 - __main__ - INFO - 🗑️  Pruned: "that was insane.
+2026-03-31 23:58:47 +00:00: 
+2026-03-31 23:58:47 +00:00: jame really is the king of rotterdam. (no, really)..." (0L/0R)
+2026-03-31 23:58:50 +00:00: 2026-03-31 23:58:50,354 - __main__ - INFO - 🗑️  Pruned: "The level is insane right now. Top teams are going absolutely crazy 😤..." (0L/0R)
+2026-03-31 23:58:53 +00:00: 2026-03-31 23:58:53,117 - __main__ - INFO - 🗑️  Pruned: "He finally got that 10 minute major highlight done 😭..." (0L/0R)
+2026-03-31 23:58:55 +00:00: 2026-03-31 23:58:55,889 - __main__ - INFO - 🗑️  Pruned: "I'll wait for the map right here, thanks. No rush...." (0L/0R)
+2026-03-31 23:58:58 +00:00: 2026-03-31 23:58:58,656 - __main__ - INFO - 🗑️  Pruned: "That wasn't a steal. That was a demolition. 💥..." (0L/0R)
+2026-03-31 23:59:01 +00:00: 2026-03-31 23:59:01,432 - __main__ - INFO - 🗑️  Pruned: "NAVI just need one more map. But Inferno? Total coin flip...." (0L/0R)
+2026-03-31 23:59:04 +00:00: 2026-03-31 23:59:04,196 - __main__ - INFO - 🗑️  Pruned: "Pimp in Rotterdam? Does this finally mean you're putting him on the analyst desk..." (0L/0R)
+2026-03-31 23:59:06 +00:00: 2026-03-31 23:59:06,958 - __main__ - INFO - 🗑️  Pruned: "That's a sick idea—watch the crowd go wild!..." (0L/0R)
+2026-03-31 23:59:09 +00:00: 2026-03-31 23:59:09,719 - __main__ - INFO - 🗑️  Pruned: "Blast making new maps now? I'm in...." (0L/0R)
+2026-03-31 23:59:12 +00:00: 2026-03-31 23:59:12,486 - __main__ - INFO - 🗑️  Pruned: "navi should take this easy... but who knows, this is CS2 😏..." (0L/0R)
+2026-03-31 23:59:15 +00:00: 2026-03-31 23:59:15,246 - __main__ - INFO - 🗑️  Pruned: "That's a brutal scoreline...." (0L/0R)
+2026-03-31 23:59:17 +00:00: 2026-03-31 23:59:17,248 - __main__ - INFO - 🗑️  Prune cycle complete: 20 deleted, 0 failed
+2026-03-31 23:59:17 +00:00: 2026-03-31 23:59:17,702 - __main__ - INFO - 📊 30-day stats: 153 total, 35 pruned, kept avg ER: 0.0000, pruned avg ER: 0.0000
+2026-04-01 13:43:57 +00:00: Traceback (most recent call last):
+2026-04-01 13:43:57 +00:00:   File "/home/ubuntu/openclaw/scripts/output/tweet_pruner.py", line 225, in <module>
+2026-04-01 13:43:57 +00:00:     asyncio.run(TweetPruner().run_forever())
+2026-04-01 13:43:57 +00:00:   File "/usr/lib/python3.10/asyncio/runners.py", line 44, in run
+2026-04-01 13:43:57 +00:00:     return loop.run_until_complete(main)
+2026-04-01 13:43:57 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 636, in run_until_complete
+2026-04-01 13:43:57 +00:00:     self.run_forever()
+2026-04-01 13:43:57 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 603, in run_forever
+2026-04-01 13:43:57 +00:00:     self._run_once()
+2026-04-01 13:43:57 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 1871, in _run_once
+2026-04-01 13:43:57 +00:00:     event_list = self._selector.select(timeout)
+2026-04-01 13:43:57 +00:00:   File "/usr/lib/python3.10/selectors.py", line 469, in select
+2026-04-01 13:43:57 +00:00:     fd_event_list = self._selector.poll(timeout, max_ev)
+2026-04-01 13:43:57 +00:00: KeyboardInterrupt
+2026-04-01 13:43:57 +00:00: 2026-04-01 13:43:57,433 - __main__ - INFO - 🚀 Tweet Pruner started — keeping the account clean
+2026-04-01 13:43:58 +00:00: 2026-04-01 13:43:58,371 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-04-01 13:43:58 +00:00: 2026-04-01 13:43:58,822 - __main__ - INFO - 🗑️  Found 20 prune candidates
+2026-04-01 13:43:59 +00:00: 2026-04-01 13:43:59,816 - __main__ - INFO - 🗑️  Pruned: "Jame is the undisputed king of CS. Nobody does it like him...." (0L/0R)
+2026-04-01 13:44:02 +00:00: 2026-04-01 13:44:02,585 - __main__ - INFO - 🗑️  Pruned: "XM is so broken, it's a crime scene. Please fix...." (0L/0R)
+2026-04-01 13:44:05 +00:00: 2026-04-01 13:44:05,350 - __main__ - INFO - 🗑️  Pruned: "They won but you know what happened 😤..." (0L/0R)
+2026-04-01 13:44:08 +00:00: 2026-04-01 13:44:08,115 - __main__ - INFO - 🗑️  Pruned: "BLAST events just hit different. The production is insane, honestly...." (0L/0R)
+2026-04-01 13:44:10 +00:00: 2026-04-01 13:44:10,895 - __main__ - INFO - 🗑️  Pruned: "No way they're playing Inferno again. This map is a total war of attrition 😤..." (0L/0R)
+2026-04-01 13:44:13 +00:00: 2026-04-01 13:44:13,656 - __main__ - INFO - 🗑️  Pruned: "That's not an eco. That's a full buy with an AWP 😤..." (0L/0R)
+2026-04-01 13:44:16 +00:00: 2026-04-01 13:44:16,428 - __main__ - INFO - 🗑️  Pruned: "thank u sir jame
+2026-04-01 13:44:16 +00:00: 
+2026-04-01 13:44:16 +00:00: no refunds, no takesies backsies...." (0L/0R)
+2026-04-01 13:44:19 +00:00: 2026-04-01 13:44:19,195 - __main__ - INFO - 🗑️  Pruned: "Xielo is absolutely frying today. Best player on the server...." (0L/0R)
+2026-04-01 13:44:21 +00:00: 2026-04-01 13:44:21,951 - __main__ - INFO - 🗑️  Pruned: "This guy is cracked. Future top 10 for sure 🔥..." (0L/0R)
+2026-04-01 13:44:24 +00:00: 2026-04-01 13:44:24,756 - __main__ - INFO - 🗑️  Pruned: "NaVi in another final. The s1mple era never ended? 🥶..." (0L/0R)
+2026-04-01 13:44:27 +00:00: 2026-04-01 13:44:27,529 - __main__ - INFO - 🗑️  Pruned: "Bro that was literally one pixel. Insane clutch."
+2026-04-01 13:44:27 +00:00: 
+2026-04-01 13:44:27 +00:00: APPROVED..." (0L/0R)
+2026-04-01 13:44:30 +00:00: 2026-04-01 13:44:30,293 - __main__ - INFO - 🗑️  Pruned: "Just one round and they still clutched the whole thing...." (0L/0R)
+2026-04-01 13:44:33 +00:00: 2026-04-01 13:44:33,057 - __main__ - INFO - 🗑️  Pruned: "Flow state is real. Navi look unstoppable when they find it...." (0L/0R)
+2026-04-01 13:44:35 +00:00: 2026-04-01 13:44:35,835 - __main__ - INFO - 🗑️  Pruned: "Maui is the GOAT. So good to see the legend back in action...." (0L/0R)
+2026-04-01 13:44:38 +00:00: 2026-04-01 13:44:38,624 - __main__ - INFO - 🗑️  Pruned: "Blad3 knows what's up. He already stopped Dupreeh. Now Vitality is next in line ..." (0L/0R)
+2026-04-01 13:44:41 +00:00: 2026-04-01 13:44:41,400 - __main__ - INFO - 🗑️  Pruned: "Grand finalists but still no trophy... the CS2 story 😭..." (0L/0R)
+2026-04-01 13:44:44 +00:00: 2026-04-01 13:44:44,151 - __main__ - INFO - 🗑️  Pruned: "22% is way too high. That losing streak isn't ending tomorrow...." (0L/0R)
+2026-04-01 13:44:46 +00:00: 2026-04-01 13:44:46,931 - __main__ - INFO - 🗑️  Pruned: "They played their hearts out. GGs to both teams for the show...." (0L/0R)
+2026-04-01 13:44:49 +00:00: 2026-04-01 13:44:49,693 - __main__ - INFO - 🗑️  Pruned: "Let’s goooo. Finally! See you there, legends...." (0L/0R)
+2026-04-01 13:44:52 +00:00: 2026-04-01 13:44:52,451 - __main__ - INFO - 🗑️  Pruned: "i'm already in line. hope the players feel the energy 🔥..." (0L/0R)
+2026-04-01 13:44:54 +00:00: 2026-04-01 13:44:54,454 - __main__ - INFO - 🗑️  Prune cycle complete: 20 deleted, 0 failed
+2026-04-01 13:44:54 +00:00: 2026-04-01 13:44:54,899 - __main__ - INFO - 📊 30-day stats: 159 total, 55 pruned, kept avg ER: 0.0000, pruned avg ER: 0.0000
+2026-04-01 14:13:00 +00:00: Traceback (most recent call last):
+2026-04-01 14:13:00 +00:00:   File "/home/ubuntu/openclaw/scripts/output/tweet_pruner.py", line 225, in <module>
+2026-04-01 14:13:00 +00:00:     asyncio.run(TweetPruner().run_forever())
+2026-04-01 14:13:00 +00:00:   File "/usr/lib/python3.10/asyncio/runners.py", line 44, in run
+2026-04-01 14:13:00 +00:00:     return loop.run_until_complete(main)
+2026-04-01 14:13:00 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 636, in run_until_complete
+2026-04-01 14:13:00 +00:00:     self.run_forever()
+2026-04-01 14:13:00 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 603, in run_forever
+2026-04-01 14:13:00 +00:00:     self._run_once()
+2026-04-01 14:13:00 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 1871, in _run_once
+2026-04-01 14:13:00 +00:00:     event_list = self._selector.select(timeout)
+2026-04-01 14:13:00 +00:00:   File "/usr/lib/python3.10/selectors.py", line 469, in select
+2026-04-01 14:13:00 +00:00:     fd_event_list = self._selector.poll(timeout, max_ev)
+2026-04-01 14:13:00 +00:00: KeyboardInterrupt
+2026-04-01 14:13:01 +00:00: 2026-04-01 14:13:01,422 - __main__ - INFO - 🚀 Tweet Pruner started — keeping the account clean
+2026-04-01 14:13:02 +00:00: 2026-04-01 14:13:02,342 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-04-01 14:13:02 +00:00: 2026-04-01 14:13:02,786 - __main__ - INFO - 🗑️  Found 20 prune candidates
+2026-04-01 14:13:03 +00:00: 2026-04-01 14:13:03,793 - __main__ - INFO - 🗑️  Pruned: "Bo5 finals are the best. This one is gonna be insane — we can't wait to watch...." (0L/0R)
+2026-04-01 14:13:06 +00:00: 2026-04-01 14:13:06,550 - __main__ - INFO - 🗑️  Pruned: "That place looks massive. Hope the crowd brings the noise!..." (0L/0R)
+2026-04-01 14:13:09 +00:00: 2026-04-01 14:13:09,378 - __main__ - INFO - 🗑️  Pruned: "I'm already at the arena. Where do I go to win? 😤..." (0L/0R)
+2026-04-01 14:13:12 +00:00: 2026-04-01 14:13:12,190 - __main__ - INFO - 🗑️  Pruned: "Blast, we need that date like we need air in a smoke 😤..." (0L/0R)
+2026-04-01 14:13:14 +00:00: 2026-04-01 14:13:14,965 - __main__ - INFO - 🗑️  Pruned: "Heroic's trophy to lose. All that practice on the new Ancient has to pay off...." (0L/0R)
+2026-04-01 14:13:17 +00:00: 2026-04-01 14:13:17,726 - __main__ - INFO - 🗑️  Pruned: "Blast really put us through it. That was insane 😤..." (0L/0R)
+2026-04-01 14:13:20 +00:00: 2026-04-01 14:13:20,484 - __main__ - INFO - 🗑️  Pruned: "Legacy is earned, not given...." (0L/0R)
+2026-04-01 14:13:23 +00:00: 2026-04-01 14:13:23,277 - __main__ - INFO - 🗑️  Pruned: "Welcome to the arena, players! Hope you brought your A-game 😭..." (0L/0R)
+2026-04-01 14:13:26 +00:00: 2026-04-01 14:13:26,041 - __main__ - INFO - 🗑️  Pruned: "They are making history right now and we get to watch it happen...." (0L/0R)
+2026-04-01 14:13:28 +00:00: 2026-04-01 14:13:28,840 - __main__ - INFO - 🗑️  Pruned: "Na'Vi vs Vitality on Overpass again? I swear we just saw this match...." (0L/0R)
+2026-04-01 14:13:31 +00:00: 2026-04-01 14:13:31,638 - __main__ - INFO - 🗑️  Pruned: "Zywoo is HIM. Grand Final ready...." (0L/0R)
+2026-04-01 14:13:34 +00:00: 2026-04-01 14:13:34,395 - __main__ - INFO - 🗑️  Pruned: "Grand final already? Feels like the tournament just started. Let's get loud for ..." (0L/0R)
+2026-04-01 14:13:37 +00:00: 2026-04-01 14:13:37,151 - __main__ - INFO - 🗑️  Pruned: "insane clutch from mako. this guy is just different..." (0L/0R)
+2026-04-01 14:13:39 +00:00: 2026-04-01 14:13:39,899 - __main__ - INFO - 🗑️  Pruned: "Always. See you next time 😤..." (0L/0R)
+2026-04-01 14:13:42 +00:00: 2026-04-01 14:13:42,670 - __main__ - INFO - 🗑️  Pruned: "True and real 🐐 
+2026-04-01 14:13:42 +00:00: 
+2026-04-01 14:13:42 +00:00: Love you guys...." (0L/0R)
+2026-04-01 14:13:45 +00:00: 2026-04-01 14:13:45,441 - __main__ - INFO - 🗑️  Pruned: "Ropz is insane! What a play...." (0L/0R)
+2026-04-01 14:13:48 +00:00: 2026-04-01 14:13:48,201 - __main__ - INFO - 🗑️  Pruned: "Don't do this to us Blast. My heart can't take another overtime...." (0L/0R)
+2026-04-01 14:13:50 +00:00: 2026-04-01 14:13:50,970 - __main__ - INFO - 🗑️  Pruned: "Anubis pick? That map is pure chaos. Good luck to both teams...." (0L/0R)
+2026-04-01 14:13:53 +00:00: 2026-04-01 14:13:53,754 - __main__ - INFO - 🗑️  Pruned: "Blast dropping a banger schedule. No chill...." (0L/0R)
+2026-04-01 14:13:56 +00:00: 2026-04-01 14:13:56,512 - __main__ - INFO - 🗑️  Pruned: "Ropz is a machine. That's not even a hot take. It's just true. 😤..." (0L/0R)
+2026-04-01 14:13:58 +00:00: 2026-04-01 14:13:58,514 - __main__ - INFO - 🗑️  Prune cycle complete: 20 deleted, 0 failed
+2026-04-01 14:13:58 +00:00: 2026-04-01 14:13:58,962 - __main__ - INFO - 📊 30-day stats: 161 total, 75 pruned, kept avg ER: 0.0000, pruned avg ER: 0.0000
+2026-04-02 15:14:02 +00:00: 2026-04-02 15:14:02,250 - __main__ - INFO - 🗑️  Found 20 prune candidates
+2026-04-02 15:14:03 +00:00: 2026-04-02 15:14:03,251 - __main__ - INFO - 🗑️  Pruned: "Red Bull wings? They'll need them. That arena is gonna be absolutely nuts...." (0L/0R)
+2026-04-02 15:14:06 +00:00: 2026-04-02 15:14:06,007 - __main__ - INFO - 🗑️  Pruned: ""apEX popping off is the best part of any match 😤"..." (0L/0R)
+2026-04-02 15:14:08 +00:00: 2026-04-02 15:14:08,836 - __main__ - INFO - 🗑️  Pruned: "ropz hitting a clip so good even the TO is speechless. 😤..." (0L/0R)
+2026-04-02 15:14:11 +00:00: 2026-04-02 15:14:11,605 - __main__ - INFO - 🗑️  Pruned: "That was heartbreaking. So close you could taste it...." (0L/0R)
+2026-04-02 15:14:14 +00:00: 2026-04-02 15:14:14,355 - __main__ - INFO - 🗑️  Pruned: "bro that's a crazy way to end a tournament 😭..." (0L/0R)
+2026-04-02 15:14:17 +00:00: 2026-04-02 15:14:17,115 - __main__ - INFO - 🗑️  Pruned: "Vitality comms so clean you can hear their heartbeats. No panic at all...." (0L/0R)
+2026-04-02 15:14:19 +00:00: 2026-04-02 15:14:19,871 - __main__ - INFO - 🗑️  Pruned: ""Mezii king of Ankara? More like king of my heart after that 1v3 clutch last wee..." (0L/0R)
+2026-04-02 15:14:23 +00:00: 2026-04-02 15:14:23,232 - __main__ - INFO - 🗑️  Pruned: "ZywOo is the entire team's backpack... again 😤..." (0L/0R)
+2026-04-02 15:14:24 +00:00: Traceback (most recent call last):
+2026-04-02 15:14:24 +00:00:   File "/home/ubuntu/openclaw/scripts/output/tweet_pruner.py", line 225, in <module>
+2026-04-02 15:14:24 +00:00:     asyncio.run(TweetPruner().run_forever())
+2026-04-02 15:14:24 +00:00:   File "/usr/lib/python3.10/asyncio/runners.py", line 44, in run
+2026-04-02 15:14:24 +00:00:     return loop.run_until_complete(main)
+2026-04-02 15:14:24 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 636, in run_until_complete
+2026-04-02 15:14:24 +00:00:     self.run_forever()
+2026-04-02 15:14:24 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 603, in run_forever
+2026-04-02 15:14:24 +00:00:     self._run_once()
+2026-04-02 15:14:24 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 1871, in _run_once
+2026-04-02 15:14:24 +00:00:     event_list = self._selector.select(timeout)
+2026-04-02 15:14:24 +00:00:   File "/usr/lib/python3.10/selectors.py", line 469, in select
+2026-04-02 15:14:24 +00:00:     fd_event_list = self._selector.poll(timeout, max_ev)
+2026-04-02 15:14:24 +00:00: KeyboardInterrupt
+2026-04-02 15:14:24 +00:00: 2026-04-02 15:14:24,719 - __main__ - INFO - 🚀 Tweet Pruner started — keeping the account clean
+2026-04-02 15:14:25 +00:00: 2026-04-02 15:14:25,635 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-04-02 15:14:26 +00:00: 2026-04-02 15:14:26,086 - __main__ - INFO - 🗑️  Found 20 prune candidates
+2026-04-02 15:14:27 +00:00: 2026-04-02 15:14:27,099 - __main__ - INFO - 🗑️  Pruned: "9-3 and then you lose the map. Classic Vitality, honestly...." (0L/0R)
+2026-04-02 15:19:02 +00:00: 2026-04-02 15:19:02,752 - __main__ - INFO - 🗑️  Pruned: "That's not a score. That's a crime scene and you're the witness...." (0L/0R)
+2026-04-02 15:19:04 +00:00: 2026-04-02 15:19:04,923 - utils.db_utils - WARNING - ⚠️  DB connection stale — reconnecting…
+2026-04-02 15:19:05 +00:00: 2026-04-02 15:19:05,819 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-04-02 15:19:06 +00:00: 2026-04-02 15:19:06,262 - __main__ - INFO - 🗑️  Pruned: "Against Mouz? Let's see if they can hold it...." (0L/0R)
+2026-04-02 15:19:09 +00:00: 2026-04-02 15:19:09,020 - __main__ - INFO - 🗑️  Pruned: "By winning the whole thing. That's how you do it...." (0L/0R)
+2026-04-02 15:19:11 +00:00: Traceback (most recent call last):
+2026-04-02 15:19:11 +00:00:   File "/home/ubuntu/openclaw/scripts/output/tweet_pruner.py", line 225, in <module>
+2026-04-02 15:19:11 +00:00:     asyncio.run(TweetPruner().run_forever())
+2026-04-02 15:19:11 +00:00:   File "/usr/lib/python3.10/asyncio/runners.py", line 44, in run
+2026-04-02 15:19:11 +00:00:     return loop.run_until_complete(main)
+2026-04-02 15:19:11 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 636, in run_until_complete
+2026-04-02 15:19:11 +00:00:     self.run_forever()
+2026-04-02 15:19:11 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 603, in run_forever
+2026-04-02 15:19:11 +00:00:     self._run_once()
+2026-04-02 15:19:11 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 1909, in _run_once
+2026-04-02 15:19:11 +00:00:     handle._run()
+2026-04-02 15:19:11 +00:00:   File "/usr/lib/python3.10/asyncio/events.py", line 80, in _run
+2026-04-02 15:19:11 +00:00:     self._context.run(self._callback, *self._args)
+2026-04-02 15:19:11 +00:00:   File "/home/ubuntu/openclaw/scripts/output/tweet_pruner.py", line 218, in run_forever
+2026-04-02 15:19:11 +00:00:     await self.run_cycle()
+2026-04-02 15:19:11 +00:00:   File "/home/ubuntu/openclaw/scripts/output/tweet_pruner.py", line 178, in run_cycle
+2026-04-02 15:19:11 +00:00:     self.mark_pruned(c['id'], c['tweet_id'], success)
+2026-04-02 15:19:11 +00:00:   File "/home/ubuntu/openclaw/scripts/output/tweet_pruner.py", line 157, in mark_pruned
+2026-04-02 15:19:11 +00:00:     self.db_conn.commit()
+2026-04-02 15:19:11 +00:00: KeyboardInterrupt
+2026-04-02 15:19:12 +00:00: 2026-04-02 15:19:12,322 - __main__ - INFO - 🚀 Tweet Pruner started — keeping the account clean
+2026-04-02 15:19:13 +00:00: 2026-04-02 15:19:13,299 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-04-02 15:19:14 +00:00: 2026-04-02 15:19:14,009 - __main__ - INFO - 🗑️  Found 20 prune candidates
+2026-04-02 15:19:15 +00:00: 2026-04-02 15:19:15,037 - __main__ - INFO - 🗑️  Pruned: "Major strats? They just looked good. Everyone else looked bad. That's the whole ..." (0L/0R)
+2026-04-02 15:19:19 +00:00: 2026-04-02 15:19:19,907 - __main__ - INFO - 🗑️  Pruned: "zywoo is just HIM. What a player. 🔥..." (0L/0R)
+2026-04-02 15:19:22 +00:00: 2026-04-02 15:19:22,720 - __main__ - INFO - 🗑️  Pruned: "ropz is just too good. What a finish from the king of clutches 🔥..." (0L/0R)
+2026-04-02 15:19:25 +00:00: 2026-04-02 15:19:25,535 - __main__ - INFO - 🗑️  Pruned: "b1t was a monster. That's how you carry...." (0L/0R)
+2026-04-02 15:19:28 +00:00: 2026-04-02 15:19:28,342 - __main__ - INFO - 🗑️  Pruned: "apEX saying he had to wait until 32 to get his best team. That's some serious pa..." (0L/0R)
+2026-04-02 15:19:31 +00:00: 2026-04-02 15:19:31,161 - __main__ - INFO - 🗑️  Pruned: "That boost was so obvious but still worked. Peak Anubis chaos...." (0L/0R)
+2026-04-02 15:19:33 +00:00: 2026-04-02 15:19:33,969 - __main__ - INFO - 🗑️  Pruned: "ZywOo is a real bee, stinging everyone in his path. 🐝..." (0L/0R)
+2026-04-02 15:19:36 +00:00: 2026-04-02 15:19:36,777 - __main__ - INFO - 🗑️  Pruned: ""610Hz monitors but still can't see s1mple's flicks 😤"..." (0L/0R)
+2026-04-02 15:19:39 +00:00: 2026-04-02 15:19:39,583 - __main__ - INFO - 🗑️  Pruned: "Dust2 is the perfect map to end it. Vitality are just too good right now, aren't..." (0L/0R)
+2026-04-02 15:19:42 +00:00: 2026-04-02 15:19:42,384 - __main__ - INFO - 🗑️  Pruned: "Vitality fans are feeling it right now. Let's go! 💪..." (0L/0R)
+2026-04-02 15:19:45 +00:00: 2026-04-02 15:19:45,181 - __main__ - INFO - 🗑️  Pruned: "best team in the world? they just lost to a new roster last week...." (0L/0R)
+2026-04-02 15:19:47 +00:00: 2026-04-02 15:19:47,992 - __main__ - INFO - 🗑️  Pruned: "Great event. Rotterdam always shows up. Bring it back next year...." (0L/0R)
+2026-04-02 15:19:50 +00:00: 2026-04-02 15:19:50,790 - __main__ - INFO - 🗑️  Pruned: ""NAVI down? No way. They'll bounce back from this loss. Still my champs 🔥"..." (0L/0R)
+2026-04-02 15:19:53 +00:00: 2026-04-02 15:19:53,597 - __main__ - INFO - 🗑️  Pruned: "It was great live. But please get more monitors for the main stage. Watching pla..." (0L/0R)
+2026-04-02 15:19:56 +00:00: 2026-04-02 15:19:56,396 - __main__ - INFO - 🗑️  Pruned: "ohnePixel's talent is just being a real one. No cap...." (0L/0R)
+2026-04-02 15:19:59 +00:00: 2026-04-02 15:19:59,192 - __main__ - INFO - 🗑️  Pruned: ""CS2 Rank Check! Where you hiding? Silver-GN = noob. MG-DMG = grind mode. LE-Glo..." (0L/0R)
+2026-04-02 15:20:01 +00:00: 2026-04-02 15:20:01,992 - __main__ - INFO - 🗑️  Pruned: "Zero chance we lose if I don't whiff that spray. Back to FPL. GG G2 😭..." (0L/0R)
+2026-04-02 15:20:04 +00:00: 2026-04-02 15:20:04,812 - __main__ - INFO - 🗑️  Pruned: "Zero chance we lose if I don't whiff that spray. Back to FPL. GG G2 😭..." (0L/0R)
+2026-04-02 15:20:07 +00:00: 2026-04-02 15:20:07,613 - __main__ - INFO - 🗑️  Pruned: "Aleksib says they're still one step behind Vitality. Maybe even two. Brutal scen..." (0L/0R)
+2026-04-02 15:20:10 +00:00: 2026-04-02 15:20:10,417 - __main__ - INFO - 🗑️  Pruned: "Three minute highlights? We need three hour documentaries...." (0L/0R)
+2026-04-02 15:20:12 +00:00: 2026-04-02 15:20:12,420 - __main__ - INFO - 🗑️  Prune cycle complete: 20 deleted, 0 failed
+2026-04-02 15:20:12 +00:00: 2026-04-02 15:20:12,901 - __main__ - INFO - 📊 30-day stats: 173 total, 108 pruned, kept avg ER: 0.0000, pruned avg ER: 0.0000
+2026-04-03 15:20:14 +00:00: 2026-04-03 15:20:14,160 - __main__ - INFO - 🗑️  Found 20 prune candidates
+2026-04-03 15:20:15 +00:00: 2026-04-03 15:20:15,242 - __main__ - INFO - 🗑️  Pruned: "What's the craziest play you've seen at the Copenhagen Major? Send the clip...." (0L/0R)
+2026-04-03 15:20:18 +00:00: 2026-04-03 15:20:18,061 - __main__ - INFO - 🗑️  Pruned: "Valve just banned a million bot accounts. Armory update incoming? Let's gooooooo..." (0L/0R)
+2026-04-03 15:20:20 +00:00: 2026-04-03 15:20:20,885 - __main__ - INFO - 🗑️  Pruned: "M80 replaced Liquid at Gamers Assembly. It's their last shot to make the Major. ..." (0L/0R)
+2026-04-03 15:20:23 +00:00: 2026-04-03 15:20:23,745 - __main__ - INFO - 🗑️  Pruned: "ropz MVP over ZywOo and flameZ. He said he's speechless.
+2026-04-03 15:20:23 +00:00: 
+2026-04-03 15:20:23 +00:00: Winning every game is ..." (0L/0R)
+2026-04-03 15:20:26 +00:00: 2026-04-03 15:20:26,597 - __main__ - INFO - 🗑️  Pruned: "DraculaN 6 makes playoffs. What a run...." (0L/0R)
+2026-04-03 15:20:29 +00:00: 2026-04-03 15:20:29,417 - __main__ - INFO - 🗑️  Pruned: "M80 are snatching Liquid's spot at Gamers Assembly. Wild change for that Cologne..." (0L/0R)
+2026-04-03 15:20:32 +00:00: 2026-04-03 15:20:32,238 - __main__ - INFO - 🗑️  Pruned: "Roman Imperium Cup VII playoffs are LIVE. Who's ready for some crazy CS2 action?..." (0L/0R)
+2026-04-03 15:20:35 +00:00: 2026-04-03 15:20:35,061 - __main__ - INFO - 🗑️  Pruned: "BLAST is going to Porto in 2026. Playoffs in September. They love the Portuguese..." (0L/0R)
+2026-04-03 15:20:37 +00:00: 2026-04-03 15:20:37,920 - __main__ - INFO - 🗑️  Pruned: "Vitality just 3-0'd NAVI in Rotterdam. That's their 16th series win in a row. Ar..." (0L/0R)
+2026-04-03 15:20:40 +00:00: 2026-04-03 15:20:40,752 - __main__ - INFO - 🗑️  Pruned: "ropz wins MVP at BLAST Open Rotterdam. He's the first Vitality player besides Zy..." (0L/0R)
+2026-04-03 15:20:43 +00:00: 2026-04-03 15:20:43,574 - __main__ - INFO - 🗑️  Pruned: "apEX got a C4 bomb PC with a middle finger on it. Perfect for him. 🔥..." (0L/0R)
+2026-04-03 15:20:46 +00:00: 2026-04-03 15:20:46,401 - __main__ - INFO - 🗑️  Pruned: "Big LAN opportunity for the Swedes! EYEBALLERS take the spot after M80 dropped o..." (0L/0R)
+2026-04-03 15:20:49 +00:00: 2026-04-03 15:20:49,224 - __main__ - INFO - 🗑️  Pruned: "Another week, another Vitality win without dropping a map. Who's even trying any..." (0L/0R)
+2026-04-03 15:20:52 +00:00: 2026-04-03 15:20:52,046 - __main__ - INFO - 🗑️  Pruned: "Aurora's coach Fabre is out for DraculaN Season 6. Family comes first. Huge loss..." (0L/0R)
+2026-04-03 15:20:54 +00:00: 2026-04-03 15:20:54,899 - __main__ - INFO - 🗑️  Pruned: "beastik spills the tea: Major pressure CRUSHED SINNERS. Now they're stuck waitin..." (0L/0R)
+2026-04-03 15:20:57 +00:00: 2026-04-03 15:20:57,723 - __main__ - INFO - 🗑️  Pruned: "Liquid started DraculaN with a win. Not a clean 2-0 but they got it done. Ancien..." (0L/0R)
+2026-04-03 15:21:00 +00:00: 2026-04-03 15:21:00,547 - __main__ - INFO - 🗑️  Pruned: "Passion UA just beat Eternal Fire to keep their Major dream alive. What a huge u..." (0L/0R)
+2026-04-03 15:21:03 +00:00: 2026-04-03 15:21:03,377 - __main__ - INFO - 🗑️  Pruned: "Voca win Fragadelphia York to keep their Major dream alive. One step closer to C..." (0L/0R)
+2026-04-03 15:21:06 +00:00: 2026-04-03 15:21:06,190 - __main__ - INFO - 🗑️  Pruned: "M80 skipping PGL Bucharest to focus on the Major race. Big brain move. They need..." (0L/0R)
+2026-04-03 15:21:09 +00:00: 2026-04-03 15:21:09,062 - __main__ - INFO - 🗑️  Pruned: "FaZe secure that last-minute Cologne ticket. Karrigan's boys get the 2-0 win ove..." (0L/0R)
+2026-04-03 15:21:11 +00:00: 2026-04-03 15:21:11,066 - __main__ - INFO - 🗑️  Prune cycle complete: 20 deleted, 0 failed
+2026-04-03 15:21:11 +00:00: 2026-04-03 15:21:11,562 - __main__ - INFO - 📊 30-day stats: 200 total, 128 pruned, kept avg ER: 0.0000, pruned avg ER: 0.0000
+2026-04-04 15:21:12 +00:00: 2026-04-04 15:21:12,752 - __main__ - INFO - 🗑️  Found 20 prune candidates
+2026-04-04 15:21:13 +00:00: 2026-04-04 15:21:13,009 - __main__ - WARNING - ⚠️  Delete failed for 2038763518262915098: 402 Payment Required
+2026-04-04 15:21:13 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-04-04 15:21:15 +00:00: 2026-04-04 15:21:15,982 - __main__ - WARNING - ⚠️  Delete failed for 2038763538676601319: 402 Payment Required
+2026-04-04 15:21:15 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-04-04 15:21:18 +00:00: 2026-04-04 15:21:18,786 - __main__ - WARNING - ⚠️  Delete failed for 2038763559421624690: 402 Payment Required
+2026-04-04 15:21:18 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-04-04 15:21:21 +00:00: 2026-04-04 15:21:21,608 - __main__ - WARNING - ⚠️  Delete failed for 2038763580112171131: 402 Payment Required
+2026-04-04 15:21:21 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-04-04 15:21:24 +00:00: 2026-04-04 15:21:24,411 - __main__ - WARNING - ⚠️  Delete failed for 2038763600890761337: 402 Payment Required
+2026-04-04 15:21:24 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-04-04 15:21:27 +00:00: 2026-04-04 15:21:27,213 - __main__ - WARNING - ⚠️  Delete failed for 2038769469674160189: 402 Payment Required
+2026-04-04 15:21:27 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-04-04 15:21:30 +00:00: 2026-04-04 15:21:30,017 - __main__ - WARNING - ⚠️  Delete failed for 2038787713617277275: 402 Payment Required
+2026-04-04 15:21:30 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-04-04 15:21:32 +00:00: 2026-04-04 15:21:32,837 - __main__ - WARNING - ⚠️  Delete failed for 2038879881983881285: 402 Payment Required
+2026-04-04 15:21:32 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-04-04 15:21:35 +00:00: 2026-04-04 15:21:35,638 - __main__ - WARNING - ⚠️  Delete failed for 2038985408097182095: 402 Payment Required
+2026-04-04 15:21:35 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-04-04 15:21:38 +00:00: 2026-04-04 15:21:38,434 - __main__ - WARNING - ⚠️  Delete failed for 2038997233824039210: 402 Payment Required
+2026-04-04 15:21:38 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-04-04 15:21:41 +00:00: 2026-04-04 15:21:41,257 - __main__ - WARNING - ⚠️  Delete failed for 2039002897711612301: 402 Payment Required
+2026-04-04 15:21:41 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-04-04 15:21:44 +00:00: 2026-04-04 15:21:44,142 - __main__ - WARNING - ⚠️  Delete failed for 2039023450476384691: 402 Payment Required
+2026-04-04 15:21:44 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-04-04 15:21:46 +00:00: 2026-04-04 15:21:46,958 - __main__ - WARNING - ⚠️  Delete failed for 2039023981659881811: 402 Payment Required
+2026-04-04 15:21:46 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-04-04 15:21:49 +00:00: 2026-04-04 15:21:49,761 - __main__ - WARNING - ⚠️  Delete failed for 2039025797189480509: 402 Payment Required
+2026-04-04 15:21:49 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-04-04 15:21:52 +00:00: 2026-04-04 15:21:52,563 - __main__ - WARNING - ⚠️  Delete failed for 2039031462616260902: 402 Payment Required
+2026-04-04 15:21:52 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-04-04 15:21:55 +00:00: 2026-04-04 15:21:55,362 - __main__ - WARNING - ⚠️  Delete failed for 2039031737011834888: 402 Payment Required
+2026-04-04 15:21:55 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-04-04 15:21:58 +00:00: 2026-04-04 15:21:58,184 - __main__ - WARNING - ⚠️  Delete failed for 2039037915892703421: 402 Payment Required
+2026-04-04 15:21:58 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-04-04 15:22:01 +00:00: 2026-04-04 15:22:01,287 - __main__ - WARNING - ⚠️  Delete failed for 2039038190175039737: 402 Payment Required
+2026-04-04 15:22:01 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-04-04 15:22:04 +00:00: 2026-04-04 15:22:04,074 - __main__ - WARNING - ⚠️  Delete failed for 2039041801835647193: 402 Payment Required
+2026-04-04 15:22:04 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-04-04 15:22:06 +00:00: 2026-04-04 15:22:06,860 - __main__ - WARNING - ⚠️  Delete failed for 2039045926581424221: 402 Payment Required
+2026-04-04 15:22:06 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-04-04 15:22:09 +00:00: 2026-04-04 15:22:09,515 - __main__ - INFO - 🗑️  Prune cycle complete: 0 deleted, 20 failed
+2026-04-04 15:22:10 +00:00: 2026-04-04 15:22:10,004 - __main__ - INFO - 📊 30-day stats: 211 total, 128 pruned, kept avg ER: 0.0000, pruned avg ER: 0.0000
+2026-04-05 15:22:11 +00:00: 2026-04-05 15:22:11,204 - __main__ - INFO - 🗑️  Found 20 prune candidates
+2026-04-05 15:22:12 +00:00: 2026-04-05 15:22:12,302 - __main__ - INFO - 🗑️  Pruned: "Voca won FRAG York but it still won't be enough for the Major. Brutal...." (0L/0R)
+2026-04-05 15:22:15 +00:00: 2026-04-05 15:22:15,140 - __main__ - INFO - 🗑️  Pruned: "deserved. zywoo is the goat...." (0L/0R)
+2026-04-05 15:22:17 +00:00: 2026-04-05 15:22:17,992 - __main__ - INFO - 🗑️  Pruned: "donk is actually insane. 1.61 rating is nuts...." (0L/0R)
+2026-04-05 15:22:20 +00:00: 2026-04-05 15:22:20,833 - __main__ - INFO - 🗑️  Pruned: "That final was insane. ZywOo went crazy that day..." (0L/0R)
+2026-04-05 15:22:23 +00:00: 2026-04-05 15:22:23,710 - __main__ - INFO - 🗑️  Pruned: "Energy drink sponsors at a CS event? That tracks...." (0L/0R)
+2026-04-05 15:22:26 +00:00: 2026-04-05 15:22:26,620 - __main__ - INFO - 🗑️  Pruned: "BetBoom just beat G2 with stand-ins. Their wild Major run is still alive. Insane..." (0L/0R)
+2026-04-05 15:22:29 +00:00: 2026-04-05 15:22:29,456 - __main__ - INFO - 🗑️  Pruned: "BetBoom just won the Roman Imperium Cup VII. That trophy could be the lifeline f..." (0L/0R)
+2026-04-05 15:22:32 +00:00: 2026-04-05 15:22:32,304 - __main__ - INFO - 🗑️  Pruned: "Parivision, Falcons, and MOUZ are heading to China for the $1 million CS Asia Ch..." (0L/0R)
+2026-04-05 15:22:35 +00:00: 2026-04-05 15:22:35,193 - __main__ - INFO - 🗑️  Pruned: "ropz is just different. That man is ice cold when it matters most...." (0L/0R)
+2026-04-05 15:22:38 +00:00: 2026-04-05 15:22:38,055 - __main__ - INFO - 🗑️  Pruned: "FaZe lost to Passion UA and dropped to lower bracket. Wow. 😭..." (0L/0R)
+2026-04-05 15:22:40 +00:00: 2026-04-05 15:22:40,901 - __main__ - INFO - 🗑️  Pruned: "SINNERS just got the call up for IEM Atlanta. Their biggest LAN ever. They've be..." (0L/0R)
+2026-04-05 15:22:43 +00:00: 2026-04-05 15:22:43,752 - __main__ - INFO - 🗑️  Pruned: ""Warm up the takes. Which map ACTUALLY deserves to be in the pool? Nuke or Infer..." (0L/0R)
+2026-04-05 15:22:46 +00:00: 2026-04-05 15:22:46,597 - __main__ - INFO - 🗑️  Pruned: "New Overpass is actually good. I can't believe I'm saying this...." (0L/0R)
+2026-04-05 15:22:49 +00:00: 2026-04-05 15:22:49,445 - __main__ - INFO - 🗑️  Pruned: ""Passion UA just beat FaZe in OT? This Major race is WILD 🔥"..." (0L/0R)
+2026-04-05 15:22:52 +00:00: 2026-04-05 15:22:52,290 - __main__ - INFO - 🗑️  Pruned: "Liquid drop to the lower bracket after losing to M80. That NA derby did not go a..." (0L/0R)
+2026-04-05 15:22:55 +00:00: 2026-04-05 15:22:55,154 - __main__ - INFO - 🗑️  Pruned: "FaZe are one loss from missing the Major. They have to win everything in the low..." (0L/0R)
+2026-04-05 15:22:58 +00:00: 2026-04-05 15:22:58,005 - __main__ - INFO - 🗑️  Pruned: "The new CS2 update is insane. But let's be real. No update will ever top coldzer..." (0L/0R)
+2026-04-05 15:23:00 +00:00: 2026-04-05 15:23:00,863 - __main__ - INFO - 🗑️  Pruned: "ScreaM’s one-taps are a glitch in the matrix. Man is playing a different game. 😤..." (0L/0R)
+2026-04-05 15:23:03 +00:00: 2026-04-05 15:23:03,714 - __main__ - INFO - 🗑️  Pruned: ""LIQUID SURVIVE. They advance in the lower bracket. HAVU couldn't stop them. GG...." (0L/0R)
+2026-04-05 15:23:06 +00:00: 2026-04-05 15:23:06,557 - __main__ - INFO - 🗑️  Pruned: "FaZe are officially OUT of the Cologne Major race after losing to fnatic. Major ..." (0L/0R)
+2026-04-05 15:23:08 +00:00: 2026-04-05 15:23:08,560 - __main__ - INFO - 🗑️  Prune cycle complete: 20 deleted, 0 failed
+2026-04-05 15:23:09 +00:00: 2026-04-05 15:23:09,062 - __main__ - INFO - 📊 30-day stats: 226 total, 148 pruned, kept avg ER: 0.0000, pruned avg ER: 0.0000
+2026-04-06 15:23:10 +00:00: 2026-04-06 15:23:10,337 - __main__ - INFO - 🗑️  Found 20 prune candidates
+2026-04-06 15:23:11 +00:00: 2026-04-06 15:23:11,427 - __main__ - INFO - 🗑️  Pruned: "Wildcard pulled out of Riga and are heading to PGL Bucharest instead. Bigger pri..." (0L/0R)
+2026-04-06 15:23:14 +00:00: 2026-04-06 15:23:14,265 - __main__ - INFO - 🗑️  Pruned: "B8 just lost to an unranked team. Their Major hopes are on life support now...." (0L/0R)
+2026-04-06 15:23:17 +00:00: 2026-04-06 15:23:17,109 - __main__ - INFO - 🗑️  Pruned: "Liquid just got knocked out by Sashi. Before the Major. This is not a drill, peo..." (0L/0R)
+2026-04-06 15:23:19 +00:00: 2026-04-06 15:23:19,950 - __main__ - INFO - 🗑️  Pruned: "Liquid are ELIMINATED from DraculaN. Their Cologne Major hopes are on life suppo..." (0L/0R)
+2026-04-06 15:23:22 +00:00: 2026-04-06 15:23:22,803 - __main__ - INFO - 🗑️  Pruned: "FaZe are booked for two LANs at the same time. They're desperate for Cologne poi..." (0L/0R)
+2026-04-06 15:23:25 +00:00: 2026-04-06 15:23:25,707 - __main__ - INFO - 🗑️  Pruned: "BET-M is out of IEM Atlanta. SINNERS take their spot. ESL says they didn't provi..." (0L/0R)
+2026-04-06 15:23:28 +00:00: 2026-04-06 15:23:28,555 - __main__ - INFO - 🗑️  Pruned: "BET-M out of IEM Atlanta. ESL says they didn't provide the documents for visas. ..." (0L/0R)
+2026-04-06 15:23:31 +00:00: 2026-04-06 15:23:31,467 - __main__ - INFO - 🗑️  Pruned: "FaZe are in deep, deep trouble, so they signed up for a random $30K LAN in Serbi..." (0L/0R)
+2026-04-06 15:23:34 +00:00: 2026-04-06 15:23:34,318 - __main__ - INFO - 🗑️  Pruned: "ENCE just moved their whole academy team to the main roster. They're figuring ou..." (0L/0R)
+2026-04-06 15:23:37 +00:00: 2026-04-06 15:23:37,162 - __main__ - INFO - 🗑️  Pruned: "NIP lock in xKacpersky for 2026. He's been their best player for a while now. Go..." (0L/0R)
+2026-04-06 15:23:40 +00:00: 2026-04-06 15:23:40,012 - __main__ - INFO - 🗑️  Pruned: "PGL just dropped the talent list for Bucharest 2026. That's a crazy desk lineup ..." (0L/0R)
+2026-04-06 15:23:42 +00:00: 2026-04-06 15:23:42,865 - __main__ - INFO - 🗑️  Pruned: "Big roster shakeup! Sn0w is out of Lilmix...." (0L/0R)
+2026-04-06 15:23:45 +00:00: 2026-04-06 15:23:45,718 - __main__ - INFO - 🗑️  Pruned: "FaZe booked for two events at the same exact time. They gotta forfeit one. Their..." (0L/0R)
+2026-04-06 15:23:48 +00:00: 2026-04-06 15:23:48,563 - __main__ - INFO - 🗑️  Pruned: "MINLATE roster just disbanded. All five players are free agents now...." (0L/0R)
+2026-04-06 15:23:51 +00:00: 2026-04-06 15:23:51,419 - __main__ - INFO - 🗑️  Pruned: "ultimate says Liquid are still figuring things out. Their Major spot is still un..." (0L/0R)
+2026-04-06 15:23:54 +00:00: 2026-04-06 15:23:54,262 - __main__ - INFO - 🗑️  Pruned: "Alliance just kept their Major dream alive. They beat Aurora in a crazy lower br..." (0L/0R)
+2026-04-06 15:23:57 +00:00: 2026-04-06 15:23:57,118 - __main__ - INFO - 🗑️  Pruned: "Which team has the most hype but keeps letting you down?..." (0L/0R)
+2026-04-06 15:23:59 +00:00: 2026-04-06 15:23:59,959 - __main__ - INFO - 🗑️  Pruned: "FURIA's new kids playing like they're running from the police. Brazil's heart st..." (0L/0R)
+2026-04-06 15:24:02 +00:00: 2026-04-06 15:24:02,813 - __main__ - INFO - 🗑️  Pruned: "BetBoom could make the Major but they don't know who will play. They have two st..." (0L/0R)
+2026-04-06 15:24:05 +00:00: 2026-04-06 15:24:05,664 - __main__ - INFO - 🗑️  Pruned: "Riot just dropped the new CS2 case designs. Hot take time.
+2026-04-06 15:24:05 +00:00: 
+2026-04-06 15:24:05 +00:00: What’s one CS2 opini..." (0L/0R)
+2026-04-06 15:24:07 +00:00: 2026-04-06 15:24:07,666 - __main__ - INFO - 🗑️  Prune cycle complete: 20 deleted, 0 failed
+2026-04-06 15:24:08 +00:00: 2026-04-06 15:24:08,182 - __main__ - INFO - 📊 30-day stats: 247 total, 168 pruned, kept avg ER: 0.0000, pruned avg ER: 0.0000
+2026-04-07 15:24:09 +00:00: 2026-04-07 15:24:09,394 - __main__ - INFO - 🗑️  Found 20 prune candidates
+2026-04-07 15:24:10 +00:00: 2026-04-07 15:24:10,463 - __main__ - INFO - 🗑️  Pruned: "The crowd in Brazil is a different beast. FURIA are playing with 6 men...." (0L/0R)
+2026-04-07 15:24:13 +00:00: 2026-04-07 15:24:13,347 - __main__ - INFO - 🗑️  Pruned: "M80 is THIS close to locking in their Major spot. Liquid's invite is suddenly lo..." (0L/0R)
+2026-04-07 15:24:16 +00:00: 2026-04-07 15:24:16,194 - __main__ - INFO - 🗑️  Pruned: "twist just sent Passion UA home. Their Major hopes are cooked. Alliance still fi..." (0L/0R)
+2026-04-07 15:24:19 +00:00: 2026-04-07 15:24:19,143 - __main__ - INFO - 🗑️  Pruned: "Marsborne's Major hopes are basically over after losing to Galorys. They needed ..." (0L/0R)
+2026-04-07 15:24:21 +00:00: 2026-04-07 15:24:21,970 - __main__ - INFO - 🗑️  Pruned: "NA's top 3 all got invites to CAC 2026 after big teams said no. Huge chance for ..." (0L/0R)
+2026-04-07 15:24:24 +00:00: 2026-04-07 15:24:24,798 - __main__ - INFO - 🗑️  Pruned: "New third-person animations are in beta. The game looks so smooth now—give it a ..." (0L/0R)
+2026-04-07 15:24:27 +00:00: 2026-04-07 15:24:27,627 - __main__ - INFO - 🗑️  Pruned: "HEROIC's IGL says the Major race pressure is crushing them. They're just trying ..." (0L/0R)
+2026-04-07 15:24:30 +00:00: 2026-04-07 15:24:30,465 - __main__ - INFO - 🗑️  Pruned: "Spirit will be without head coach hally for IEM Rio and PGL Astana as he takes a..." (0L/0R)
+2026-04-07 15:24:33 +00:00: 2026-04-07 15:24:33,412 - __main__ - INFO - 🗑️  Pruned: "The Huns are going to PGL Astana! First big event with controlez...." (0L/0R)
+2026-04-07 15:24:36 +00:00: 2026-04-07 15:24:36,248 - __main__ - INFO - 🗑️  Pruned: "Valve says the new animations will use less CPU. That's huge for performance...." (0L/0R)
+2026-04-07 15:24:39 +00:00: 2026-04-07 15:24:39,099 - __main__ - INFO - 🗑️  Pruned: "Nexus just dropped XELLOW and fnl. The team is in shambles after that DraculaN e..." (0L/0R)
+2026-04-07 15:24:41 +00:00: 2026-04-07 15:24:41,918 - __main__ - INFO - 🗑️  Pruned: "Gentle Mates are out of the Major race. Tough loss to 9INE ends it. 😭..." (0L/0R)
+2026-04-07 15:24:44 +00:00: 2026-04-07 15:24:44,752 - __main__ - INFO - 🗑️  Pruned: "Gentle Mates just lost their last chance for a Major invite. They're officially ..." (0L/0R)
+2026-04-07 15:24:47 +00:00: 2026-04-07 15:24:47,697 - __main__ - INFO - 🗑️  Pruned: "3DMAX just got eliminated from the Major race. Reverse sweep by B8. Their Cologn..." (0L/0R)
+2026-04-07 15:24:50 +00:00: 2026-04-07 15:24:50,533 - __main__ - INFO - 🗑️  Pruned: "Poll time.
+2026-04-07 15:24:50 +00:00: Next CS2 Major winner?
+2026-04-07 15:24:50 +00:00: Spirit, Vitality, NaVi, or FaZe.
+2026-04-07 15:24:50 +00:00: WHO'S TAKING ..." (0L/0R)
+2026-04-07 15:24:53 +00:00: 2026-04-07 15:24:53,423 - __main__ - INFO - 🗑️  Pruned: "Seeing karrigan cry after winning the major. 10 years of grinding for this. Abso..." (0L/0R)
+2026-04-07 15:24:56 +00:00: 2026-04-07 15:24:56,258 - __main__ - INFO - 🗑️  Pruned: "The new map pool is fine. But be honest… you miss the old Cobblestone, right?..." (0L/0R)
+2026-04-07 15:24:59 +00:00: 2026-04-07 15:24:59,133 - __main__ - INFO - 🗑️  Pruned: "NAVI lost a 13-2 lead and now it's 14-14. My heart cannot take this 😭..." (0L/0R)
+2026-04-07 15:25:01 +00:00: 2026-04-07 15:25:01,980 - __main__ - INFO - 🗑️  Pruned: "PGL taking over the CS scene. BLAST in trouble...." (0L/0R)
+2026-04-07 15:25:04 +00:00: 2026-04-07 15:25:04,815 - __main__ - INFO - 🗑️  Pruned: "K27 banned their team from talking about the Cologne Major for three weeks. They..." (0L/0R)
+2026-04-07 15:25:06 +00:00: 2026-04-07 15:25:06,818 - __main__ - INFO - 🗑️  Prune cycle complete: 20 deleted, 0 failed
+2026-04-07 15:25:07 +00:00: 2026-04-07 15:25:07,320 - __main__ - INFO - 📊 30-day stats: 266 total, 188 pruned, kept avg ER: 1.6143, pruned avg ER: 0.0000
+2026-04-08 15:25:08 +00:00: 2026-04-08 15:25:08,567 - __main__ - INFO - 🗑️  Found 20 prune candidates
+2026-04-08 15:25:09 +00:00: 2026-04-08 15:25:09,745 - __main__ - INFO - 🗑️  Pruned: "PGL Bucharest talent lineup is stacked. Four NA voices on the broadcast again...." (0L/0R)
+2026-04-08 15:25:12 +00:00: 2026-04-08 15:25:12,623 - __main__ - INFO - 🗑️  Pruned: "M80 just WON DraculaN Season 6. They locked in the Major. Now they can play for ..." (0L/0R)
+2026-04-08 15:25:15 +00:00: 2026-04-08 15:25:15,437 - __main__ - INFO - 🗑️  Pruned: "Vitality's 22-map win streak is on the line in their IEM Rio opener against RED ..." (0L/0R)
+2026-04-08 15:25:18 +00:00: 2026-04-08 15:25:18,258 - __main__ - INFO - 🗑️  Pruned: "NRG are now an Esports World Cup partner team. So is Liquid. NA will be there...." (0L/0R)
+2026-04-08 15:25:21 +00:00: 2026-04-08 15:25:21,071 - __main__ - INFO - 🗑️  Pruned: "NRG are going to Riyadh as an EWC partner team. Liquid are in too. But no FaZe? ..." (0L/0R)
+2026-04-08 15:25:23 +00:00: 2026-04-08 15:25:23,883 - __main__ - INFO - 🗑️  Pruned: "Passion UA have to win the whole Riga event now. Their Major dream is on life su..." (0L/0R)
+2026-04-08 15:25:26 +00:00: 2026-04-08 15:25:26,708 - __main__ - INFO - 🗑️  Pruned: "HooXi is the most picked player in the Bucharest fantasy. Over half the teams ha..." (0L/0R)
+2026-04-08 15:25:29 +00:00: 2026-04-08 15:25:29,539 - __main__ - INFO - 🗑️  Pruned: "Boombl4 wants a BO3 of BO3s vs G2 in the final. They’re playing with two subs an..." (0L/0R)
+2026-04-08 15:25:32 +00:00: 2026-04-08 15:25:32,392 - __main__ - INFO - 🗑️  Pruned: "NIP are officially out of the Cologne Major race. Season's over. 😭..." (0L/0R)
+2026-04-08 15:25:35 +00:00: 2026-04-08 15:25:35,205 - __main__ - INFO - 🗑️  Pruned: ""Marsborne choked in the THIRD MAP against Galorys and got ELIMINATED in GROUPS ..." (0L/0R)
+2026-04-08 15:25:38 +00:00: 2026-04-08 15:25:38,012 - __main__ - INFO - 🗑️  Pruned: "Who's the best AWPer in CS2 right now?
+2026-04-08 15:25:38 +00:00: 
+2026-04-08 15:25:38 +00:00: ZywOo
+2026-04-08 15:25:38 +00:00: m0NESY
+2026-04-08 15:25:38 +00:00: sh1ro
+2026-04-08 15:25:38 +00:00: Someone else
+2026-04-08 15:25:38 +00:00: 
+2026-04-08 15:25:38 +00:00: Vote an..." (0L/0R)
+2026-04-08 15:25:40 +00:00: 2026-04-08 15:25:40,863 - __main__ - INFO - 🗑️  Pruned: "Every team scrambling for upgrades. But if you could bring back ONE retired lege..." (0L/0R)
+2026-04-08 15:25:43 +00:00: 2026-04-08 15:25:43,680 - __main__ - INFO - 🗑️  Pruned: "They called us washed after one event. Then we won the whole thing. Rent free...." (0L/0R)
+2026-04-08 15:25:46 +00:00: 2026-04-08 15:25:46,514 - __main__ - INFO - 🗑️  Pruned: "0.97 rating in a grand final and you're calling him washed? Kick rocks, let him ..." (0L/0R)
+2026-04-08 15:25:49 +00:00: 2026-04-08 15:25:49,328 - __main__ - INFO - 🗑️  Pruned: "DETONATE just dropped two players after winning the FRAG York Big L. bazz and Mo..." (0L/0R)
+2026-04-08 15:25:52 +00:00: 2026-04-08 15:25:52,135 - __main__ - INFO - 🗑️  Pruned: "Marsborne might not even exist next season after missing the Major. motm says he..." (0L/0R)
+2026-04-08 15:25:54 +00:00: 2026-04-08 15:25:54,948 - __main__ - INFO - 🗑️  Pruned: "Three forfeits on the first day. Rough start for the league...." (0L/0R)
+2026-04-08 15:25:57 +00:00: 2026-04-08 15:25:57,851 - __main__ - INFO - 🗑️  Pruned: "FaZe start PGL Bucharest 0-2 after forfeiting matches for the Major qualifier in..." (0L/0R)
+2026-04-08 15:26:00 +00:00: 2026-04-08 15:26:00,669 - __main__ - INFO - 🗑️  Pruned: "A college team just qualified for a million dollar CS2 event. This is insane. Fi..." (0L/0R)
+2026-04-08 15:26:03 +00:00: 2026-04-08 15:26:03,547 - __main__ - INFO - 🗑️  Pruned: "npl says missing the Cologne Major would have been okay for B8. They're already ..." (0L/0R)
+2026-04-08 15:26:05 +00:00: 2026-04-08 15:26:05,549 - __main__ - INFO - 🗑️  Prune cycle complete: 20 deleted, 0 failed
+2026-04-08 15:26:06 +00:00: 2026-04-08 15:26:06,039 - __main__ - INFO - 📊 30-day stats: 278 total, 208 pruned, kept avg ER: 2.3540, pruned avg ER: 0.0000
+2026-04-09 15:26:07 +00:00: 2026-04-09 15:26:07,289 - __main__ - INFO - 🗑️  Found 20 prune candidates
+2026-04-09 15:26:08 +00:00: 2026-04-09 15:26:08,431 - __main__ - INFO - 🗑️  Pruned: "PARI staved off Legacy. Not the prettiest win but they got it done. Day one is o..." (0L/0R)
+2026-04-09 15:26:11 +00:00: 2026-04-09 15:26:11,257 - __main__ - INFO - 🗑️  Pruned: "G2 finally win a trophy with NertZ. First title for the new lineup. Let's go! 🔥..." (0L/0R)
+2026-04-09 15:26:14 +00:00: 2026-04-09 15:26:14,084 - __main__ - INFO - 🗑️  Pruned: "A college team just qualified for a Tier-1 CS2 event. Unreal. History for Fisher..." (0L/0R)
+2026-04-09 15:26:16 +00:00: 2026-04-09 15:26:16,963 - __main__ - INFO - 🗑️  Pruned: ""NRG 2-0 Voca in Bucharest. Voca played with a STANDBY because of doc issues? NR..." (0L/0R)
+2026-04-09 15:26:19 +00:00: 2026-04-09 15:26:19,859 - __main__ - INFO - 🗑️  Pruned: ""FlyQuest RED are ELIMINATED from ESL Challenger League S51 Cup 3 after 0-2 loss..." (0L/0R)
+2026-04-09 15:26:22 +00:00: 2026-04-09 15:26:22,684 - __main__ - INFO - 🗑️  Pruned: "Liquid are in serious danger of missing the Cologne Major now after Gaimin Gladi..." (0L/0R)
+2026-04-09 15:26:25 +00:00: 2026-04-09 15:26:25,504 - __main__ - INFO - 🗑️  Pruned: "Everyone's talking about the favorites for BLAST Paris. But who's the one underd..." (0L/0R)
+2026-04-09 15:26:28 +00:00: 2026-04-09 15:26:28,336 - __main__ - INFO - 🗑️  Pruned: "Lose a 1v1 to a smoke bug and your team wants a "break." This game is a horror m..." (0L/0R)
+2026-04-09 15:26:31 +00:00: 2026-04-09 15:26:31,162 - __main__ - INFO - 🗑️  Pruned: "Which CS2 team is getting too much hype right now? Vote and fight in the replies..." (0L/0R)
+2026-04-09 15:26:34 +00:00: 2026-04-09 15:26:34,004 - __main__ - INFO - 🗑️  Pruned: "Passion UA just lost the final. That means Liquid get the last Americas spot for..." (0L/0R)
+2026-04-09 15:26:36 +00:00: 2026-04-09 15:26:36,821 - __main__ - INFO - 🗑️  Pruned: "Passion UA just lost their final chance to make the Major. Their run is over. Br..." (0L/0R)
+2026-04-09 15:26:39 +00:00: 2026-04-09 15:26:39,650 - __main__ - INFO - 🗑️  Pruned: "I miss Inferno. Which old map should come back in CS2?..." (0L/0R)
+2026-04-09 15:26:42 +00:00: 2026-04-09 15:26:42,474 - __main__ - INFO - 🗑️  Pruned: "Watching these CS2 roster moves feels like watching a man try to build a house w..." (0L/0R)
+2026-04-09 15:26:45 +00:00: 2026-04-09 15:26:45,303 - __main__ - INFO - 🗑️  Pruned: "Voca had FIVE match points and still lost. Now they're one loss away from going ..." (0L/0R)
+2026-04-09 15:26:48 +00:00: 2026-04-09 15:26:48,125 - __main__ - INFO - 🗑️  Pruned: "FaZe just missed the Cologne Major. One loss and they're out. SINNERS are in ins..." (0L/0R)
+2026-04-09 15:26:50 +00:00: 2026-04-09 15:26:50,948 - __main__ - INFO - 🗑️  Pruned: "LAG shut down BOSS on Ancient 13-2 to stay alive. One more loss and they're out...." (0L/0R)
+2026-04-09 15:26:53 +00:00: 2026-04-09 15:26:53,774 - __main__ - INFO - 🗑️  Pruned: "LAG take down BOSS to stay alive. One more loss and they're out...." (0L/0R)
+2026-04-09 15:26:56 +00:00: 2026-04-09 15:26:56,617 - __main__ - INFO - 🗑️  Pruned: "Poll: Who's the best AWPer in CS2 right now?
+2026-04-09 15:26:56 +00:00: 
+2026-04-09 15:26:56 +00:00: ZywOo
+2026-04-09 15:26:56 +00:00: m0NESY
+2026-04-09 15:26:56 +00:00: sh1ro
+2026-04-09 15:26:56 +00:00: Other (reply)
+2026-04-09 15:26:56 +00:00: 
+2026-04-09 15:26:56 +00:00: ..." (0L/0R)
+2026-04-09 15:26:59 +00:00: 2026-04-09 15:26:59,421 - __main__ - INFO - 🗑️  Pruned: "NiKo is a glitch in the matrix. Man is single-handedly keeping G2 alive at the M..." (0L/0R)
+2026-04-09 15:27:02 +00:00: 2026-04-09 15:27:02,232 - __main__ - INFO - 🗑️  Pruned: "blameF on playing the Major playoff on stage. Says nothing has ever felt like th..." (0L/0R)
+2026-04-09 15:27:04 +00:00: 2026-04-09 15:27:04,235 - __main__ - INFO - 🗑️  Prune cycle complete: 20 deleted, 0 failed
+2026-04-09 15:27:04 +00:00: 2026-04-09 15:27:04,722 - __main__ - INFO - 📊 30-day stats: 307 total, 228 pruned, kept avg ER: 2.6058, pruned avg ER: 0.0000
+2026-04-10 15:27:06 +00:00: 2026-04-10 15:27:06,022 - __main__ - INFO - 🗑️  Found 20 prune candidates
+2026-04-10 15:27:07 +00:00: 2026-04-10 15:27:07,134 - __main__ - INFO - 🗑️  Pruned: "FaZe are going to Bucharest. Can't wait to see them play live...." (0L/0R)
+2026-04-10 15:27:09 +00:00: 2026-04-10 15:27:09,979 - __main__ - INFO - 🗑️  Pruned: ""Wildcard reverse sweep FOKUS at PGL Bucharest! HexT popped OFF with 56 frags. T..." (0L/0R)
+2026-04-10 15:27:12 +00:00: 2026-04-10 15:27:12,829 - __main__ - INFO - 🗑️  Pruned: "karrigan after the loss... man. That's a heavy quote. Hope he comes back stronge..." (0L/0R)
+2026-04-10 15:27:15 +00:00: 2026-04-10 15:27:15,681 - __main__ - INFO - 🗑️  Pruned: "NRG just got swept by JW's team. They're 1-2 now. One more loss and they're out ..." (0L/0R)
+2026-04-10 15:27:18 +00:00: 2026-04-10 15:27:18,534 - __main__ - INFO - 🗑️  Pruned: "Valve just shook things up with a new VRS update right before the Major. Rosters..." (0L/0R)
+2026-04-10 15:27:21 +00:00: 2026-04-10 15:27:21,368 - __main__ - INFO - 🗑️  Pruned: "Astralis and FUT are in the playoffs. Both survive and advance. Good day for the..." (0L/0R)
+2026-04-10 15:27:24 +00:00: 2026-04-10 15:27:24,213 - __main__ - INFO - 🗑️  Pruned: "Astralis just 2-0'd their group at the Major. The Danish system is back online. ..." (0L/0R)
+2026-04-10 15:27:27 +00:00: 2026-04-10 15:27:27,061 - __main__ - INFO - 🗑️  Pruned: "G2 just reverse swept NAVI with a 1v4 clutch to win the series. Forged steel men..." (0L/0R)
+2026-04-10 15:27:29 +00:00: 2026-04-10 15:27:29,909 - __main__ - INFO - 🗑️  Pruned: "Voca are eliminated from PGL Bucharest 0-3. That's last place without Infinite. ..." (0L/0R)
+2026-04-10 15:27:32 +00:00: 2026-04-10 15:27:32,760 - __main__ - INFO - 🗑️  Pruned: "LOUD just won three straight maps to make the Major. Insanity at IEM Brazil...." (0L/0R)
+2026-04-10 15:27:35 +00:00: 2026-04-10 15:27:35,600 - __main__ - INFO - 🗑️  Pruned: "NAVI were down 0-2 and came back to win the Grand Final over G2. Insane...." (0L/0R)
+2026-04-10 15:27:38 +00:00: 2026-04-10 15:27:38,447 - __main__ - INFO - 🗑️  Pruned: "F5 and regain are through to the upper bracket final in ESL Challenger League. N..." (0L/0R)
+2026-04-10 15:27:41 +00:00: 2026-04-10 15:27:41,292 - __main__ - INFO - 🗑️  Pruned: "Anubis or Inferno? The debate is ON. Vote and be ready to defend your pick...." (0L/0R)
+2026-04-10 15:27:44 +00:00: 2026-04-10 15:27:44,142 - __main__ - INFO - 🗑️  Pruned: "FaZe are ELIMINATED. They miss the Major after finishing last in Bucharest. The ..." (0L/0R)
+2026-04-10 15:27:47 +00:00: 2026-04-10 15:27:46,999 - __main__ - INFO - 🗑️  Pruned: "FaZe finish LAST in Bucharest. Missing the Major AGAIN. This hurts...." (0L/0R)
+2026-04-10 15:27:49 +00:00: 2026-04-10 15:27:49,844 - __main__ - INFO - 🗑️  Pruned: "FaZe are OUT of the Cologne Major. Last place in Bucharest. That scar karrigan t..." (0L/0R)
+2026-04-10 15:27:52 +00:00: 2026-04-10 15:27:52,692 - __main__ - INFO - 🗑️  Pruned: "karrigan with the scar line after FaZe's last-place exit in Bucharest. Rough yea..." (0L/0R)
+2026-04-10 15:27:55 +00:00: 2026-04-10 15:27:55,542 - __main__ - INFO - 🗑️  Pruned: "FOKUS send BC.Game home from Bucharest. ELIMINATED. 💀..." (0L/0R)
+2026-04-10 15:27:58 +00:00: 2026-04-10 15:27:58,388 - __main__ - INFO - 🗑️  Pruned: "3DMAX, The MongolZ, and MIBR all make the playoffs at PGL Bucharest. The bracket..." (0L/0R)
+2026-04-10 15:28:01 +00:00: 2026-04-10 15:28:01,236 - __main__ - INFO - 🗑️  Pruned: "Astralis and FUT are in the Bucharest playoffs already. They look scary strong...." (0L/0R)
+2026-04-10 15:28:03 +00:00: 2026-04-10 15:28:03,236 - __main__ - INFO - 🗑️  Prune cycle complete: 20 deleted, 0 failed
+2026-04-10 15:28:03 +00:00: 2026-04-10 15:28:03,752 - __main__ - INFO - 📊 30-day stats: 328 total, 251 pruned, kept avg ER: 3.8970, pruned avg ER: 0.0000
+2026-04-11 15:28:04 +00:00: 2026-04-11 15:28:04,983 - __main__ - INFO - 🗑️  Found 20 prune candidates
+2026-04-11 15:28:06 +00:00: 2026-04-11 15:28:06,146 - __main__ - INFO - 🗑️  Pruned: "Wildcard lost to The MongolZ and are now in a decider match to stay alive at PGL..." (0L/0R)
+2026-04-11 15:28:08 +00:00: 2026-04-11 15:28:08,984 - __main__ - INFO - 🗑️  Pruned: "nEMANHA says joining Wildcard was "a good option for me, for my future." A big n..." (0L/0R)
+2026-04-11 15:28:11 +00:00: 2026-04-11 15:28:11,815 - __main__ - INFO - 🗑️  Pruned: "INFINITE sign Blytz. This NA team just got a whole lot scarier...." (0L/0R)
+2026-04-11 15:28:14 +00:00: 2026-04-11 15:28:14,662 - __main__ - INFO - 🗑️  Pruned: "Wildcard vs The MongolZ. Someone's dream run ENDS here. NASTY 😤..." (0L/0R)
+2026-04-11 15:28:17 +00:00: 2026-04-11 15:28:17,504 - __main__ - INFO - 🗑️  Pruned: "JW just made his first MVP-event playoffs in FIVE YEARS. EYEBALLERS beat FOKUS t..." (0L/0R)
+2026-04-11 15:28:20 +00:00: 2026-04-11 15:28:20,349 - __main__ - INFO - 🗑️  Pruned: "Wildcard are ONE LOSS from going home. Their Major life is on the line vs The Mo..." (0L/0R)
+2026-04-11 15:28:23 +00:00: 2026-04-11 15:28:23,197 - __main__ - INFO - 🗑️  Pruned: "B8 just secured a playoff spot in Bucharest after taking down Legacy 2-0. What a..." (0L/0R)
+2026-04-11 15:28:26 +00:00: 2026-04-11 15:28:26,042 - __main__ - INFO - 🗑️  Pruned: "Who's the best AWPer in the world right now?..." (0L/0R)
+2026-04-11 15:28:28 +00:00: 2026-04-11 15:28:28,876 - __main__ - INFO - 🗑️  Pruned: "PARIVISION clinch the last playoff spot in Bucharest. They sent Wildcard packing..." (0L/0R)
+2026-04-11 15:28:31 +00:00: 2026-04-11 15:28:31,711 - __main__ - INFO - 🗑️  Pruned: "IEM Rio talent list is out. The desk is gonna be fire 🔥..." (0L/0R)
+2026-04-11 15:28:34 +00:00: 2026-04-11 15:28:34,544 - __main__ - INFO - 🗑️  Pruned: "s1mple or ZywOo for your last map of a Major final. Who you picking?..." (0L/0R)
+2026-04-11 15:28:37 +00:00: 2026-04-11 15:28:37,392 - __main__ - INFO - 🗑️  Pruned: "Wildcard go down 2-0 to PARIVISION in a WILD 2-2 round. 28-26 OT on first map! J..." (0L/0R)
+2026-04-11 15:28:40 +00:00: 2026-04-11 15:28:40,234 - __main__ - INFO - 🗑️  Pruned: "huNter- is out for IEM Rio. A major blow for G2 right before the tournament kick..." (0L/0R)
+2026-04-11 15:28:43 +00:00: 2026-04-11 15:28:43,079 - __main__ - INFO - 🗑️  Pruned: "Wildcard (EU team) are ONE LOSS from going HOME after brutal loss to PARIVISION ..." (0L/0R)
+2026-04-11 15:28:45 +00:00: 2026-04-11 15:28:45,921 - __main__ - INFO - 🗑️  Pruned: "I'm watching right now. The FURIA vs. BetBoom highlights were absolutely wild 🔥..." (0L/0R)
+2026-04-11 15:28:48 +00:00: 2026-04-11 15:28:48,772 - __main__ - INFO - 🗑️  Pruned: "Jame said he's unsure what to call because "there will be errors." The AWPer god..." (0L/0R)
+2026-04-11 15:28:51 +00:00: 2026-04-11 15:28:51,693 - __main__ - INFO - 🗑️  Pruned: "Jame says he doesn't know what to call anymore because he knows his Vitality tea..." (0L/0R)
+2026-04-11 15:28:54 +00:00: 2026-04-11 15:28:54,530 - __main__ - INFO - 🗑️  Pruned: "Wildcard are ONE LOSS from missing the Major. The dream is on the brink...." (0L/0R)
+2026-04-11 15:28:57 +00:00: 2026-04-11 15:28:57,367 - __main__ - INFO - 🗑️  Pruned: "Wildcard's Major dream is hanging by a thread after that brutal loss. ONE MORE a..." (0L/0R)
+2026-04-11 15:29:00 +00:00: 2026-04-11 15:29:00,301 - __main__ - INFO - 🗑️  Pruned: "Wildcard lose to PARIVISION at PGL Buch. That's TWO maps. They're OUT. 😭..." (0L/0R)
+2026-04-11 15:29:02 +00:00: 2026-04-11 15:29:02,303 - __main__ - INFO - 🗑️  Prune cycle complete: 20 deleted, 0 failed
+2026-04-11 15:29:02 +00:00: 2026-04-11 15:29:02,811 - __main__ - INFO - 📊 30-day stats: 356 total, 271 pruned, kept avg ER: 2.4944, pruned avg ER: 0.0000
+2026-04-12 15:29:04 +00:00: 2026-04-12 15:29:04,178 - __main__ - INFO - 🗑️  Found 20 prune candidates
+2026-04-12 15:29:05 +00:00: 2026-04-12 15:29:05,464 - __main__ - INFO - 🗑️  Pruned: "Quarter-finals in Bucharest TODAY. Who's getting BOOTED out first? 🔥..." (0L/0R)
+2026-04-12 15:29:08 +00:00: 2026-04-12 15:29:08,429 - __main__ - INFO - 🗑️  Pruned: "Valve making a SteamGPT AI to fight CS2 cheaters? Please be real, we are BEGGING..." (0L/0R)
+2026-04-12 15:29:11 +00:00: 2026-04-12 15:29:11,501 - __main__ - INFO - 🗑️  Pruned: "MIBR are ELIMINATED from PGL Bucharest. 3DMAX move on to the semi-final in their..." (0L/0R)
+2026-04-12 15:29:14 +00:00: 2026-04-12 15:29:14,537 - __main__ - INFO - 🗑️  Pruned: "PGL moved the VRS cut-off closer to the Singapore Major start date. Talk about l..." (0L/0R)
+2026-04-12 15:29:17 +00:00: 2026-04-12 15:29:17,536 - __main__ - INFO - 🗑️  Pruned: "3DMAX just made PGL Bucharest. Who's your sleeper pick for the Major?..." (0L/0R)
+2026-04-12 15:29:20 +00:00: 2026-04-12 15:29:20,516 - __main__ - INFO - 🗑️  Pruned: "BLAST Rivals groups are set. Group A is NAVI, Liquid, FURIA, and Heroic. Let’s g..." (0L/0R)
+2026-04-12 15:29:23 +00:00: 2026-04-12 15:29:23,492 - __main__ - INFO - 🗑️  Pruned: "Astralis survive a huge scare from EYEBALLERS to make the semis. That decider ma..." (0L/0R)
+2026-04-12 15:29:26 +00:00: 2026-04-12 15:29:26,451 - __main__ - INFO - 🗑️  Pruned: "Astralis are IN the Bucharest semis after beating EYEBALLERS in a wild decider 😤..." (0L/0R)
+2026-04-12 15:29:29 +00:00: 2026-04-12 15:29:29,414 - __main__ - INFO - 🗑️  Pruned: "Astralis survived the decider but looked SHAKY against EYEBALLERS. Are they real..." (0L/0R)
+2026-04-12 15:29:32 +00:00: 2026-04-12 15:29:32,317 - __main__ - INFO - 🗑️  Pruned: "FUT won 4v2s? More like almost threw them. They're in semi-finals now. Bucharest..." (0L/0R)
+2026-04-12 15:29:35 +00:00: 2026-04-12 15:29:35,280 - __main__ - INFO - 🗑️  Pruned: "CS2's first Major is wide open. Spirit, Vitality, NaVi, or FaZe?
+2026-04-12 15:29:35 +00:00: 
+2026-04-12 15:29:35 +00:00: Who's taking t..." (0L/0R)
+2026-04-12 15:29:38 +00:00: 2026-04-12 15:29:38,254 - __main__ - INFO - 🗑️  Pruned: "ArtFr0st is out for the season. BetBoom are sticking with zorte and bringing d1L..." (0L/0R)
+2026-04-12 15:29:41 +00:00: 2026-04-12 15:29:41,224 - __main__ - INFO - 🗑️  Pruned: "Astralis survive EYEBALLERS in the decider. Can they survive Bucharest now? That..." (0L/0R)
+2026-04-12 15:29:44 +00:00: 2026-04-12 15:29:44,120 - __main__ - INFO - 🗑️  Pruned: "paiN just bought piriajr's loan. This guy is a future star. Huge move for paiN...." (0L/0R)
+2026-04-12 15:29:47 +00:00: 2026-04-12 15:29:47,003 - __main__ - INFO - 🗑️  Pruned: "What's the most ICONIC play in CS history? Wrong answers only...." (0L/0R)
+2026-04-12 15:29:49 +00:00: 2026-04-12 15:29:49,989 - __main__ - INFO - 🗑️  Pruned: "InControl beat regain to make the ESL Challenger League Cup 3 final. They get a ..." (0L/0R)
+2026-04-12 15:29:52 +00:00: 2026-04-12 15:29:52,958 - __main__ - INFO - 🗑️  Pruned: "InControl beat regain to reach the final. They get a rematch against F5 tonight...." (0L/0R)
+2026-04-12 15:29:55 +00:00: 2026-04-12 15:29:55,838 - __main__ - INFO - 🗑️  Pruned: "Astralis survive the EYEBALLERS scare and advance to the SEMIS. What a decider m..." (0L/0R)
+2026-04-12 15:29:58 +00:00: 2026-04-12 15:29:58,716 - __main__ - INFO - 🗑️  Pruned: "The MongolZ just won TEN rounds in a row to reach the Bucharest semis. They are ..." (0L/0R)
+2026-04-12 15:30:01 +00:00: 2026-04-12 15:30:01,660 - __main__ - INFO - 🗑️  Pruned: "Astralis survive the EYEBALLERS thriller and make semis. This team just won't di..." (0L/0R)
+2026-04-12 15:30:03 +00:00: 2026-04-12 15:30:03,664 - __main__ - INFO - 🗑️  Prune cycle complete: 20 deleted, 0 failed
+2026-04-12 15:30:04 +00:00: 2026-04-12 15:30:04,210 - __main__ - INFO - 📊 30-day stats: 371 total, 291 pruned, kept avg ER: 3.1612, pruned avg ER: 0.0000
+2026-04-13 15:30:05 +00:00: 2026-04-13 15:30:05,604 - __main__ - INFO - 🗑️  Found 20 prune candidates
+2026-04-13 15:30:06 +00:00: 2026-04-13 15:30:06,701 - __main__ - INFO - 🗑️  Pruned: "The MongolZ win TEN straight to make the Bucharest semis over PARIVISION. That's..." (0L/0R)
+2026-04-13 15:30:09 +00:00: 2026-04-13 15:30:09,557 - __main__ - INFO - 🗑️  Pruned: "BLAST is going to Singapore in 2027. An Asian LAN in 2027? My flight is already ..." (0L/0R)
+2026-04-13 15:30:12 +00:00: 2026-04-13 15:30:12,466 - __main__ - INFO - 🗑️  Pruned: "SEMIS in Bucharest! Astralis vs 3DMAX for a spot in the final. 😲..." (0L/0R)
+2026-04-13 15:30:15 +00:00: 2026-04-13 15:30:15,339 - __main__ - INFO - 🗑️  Pruned: "The MongolZ just won TEN rounds in a row to make the Bucharest semis. That is a ..." (0L/0R)
+2026-04-13 15:30:18 +00:00: 2026-04-13 15:30:18,168 - __main__ - INFO - 🗑️  Pruned: "Astralis vs 3DMAX for a spot in the Bucharest GRAND FINAL. Who's going to the sh..." (0L/0R)
+2026-04-13 15:30:21 +00:00: 2026-04-13 15:30:21,129 - __main__ - INFO - 🗑️  Pruned: "Astralis are in the Bucharest final. They beat 3DMAX to get there. Another shot ..." (0L/0R)
+2026-04-13 15:30:24 +00:00: 2026-04-13 15:30:24,016 - __main__ - INFO - 🗑️  Pruned: "REGALI IS OUT OF FLYQUEST. This HURTS them! What now? 😬..." (0L/0R)
+2026-04-13 15:30:26 +00:00: 2026-04-13 15:30:26,905 - __main__ - INFO - 🗑️  Pruned: "WHO'S WINNING THE NEXT MAJOR? Spirit, Vitality, NaVi, or FaZe? Choose NOW. 😤..." (0L/0R)
+2026-04-13 15:30:29 +00:00: 2026-04-13 15:30:29,828 - __main__ - INFO - 🗑️  Pruned: "Astralis reach the grand final in Bucharest. The Danes are BACK...." (0L/0R)
+2026-04-13 15:30:32 +00:00: 2026-04-13 15:30:32,663 - __main__ - INFO - 🗑️  Pruned: "HooXi says "we'll get humbled at IEM Rio" after VRS top 3. That's some real talk..." (0L/0R)
+2026-04-13 15:30:35 +00:00: 2026-04-13 15:30:35,559 - __main__ - INFO - 🗑️  Pruned: "FUT just beat The MongolZ and are GOING TO THEIR FIRST BIG FINAL. Insane run. Wh..." (0L/0R)
+2026-04-13 15:30:38 +00:00: 2026-04-13 15:30:38,381 - __main__ - INFO - 🗑️  Pruned: "What's the single best play you've seen in CS2 this year?..." (0L/0R)
+2026-04-13 15:30:41 +00:00: 2026-04-13 15:30:41,198 - __main__ - INFO - 🗑️  Pruned: "Astralis just made the Bucharest grand final. Are they a serious threat now?..." (0L/0R)
+2026-04-13 15:30:44 +00:00: 2026-04-13 15:30:44,076 - __main__ - INFO - 🗑️  Pruned: "InControl BEAT F5 2-1 to WIN the cup! They're on FIRE 🔥..." (0L/0R)
+2026-04-13 15:30:46 +00:00: 2026-04-13 15:30:46,965 - __main__ - INFO - 🗑️  Pruned: "Astralis are GRAND FINALISTS in Bucharest! The Danish hype train is ROLLING 🚂..." (0L/0R)
+2026-04-13 15:30:49 +00:00: 2026-04-13 15:30:49,831 - __main__ - INFO - 🗑️  Pruned: "JamezIRL is out as Wildcard's coach. Said "things just didn't line up." Wildcard..." (0L/0R)
+2026-04-13 15:30:52 +00:00: 2026-04-13 15:30:52,732 - __main__ - INFO - 🗑️  Pruned: "Majors are getting a third place match now. Who even cares who finishes third? 😭..." (0L/0R)
+2026-04-13 15:30:55 +00:00: 2026-04-13 15:30:55,588 - __main__ - INFO - 🗑️  Pruned: "PGL added a third-place match in Singapore. Big for teams grinding for Major poi..." (0L/0R)
+2026-04-13 15:30:58 +00:00: 2026-04-13 15:30:58,413 - __main__ - INFO - 🗑️  Pruned: "PGL adding a third-place match? Nobody cares about third place. Waste of time...." (0L/0R)
+2026-04-13 15:31:01 +00:00: 2026-04-13 15:31:01,279 - __main__ - INFO - 🗑️  Pruned: "PGL adds a third-place decider for the Singapore Major. That's HUGE for the fina..." (0L/0R)
+2026-04-13 15:31:03 +00:00: 2026-04-13 15:31:03,281 - __main__ - INFO - 🗑️  Prune cycle complete: 20 deleted, 0 failed
+2026-04-13 15:31:03 +00:00: 2026-04-13 15:31:03,788 - __main__ - INFO - 📊 30-day stats: 403 total, 312 pruned, kept avg ER: 2.9803, pruned avg ER: 0.0000
+2026-04-14 15:31:05 +00:00: 2026-04-14 15:31:05,062 - __main__ - INFO - 🗑️  Found 20 prune candidates
+2026-04-14 15:31:06 +00:00: 2026-04-14 15:31:06,176 - __main__ - INFO - 🗑️  Pruned: "Wildcard just lost their IGL before the Major qualifier. How do they even recove..." (0L/0R)
+2026-04-14 15:31:09 +00:00: 2026-04-14 15:31:09,065 - __main__ - INFO - 🗑️  Pruned: "Wildcard just lost their IGL. With their Major hopes already on life support... ..." (0L/0R)
+2026-04-14 15:31:11 +00:00: 2026-04-14 15:31:11,902 - __main__ - INFO - 🗑️  Pruned: "Beating MOUZ gave me a huge confidence boost. Now everything feels easier...." (0L/0R)
+2026-04-14 15:31:14 +00:00: 2026-04-14 15:31:14,733 - __main__ - INFO - 🗑️  Pruned: "Third place decider for the Singapore Major. Every point matters. Who needs it m..." (0L/0R)
+2026-04-14 15:31:17 +00:00: 2026-04-14 15:31:17,894 - __main__ - INFO - 🗑️  Pruned: "Marsborne overhauled their roster with four new players. At this point, who's ev..." (0L/0R)
+2026-04-14 15:31:20 +00:00: 2026-04-14 15:31:20,725 - __main__ - INFO - 🗑️  Pruned: "LAST DAY of PGL Bucharest 2026. Who's taking it home? 🔥..." (0L/0R)
+2026-04-14 15:31:23 +00:00: 2026-04-14 15:31:23,549 - __main__ - INFO - 🗑️  Pruned: "Astralis are in the PGL Bucharest grand final. Are they officially BACK?..." (0L/0R)
+2026-04-14 15:31:26 +00:00: 2026-04-14 15:31:26,379 - __main__ - INFO - 🗑️  Pruned: "Final day at PGL Bucharest. Who lifts the trophy and who goes home empty-handed?..." (0L/0R)
+2026-04-14 15:31:29 +00:00: 2026-04-14 15:31:29,209 - __main__ - INFO - 🗑️  Pruned: "MongolZ grab the bronze over 3DMAX in Bucharest. That medal is theirs! 😤..." (0L/0R)
+2026-04-14 15:31:32 +00:00: 2026-04-14 15:31:32,040 - __main__ - INFO - 🗑️  Pruned: "Which CS2 team's hype train needs to DERAIL already? 😤..." (0L/0R)
+2026-04-14 15:31:34 +00:00: 2026-04-14 15:31:34,949 - __main__ - INFO - 🗑️  Pruned: "Marsborne bench four players. Only Grizz stays. They missed the Major. Ouch. Tim..." (0L/0R)
+2026-04-14 15:31:37 +00:00: 2026-04-14 15:31:37,793 - __main__ - INFO - 🗑️  Pruned: "The MongolZ just took BRONZE in Bucharest. This team is coming for EVERYONE next..." (0L/0R)
+2026-04-14 15:31:40 +00:00: 2026-04-14 15:31:40,636 - __main__ - INFO - 🗑️  Pruned: "It's June. What's the best CS2 play you've seen this year?..." (0L/0R)
+2026-04-14 15:31:43 +00:00: 2026-04-14 15:31:43,479 - __main__ - INFO - 🗑️  Pruned: "chop retires after Marsborne bench. NA scene loses a solid player after eight ye..." (0L/0R)
+2026-04-14 15:31:46 +00:00: 2026-04-14 15:31:46,306 - __main__ - INFO - 🗑️  Pruned: "PGL bringing a Major back to Romania in 2027. Cluj-Napoca is gonna be insane all..." (0L/0R)
+2026-04-14 15:31:49 +00:00: 2026-04-14 15:31:49,136 - __main__ - INFO - 🗑️  Pruned: "Jonji and Fruitcupx are back with a new team, Festina Lente. They're bringing th..." (0L/0R)
+2026-04-14 15:31:51 +00:00: 2026-04-14 15:31:51,963 - __main__ - INFO - 🗑️  Pruned: "chop just RETIRED. Legend of Chinese CS gone just like that 😭..." (0L/0R)
+2026-04-14 15:31:54 +00:00: 2026-04-14 15:31:54,788 - __main__ - INFO - 🗑️  Pruned: "The MongolZ just got BRONZE in Bucharest. This roster is actually scary now 🔥..." (0L/0R)
+2026-04-14 15:31:57 +00:00: 2026-04-14 15:31:57,618 - __main__ - INFO - 🗑️  Pruned: "The MongolZ just took BRONZE in Bucharest. Nobody saw this coming 🥉..." (0L/0R)
+2026-04-14 15:32:00 +00:00: 2026-04-14 15:32:00,461 - __main__ - INFO - 🗑️  Pruned: "neaLaN is standing in for Fisher College at PGL Astana. Fisher College is at PGL..." (0L/0R)
+2026-04-14 15:32:02 +00:00: 2026-04-14 15:32:02,464 - __main__ - INFO - 🗑️  Prune cycle complete: 20 deleted, 0 failed
+2026-04-14 15:32:02 +00:00: 2026-04-14 15:32:02,976 - __main__ - INFO - 📊 30-day stats: 431 total, 332 pruned, kept avg ER: 2.7716, pruned avg ER: 0.0000
+2026-04-15 10:49:57 +00:00: Traceback (most recent call last):
+2026-04-15 10:49:57 +00:00:   File "/home/ubuntu/openclaw/scripts/output/tweet_pruner.py", line 225, in <module>
+2026-04-15 10:49:57 +00:00:     asyncio.run(TweetPruner().run_forever())
+2026-04-15 10:49:57 +00:00:   File "/usr/lib/python3.10/asyncio/runners.py", line 44, in run
+2026-04-15 10:49:57 +00:00:     return loop.run_until_complete(main)
+2026-04-15 10:49:57 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 636, in run_until_complete
+2026-04-15 10:49:57 +00:00:     self.run_forever()
+2026-04-15 10:49:57 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 603, in run_forever
+2026-04-15 10:49:57 +00:00:     self._run_once()
+2026-04-15 10:49:57 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 1871, in _run_once
+2026-04-15 10:49:57 +00:00:     event_list = self._selector.select(timeout)
+2026-04-15 10:49:57 +00:00:   File "/usr/lib/python3.10/selectors.py", line 469, in select
+2026-04-15 10:49:57 +00:00:     fd_event_list = self._selector.poll(timeout, max_ev)
+2026-04-15 10:49:57 +00:00: KeyboardInterrupt
