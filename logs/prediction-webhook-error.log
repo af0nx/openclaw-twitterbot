@@ -59089,3 +59089,409 @@
 2026-04-30 15:59:03 +00:00: 2026-04-30 15:59:03,618 - __main__ - INFO - 🌐 External prediction API health=ok recent=4 mapped=1
 2026-04-30 15:59:03 +00:00: 2026-04-30 15:59:03,618 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
 2026-04-30 15:59:03 +00:00: 2026-04-30 15:59:03,618 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 16:04:03 +00:00: 2026-04-30 16:04:03,912 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 16:04:03 +00:00: 2026-04-30 16:04:03,914 - __main__ - INFO - 🌐 External prediction API health=ok recent=4 mapped=1
+2026-04-30 16:04:03 +00:00: 2026-04-30 16:04:03,914 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 16:04:03 +00:00: 2026-04-30 16:04:03,914 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 16:09:04 +00:00: 2026-04-30 16:09:04,281 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 16:09:04 +00:00: 2026-04-30 16:09:04,284 - __main__ - INFO - 🌐 External prediction API health=ok recent=4 mapped=1
+2026-04-30 16:09:04 +00:00: 2026-04-30 16:09:04,284 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 16:09:04 +00:00: 2026-04-30 16:09:04,284 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 16:14:04 +00:00: 2026-04-30 16:14:04,555 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 16:14:04 +00:00: 2026-04-30 16:14:04,557 - __main__ - INFO - 🌐 External prediction API health=ok recent=4 mapped=1
+2026-04-30 16:14:04 +00:00: 2026-04-30 16:14:04,557 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 16:14:04 +00:00: 2026-04-30 16:14:04,557 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 16:19:04 +00:00: 2026-04-30 16:19:04,926 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 16:19:04 +00:00: 2026-04-30 16:19:04,928 - __main__ - INFO - 🌐 External prediction API health=ok recent=4 mapped=1
+2026-04-30 16:19:04 +00:00: 2026-04-30 16:19:04,928 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 16:19:04 +00:00: 2026-04-30 16:19:04,928 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 16:24:05 +00:00: 2026-04-30 16:24:05,214 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 16:24:05 +00:00: 2026-04-30 16:24:05,216 - __main__ - INFO - 🌐 External prediction API health=ok recent=4 mapped=1
+2026-04-30 16:24:05 +00:00: 2026-04-30 16:24:05,217 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 16:24:05 +00:00: 2026-04-30 16:24:05,217 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 16:29:05 +00:00: 2026-04-30 16:29:05,578 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 16:29:05 +00:00: 2026-04-30 16:29:05,580 - __main__ - INFO - 🌐 External prediction API health=ok recent=4 mapped=1
+2026-04-30 16:29:05 +00:00: 2026-04-30 16:29:05,580 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 16:29:05 +00:00: 2026-04-30 16:29:05,580 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 16:34:05 +00:00: 2026-04-30 16:34:05,844 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 16:34:05 +00:00: 2026-04-30 16:34:05,847 - __main__ - INFO - 🌐 External prediction API health=ok recent=4 mapped=1
+2026-04-30 16:34:05 +00:00: 2026-04-30 16:34:05,847 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 16:34:05 +00:00: 2026-04-30 16:34:05,847 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 16:39:06 +00:00: 2026-04-30 16:39:06,186 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 16:39:06 +00:00: 2026-04-30 16:39:06,188 - __main__ - INFO - 🌐 External prediction API health=ok recent=4 mapped=1
+2026-04-30 16:39:06 +00:00: 2026-04-30 16:39:06,188 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 16:39:06 +00:00: 2026-04-30 16:39:06,188 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 16:44:06 +00:00: 2026-04-30 16:44:06,503 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 16:44:06 +00:00: 2026-04-30 16:44:06,505 - __main__ - INFO - 🌐 External prediction API health=ok recent=4 mapped=1
+2026-04-30 16:44:06 +00:00: 2026-04-30 16:44:06,505 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 16:44:06 +00:00: 2026-04-30 16:44:06,505 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 16:49:06 +00:00: 2026-04-30 16:49:06,768 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 16:49:06 +00:00: 2026-04-30 16:49:06,770 - __main__ - INFO - 🌐 External prediction API health=ok recent=4 mapped=1
+2026-04-30 16:49:06 +00:00: 2026-04-30 16:49:06,770 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 16:49:06 +00:00: 2026-04-30 16:49:06,770 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 16:54:07 +00:00: 2026-04-30 16:54:07,094 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 16:54:07 +00:00: 2026-04-30 16:54:07,097 - __main__ - INFO - 🌐 External prediction API health=ok recent=4 mapped=1
+2026-04-30 16:54:07 +00:00: 2026-04-30 16:54:07,097 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 16:54:07 +00:00: 2026-04-30 16:54:07,097 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 16:59:07 +00:00: 2026-04-30 16:59:07,526 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 16:59:07 +00:00: 2026-04-30 16:59:07,530 - __main__ - INFO - 🌐 External prediction API health=ok recent=4 mapped=1
+2026-04-30 16:59:07 +00:00: 2026-04-30 16:59:07,531 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 16:59:07 +00:00: 2026-04-30 16:59:07,531 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 17:04:07 +00:00: 2026-04-30 17:04:07,835 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 17:04:07 +00:00: 2026-04-30 17:04:07,838 - __main__ - INFO - 🌐 External prediction API health=ok recent=4 mapped=1
+2026-04-30 17:04:07 +00:00: 2026-04-30 17:04:07,839 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 17:04:07 +00:00: 2026-04-30 17:04:07,839 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 17:09:08 +00:00: 2026-04-30 17:09:08,198 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 17:09:08 +00:00: 2026-04-30 17:09:08,199 - __main__ - INFO - 🌐 External prediction API health=ok recent=4 mapped=1
+2026-04-30 17:09:08 +00:00: 2026-04-30 17:09:08,200 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 17:09:08 +00:00: 2026-04-30 17:09:08,200 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 17:14:08 +00:00: 2026-04-30 17:14:08,452 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 17:14:08 +00:00: 2026-04-30 17:14:08,454 - __main__ - INFO - 🌐 External prediction API health=ok recent=4 mapped=1
+2026-04-30 17:14:08 +00:00: 2026-04-30 17:14:08,454 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 17:14:08 +00:00: 2026-04-30 17:14:08,454 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 17:19:08 +00:00: 2026-04-30 17:19:08,840 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 17:19:08 +00:00: 2026-04-30 17:19:08,842 - __main__ - INFO - 🌐 External prediction API health=ok recent=4 mapped=1
+2026-04-30 17:19:08 +00:00: 2026-04-30 17:19:08,842 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 17:19:08 +00:00: 2026-04-30 17:19:08,842 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 17:24:09 +00:00: 2026-04-30 17:24:09,143 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 17:24:09 +00:00: 2026-04-30 17:24:09,148 - __main__ - INFO - 🌐 External prediction API health=ok recent=4 mapped=1
+2026-04-30 17:24:09 +00:00: 2026-04-30 17:24:09,149 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 17:24:09 +00:00: 2026-04-30 17:24:09,149 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 17:29:09 +00:00: 2026-04-30 17:29:09,432 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 17:29:09 +00:00: 2026-04-30 17:29:09,435 - __main__ - INFO - 🌐 External prediction API health=ok recent=4 mapped=1
+2026-04-30 17:29:09 +00:00: 2026-04-30 17:29:09,436 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 17:29:09 +00:00: 2026-04-30 17:29:09,436 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 17:34:09 +00:00: 2026-04-30 17:34:09,681 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 17:34:09 +00:00: 2026-04-30 17:34:09,683 - __main__ - INFO - 🌐 External prediction API health=ok recent=2 mapped=1
+2026-04-30 17:34:09 +00:00: 2026-04-30 17:34:09,683 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 17:34:09 +00:00: 2026-04-30 17:34:09,683 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 17:39:09 +00:00: 2026-04-30 17:39:09,987 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 17:39:09 +00:00: 2026-04-30 17:39:09,989 - __main__ - INFO - 🌐 External prediction API health=ok recent=2 mapped=1
+2026-04-30 17:39:09 +00:00: 2026-04-30 17:39:09,989 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 17:39:09 +00:00: 2026-04-30 17:39:09,990 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 17:44:10 +00:00: 2026-04-30 17:44:10,341 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 17:44:10 +00:00: 2026-04-30 17:44:10,344 - __main__ - INFO - 🌐 External prediction API health=ok recent=2 mapped=1
+2026-04-30 17:44:10 +00:00: 2026-04-30 17:44:10,344 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 17:44:10 +00:00: 2026-04-30 17:44:10,344 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 17:49:10 +00:00: 2026-04-30 17:49:10,590 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 17:49:10 +00:00: 2026-04-30 17:49:10,592 - __main__ - INFO - 🌐 External prediction API health=ok recent=2 mapped=1
+2026-04-30 17:49:10 +00:00: 2026-04-30 17:49:10,593 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 17:49:10 +00:00: 2026-04-30 17:49:10,593 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 17:54:10 +00:00: 2026-04-30 17:54:10,816 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 17:54:10 +00:00: 2026-04-30 17:54:10,818 - __main__ - INFO - 🌐 External prediction API health=ok recent=2 mapped=1
+2026-04-30 17:54:10 +00:00: 2026-04-30 17:54:10,818 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 17:54:10 +00:00: 2026-04-30 17:54:10,818 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 17:59:11 +00:00: 2026-04-30 17:59:11,091 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 17:59:11 +00:00: 2026-04-30 17:59:11,095 - __main__ - INFO - 🌐 External prediction API health=ok recent=2 mapped=1
+2026-04-30 17:59:11 +00:00: 2026-04-30 17:59:11,095 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 17:59:11 +00:00: 2026-04-30 17:59:11,095 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 18:04:11 +00:00: 2026-04-30 18:04:11,472 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 18:04:11 +00:00: 2026-04-30 18:04:11,474 - __main__ - INFO - 🌐 External prediction API health=ok recent=2 mapped=1
+2026-04-30 18:04:11 +00:00: 2026-04-30 18:04:11,474 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 18:04:11 +00:00: 2026-04-30 18:04:11,474 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 18:09:11 +00:00: 2026-04-30 18:09:11,717 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 18:09:11 +00:00: 2026-04-30 18:09:11,719 - __main__ - INFO - 🌐 External prediction API health=ok recent=2 mapped=1
+2026-04-30 18:09:11 +00:00: 2026-04-30 18:09:11,720 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 18:09:11 +00:00: 2026-04-30 18:09:11,720 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 18:14:12 +00:00: 2026-04-30 18:14:12,041 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 18:14:12 +00:00: 2026-04-30 18:14:12,043 - __main__ - INFO - 🌐 External prediction API health=ok recent=2 mapped=1
+2026-04-30 18:14:12 +00:00: 2026-04-30 18:14:12,044 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 18:14:12 +00:00: 2026-04-30 18:14:12,044 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 18:19:12 +00:00: 2026-04-30 18:19:12,325 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 18:19:12 +00:00: 2026-04-30 18:19:12,327 - __main__ - INFO - 🌐 External prediction API health=ok recent=2 mapped=1
+2026-04-30 18:19:12 +00:00: 2026-04-30 18:19:12,328 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 18:19:12 +00:00: 2026-04-30 18:19:12,328 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 18:24:12 +00:00: 2026-04-30 18:24:12,617 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 18:24:12 +00:00: 2026-04-30 18:24:12,618 - __main__ - INFO - 🌐 External prediction API health=ok recent=2 mapped=1
+2026-04-30 18:24:12 +00:00: 2026-04-30 18:24:12,619 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 18:24:12 +00:00: 2026-04-30 18:24:12,619 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 18:29:12 +00:00: 2026-04-30 18:29:12,926 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 18:29:12 +00:00: 2026-04-30 18:29:12,929 - __main__ - INFO - 🌐 External prediction API health=ok recent=2 mapped=1
+2026-04-30 18:29:12 +00:00: 2026-04-30 18:29:12,929 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 18:29:12 +00:00: 2026-04-30 18:29:12,929 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 18:34:13 +00:00: 2026-04-30 18:34:13,268 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 18:34:13 +00:00: 2026-04-30 18:34:13,270 - __main__ - INFO - 🌐 External prediction API health=ok recent=2 mapped=1
+2026-04-30 18:34:13 +00:00: 2026-04-30 18:34:13,271 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 18:34:13 +00:00: 2026-04-30 18:34:13,271 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 18:39:13 +00:00: 2026-04-30 18:39:13,613 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 18:39:13 +00:00: 2026-04-30 18:39:13,614 - __main__ - INFO - 🌐 External prediction API health=ok recent=2 mapped=1
+2026-04-30 18:39:13 +00:00: 2026-04-30 18:39:13,614 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 18:39:13 +00:00: 2026-04-30 18:39:13,614 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 18:44:13 +00:00: 2026-04-30 18:44:13,817 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 18:44:13 +00:00: 2026-04-30 18:44:13,819 - __main__ - INFO - 🌐 External prediction API health=ok recent=2 mapped=1
+2026-04-30 18:44:13 +00:00: 2026-04-30 18:44:13,819 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 18:44:13 +00:00: 2026-04-30 18:44:13,819 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 18:49:14 +00:00: 2026-04-30 18:49:14,208 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 18:49:14 +00:00: 2026-04-30 18:49:14,210 - __main__ - INFO - 🌐 External prediction API health=ok recent=2 mapped=1
+2026-04-30 18:49:14 +00:00: 2026-04-30 18:49:14,210 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 18:49:14 +00:00: 2026-04-30 18:49:14,210 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 18:54:14 +00:00: 2026-04-30 18:54:14,451 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 18:54:14 +00:00: 2026-04-30 18:54:14,453 - __main__ - INFO - 🌐 External prediction API health=ok recent=2 mapped=1
+2026-04-30 18:54:14 +00:00: 2026-04-30 18:54:14,453 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 18:54:14 +00:00: 2026-04-30 18:54:14,454 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 18:59:14 +00:00: 2026-04-30 18:59:14,830 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 18:59:14 +00:00: 2026-04-30 18:59:14,833 - __main__ - INFO - 🌐 External prediction API health=ok recent=2 mapped=1
+2026-04-30 18:59:14 +00:00: 2026-04-30 18:59:14,833 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 18:59:14 +00:00: 2026-04-30 18:59:14,833 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 19:04:15 +00:00: 2026-04-30 19:04:15,125 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 19:04:15 +00:00: 2026-04-30 19:04:15,127 - __main__ - INFO - 🌐 External prediction API health=ok recent=2 mapped=1
+2026-04-30 19:04:15 +00:00: 2026-04-30 19:04:15,127 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 19:04:15 +00:00: 2026-04-30 19:04:15,127 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 19:09:15 +00:00: 2026-04-30 19:09:15,444 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 19:09:15 +00:00: 2026-04-30 19:09:15,447 - __main__ - INFO - 🌐 External prediction API health=ok recent=2 mapped=1
+2026-04-30 19:09:15 +00:00: 2026-04-30 19:09:15,447 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 19:09:15 +00:00: 2026-04-30 19:09:15,447 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 19:14:15 +00:00: 2026-04-30 19:14:15,802 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 19:14:15 +00:00: 2026-04-30 19:14:15,804 - __main__ - INFO - 🌐 External prediction API health=ok recent=6 mapped=2
+2026-04-30 19:14:15 +00:00: 2026-04-30 19:14:15,805 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 19:14:16 +00:00: 2026-04-30 19:14:16,428 - __main__ - INFO - ✅ Prediction created: regain over FarmVille (standard)
+2026-04-30 19:14:16 +00:00: 2026-04-30 19:14:16,428 - __main__ - INFO - 🔎 Polled external predictions, created 1 new events
+2026-04-30 19:19:16 +00:00: 2026-04-30 19:19:16,783 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 19:19:16 +00:00: 2026-04-30 19:19:16,785 - __main__ - INFO - 🌐 External prediction API health=ok recent=6 mapped=2
+2026-04-30 19:19:16 +00:00: 2026-04-30 19:19:16,785 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 19:19:16 +00:00: 2026-04-30 19:19:16,785 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 19:19:16 +00:00: 2026-04-30 19:19:16,785 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 19:24:17 +00:00: 2026-04-30 19:24:17,135 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 19:24:17 +00:00: 2026-04-30 19:24:17,136 - __main__ - INFO - 🌐 External prediction API health=ok recent=6 mapped=2
+2026-04-30 19:24:17 +00:00: 2026-04-30 19:24:17,137 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 19:24:17 +00:00: 2026-04-30 19:24:17,137 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 19:24:17 +00:00: 2026-04-30 19:24:17,137 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 19:29:17 +00:00: 2026-04-30 19:29:17,471 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 19:29:17 +00:00: 2026-04-30 19:29:17,473 - __main__ - INFO - 🌐 External prediction API health=ok recent=6 mapped=2
+2026-04-30 19:29:17 +00:00: 2026-04-30 19:29:17,473 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 19:29:17 +00:00: 2026-04-30 19:29:17,473 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 19:29:17 +00:00: 2026-04-30 19:29:17,473 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 19:34:17 +00:00: 2026-04-30 19:34:17,829 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 19:34:17 +00:00: 2026-04-30 19:34:17,830 - __main__ - INFO - 🌐 External prediction API health=ok recent=6 mapped=2
+2026-04-30 19:34:17 +00:00: 2026-04-30 19:34:17,831 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 19:34:17 +00:00: 2026-04-30 19:34:17,831 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 19:34:17 +00:00: 2026-04-30 19:34:17,831 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 19:39:18 +00:00: 2026-04-30 19:39:18,207 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 19:39:18 +00:00: 2026-04-30 19:39:18,211 - __main__ - INFO - 🌐 External prediction API health=ok recent=6 mapped=2
+2026-04-30 19:39:18 +00:00: 2026-04-30 19:39:18,211 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 19:39:18 +00:00: 2026-04-30 19:39:18,211 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 19:39:18 +00:00: 2026-04-30 19:39:18,211 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 19:44:18 +00:00: 2026-04-30 19:44:18,592 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 19:44:18 +00:00: 2026-04-30 19:44:18,594 - __main__ - INFO - 🌐 External prediction API health=ok recent=6 mapped=2
+2026-04-30 19:44:18 +00:00: 2026-04-30 19:44:18,594 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 19:44:18 +00:00: 2026-04-30 19:44:18,594 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 19:44:18 +00:00: 2026-04-30 19:44:18,595 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 19:49:18 +00:00: 2026-04-30 19:49:18,892 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 19:49:18 +00:00: 2026-04-30 19:49:18,895 - __main__ - INFO - 🌐 External prediction API health=ok recent=6 mapped=2
+2026-04-30 19:49:18 +00:00: 2026-04-30 19:49:18,896 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 19:49:18 +00:00: 2026-04-30 19:49:18,896 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 19:49:18 +00:00: 2026-04-30 19:49:18,896 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 19:54:19 +00:00: 2026-04-30 19:54:19,229 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 19:54:19 +00:00: 2026-04-30 19:54:19,231 - __main__ - INFO - 🌐 External prediction API health=ok recent=6 mapped=2
+2026-04-30 19:54:19 +00:00: 2026-04-30 19:54:19,231 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 19:54:19 +00:00: 2026-04-30 19:54:19,231 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 19:54:19 +00:00: 2026-04-30 19:54:19,231 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 19:59:19 +00:00: 2026-04-30 19:59:19,562 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 19:59:19 +00:00: 2026-04-30 19:59:19,565 - __main__ - INFO - 🌐 External prediction API health=ok recent=6 mapped=2
+2026-04-30 19:59:19 +00:00: 2026-04-30 19:59:19,565 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 19:59:19 +00:00: 2026-04-30 19:59:19,565 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 19:59:19 +00:00: 2026-04-30 19:59:19,565 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 20:04:19 +00:00: 2026-04-30 20:04:19,835 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 20:04:19 +00:00: 2026-04-30 20:04:19,837 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=2
+2026-04-30 20:04:19 +00:00: 2026-04-30 20:04:19,837 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 20:04:19 +00:00: 2026-04-30 20:04:19,837 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 20:04:19 +00:00: 2026-04-30 20:04:19,837 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 20:09:20 +00:00: 2026-04-30 20:09:20,164 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 20:09:20 +00:00: 2026-04-30 20:09:20,166 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=2
+2026-04-30 20:09:20 +00:00: 2026-04-30 20:09:20,167 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 20:09:20 +00:00: 2026-04-30 20:09:20,167 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 20:09:20 +00:00: 2026-04-30 20:09:20,167 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 20:14:20 +00:00: 2026-04-30 20:14:20,558 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 20:14:20 +00:00: 2026-04-30 20:14:20,561 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=2
+2026-04-30 20:14:20 +00:00: 2026-04-30 20:14:20,561 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 20:14:20 +00:00: 2026-04-30 20:14:20,561 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 20:14:20 +00:00: 2026-04-30 20:14:20,561 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 20:19:20 +00:00: 2026-04-30 20:19:20,885 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 20:19:20 +00:00: 2026-04-30 20:19:20,887 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=2
+2026-04-30 20:19:20 +00:00: 2026-04-30 20:19:20,887 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 20:19:20 +00:00: 2026-04-30 20:19:20,887 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 20:19:20 +00:00: 2026-04-30 20:19:20,887 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 20:24:21 +00:00: 2026-04-30 20:24:21,258 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 20:24:21 +00:00: 2026-04-30 20:24:21,259 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=2
+2026-04-30 20:24:21 +00:00: 2026-04-30 20:24:21,260 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 20:24:21 +00:00: 2026-04-30 20:24:21,260 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 20:24:21 +00:00: 2026-04-30 20:24:21,260 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 20:29:21 +00:00: 2026-04-30 20:29:21,578 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 20:29:21 +00:00: 2026-04-30 20:29:21,581 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=2
+2026-04-30 20:29:21 +00:00: 2026-04-30 20:29:21,581 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 20:29:21 +00:00: 2026-04-30 20:29:21,581 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 20:29:21 +00:00: 2026-04-30 20:29:21,581 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 20:34:21 +00:00: 2026-04-30 20:34:21,958 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 20:34:21 +00:00: 2026-04-30 20:34:21,959 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=2
+2026-04-30 20:34:21 +00:00: 2026-04-30 20:34:21,959 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 20:34:21 +00:00: 2026-04-30 20:34:21,960 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 20:34:21 +00:00: 2026-04-30 20:34:21,960 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 20:39:22 +00:00: 2026-04-30 20:39:22,214 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 20:39:22 +00:00: 2026-04-30 20:39:22,217 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=2
+2026-04-30 20:39:22 +00:00: 2026-04-30 20:39:22,217 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 20:39:22 +00:00: 2026-04-30 20:39:22,217 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 20:39:22 +00:00: 2026-04-30 20:39:22,217 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 20:44:22 +00:00: 2026-04-30 20:44:22,556 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 20:44:22 +00:00: 2026-04-30 20:44:22,560 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=2
+2026-04-30 20:44:22 +00:00: 2026-04-30 20:44:22,560 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 20:44:22 +00:00: 2026-04-30 20:44:22,561 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 20:44:22 +00:00: 2026-04-30 20:44:22,561 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 20:49:22 +00:00: 2026-04-30 20:49:22,982 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 20:49:22 +00:00: 2026-04-30 20:49:22,984 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=2
+2026-04-30 20:49:22 +00:00: 2026-04-30 20:49:22,985 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 20:49:22 +00:00: 2026-04-30 20:49:22,985 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 20:49:22 +00:00: 2026-04-30 20:49:22,985 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 20:54:23 +00:00: 2026-04-30 20:54:23,309 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 20:54:23 +00:00: 2026-04-30 20:54:23,312 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=2
+2026-04-30 20:54:23 +00:00: 2026-04-30 20:54:23,312 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 20:54:23 +00:00: 2026-04-30 20:54:23,313 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 20:54:23 +00:00: 2026-04-30 20:54:23,313 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 20:59:23 +00:00: 2026-04-30 20:59:23,653 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 20:59:23 +00:00: 2026-04-30 20:59:23,655 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=2
+2026-04-30 20:59:23 +00:00: 2026-04-30 20:59:23,655 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_fb6cef already exists, skipping
+2026-04-30 20:59:23 +00:00: 2026-04-30 20:59:23,655 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 20:59:23 +00:00: 2026-04-30 20:59:23,655 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 21:04:23 +00:00: 2026-04-30 21:04:23,878 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 21:04:23 +00:00: 2026-04-30 21:04:23,880 - __main__ - INFO - 🌐 External prediction API health=ok recent=4 mapped=1
+2026-04-30 21:04:23 +00:00: 2026-04-30 21:04:23,880 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 21:04:23 +00:00: 2026-04-30 21:04:23,880 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 21:09:24 +00:00: 2026-04-30 21:09:24,248 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 21:09:24 +00:00: 2026-04-30 21:09:24,251 - __main__ - INFO - 🌐 External prediction API health=ok recent=4 mapped=1
+2026-04-30 21:09:24 +00:00: 2026-04-30 21:09:24,252 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 21:09:24 +00:00: 2026-04-30 21:09:24,252 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 21:14:24 +00:00: 2026-04-30 21:14:24,565 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 21:14:24 +00:00: 2026-04-30 21:14:24,567 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=1
+2026-04-30 21:14:24 +00:00: 2026-04-30 21:14:24,567 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 21:14:24 +00:00: 2026-04-30 21:14:24,567 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 21:19:24 +00:00: 2026-04-30 21:19:24,907 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 21:19:24 +00:00: 2026-04-30 21:19:24,910 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=1
+2026-04-30 21:19:24 +00:00: 2026-04-30 21:19:24,910 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 21:19:24 +00:00: 2026-04-30 21:19:24,910 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 21:24:25 +00:00: 2026-04-30 21:24:25,265 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 21:24:25 +00:00: 2026-04-30 21:24:25,267 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=1
+2026-04-30 21:24:25 +00:00: 2026-04-30 21:24:25,267 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 21:24:25 +00:00: 2026-04-30 21:24:25,267 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 21:29:25 +00:00: 2026-04-30 21:29:25,661 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 21:29:25 +00:00: 2026-04-30 21:29:25,663 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=1
+2026-04-30 21:29:25 +00:00: 2026-04-30 21:29:25,664 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 21:29:25 +00:00: 2026-04-30 21:29:25,664 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 21:34:26 +00:00: 2026-04-30 21:34:26,032 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 21:34:26 +00:00: 2026-04-30 21:34:26,034 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=1
+2026-04-30 21:34:26 +00:00: 2026-04-30 21:34:26,034 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 21:34:26 +00:00: 2026-04-30 21:34:26,034 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 21:39:26 +00:00: 2026-04-30 21:39:26,390 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 21:39:26 +00:00: 2026-04-30 21:39:26,392 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=1
+2026-04-30 21:39:26 +00:00: 2026-04-30 21:39:26,392 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 21:39:26 +00:00: 2026-04-30 21:39:26,392 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 21:44:26 +00:00: 2026-04-30 21:44:26,808 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 21:44:26 +00:00: 2026-04-30 21:44:26,809 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=1
+2026-04-30 21:44:26 +00:00: 2026-04-30 21:44:26,810 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 21:44:26 +00:00: 2026-04-30 21:44:26,810 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 21:49:27 +00:00: 2026-04-30 21:49:27,210 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 21:49:27 +00:00: 2026-04-30 21:49:27,211 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=1
+2026-04-30 21:49:27 +00:00: 2026-04-30 21:49:27,211 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 21:49:27 +00:00: 2026-04-30 21:49:27,212 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 21:54:27 +00:00: 2026-04-30 21:54:27,550 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 21:54:27 +00:00: 2026-04-30 21:54:27,552 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=1
+2026-04-30 21:54:27 +00:00: 2026-04-30 21:54:27,552 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 21:54:27 +00:00: 2026-04-30 21:54:27,552 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 21:59:27 +00:00: 2026-04-30 21:59:27,858 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 21:59:27 +00:00: 2026-04-30 21:59:27,861 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=1
+2026-04-30 21:59:27 +00:00: 2026-04-30 21:59:27,861 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 21:59:27 +00:00: 2026-04-30 21:59:27,861 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 22:04:28 +00:00: 2026-04-30 22:04:28,215 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 22:04:28 +00:00: 2026-04-30 22:04:28,217 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=1
+2026-04-30 22:04:28 +00:00: 2026-04-30 22:04:28,217 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 22:04:28 +00:00: 2026-04-30 22:04:28,217 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 22:09:28 +00:00: 2026-04-30 22:09:28,595 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 22:09:28 +00:00: 2026-04-30 22:09:28,597 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=1
+2026-04-30 22:09:28 +00:00: 2026-04-30 22:09:28,597 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 22:09:28 +00:00: 2026-04-30 22:09:28,598 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 22:14:28 +00:00: 2026-04-30 22:14:28,934 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 22:14:28 +00:00: 2026-04-30 22:14:28,937 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=1
+2026-04-30 22:14:28 +00:00: 2026-04-30 22:14:28,937 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 22:14:28 +00:00: 2026-04-30 22:14:28,937 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 22:19:29 +00:00: 2026-04-30 22:19:29,234 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 22:19:29 +00:00: 2026-04-30 22:19:29,236 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=1
+2026-04-30 22:19:29 +00:00: 2026-04-30 22:19:29,237 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 22:19:29 +00:00: 2026-04-30 22:19:29,237 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 22:24:29 +00:00: 2026-04-30 22:24:29,632 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 22:24:29 +00:00: 2026-04-30 22:24:29,633 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=1
+2026-04-30 22:24:29 +00:00: 2026-04-30 22:24:29,634 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 22:24:29 +00:00: 2026-04-30 22:24:29,634 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 22:29:29 +00:00: 2026-04-30 22:29:29,994 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 22:29:29 +00:00: 2026-04-30 22:29:29,998 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=1
+2026-04-30 22:29:29 +00:00: 2026-04-30 22:29:29,998 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 22:29:29 +00:00: 2026-04-30 22:29:29,998 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 22:34:30 +00:00: 2026-04-30 22:34:30,349 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 22:34:30 +00:00: 2026-04-30 22:34:30,352 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=1
+2026-04-30 22:34:30 +00:00: 2026-04-30 22:34:30,352 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 22:34:30 +00:00: 2026-04-30 22:34:30,352 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 22:39:30 +00:00: 2026-04-30 22:39:30,707 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 22:39:30 +00:00: 2026-04-30 22:39:30,709 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=1
+2026-04-30 22:39:30 +00:00: 2026-04-30 22:39:30,709 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 22:39:30 +00:00: 2026-04-30 22:39:30,709 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 22:44:31 +00:00: 2026-04-30 22:44:31,089 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 22:44:31 +00:00: 2026-04-30 22:44:31,091 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=1
+2026-04-30 22:44:31 +00:00: 2026-04-30 22:44:31,091 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 22:44:31 +00:00: 2026-04-30 22:44:31,091 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 22:49:31 +00:00: 2026-04-30 22:49:31,411 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 22:49:31 +00:00: 2026-04-30 22:49:31,414 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=1
+2026-04-30 22:49:31 +00:00: 2026-04-30 22:49:31,414 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 22:49:31 +00:00: 2026-04-30 22:49:31,414 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 22:54:31 +00:00: 2026-04-30 22:54:31,774 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 22:54:31 +00:00: 2026-04-30 22:54:31,777 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=1
+2026-04-30 22:54:31 +00:00: 2026-04-30 22:54:31,777 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 22:54:31 +00:00: 2026-04-30 22:54:31,777 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 22:59:32 +00:00: 2026-04-30 22:59:32,089 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 22:59:32 +00:00: 2026-04-30 22:59:32,091 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=1
+2026-04-30 22:59:32 +00:00: 2026-04-30 22:59:32,091 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 22:59:32 +00:00: 2026-04-30 22:59:32,091 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 23:04:32 +00:00: 2026-04-30 23:04:32,360 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 23:04:32 +00:00: 2026-04-30 23:04:32,362 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=1
+2026-04-30 23:04:32 +00:00: 2026-04-30 23:04:32,362 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 23:04:32 +00:00: 2026-04-30 23:04:32,362 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 23:09:32 +00:00: 2026-04-30 23:09:32,768 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 23:09:32 +00:00: 2026-04-30 23:09:32,772 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=1
+2026-04-30 23:09:32 +00:00: 2026-04-30 23:09:32,772 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 23:09:32 +00:00: 2026-04-30 23:09:32,772 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 23:14:33 +00:00: 2026-04-30 23:14:33,104 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 23:14:33 +00:00: 2026-04-30 23:14:33,106 - __main__ - INFO - 🌐 External prediction API health=ok recent=6 mapped=1
+2026-04-30 23:14:33 +00:00: 2026-04-30 23:14:33,106 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 23:14:33 +00:00: 2026-04-30 23:14:33,106 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 23:19:33 +00:00: 2026-04-30 23:19:33,432 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 23:19:33 +00:00: 2026-04-30 23:19:33,435 - __main__ - INFO - 🌐 External prediction API health=ok recent=6 mapped=1
+2026-04-30 23:19:33 +00:00: 2026-04-30 23:19:33,435 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 23:19:33 +00:00: 2026-04-30 23:19:33,435 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 23:24:33 +00:00: 2026-04-30 23:24:33,841 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 23:24:33 +00:00: 2026-04-30 23:24:33,845 - __main__ - INFO - 🌐 External prediction API health=ok recent=6 mapped=1
+2026-04-30 23:24:33 +00:00: 2026-04-30 23:24:33,845 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 23:24:33 +00:00: 2026-04-30 23:24:33,845 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 23:29:34 +00:00: 2026-04-30 23:29:34,128 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 23:29:34 +00:00: 2026-04-30 23:29:34,131 - __main__ - INFO - 🌐 External prediction API health=ok recent=6 mapped=1
+2026-04-30 23:29:34 +00:00: 2026-04-30 23:29:34,131 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 23:29:34 +00:00: 2026-04-30 23:29:34,131 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 23:34:34 +00:00: 2026-04-30 23:34:34,461 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 23:34:34 +00:00: 2026-04-30 23:34:34,463 - __main__ - INFO - 🌐 External prediction API health=ok recent=6 mapped=1
+2026-04-30 23:34:34 +00:00: 2026-04-30 23:34:34,464 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 23:34:34 +00:00: 2026-04-30 23:34:34,464 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 23:39:34 +00:00: 2026-04-30 23:39:34,783 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 23:39:34 +00:00: 2026-04-30 23:39:34,786 - __main__ - INFO - 🌐 External prediction API health=ok recent=6 mapped=1
+2026-04-30 23:39:34 +00:00: 2026-04-30 23:39:34,786 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 23:39:34 +00:00: 2026-04-30 23:39:34,786 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 23:44:35 +00:00: 2026-04-30 23:44:35,096 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 23:44:35 +00:00: 2026-04-30 23:44:35,099 - __main__ - INFO - 🌐 External prediction API health=ok recent=6 mapped=1
+2026-04-30 23:44:35 +00:00: 2026-04-30 23:44:35,099 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 23:44:35 +00:00: 2026-04-30 23:44:35,100 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 23:49:35 +00:00: 2026-04-30 23:49:35,407 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 23:49:35 +00:00: 2026-04-30 23:49:35,409 - __main__ - INFO - 🌐 External prediction API health=ok recent=6 mapped=1
+2026-04-30 23:49:35 +00:00: 2026-04-30 23:49:35,409 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 23:49:35 +00:00: 2026-04-30 23:49:35,409 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 23:54:35 +00:00: 2026-04-30 23:54:35,670 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 23:54:35 +00:00: 2026-04-30 23:54:35,673 - __main__ - INFO - 🌐 External prediction API health=ok recent=6 mapped=1
+2026-04-30 23:54:35 +00:00: 2026-04-30 23:54:35,674 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 23:54:35 +00:00: 2026-04-30 23:54:35,674 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-04-30 23:59:36 +00:00: 2026-04-30 23:59:36,007 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-04-30 23:59:36 +00:00: 2026-04-30 23:59:36,010 - __main__ - INFO - 🌐 External prediction API health=ok recent=6 mapped=1
+2026-04-30 23:59:36 +00:00: 2026-04-30 23:59:36,010 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-04-30 23:59:36 +00:00: 2026-04-30 23:59:36,010 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events

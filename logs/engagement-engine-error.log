@@ -40605,3 +40605,57 @@
 2026-04-30 15:33:37 +00:00: 2026-04-30 15:33:37,543 - __main__ - INFO - ⏭️  Generator 'recycle' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
 2026-04-30 15:33:39 +00:00: 2026-04-30 15:33:39,516 - __main__ - INFO - 📥 Engagement event created: 1fa5720c-918e-482d-9c91-b832a70699ab (engagement_poll)
 2026-04-30 15:33:39 +00:00: 2026-04-30 15:33:39,516 - __main__ - INFO - 🎯 Engagement cycle complete: 1 events generated
+2026-04-30 16:33:40 +00:00: 2026-04-30 16:33:40,007 - utils.db_utils - WARNING - ⚠️  DB connection stale — reconnecting…
+2026-04-30 16:33:41 +00:00: 2026-04-30 16:33:41,009 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-04-30 16:34:36 +00:00: 2026-04-30 16:34:36,810 - __main__ - INFO - ⏭️  Generator 'recycle' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-04-30 16:34:37 +00:00: 2026-04-30 16:34:37,718 - __main__ - INFO - 🎯 Engagement cycle complete: 0 events generated
+2026-04-30 17:34:37 +00:00: 2026-04-30 17:34:37,806 - utils.db_utils - WARNING - ⚠️  DB connection stale — reconnecting…
+2026-04-30 17:34:38 +00:00: 2026-04-30 17:34:38,750 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-04-30 17:34:38 +00:00: 2026-04-30 17:34:38,751 - utils.db_utils - WARNING - ⚠️  DB connection stale — reconnecting…
+2026-04-30 17:34:39 +00:00: 2026-04-30 17:34:39,741 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-04-30 17:35:35 +00:00: 2026-04-30 17:35:35,281 - httpx - INFO - HTTP Request: POST http://localhost:8402/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-30 17:35:35 +00:00: 2026-04-30 17:35:35,283 - __main__ - WARNING - ⏭️  Rejected conversation rewrite: prompt or reasoning leakage — The key angles mentioned are line moves, market panic, buy low, sell high, public trap, overreaction
+2026-04-30 17:35:35 +00:00: 2026-04-30 17:35:35,283 - __main__ - INFO - ✨ Engagement strategy 'conversation' generated content
+2026-04-30 17:35:39 +00:00: 2026-04-30 17:35:39,756 - __main__ - INFO - ⏭️  Generator 'recycle' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-04-30 17:35:41 +00:00: 2026-04-30 17:35:41,771 - __main__ - INFO - 📥 Engagement event created: e5331cad-1a8b-4530-b7d7-8f8f6a9a15e4 (engagement_conversation)
+2026-04-30 17:35:41 +00:00: 2026-04-30 17:35:41,771 - __main__ - INFO - 🎯 Engagement cycle complete: 1 events generated
+2026-04-30 18:35:42 +00:00: 2026-04-30 18:35:42,295 - utils.db_utils - WARNING - ⚠️  DB connection stale — reconnecting…
+2026-04-30 18:35:43 +00:00: 2026-04-30 18:35:43,287 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-04-30 18:36:37 +00:00: 2026-04-30 18:36:37,922 - httpx - INFO - HTTP Request: POST http://localhost:8402/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-30 18:36:37 +00:00: 2026-04-30 18:36:37,927 - __main__ - INFO - ✨ Engagement strategy 'conversation' generated content
+2026-04-30 18:36:42 +00:00: 2026-04-30 18:36:42,402 - __main__ - INFO - ⏭️  Generator 'recycle' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-04-30 18:36:44 +00:00: 2026-04-30 18:36:44,416 - __main__ - INFO - 📥 Engagement event created: c5c8200c-da76-4723-a32e-f419ba962a5e (engagement_conversation)
+2026-04-30 18:36:44 +00:00: 2026-04-30 18:36:44,416 - __main__ - INFO - 🎯 Engagement cycle complete: 1 events generated
+2026-04-30 19:36:44 +00:00: 2026-04-30 19:36:44,980 - utils.db_utils - WARNING - ⚠️  DB connection stale — reconnecting…
+2026-04-30 19:36:45 +00:00: 2026-04-30 19:36:45,981 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-04-30 19:37:40 +00:00: 2026-04-30 19:37:40,984 - httpx - INFO - HTTP Request: POST http://localhost:8402/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-30 19:37:40 +00:00: 2026-04-30 19:37:40,987 - __main__ - WARNING - ⏭️  Rejected conversation rewrite: prompt or reasoning leakage — The original is "which team does the public keep rating too high?" 
+2026-04-30 19:37:40 +00:00: 
+2026-04-30 19:37:40 +00:00: First, I need to think about CS
+2026-04-30 19:37:40 +00:00: 2026-04-30 19:37:40,988 - __main__ - INFO - ✨ Engagement strategy 'conversation' generated content
+2026-04-30 19:37:45 +00:00: 2026-04-30 19:37:45,467 - __main__ - INFO - ⏭️  Generator 'recycle' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-04-30 19:37:47 +00:00: 2026-04-30 19:37:47,482 - __main__ - INFO - 📥 Engagement event created: 7e260857-5a1c-417e-923c-f590adeb9ca9 (engagement_conversation)
+2026-04-30 19:37:47 +00:00: 2026-04-30 19:37:47,483 - __main__ - INFO - 🎯 Engagement cycle complete: 1 events generated
+2026-04-30 20:37:48 +00:00: 2026-04-30 20:37:48,009 - utils.db_utils - WARNING - ⚠️  DB connection stale — reconnecting…
+2026-04-30 20:37:48 +00:00: 2026-04-30 20:37:48,963 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-04-30 20:38:43 +00:00: 2026-04-30 20:38:43,865 - httpx - INFO - HTTP Request: POST http://localhost:8402/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-30 20:38:43 +00:00: 2026-04-30 20:38:43,867 - __main__ - INFO - ✨ Engagement strategy 'conversation' generated content
+2026-04-30 20:38:48 +00:00: 2026-04-30 20:38:48,356 - __main__ - INFO - ⏭️  Generator 'recycle' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-04-30 20:38:50 +00:00: 2026-04-30 20:38:50,369 - __main__ - INFO - 📥 Engagement event created: 3cb495ce-7ef0-4806-b91e-1249a429a148 (engagement_conversation)
+2026-04-30 20:38:50 +00:00: 2026-04-30 20:38:50,369 - __main__ - INFO - 🎯 Engagement cycle complete: 1 events generated
+2026-04-30 21:38:50 +00:00: 2026-04-30 21:38:50,936 - utils.db_utils - WARNING - ⚠️  DB connection stale — reconnecting…
+2026-04-30 21:38:51 +00:00: 2026-04-30 21:38:51,927 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-04-30 21:39:48 +00:00: 2026-04-30 21:39:48,861 - __main__ - INFO - ⏭️  Generator 'recycle' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-04-30 21:39:49 +00:00: 2026-04-30 21:39:49,790 - __main__ - INFO - 🎯 Engagement cycle complete: 0 events generated
+2026-04-30 22:39:49 +00:00: 2026-04-30 22:39:49,892 - utils.db_utils - WARNING - ⚠️  DB connection stale — reconnecting…
+2026-04-30 22:39:50 +00:00: 2026-04-30 22:39:50,824 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-04-30 22:39:50 +00:00: 2026-04-30 22:39:50,824 - utils.db_utils - WARNING - ⚠️  DB connection stale — reconnecting…
+2026-04-30 22:39:51 +00:00: 2026-04-30 22:39:51,735 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-04-30 22:40:47 +00:00: 2026-04-30 22:40:47,455 - __main__ - INFO - ⏭️  Generator 'recycle' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-04-30 22:40:48 +00:00: 2026-04-30 22:40:48,373 - __main__ - INFO - 🎯 Engagement cycle complete: 0 events generated
+2026-04-30 23:40:48 +00:00: 2026-04-30 23:40:48,475 - utils.db_utils - WARNING - ⚠️  DB connection stale — reconnecting…
+2026-04-30 23:40:49 +00:00: 2026-04-30 23:40:49,387 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-04-30 23:40:49 +00:00: 2026-04-30 23:40:49,390 - utils.db_utils - WARNING - ⚠️  DB connection stale — reconnecting…
+2026-04-30 23:40:50 +00:00: 2026-04-30 23:40:50,376 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-04-30 23:41:43 +00:00: 2026-04-30 23:41:43,580 - __main__ - INFO - ⏭️  Generator 'recycle' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-04-30 23:41:44 +00:00: 2026-04-30 23:41:44,478 - __main__ - INFO - 🎯 Engagement cycle complete: 0 events generated
