@@ -59495,3 +59495,300 @@
 2026-04-30 23:59:36 +00:00: 2026-04-30 23:59:36,010 - __main__ - INFO - 🌐 External prediction API health=ok recent=6 mapped=1
 2026-04-30 23:59:36 +00:00: 2026-04-30 23:59:36,010 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
 2026-04-30 23:59:36 +00:00: 2026-04-30 23:59:36,010 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 00:04:36 +00:00: 2026-05-01 00:04:36,343 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 00:04:36 +00:00: 2026-05-01 00:04:36,372 - __main__ - INFO - 🌐 External prediction API health=ok recent=6 mapped=1
+2026-05-01 00:04:36 +00:00: 2026-05-01 00:04:36,374 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-05-01 00:04:36 +00:00: 2026-05-01 00:04:36,374 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 00:09:36 +00:00: 2026-05-01 00:09:36,730 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 00:09:36 +00:00: 2026-05-01 00:09:36,733 - __main__ - INFO - 🌐 External prediction API health=ok recent=6 mapped=1
+2026-05-01 00:09:36 +00:00: 2026-05-01 00:09:36,733 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-05-01 00:09:36 +00:00: 2026-05-01 00:09:36,733 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 00:14:37 +00:00: 2026-05-01 00:14:37,096 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 00:14:37 +00:00: 2026-05-01 00:14:37,098 - __main__ - INFO - 🌐 External prediction API health=ok recent=6 mapped=1
+2026-05-01 00:14:37 +00:00: 2026-05-01 00:14:37,098 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-05-01 00:14:37 +00:00: 2026-05-01 00:14:37,098 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 00:19:37 +00:00: 2026-05-01 00:19:37,351 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 00:19:37 +00:00: 2026-05-01 00:19:37,355 - __main__ - INFO - 🌐 External prediction API health=ok recent=6 mapped=1
+2026-05-01 00:19:37 +00:00: 2026-05-01 00:19:37,355 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-05-01 00:19:37 +00:00: 2026-05-01 00:19:37,355 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 00:24:37 +00:00: 2026-05-01 00:24:37,616 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 00:24:37 +00:00: 2026-05-01 00:24:37,618 - __main__ - INFO - 🌐 External prediction API health=ok recent=6 mapped=1
+2026-05-01 00:24:37 +00:00: 2026-05-01 00:24:37,619 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-05-01 00:24:37 +00:00: 2026-05-01 00:24:37,619 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 00:29:37 +00:00: 2026-05-01 00:29:37,985 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 00:29:37 +00:00: 2026-05-01 00:29:37,987 - __main__ - INFO - 🌐 External prediction API health=ok recent=6 mapped=1
+2026-05-01 00:29:37 +00:00: 2026-05-01 00:29:37,987 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-05-01 00:29:37 +00:00: 2026-05-01 00:29:37,988 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 00:34:38 +00:00: 2026-05-01 00:34:38,284 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 00:34:38 +00:00: 2026-05-01 00:34:38,287 - __main__ - INFO - 🌐 External prediction API health=ok recent=6 mapped=1
+2026-05-01 00:34:38 +00:00: 2026-05-01 00:34:38,287 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-05-01 00:34:38 +00:00: 2026-05-01 00:34:38,288 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 00:39:38 +00:00: 2026-05-01 00:39:38,537 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 00:39:38 +00:00: 2026-05-01 00:39:38,540 - __main__ - INFO - 🌐 External prediction API health=ok recent=6 mapped=1
+2026-05-01 00:39:38 +00:00: 2026-05-01 00:39:38,540 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-05-01 00:39:38 +00:00: 2026-05-01 00:39:38,540 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 00:44:38 +00:00: 2026-05-01 00:44:38,898 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 00:44:38 +00:00: 2026-05-01 00:44:38,899 - __main__ - INFO - 🌐 External prediction API health=ok recent=6 mapped=1
+2026-05-01 00:44:38 +00:00: 2026-05-01 00:44:38,900 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-05-01 00:44:38 +00:00: 2026-05-01 00:44:38,900 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 00:49:39 +00:00: 2026-05-01 00:49:39,228 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 00:49:39 +00:00: 2026-05-01 00:49:39,229 - __main__ - INFO - 🌐 External prediction API health=ok recent=6 mapped=1
+2026-05-01 00:49:39 +00:00: 2026-05-01 00:49:39,229 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-05-01 00:49:39 +00:00: 2026-05-01 00:49:39,230 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 00:54:39 +00:00: 2026-05-01 00:54:39,520 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 00:54:39 +00:00: 2026-05-01 00:54:39,523 - __main__ - INFO - 🌐 External prediction API health=ok recent=6 mapped=1
+2026-05-01 00:54:39 +00:00: 2026-05-01 00:54:39,523 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-05-01 00:54:39 +00:00: 2026-05-01 00:54:39,524 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 00:59:39 +00:00: 2026-05-01 00:59:39,907 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 00:59:39 +00:00: 2026-05-01 00:59:39,909 - __main__ - INFO - 🌐 External prediction API health=ok recent=6 mapped=1
+2026-05-01 00:59:39 +00:00: 2026-05-01 00:59:39,910 - __main__ - INFO - ⏭️  Prediction external:pred_20260430_ad776a already exists, skipping
+2026-05-01 00:59:39 +00:00: 2026-05-01 00:59:39,910 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 01:04:40 +00:00: 2026-05-01 01:04:40,289 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 01:04:40 +00:00: 2026-05-01 01:04:40,291 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=0
+2026-05-01 01:04:40 +00:00: 2026-05-01 01:04:40,291 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 01:09:40 +00:00: 2026-05-01 01:09:40,641 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 01:09:40 +00:00: 2026-05-01 01:09:40,643 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=0
+2026-05-01 01:09:40 +00:00: 2026-05-01 01:09:40,643 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 01:14:40 +00:00: 2026-05-01 01:14:40,950 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 01:14:40 +00:00: 2026-05-01 01:14:40,952 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=0
+2026-05-01 01:14:40 +00:00: 2026-05-01 01:14:40,952 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 01:19:41 +00:00: 2026-05-01 01:19:41,300 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 01:19:41 +00:00: 2026-05-01 01:19:41,302 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=0
+2026-05-01 01:19:41 +00:00: 2026-05-01 01:19:41,303 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 01:24:41 +00:00: 2026-05-01 01:24:41,716 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 01:24:41 +00:00: 2026-05-01 01:24:41,717 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=0
+2026-05-01 01:24:41 +00:00: 2026-05-01 01:24:41,718 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 01:29:42 +00:00: 2026-05-01 01:29:42,100 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 01:29:42 +00:00: 2026-05-01 01:29:42,102 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=0
+2026-05-01 01:29:42 +00:00: 2026-05-01 01:29:42,102 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 01:34:42 +00:00: 2026-05-01 01:34:42,427 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 01:34:42 +00:00: 2026-05-01 01:34:42,429 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=0
+2026-05-01 01:34:42 +00:00: 2026-05-01 01:34:42,429 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 01:39:42 +00:00: 2026-05-01 01:39:42,826 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 01:39:42 +00:00: 2026-05-01 01:39:42,828 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=0
+2026-05-01 01:39:42 +00:00: 2026-05-01 01:39:42,829 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 01:44:43 +00:00: 2026-05-01 01:44:43,183 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 01:44:43 +00:00: 2026-05-01 01:44:43,186 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=0
+2026-05-01 01:44:43 +00:00: 2026-05-01 01:44:43,187 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 01:49:43 +00:00: 2026-05-01 01:49:43,614 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 01:49:43 +00:00: 2026-05-01 01:49:43,617 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=0
+2026-05-01 01:49:43 +00:00: 2026-05-01 01:49:43,618 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 01:54:43 +00:00: 2026-05-01 01:54:43,985 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 01:54:43 +00:00: 2026-05-01 01:54:43,986 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=0
+2026-05-01 01:54:43 +00:00: 2026-05-01 01:54:43,986 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 01:59:44 +00:00: 2026-05-01 01:59:44,200 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 01:59:44 +00:00: 2026-05-01 01:59:44,202 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=0
+2026-05-01 01:59:44 +00:00: 2026-05-01 01:59:44,202 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 02:04:44 +00:00: 2026-05-01 02:04:44,498 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 02:04:44 +00:00: 2026-05-01 02:04:44,501 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=0
+2026-05-01 02:04:44 +00:00: 2026-05-01 02:04:44,502 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 02:09:44 +00:00: 2026-05-01 02:09:44,845 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 02:09:44 +00:00: 2026-05-01 02:09:44,847 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=0
+2026-05-01 02:09:44 +00:00: 2026-05-01 02:09:44,847 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 02:14:45 +00:00: 2026-05-01 02:14:45,072 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 02:14:45 +00:00: 2026-05-01 02:14:45,074 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=0
+2026-05-01 02:14:45 +00:00: 2026-05-01 02:14:45,074 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 02:19:45 +00:00: 2026-05-01 02:19:45,381 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 02:19:45 +00:00: 2026-05-01 02:19:45,382 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=0
+2026-05-01 02:19:45 +00:00: 2026-05-01 02:19:45,382 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 02:24:45 +00:00: 2026-05-01 02:24:45,712 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 02:24:45 +00:00: 2026-05-01 02:24:45,714 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=0
+2026-05-01 02:24:45 +00:00: 2026-05-01 02:24:45,714 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 02:29:46 +00:00: 2026-05-01 02:29:46,055 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 02:29:46 +00:00: 2026-05-01 02:29:46,057 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=0
+2026-05-01 02:29:46 +00:00: 2026-05-01 02:29:46,057 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 02:34:46 +00:00: 2026-05-01 02:34:46,401 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 02:34:46 +00:00: 2026-05-01 02:34:46,403 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=0
+2026-05-01 02:34:46 +00:00: 2026-05-01 02:34:46,403 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 02:39:46 +00:00: 2026-05-01 02:39:46,732 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 02:39:46 +00:00: 2026-05-01 02:39:46,734 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=0
+2026-05-01 02:39:46 +00:00: 2026-05-01 02:39:46,734 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 02:44:47 +00:00: 2026-05-01 02:44:47,086 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 02:44:47 +00:00: 2026-05-01 02:44:47,089 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=0
+2026-05-01 02:44:47 +00:00: 2026-05-01 02:44:47,089 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 02:49:47 +00:00: 2026-05-01 02:49:47,453 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 02:49:47 +00:00: 2026-05-01 02:49:47,455 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=0
+2026-05-01 02:49:47 +00:00: 2026-05-01 02:49:47,455 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 02:54:47 +00:00: 2026-05-01 02:54:47,802 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 02:54:47 +00:00: 2026-05-01 02:54:47,804 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=0
+2026-05-01 02:54:47 +00:00: 2026-05-01 02:54:47,804 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 02:59:48 +00:00: 2026-05-01 02:59:48,104 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 02:59:48 +00:00: 2026-05-01 02:59:48,107 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=0
+2026-05-01 02:59:48 +00:00: 2026-05-01 02:59:48,107 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 03:04:48 +00:00: 2026-05-01 03:04:48,460 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 03:04:48 +00:00: 2026-05-01 03:04:48,462 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=0
+2026-05-01 03:04:48 +00:00: 2026-05-01 03:04:48,462 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 03:09:48 +00:00: 2026-05-01 03:09:48,810 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 03:09:48 +00:00: 2026-05-01 03:09:48,813 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=0
+2026-05-01 03:09:48 +00:00: 2026-05-01 03:09:48,813 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 03:14:49 +00:00: 2026-05-01 03:14:49,219 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 03:14:49 +00:00: 2026-05-01 03:14:49,221 - __main__ - INFO - 🌐 External prediction API health=ok recent=5 mapped=0
+2026-05-01 03:14:49 +00:00: 2026-05-01 03:14:49,221 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 03:19:49 +00:00: 2026-05-01 03:19:49,567 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 03:19:49 +00:00: 2026-05-01 03:19:49,570 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 03:19:49 +00:00: 2026-05-01 03:19:49,570 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 03:24:49 +00:00: 2026-05-01 03:24:49,920 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 03:24:49 +00:00: 2026-05-01 03:24:49,923 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 03:24:49 +00:00: 2026-05-01 03:24:49,924 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 03:29:50 +00:00: 2026-05-01 03:29:50,291 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 03:29:50 +00:00: 2026-05-01 03:29:50,293 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 03:29:50 +00:00: 2026-05-01 03:29:50,293 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 03:34:50 +00:00: 2026-05-01 03:34:50,651 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 03:34:50 +00:00: 2026-05-01 03:34:50,654 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 03:34:50 +00:00: 2026-05-01 03:34:50,654 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 03:39:50 +00:00: 2026-05-01 03:39:50,970 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 03:39:50 +00:00: 2026-05-01 03:39:50,972 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 03:39:50 +00:00: 2026-05-01 03:39:50,972 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 03:44:51 +00:00: 2026-05-01 03:44:51,393 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 03:44:51 +00:00: 2026-05-01 03:44:51,395 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 03:44:51 +00:00: 2026-05-01 03:44:51,395 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 03:49:51 +00:00: 2026-05-01 03:49:51,725 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 03:49:51 +00:00: 2026-05-01 03:49:51,727 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 03:49:51 +00:00: 2026-05-01 03:49:51,727 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 03:54:52 +00:00: 2026-05-01 03:54:52,040 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 03:54:52 +00:00: 2026-05-01 03:54:52,043 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 03:54:52 +00:00: 2026-05-01 03:54:52,043 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 03:59:52 +00:00: 2026-05-01 03:59:52,410 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 03:59:52 +00:00: 2026-05-01 03:59:52,411 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 03:59:52 +00:00: 2026-05-01 03:59:52,412 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 04:04:52 +00:00: 2026-05-01 04:04:52,656 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 04:04:52 +00:00: 2026-05-01 04:04:52,658 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 04:04:52 +00:00: 2026-05-01 04:04:52,658 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 04:09:53 +00:00: 2026-05-01 04:09:53,061 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 04:09:53 +00:00: 2026-05-01 04:09:53,062 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 04:09:53 +00:00: 2026-05-01 04:09:53,062 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 04:14:53 +00:00: 2026-05-01 04:14:53,447 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 04:14:53 +00:00: 2026-05-01 04:14:53,450 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 04:14:53 +00:00: 2026-05-01 04:14:53,450 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 04:19:53 +00:00: 2026-05-01 04:19:53,834 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 04:19:53 +00:00: 2026-05-01 04:19:53,836 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 04:19:53 +00:00: 2026-05-01 04:19:53,836 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 04:24:54 +00:00: 2026-05-01 04:24:54,201 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 04:24:54 +00:00: 2026-05-01 04:24:54,203 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 04:24:54 +00:00: 2026-05-01 04:24:54,203 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 04:29:54 +00:00: 2026-05-01 04:29:54,542 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 04:29:54 +00:00: 2026-05-01 04:29:54,543 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 04:29:54 +00:00: 2026-05-01 04:29:54,543 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 04:34:54 +00:00: 2026-05-01 04:34:54,812 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 04:34:54 +00:00: 2026-05-01 04:34:54,814 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 04:34:54 +00:00: 2026-05-01 04:34:54,814 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 04:39:55 +00:00: 2026-05-01 04:39:55,142 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 04:39:55 +00:00: 2026-05-01 04:39:55,144 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 04:39:55 +00:00: 2026-05-01 04:39:55,144 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 04:44:55 +00:00: 2026-05-01 04:44:55,468 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 04:44:55 +00:00: 2026-05-01 04:44:55,469 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 04:44:55 +00:00: 2026-05-01 04:44:55,470 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 04:49:55 +00:00: 2026-05-01 04:49:55,827 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 04:49:55 +00:00: 2026-05-01 04:49:55,828 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 04:49:55 +00:00: 2026-05-01 04:49:55,828 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 04:54:56 +00:00: 2026-05-01 04:54:56,091 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 04:54:56 +00:00: 2026-05-01 04:54:56,093 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 04:54:56 +00:00: 2026-05-01 04:54:56,094 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 04:59:56 +00:00: 2026-05-01 04:59:56,323 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 04:59:56 +00:00: 2026-05-01 04:59:56,325 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 04:59:56 +00:00: 2026-05-01 04:59:56,325 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 05:04:56 +00:00: 2026-05-01 05:04:56,626 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 05:04:56 +00:00: 2026-05-01 05:04:56,629 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 05:04:56 +00:00: 2026-05-01 05:04:56,630 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 05:09:56 +00:00: 2026-05-01 05:09:56,937 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 05:09:56 +00:00: 2026-05-01 05:09:56,939 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 05:09:56 +00:00: 2026-05-01 05:09:56,939 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 05:14:57 +00:00: 2026-05-01 05:14:57,280 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 05:14:57 +00:00: 2026-05-01 05:14:57,281 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 05:14:57 +00:00: 2026-05-01 05:14:57,281 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 05:19:57 +00:00: 2026-05-01 05:19:57,635 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 05:19:57 +00:00: 2026-05-01 05:19:57,637 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 05:19:57 +00:00: 2026-05-01 05:19:57,637 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 05:24:57 +00:00: 2026-05-01 05:24:57,909 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 05:24:57 +00:00: 2026-05-01 05:24:57,911 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 05:24:57 +00:00: 2026-05-01 05:24:57,911 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 05:29:58 +00:00: 2026-05-01 05:29:58,257 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 05:29:58 +00:00: 2026-05-01 05:29:58,259 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 05:29:58 +00:00: 2026-05-01 05:29:58,259 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 05:34:58 +00:00: 2026-05-01 05:34:58,622 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 05:34:58 +00:00: 2026-05-01 05:34:58,624 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 05:34:58 +00:00: 2026-05-01 05:34:58,624 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 05:39:58 +00:00: 2026-05-01 05:39:58,900 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 05:39:58 +00:00: 2026-05-01 05:39:58,902 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 05:39:58 +00:00: 2026-05-01 05:39:58,902 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 05:44:59 +00:00: 2026-05-01 05:44:59,270 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 05:44:59 +00:00: 2026-05-01 05:44:59,272 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 05:44:59 +00:00: 2026-05-01 05:44:59,272 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 05:49:59 +00:00: 2026-05-01 05:49:59,632 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 05:49:59 +00:00: 2026-05-01 05:49:59,635 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 05:49:59 +00:00: 2026-05-01 05:49:59,635 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 05:54:59 +00:00: 2026-05-01 05:54:59,935 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 05:54:59 +00:00: 2026-05-01 05:54:59,937 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 05:54:59 +00:00: 2026-05-01 05:54:59,937 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 06:00:00 +00:00: 2026-05-01 06:00:00,343 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 06:00:00 +00:00: 2026-05-01 06:00:00,346 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 06:00:00 +00:00: 2026-05-01 06:00:00,346 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 06:05:00 +00:00: 2026-05-01 06:05:00,607 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 06:05:00 +00:00: 2026-05-01 06:05:00,611 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 06:05:00 +00:00: 2026-05-01 06:05:00,611 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 06:10:00 +00:00: 2026-05-01 06:10:00,970 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 06:10:00 +00:00: 2026-05-01 06:10:00,972 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 06:10:00 +00:00: 2026-05-01 06:10:00,972 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 06:15:01 +00:00: 2026-05-01 06:15:01,245 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 06:15:01 +00:00: 2026-05-01 06:15:01,248 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 06:15:01 +00:00: 2026-05-01 06:15:01,248 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 06:20:01 +00:00: 2026-05-01 06:20:01,654 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 06:20:01 +00:00: 2026-05-01 06:20:01,657 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 06:20:01 +00:00: 2026-05-01 06:20:01,657 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 06:25:02 +00:00: 2026-05-01 06:25:02,011 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 06:25:02 +00:00: 2026-05-01 06:25:02,014 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 06:25:02 +00:00: 2026-05-01 06:25:02,014 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 06:30:02 +00:00: 2026-05-01 06:30:02,417 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 06:30:02 +00:00: 2026-05-01 06:30:02,419 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 06:30:02 +00:00: 2026-05-01 06:30:02,420 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 06:35:02 +00:00: 2026-05-01 06:35:02,750 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 06:35:02 +00:00: 2026-05-01 06:35:02,755 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 06:35:02 +00:00: 2026-05-01 06:35:02,755 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 06:40:03 +00:00: 2026-05-01 06:40:03,076 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 06:40:03 +00:00: 2026-05-01 06:40:03,078 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 06:40:03 +00:00: 2026-05-01 06:40:03,078 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 06:45:03 +00:00: 2026-05-01 06:45:03,415 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 06:45:03 +00:00: 2026-05-01 06:45:03,417 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 06:45:03 +00:00: 2026-05-01 06:45:03,418 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 06:50:03 +00:00: 2026-05-01 06:50:03,817 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 06:50:03 +00:00: 2026-05-01 06:50:03,819 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 06:50:03 +00:00: 2026-05-01 06:50:03,819 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 06:55:04 +00:00: 2026-05-01 06:55:04,063 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 06:55:04 +00:00: 2026-05-01 06:55:04,067 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 06:55:04 +00:00: 2026-05-01 06:55:04,067 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 07:00:04 +00:00: 2026-05-01 07:00:04,461 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 07:00:04 +00:00: 2026-05-01 07:00:04,463 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 07:00:04 +00:00: 2026-05-01 07:00:04,463 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 07:05:04 +00:00: 2026-05-01 07:05:04,784 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 07:05:04 +00:00: 2026-05-01 07:05:04,787 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 07:05:04 +00:00: 2026-05-01 07:05:04,787 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 07:10:05 +00:00: 2026-05-01 07:10:05,112 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 07:10:05 +00:00: 2026-05-01 07:10:05,115 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 07:10:05 +00:00: 2026-05-01 07:10:05,116 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 07:15:05 +00:00: 2026-05-01 07:15:05,496 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 07:15:05 +00:00: 2026-05-01 07:15:05,497 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 07:15:05 +00:00: 2026-05-01 07:15:05,498 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 07:20:05 +00:00: 2026-05-01 07:20:05,808 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 07:20:05 +00:00: 2026-05-01 07:20:05,811 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 07:20:05 +00:00: 2026-05-01 07:20:05,811 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 07:25:06 +00:00: 2026-05-01 07:25:06,127 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 07:25:06 +00:00: 2026-05-01 07:25:06,129 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 07:25:06 +00:00: 2026-05-01 07:25:06,129 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 07:30:06 +00:00: 2026-05-01 07:30:06,425 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 07:30:06 +00:00: 2026-05-01 07:30:06,427 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 07:30:06 +00:00: 2026-05-01 07:30:06,427 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 07:35:06 +00:00: 2026-05-01 07:35:06,711 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 07:35:06 +00:00: 2026-05-01 07:35:06,714 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 07:35:06 +00:00: 2026-05-01 07:35:06,714 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 07:40:07 +00:00: 2026-05-01 07:40:07,056 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 07:40:07 +00:00: 2026-05-01 07:40:07,060 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 07:40:07 +00:00: 2026-05-01 07:40:07,060 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 07:45:07 +00:00: 2026-05-01 07:45:07,394 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 07:45:07 +00:00: 2026-05-01 07:45:07,397 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 07:45:07 +00:00: 2026-05-01 07:45:07,398 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 07:50:07 +00:00: 2026-05-01 07:50:07,785 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 07:50:07 +00:00: 2026-05-01 07:50:07,787 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 07:50:07 +00:00: 2026-05-01 07:50:07,787 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
+2026-05-01 07:55:08 +00:00: 2026-05-01 07:55:08,149 - httpx - INFO - HTTP Request: GET https://api.21coreai.com/v1/predictions/dashboard?limit=8&lookaheadHours=36 "HTTP/1.1 200 OK"
+2026-05-01 07:55:08 +00:00: 2026-05-01 07:55:08,152 - __main__ - INFO - 🌐 External prediction API health=ok recent=7 mapped=0
+2026-05-01 07:55:08 +00:00: 2026-05-01 07:55:08,152 - __main__ - INFO - 🔎 Polled external predictions, created 0 new events
