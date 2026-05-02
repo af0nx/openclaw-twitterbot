@@ -40761,3 +40761,83 @@
 2026-05-01 15:46:07 +00:00: 2026-05-01 15:46:07,213 - __main__ - INFO - 📥 Engagement event created: 851b4d22-e4db-4de0-b772-3ffa7e20bfd7 (engagement_poll)
 2026-05-01 15:46:08 +00:00: 2026-05-01 15:46:08,148 - __main__ - INFO - 📥 Engagement event created: b0636e4d-4841-480e-ab04-3b84ca28f86a (engagement_take)
 2026-05-01 15:46:08 +00:00: 2026-05-01 15:46:08,148 - __main__ - INFO - 🎯 Engagement cycle complete: 2 events generated
+2026-05-01 16:46:08 +00:00: 2026-05-01 16:46:08,718 - utils.db_utils - WARNING - ⚠️  DB connection stale — reconnecting…
+2026-05-01 16:46:09 +00:00: 2026-05-01 16:46:09,658 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-01 16:46:59 +00:00: 2026-05-01 16:46:59,748 - __main__ - INFO - ⏭️  Generator 'poll' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-01 16:48:05 +00:00: 2026-05-01 16:48:05,851 - httpx - INFO - HTTP Request: POST http://localhost:8402/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 16:48:05 +00:00: 2026-05-01 16:48:05,853 - __main__ - INFO - ✨ Engagement strategy 'style_take' generated content
+2026-05-01 16:48:06 +00:00: 2026-05-01 16:48:06,788 - __main__ - INFO - ⏭️  Generator 'recycle' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-01 16:48:08 +00:00: 2026-05-01 16:48:08,811 - __main__ - INFO - 📥 Engagement event created: e23a9d38-917f-438c-8594-169c8fbf44fd (engagement_take)
+2026-05-01 16:48:08 +00:00: 2026-05-01 16:48:08,811 - __main__ - INFO - 🎯 Engagement cycle complete: 1 events generated
+2026-05-01 17:48:09 +00:00: 2026-05-01 17:48:09,381 - utils.db_utils - WARNING - ⚠️  DB connection stale — reconnecting…
+2026-05-01 17:48:10 +00:00: 2026-05-01 17:48:10,301 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-01 17:49:00 +00:00: 2026-05-01 17:49:00,774 - __main__ - INFO - ⏭️  Generator 'poll' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-01 17:49:05 +00:00: 2026-05-01 17:49:05,017 - httpx - INFO - HTTP Request: POST http://localhost:8402/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 17:49:05 +00:00: 2026-05-01 17:49:05,019 - __main__ - INFO - ✨ Engagement strategy 'conversation' generated content
+2026-05-01 17:49:06 +00:00: 2026-05-01 17:49:06,889 - __main__ - INFO - ⏭️  Generator 'style_take' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-01 17:49:07 +00:00: 2026-05-01 17:49:07,821 - __main__ - INFO - ⏭️  Generator 'recycle' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-01 17:49:09 +00:00: 2026-05-01 17:49:09,845 - __main__ - INFO - 📥 Engagement event created: 557f46d1-6673-485c-bb42-b4feb32d2d06 (engagement_conversation)
+2026-05-01 17:49:09 +00:00: 2026-05-01 17:49:09,845 - __main__ - INFO - 🎯 Engagement cycle complete: 1 events generated
+2026-05-01 18:50:00 +00:00: 2026-05-01 18:50:00,997 - __main__ - INFO - ⏭️  Generator 'poll' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-01 18:51:05 +00:00: 2026-05-01 18:51:05,097 - httpx - INFO - HTTP Request: POST http://localhost:8402/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 18:51:05 +00:00: 2026-05-01 18:51:05,101 - __main__ - INFO - ✨ Engagement strategy 'conversation' generated content
+2026-05-01 18:51:06 +00:00: 2026-05-01 18:51:06,976 - __main__ - INFO - ⏭️  Generator 'style_take' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-01 18:51:07 +00:00: 2026-05-01 18:51:07,910 - __main__ - INFO - ⏭️  Generator 'recycle' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-01 18:51:09 +00:00: 2026-05-01 18:51:09,936 - __main__ - INFO - 📥 Engagement event created: 8c3f1344-b435-49e1-9853-9232007cef86 (engagement_conversation)
+2026-05-01 18:51:09 +00:00: 2026-05-01 18:51:09,936 - __main__ - INFO - 🎯 Engagement cycle complete: 1 events generated
+2026-05-01 19:52:02 +00:00: 2026-05-01 19:52:02,231 - __main__ - INFO - ⏭️  Generator 'poll' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-01 19:52:06 +00:00: 2026-05-01 19:52:06,786 - httpx - INFO - HTTP Request: POST http://localhost:8402/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 19:52:06 +00:00: 2026-05-01 19:52:06,789 - __main__ - INFO - ✨ Engagement strategy 'conversation' generated content
+2026-05-01 19:52:08 +00:00: 2026-05-01 19:52:08,656 - __main__ - INFO - ⏭️  Generator 'style_take' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-01 19:52:09 +00:00: 2026-05-01 19:52:09,592 - __main__ - INFO - ⏭️  Generator 'recycle' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-01 19:52:11 +00:00: 2026-05-01 19:52:11,616 - __main__ - INFO - 📥 Engagement event created: cbbdcc38-f4d8-4046-8405-264b0c819bde (engagement_conversation)
+2026-05-01 19:52:11 +00:00: 2026-05-01 19:52:11,617 - __main__ - INFO - 🎯 Engagement cycle complete: 1 events generated
+2026-05-01 20:15:04 +00:00: Traceback (most recent call last):
+2026-05-01 20:15:04 +00:00:   File "/home/ubuntu/openclaw/scripts/output/engagement_engine.py", line 1443, in <module>
+2026-05-01 20:15:04 +00:00:     asyncio.run(EngagementEngine().run_forever())
+2026-05-01 20:15:04 +00:00:   File "/usr/lib/python3.10/asyncio/runners.py", line 44, in run
+2026-05-01 20:15:04 +00:00:     return loop.run_until_complete(main)
+2026-05-01 20:15:04 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 636, in run_until_complete
+2026-05-01 20:15:04 +00:00:     self.run_forever()
+2026-05-01 20:15:04 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 603, in run_forever
+2026-05-01 20:15:04 +00:00:     self._run_once()
+2026-05-01 20:15:04 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 1871, in _run_once
+2026-05-01 20:15:04 +00:00:     event_list = self._selector.select(timeout)
+2026-05-01 20:15:04 +00:00:   File "/usr/lib/python3.10/selectors.py", line 469, in select
+2026-05-01 20:15:04 +00:00:     fd_event_list = self._selector.poll(timeout, max_ev)
+2026-05-01 20:15:04 +00:00: KeyboardInterrupt
+2026-05-01 20:15:06 +00:00: 2026-05-01 20:15:06,562 - processing.openrouter_client - INFO - ✅ OpenRouter client initialized
+2026-05-01 20:15:06 +00:00: 2026-05-01 20:15:06,562 - processing.openrouter_client - INFO -    eco: free/nemotron-ultra-253b
+2026-05-01 20:15:06 +00:00: 2026-05-01 20:15:06,563 - processing.openrouter_client - INFO -    auto: free/deepseek-v3.2
+2026-05-01 20:15:06 +00:00: 2026-05-01 20:15:06,563 - processing.openrouter_client - INFO -    premium: free/deepseek-v3.2
+2026-05-01 20:15:06 +00:00: 2026-05-01 20:15:06,563 - processing.openrouter_client - INFO -    vision: google/gemini-2.5-flash
+2026-05-01 20:15:06 +00:00: 2026-05-01 20:15:06,563 - processing.openrouter_client - INFO -    🧪 A/B auto: free/deepseek-v3.2(w=8), minimax/minimax-m2.7(w=2), z-ai/glm-5.1(w=2)
+2026-05-01 20:15:06 +00:00: 2026-05-01 20:15:06,563 - processing.openrouter_client - INFO -    🧪 A/B premium: free/deepseek-v3.2(w=8), minimax/minimax-m2.7(w=2), z-ai/glm-5.1(w=2)
+2026-05-01 20:15:06 +00:00: 2026-05-01 20:15:06,563 - processing.openrouter_client - INFO -    💰 Daily budget cap: $0.40
+2026-05-01 20:15:06 +00:00: 2026-05-01 20:15:06,563 - processing.meme_generator - INFO - 🔤 Fonts: black=Inter-Black.ttf, extrabold=Inter-ExtraBold.ttf, bold=Inter-Bold.ttf, semibold=Inter-SemiBold.ttf, medium=Inter-Medium.ttf, regular=Inter-Regular.ttf
+2026-05-01 20:15:06 +00:00: 2026-05-01 20:15:06,797 - __main__ - INFO - 🚀 Engagement Engine started — growing the account
+2026-05-01 20:15:07 +00:00: 2026-05-01 20:15:07,741 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-01 20:15:08 +00:00: 2026-05-01 20:15:08,674 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-01 20:16:00 +00:00: 2026-05-01 20:16:00,422 - __main__ - INFO - ⏭️  Generator 'poll' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-01 20:16:04 +00:00: 2026-05-01 20:16:04,871 - httpx - INFO - HTTP Request: POST http://localhost:8402/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 20:16:04 +00:00: 2026-05-01 20:16:04,884 - __main__ - INFO - ✨ Engagement strategy 'conversation' generated content
+2026-05-01 20:16:06 +00:00: 2026-05-01 20:16:06,737 - __main__ - INFO - ⏭️  Generator 'style_take' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-01 20:16:07 +00:00: 2026-05-01 20:16:07,664 - __main__ - INFO - ⏭️  Generator 'recycle' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-01 20:16:09 +00:00: 2026-05-01 20:16:09,673 - __main__ - INFO - 📥 Engagement event created: 55821f12-e720-42c5-a04b-c37e8d8dd6a7 (engagement_conversation)
+2026-05-01 20:16:09 +00:00: 2026-05-01 20:16:09,673 - __main__ - INFO - 🎯 Engagement cycle complete: 1 events generated
+2026-05-01 21:16:59 +00:00: 2026-05-01 21:16:59,402 - __main__ - INFO - ⏭️  Generator 'poll' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-01 21:17:03 +00:00: 2026-05-01 21:17:03,618 - __main__ - INFO - ⏭️  Generator 'style_take' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-01 21:17:04 +00:00: 2026-05-01 21:17:04,544 - __main__ - INFO - ⏭️  Generator 'recycle' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-01 21:17:05 +00:00: 2026-05-01 21:17:05,473 - __main__ - INFO - 🎯 Engagement cycle complete: 0 events generated
+2026-05-01 22:17:05 +00:00: 2026-05-01 22:17:05,575 - utils.db_utils - WARNING - ⚠️  DB connection stale — reconnecting…
+2026-05-01 22:17:06 +00:00: 2026-05-01 22:17:06,593 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-01 22:17:55 +00:00: 2026-05-01 22:17:55,036 - __main__ - INFO - ⏭️  Generator 'poll' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-01 22:17:57 +00:00: 2026-05-01 22:17:57,777 - __main__ - INFO - ⏭️  Generator 'style_take' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-01 22:17:58 +00:00: 2026-05-01 22:17:58,691 - __main__ - INFO - ⏭️  Generator 'recycle' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-01 22:17:59 +00:00: 2026-05-01 22:17:59,605 - __main__ - INFO - 🎯 Engagement cycle complete: 0 events generated
+2026-05-01 23:17:59 +00:00: 2026-05-01 23:17:59,675 - utils.db_utils - WARNING - ⚠️  DB connection stale — reconnecting…
+2026-05-01 23:18:00 +00:00: 2026-05-01 23:18:00,656 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-01 23:18:51 +00:00: 2026-05-01 23:18:51,792 - __main__ - INFO - ⏭️  Generator 'poll' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-01 23:18:54 +00:00: 2026-05-01 23:18:54,696 - __main__ - INFO - ⏭️  Generator 'style_take' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-01 23:18:55 +00:00: 2026-05-01 23:18:55,663 - __main__ - INFO - ⏭️  Generator 'recycle' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-01 23:18:56 +00:00: 2026-05-01 23:18:56,629 - __main__ - INFO - 🎯 Engagement cycle complete: 0 events generated

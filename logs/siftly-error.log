@@ -29535,3 +29535,707 @@
 2026-05-01 15:46:50 +00:00: 2026-05-01 15:46:50,599 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
 2026-05-01 15:46:54 +00:00: 2026-05-01 15:46:54,983 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
 2026-05-01 15:46:56 +00:00: 2026-05-01 15:46:56,364 - __main__ - INFO - ✅ Processed Siftly event ddc3ebe8-7451-4d0b-b6ff-045c03e084c6: 8 tags
+2026-05-01 18:28:28 +00:00: 2026-05-01 18:28:28,738 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 18:28:28 +00:00: 2026-05-01 18:28:28,738 - __main__ - INFO - 🔄 Processing 2 recent Siftly events...
+2026-05-01 18:28:31 +00:00: 2026-05-01 18:28:31,559 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 18:28:38 +00:00: 2026-05-01 18:28:38,853 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 18:28:44 +00:00: 2026-05-01 18:28:44,217 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 18:28:45 +00:00: 2026-05-01 18:28:45,117 - __main__ - INFO - ✅ Processed Siftly event f1cf4fdb-9fea-4abe-a4e2-787025a3cc23: 13 tags
+2026-05-01 18:28:48 +00:00: 2026-05-01 18:28:48,440 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 18:28:53 +00:00: 2026-05-01 18:28:53,449 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 18:29:00 +00:00: 2026-05-01 18:29:00,208 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 18:29:01 +00:00: 2026-05-01 18:29:01,321 - __main__ - INFO - ✅ Processed Siftly event a98a2d5c-28f5-4029-994e-46b47c8f60fd: 13 tags
+2026-05-01 18:53:15 +00:00: 2026-05-01 18:53:15,911 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 18:53:15 +00:00: 2026-05-01 18:53:15,912 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 18:53:18 +00:00: 2026-05-01 18:53:18,601 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 18:53:19 +00:00: 2026-05-01 18:53:19,533 - __main__ - INFO - ✅ Processed Siftly event b9c099c2-df1e-4c75-8b9a-7609733dd47c: 4 tags
+2026-05-01 19:07:28 +00:00: 2026-05-01 19:07:28,451 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 19:07:28 +00:00: 2026-05-01 19:07:28,452 - __main__ - INFO - 🔄 Processing 2 recent Siftly events...
+2026-05-01 19:07:31 +00:00: 2026-05-01 19:07:31,207 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 19:07:32 +00:00: 2026-05-01 19:07:32,279 - __main__ - INFO - ✅ Processed Siftly event 2da727fd-e906-47f5-b87d-f7243c05f364: 5 tags
+2026-05-01 19:07:35 +00:00: 2026-05-01 19:07:35,993 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 19:07:36 +00:00: 2026-05-01 19:07:36,718 - __main__ - INFO - ✅ Processed Siftly event 8a643347-2f5c-45e6-920b-b47445947424: 0 tags
+2026-05-01 19:09:38 +00:00: 2026-05-01 19:09:38,726 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 19:09:38 +00:00: 2026-05-01 19:09:38,727 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 19:09:40 +00:00: 2026-05-01 19:09:40,372 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 19:09:41 +00:00: 2026-05-01 19:09:41,178 - __main__ - INFO - ✅ Processed Siftly event 8a643347-2f5c-45e6-920b-b47445947424: 3 tags
+2026-05-01 19:11:43 +00:00: 2026-05-01 19:11:43,136 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 19:11:43 +00:00: 2026-05-01 19:11:43,136 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 19:11:45 +00:00: 2026-05-01 19:11:45,299 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 19:11:45 +00:00: 2026-05-01 19:11:45,843 - __main__ - INFO - ✅ Processed Siftly event 8a643347-2f5c-45e6-920b-b47445947424: 0 tags
+2026-05-01 19:13:47 +00:00: 2026-05-01 19:13:47,866 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 19:13:47 +00:00: 2026-05-01 19:13:47,866 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 19:13:49 +00:00: 2026-05-01 19:13:49,592 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 19:13:50 +00:00: 2026-05-01 19:13:50,176 - __main__ - INFO - ✅ Processed Siftly event 8a643347-2f5c-45e6-920b-b47445947424: 0 tags
+2026-05-01 19:15:52 +00:00: 2026-05-01 19:15:52,198 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 19:15:52 +00:00: 2026-05-01 19:15:52,198 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 19:15:53 +00:00: 2026-05-01 19:15:53,808 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 19:15:54 +00:00: 2026-05-01 19:15:54,298 - __main__ - INFO - ✅ Processed Siftly event 8a643347-2f5c-45e6-920b-b47445947424: 0 tags
+2026-05-01 19:17:56 +00:00: 2026-05-01 19:17:56,235 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 19:17:56 +00:00: 2026-05-01 19:17:56,235 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 19:17:58 +00:00: 2026-05-01 19:17:58,099 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 19:17:58 +00:00: 2026-05-01 19:17:58,693 - __main__ - INFO - ✅ Processed Siftly event 8a643347-2f5c-45e6-920b-b47445947424: 0 tags
+2026-05-01 19:20:00 +00:00: 2026-05-01 19:20:00,715 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 19:20:00 +00:00: 2026-05-01 19:20:00,715 - __main__ - INFO - 🔄 Processing 2 recent Siftly events...
+2026-05-01 19:20:02 +00:00: 2026-05-01 19:20:02,697 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 19:20:05 +00:00: 2026-05-01 19:20:05,076 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 19:20:05 +00:00: 2026-05-01 19:20:05,976 - __main__ - INFO - ✅ Processed Siftly event 0f52a905-eea4-4afb-967c-30a2cb6ae879: 7 tags
+2026-05-01 19:20:08 +00:00: 2026-05-01 19:20:08,712 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 19:20:09 +00:00: 2026-05-01 19:20:09,299 - __main__ - INFO - ✅ Processed Siftly event 8a643347-2f5c-45e6-920b-b47445947424: 0 tags
+2026-05-01 19:22:11 +00:00: 2026-05-01 19:22:11,312 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 19:22:11 +00:00: 2026-05-01 19:22:11,314 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 19:22:12 +00:00: 2026-05-01 19:22:12,915 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 19:22:13 +00:00: 2026-05-01 19:22:13,382 - __main__ - INFO - ✅ Processed Siftly event 8a643347-2f5c-45e6-920b-b47445947424: 0 tags
+2026-05-01 19:24:15 +00:00: 2026-05-01 19:24:15,403 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 19:24:15 +00:00: 2026-05-01 19:24:15,404 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 19:24:16 +00:00: 2026-05-01 19:24:16,879 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 19:24:17 +00:00: 2026-05-01 19:24:17,429 - __main__ - INFO - ✅ Processed Siftly event 8a643347-2f5c-45e6-920b-b47445947424: 0 tags
+2026-05-01 19:26:19 +00:00: 2026-05-01 19:26:19,446 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 19:26:19 +00:00: 2026-05-01 19:26:19,446 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 19:26:21 +00:00: 2026-05-01 19:26:21,988 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 19:26:22 +00:00: 2026-05-01 19:26:22,616 - __main__ - INFO - ✅ Processed Siftly event 8a643347-2f5c-45e6-920b-b47445947424: 0 tags
+2026-05-01 19:28:24 +00:00: 2026-05-01 19:28:24,611 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 19:28:24 +00:00: 2026-05-01 19:28:24,611 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 19:28:26 +00:00: 2026-05-01 19:28:26,484 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 19:28:26 +00:00: 2026-05-01 19:28:26,952 - __main__ - INFO - ✅ Processed Siftly event 8a643347-2f5c-45e6-920b-b47445947424: 0 tags
+2026-05-01 19:30:28 +00:00: 2026-05-01 19:30:28,890 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 19:30:28 +00:00: 2026-05-01 19:30:28,891 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 19:30:31 +00:00: 2026-05-01 19:30:31,191 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 19:30:31 +00:00: 2026-05-01 19:30:31,699 - __main__ - INFO - ✅ Processed Siftly event 8a643347-2f5c-45e6-920b-b47445947424: 0 tags
+2026-05-01 19:32:33 +00:00: 2026-05-01 19:32:33,719 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 19:32:33 +00:00: 2026-05-01 19:32:33,720 - __main__ - INFO - 🔄 Processing 3 recent Siftly events...
+2026-05-01 19:32:36 +00:00: 2026-05-01 19:32:36,511 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 19:32:37 +00:00: 2026-05-01 19:32:37,870 - __main__ - INFO - ✅ Processed Siftly event 99a3311b-fa50-4824-82d0-56fed2045ac1: 5 tags
+2026-05-01 19:32:41 +00:00: 2026-05-01 19:32:41,942 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 19:32:42 +00:00: 2026-05-01 19:32:42,746 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 4 tags
+2026-05-01 19:32:45 +00:00: 2026-05-01 19:32:45,162 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 19:32:45 +00:00: 2026-05-01 19:32:45,878 - __main__ - INFO - ✅ Processed Siftly event 8a643347-2f5c-45e6-920b-b47445947424: 0 tags
+2026-05-01 19:34:47 +00:00: 2026-05-01 19:34:47,885 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 19:34:47 +00:00: 2026-05-01 19:34:47,885 - __main__ - INFO - 🔄 Processing 2 recent Siftly events...
+2026-05-01 19:34:50 +00:00: 2026-05-01 19:34:50,657 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 19:34:51 +00:00: 2026-05-01 19:34:51,623 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 4 tags
+2026-05-01 19:35:03 +00:00: 2026-05-01 19:35:03,246 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 19:35:05 +00:00: 2026-05-01 19:35:05,468 - __main__ - INFO - ✅ Processed Siftly event 8a643347-2f5c-45e6-920b-b47445947424: 0 tags
+2026-05-01 19:37:07 +00:00: 2026-05-01 19:37:07,486 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 19:37:07 +00:00: 2026-05-01 19:37:07,487 - __main__ - INFO - 🔄 Processing 2 recent Siftly events...
+2026-05-01 19:37:09 +00:00: 2026-05-01 19:37:09,042 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 19:37:09 +00:00: 2026-05-01 19:37:09,634 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 19:37:11 +00:00: 2026-05-01 19:37:11,954 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 19:37:12 +00:00: 2026-05-01 19:37:12,687 - __main__ - INFO - ✅ Processed Siftly event 8a643347-2f5c-45e6-920b-b47445947424: 0 tags
+2026-05-01 19:39:14 +00:00: 2026-05-01 19:39:14,612 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 19:39:14 +00:00: 2026-05-01 19:39:14,612 - __main__ - INFO - 🔄 Processing 2 recent Siftly events...
+2026-05-01 19:39:16 +00:00: 2026-05-01 19:39:16,645 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 19:39:17 +00:00: 2026-05-01 19:39:17,759 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 4 tags
+2026-05-01 19:39:21 +00:00: 2026-05-01 19:39:21,421 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 19:39:22 +00:00: 2026-05-01 19:39:22,280 - __main__ - INFO - ✅ Processed Siftly event 8a643347-2f5c-45e6-920b-b47445947424: 4 tags
+2026-05-01 19:41:24 +00:00: 2026-05-01 19:41:24,215 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 19:41:24 +00:00: 2026-05-01 19:41:24,216 - __main__ - INFO - 🔄 Processing 2 recent Siftly events...
+2026-05-01 19:41:26 +00:00: 2026-05-01 19:41:26,787 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 19:41:27 +00:00: 2026-05-01 19:41:27,498 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 19:41:30 +00:00: 2026-05-01 19:41:30,215 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 19:41:30 +00:00: 2026-05-01 19:41:30,809 - __main__ - INFO - ✅ Processed Siftly event 8a643347-2f5c-45e6-920b-b47445947424: 0 tags
+2026-05-01 19:43:32 +00:00: 2026-05-01 19:43:32,820 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 19:43:32 +00:00: 2026-05-01 19:43:32,821 - __main__ - INFO - 🔄 Processing 3 recent Siftly events...
+2026-05-01 19:43:35 +00:00: 2026-05-01 19:43:35,021 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 19:43:36 +00:00: 2026-05-01 19:43:36,100 - __main__ - INFO - ✅ Processed Siftly event 551c4132-887b-4e67-a2df-5c961f291274: 5 tags
+2026-05-01 19:43:38 +00:00: 2026-05-01 19:43:38,724 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 19:43:39 +00:00: 2026-05-01 19:43:39,655 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 19:43:43 +00:00: 2026-05-01 19:43:43,187 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 19:43:43 +00:00: 2026-05-01 19:43:43,866 - __main__ - INFO - ✅ Processed Siftly event 8a643347-2f5c-45e6-920b-b47445947424: 0 tags
+2026-05-01 19:45:45 +00:00: 2026-05-01 19:45:45,831 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 19:45:45 +00:00: 2026-05-01 19:45:45,831 - __main__ - INFO - 🔄 Processing 2 recent Siftly events...
+2026-05-01 19:45:47 +00:00: 2026-05-01 19:45:47,942 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 19:45:48 +00:00: 2026-05-01 19:45:48,735 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 19:45:51 +00:00: 2026-05-01 19:45:51,300 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 19:45:51 +00:00: 2026-05-01 19:45:51,917 - __main__ - INFO - ✅ Processed Siftly event 8a643347-2f5c-45e6-920b-b47445947424: 0 tags
+2026-05-01 19:47:53 +00:00: 2026-05-01 19:47:53,847 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 19:47:53 +00:00: 2026-05-01 19:47:53,847 - __main__ - INFO - 🔄 Processing 2 recent Siftly events...
+2026-05-01 19:47:57 +00:00: 2026-05-01 19:47:57,387 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 19:47:58 +00:00: 2026-05-01 19:47:58,191 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 19:48:01 +00:00: 2026-05-01 19:48:01,708 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 19:48:02 +00:00: 2026-05-01 19:48:02,554 - __main__ - INFO - ✅ Processed Siftly event 8a643347-2f5c-45e6-920b-b47445947424: 3 tags
+2026-05-01 19:50:04 +00:00: 2026-05-01 19:50:04,578 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 19:50:04 +00:00: 2026-05-01 19:50:04,578 - __main__ - INFO - 🔄 Processing 2 recent Siftly events...
+2026-05-01 19:50:06 +00:00: 2026-05-01 19:50:06,192 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 19:50:06 +00:00: 2026-05-01 19:50:06,887 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 19:50:09 +00:00: 2026-05-01 19:50:09,251 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 19:50:10 +00:00: 2026-05-01 19:50:10,329 - __main__ - INFO - ✅ Processed Siftly event 8a643347-2f5c-45e6-920b-b47445947424: 3 tags
+2026-05-01 19:52:12 +00:00: 2026-05-01 19:52:12,350 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 19:52:12 +00:00: 2026-05-01 19:52:12,351 - __main__ - INFO - 🔄 Processing 2 recent Siftly events...
+2026-05-01 19:52:14 +00:00: 2026-05-01 19:52:14,741 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 19:52:15 +00:00: 2026-05-01 19:52:15,573 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 4 tags
+2026-05-01 19:52:17 +00:00: 2026-05-01 19:52:17,891 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 19:52:18 +00:00: 2026-05-01 19:52:18,595 - __main__ - INFO - ✅ Processed Siftly event 8a643347-2f5c-45e6-920b-b47445947424: 0 tags
+2026-05-01 19:54:20 +00:00: 2026-05-01 19:54:20,549 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 19:54:20 +00:00: 2026-05-01 19:54:20,549 - __main__ - INFO - 🔄 Processing 2 recent Siftly events...
+2026-05-01 19:54:22 +00:00: 2026-05-01 19:54:22,774 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 19:54:23 +00:00: 2026-05-01 19:54:23,605 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 19:54:26 +00:00: 2026-05-01 19:54:26,113 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 19:54:26 +00:00: 2026-05-01 19:54:26,747 - __main__ - INFO - ✅ Processed Siftly event 8a643347-2f5c-45e6-920b-b47445947424: 0 tags
+2026-05-01 19:56:28 +00:00: 2026-05-01 19:56:28,753 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 19:56:28 +00:00: 2026-05-01 19:56:28,754 - __main__ - INFO - 🔄 Processing 5 recent Siftly events...
+2026-05-01 19:56:30 +00:00: 2026-05-01 19:56:30,688 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 19:56:31 +00:00: 2026-05-01 19:56:31,594 - __main__ - INFO - ✅ Processed Siftly event 65aad093-9ca0-40d6-8db0-95416f382510: 4 tags
+2026-05-01 19:56:38 +00:00: 2026-05-01 19:56:38,035 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 19:56:40 +00:00: 2026-05-01 19:56:40,044 - __main__ - INFO - ✅ Processed Siftly event 6c04316c-ead3-462a-a47d-156628c51741: 0 tags
+2026-05-01 19:56:43 +00:00: 2026-05-01 19:56:43,492 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 19:56:44 +00:00: 2026-05-01 19:56:44,458 - __main__ - INFO - ✅ Processed Siftly event 70311b45-b00a-44d8-a587-754ef6b8ad62: 4 tags
+2026-05-01 19:56:47 +00:00: 2026-05-01 19:56:47,498 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 19:56:48 +00:00: 2026-05-01 19:56:48,347 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 19:56:51 +00:00: 2026-05-01 19:56:51,169 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 19:56:52 +00:00: 2026-05-01 19:56:52,142 - __main__ - INFO - ✅ Processed Siftly event 8a643347-2f5c-45e6-920b-b47445947424: 3 tags
+2026-05-01 19:58:54 +00:00: 2026-05-01 19:58:54,148 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 19:58:54 +00:00: 2026-05-01 19:58:54,149 - __main__ - INFO - 🔄 Processing 2 recent Siftly events...
+2026-05-01 19:58:55 +00:00: 2026-05-01 19:58:55,865 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 19:58:56 +00:00: 2026-05-01 19:58:56,655 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 19:59:08 +00:00: 2026-05-01 19:59:08,251 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 19:59:10 +00:00: 2026-05-01 19:59:10,227 - __main__ - INFO - ✅ Processed Siftly event 8a643347-2f5c-45e6-920b-b47445947424: 0 tags
+2026-05-01 20:01:12 +00:00: 2026-05-01 20:01:12,186 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 20:01:12 +00:00: 2026-05-01 20:01:12,187 - __main__ - INFO - 🔄 Processing 2 recent Siftly events...
+2026-05-01 20:01:13 +00:00: 2026-05-01 20:01:13,949 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 20:01:14 +00:00: 2026-05-01 20:01:14,751 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 20:01:20 +00:00: 2026-05-01 20:01:20,475 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 20:01:21 +00:00: 2026-05-01 20:01:21,184 - __main__ - INFO - ✅ Processed Siftly event 8a643347-2f5c-45e6-920b-b47445947424: 0 tags
+2026-05-01 20:03:23 +00:00: 2026-05-01 20:03:23,207 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 20:03:23 +00:00: 2026-05-01 20:03:23,208 - __main__ - INFO - 🔄 Processing 2 recent Siftly events...
+2026-05-01 20:03:27 +00:00: 2026-05-01 20:03:27,691 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 20:03:28 +00:00: 2026-05-01 20:03:28,373 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 20:03:31 +00:00: 2026-05-01 20:03:31,984 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 20:03:32 +00:00: 2026-05-01 20:03:32,833 - __main__ - INFO - ✅ Processed Siftly event 8a643347-2f5c-45e6-920b-b47445947424: 0 tags
+2026-05-01 20:05:34 +00:00: 2026-05-01 20:05:34,817 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 20:05:34 +00:00: 2026-05-01 20:05:34,819 - __main__ - INFO - 🔄 Processing 2 recent Siftly events...
+2026-05-01 20:05:45 +00:00: 2026-05-01 20:05:45,528 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 20:05:57 +00:00: 2026-05-01 20:05:57,998 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 20:06:00 +00:00: 2026-05-01 20:06:00,907 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 20:06:01 +00:00: 2026-05-01 20:06:01,560 - __main__ - INFO - ✅ Processed Siftly event 8a643347-2f5c-45e6-920b-b47445947424: 0 tags
+2026-05-01 20:08:03 +00:00: 2026-05-01 20:08:03,581 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 20:08:03 +00:00: 2026-05-01 20:08:03,582 - __main__ - INFO - 🔄 Processing 2 recent Siftly events...
+2026-05-01 20:08:05 +00:00: 2026-05-01 20:08:05,327 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 20:08:05 +00:00: 2026-05-01 20:08:05,973 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 20:08:08 +00:00: 2026-05-01 20:08:08,373 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 20:08:09 +00:00: 2026-05-01 20:08:09,086 - __main__ - INFO - ✅ Processed Siftly event 8a643347-2f5c-45e6-920b-b47445947424: 0 tags
+2026-05-01 20:10:11 +00:00: 2026-05-01 20:10:11,010 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 20:10:11 +00:00: 2026-05-01 20:10:11,011 - __main__ - INFO - 🔄 Processing 3 recent Siftly events...
+2026-05-01 20:10:13 +00:00: 2026-05-01 20:10:13,164 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 20:10:14 +00:00: 2026-05-01 20:10:14,621 - __main__ - INFO - ✅ Processed Siftly event d5eb2fba-200c-4c79-ba82-9b468fa78342: 4 tags
+2026-05-01 20:10:17 +00:00: 2026-05-01 20:10:17,158 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 20:10:18 +00:00: 2026-05-01 20:10:18,223 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 20:10:20 +00:00: 2026-05-01 20:10:20,525 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 20:10:21 +00:00: 2026-05-01 20:10:21,251 - __main__ - INFO - ✅ Processed Siftly event 8a643347-2f5c-45e6-920b-b47445947424: 0 tags
+2026-05-01 20:12:23 +00:00: 2026-05-01 20:12:23,270 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 20:12:23 +00:00: 2026-05-01 20:12:23,271 - __main__ - INFO - 🔄 Processing 2 recent Siftly events...
+2026-05-01 20:12:26 +00:00: 2026-05-01 20:12:26,397 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 20:12:27 +00:00: 2026-05-01 20:12:27,026 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 4 tags
+2026-05-01 20:12:29 +00:00: 2026-05-01 20:12:29,767 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 20:12:30 +00:00: 2026-05-01 20:12:30,394 - __main__ - INFO - ✅ Processed Siftly event 8a643347-2f5c-45e6-920b-b47445947424: 0 tags
+2026-05-01 20:14:32 +00:00: 2026-05-01 20:14:32,408 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 20:14:32 +00:00: 2026-05-01 20:14:32,408 - __main__ - INFO - 🔄 Processing 2 recent Siftly events...
+2026-05-01 20:14:34 +00:00: 2026-05-01 20:14:34,128 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 20:14:34 +00:00: 2026-05-01 20:14:34,942 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 20:14:37 +00:00: 2026-05-01 20:14:37,566 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 20:14:38 +00:00: 2026-05-01 20:14:38,269 - __main__ - INFO - ✅ Processed Siftly event 8a643347-2f5c-45e6-920b-b47445947424: 0 tags
+2026-05-01 20:16:40 +00:00: 2026-05-01 20:16:40,198 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 20:16:40 +00:00: 2026-05-01 20:16:40,199 - __main__ - INFO - 🔄 Processing 2 recent Siftly events...
+2026-05-01 20:16:42 +00:00: 2026-05-01 20:16:42,082 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 20:16:42 +00:00: 2026-05-01 20:16:42,939 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 4 tags
+2026-05-01 20:16:45 +00:00: 2026-05-01 20:16:45,750 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 20:16:46 +00:00: 2026-05-01 20:16:46,513 - __main__ - INFO - ✅ Processed Siftly event 8a643347-2f5c-45e6-920b-b47445947424: 0 tags
+2026-05-01 20:18:48 +00:00: 2026-05-01 20:18:48,530 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 20:18:48 +00:00: 2026-05-01 20:18:48,530 - __main__ - INFO - 🔄 Processing 2 recent Siftly events...
+2026-05-01 20:18:50 +00:00: 2026-05-01 20:18:50,592 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 20:18:51 +00:00: 2026-05-01 20:18:51,368 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 20:18:54 +00:00: 2026-05-01 20:18:54,071 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 20:18:55 +00:00: 2026-05-01 20:18:55,141 - __main__ - INFO - ✅ Processed Siftly event 8a643347-2f5c-45e6-920b-b47445947424: 3 tags
+2026-05-01 20:20:57 +00:00: 2026-05-01 20:20:57,159 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 20:20:57 +00:00: 2026-05-01 20:20:57,160 - __main__ - INFO - 🔄 Processing 2 recent Siftly events...
+2026-05-01 20:20:58 +00:00: 2026-05-01 20:20:58,865 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 20:20:59 +00:00: 2026-05-01 20:20:59,726 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 4 tags
+2026-05-01 20:21:02 +00:00: 2026-05-01 20:21:02,286 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 20:21:03 +00:00: 2026-05-01 20:21:03,032 - __main__ - INFO - ✅ Processed Siftly event 8a643347-2f5c-45e6-920b-b47445947424: 0 tags
+2026-05-01 20:23:04 +00:00: 2026-05-01 20:23:04,966 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 20:23:04 +00:00: 2026-05-01 20:23:04,967 - __main__ - INFO - 🔄 Processing 2 recent Siftly events...
+2026-05-01 20:23:06 +00:00: 2026-05-01 20:23:06,557 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 20:23:07 +00:00: 2026-05-01 20:23:07,214 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 20:23:09 +00:00: 2026-05-01 20:23:09,728 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 20:23:10 +00:00: 2026-05-01 20:23:10,611 - __main__ - INFO - ✅ Processed Siftly event 8a643347-2f5c-45e6-920b-b47445947424: 0 tags
+2026-05-01 20:25:12 +00:00: 2026-05-01 20:25:12,611 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 20:25:12 +00:00: 2026-05-01 20:25:12,612 - __main__ - INFO - 🔄 Processing 2 recent Siftly events...
+2026-05-01 20:25:14 +00:00: 2026-05-01 20:25:14,326 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 20:25:14 +00:00: 2026-05-01 20:25:14,843 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 20:25:17 +00:00: 2026-05-01 20:25:17,210 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 20:25:18 +00:00: 2026-05-01 20:25:18,005 - __main__ - INFO - ✅ Processed Siftly event 8a643347-2f5c-45e6-920b-b47445947424: 0 tags
+2026-05-01 20:27:19 +00:00: 2026-05-01 20:27:19,976 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 20:27:19 +00:00: 2026-05-01 20:27:19,977 - __main__ - INFO - 🔄 Processing 2 recent Siftly events...
+2026-05-01 20:27:21 +00:00: 2026-05-01 20:27:21,563 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 20:27:22 +00:00: 2026-05-01 20:27:22,286 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 4 tags
+2026-05-01 20:27:24 +00:00: 2026-05-01 20:27:24,635 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 20:27:25 +00:00: 2026-05-01 20:27:25,376 - __main__ - INFO - ✅ Processed Siftly event 8a643347-2f5c-45e6-920b-b47445947424: 0 tags
+2026-05-01 20:29:27 +00:00: 2026-05-01 20:29:27,378 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 20:29:27 +00:00: 2026-05-01 20:29:27,379 - __main__ - INFO - 🔄 Processing 2 recent Siftly events...
+2026-05-01 20:29:29 +00:00: 2026-05-01 20:29:29,999 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 20:29:30 +00:00: 2026-05-01 20:29:30,848 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 4 tags
+2026-05-01 20:29:34 +00:00: 2026-05-01 20:29:34,903 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 20:29:35 +00:00: 2026-05-01 20:29:35,473 - __main__ - INFO - ✅ Processed Siftly event 8a643347-2f5c-45e6-920b-b47445947424: 0 tags
+2026-05-01 20:31:37 +00:00: 2026-05-01 20:31:37,494 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 20:31:37 +00:00: 2026-05-01 20:31:37,495 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 20:31:40 +00:00: 2026-05-01 20:31:40,395 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 20:31:41 +00:00: 2026-05-01 20:31:41,157 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 4 tags
+2026-05-01 20:33:43 +00:00: 2026-05-01 20:33:43,147 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 20:33:43 +00:00: 2026-05-01 20:33:43,148 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 20:33:44 +00:00: 2026-05-01 20:33:44,858 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 20:33:45 +00:00: 2026-05-01 20:33:45,585 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 4 tags
+2026-05-01 20:35:47 +00:00: 2026-05-01 20:35:47,607 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 20:35:47 +00:00: 2026-05-01 20:35:47,608 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 20:35:49 +00:00: 2026-05-01 20:35:49,707 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 20:35:50 +00:00: 2026-05-01 20:35:50,448 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 20:37:52 +00:00: 2026-05-01 20:37:52,467 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 20:37:52 +00:00: 2026-05-01 20:37:52,468 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 20:37:54 +00:00: 2026-05-01 20:37:54,010 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 20:37:54 +00:00: 2026-05-01 20:37:54,850 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 20:39:56 +00:00: 2026-05-01 20:39:56,820 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 20:39:56 +00:00: 2026-05-01 20:39:56,821 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 20:39:58 +00:00: 2026-05-01 20:39:58,808 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 20:39:59 +00:00: 2026-05-01 20:39:59,655 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 4 tags
+2026-05-01 20:42:01 +00:00: 2026-05-01 20:42:01,671 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 20:42:01 +00:00: 2026-05-01 20:42:01,672 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 20:42:03 +00:00: 2026-05-01 20:42:03,547 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 20:42:04 +00:00: 2026-05-01 20:42:04,296 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 4 tags
+2026-05-01 20:44:06 +00:00: 2026-05-01 20:44:06,314 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 20:44:06 +00:00: 2026-05-01 20:44:06,314 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 20:44:08 +00:00: 2026-05-01 20:44:08,161 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 20:44:08 +00:00: 2026-05-01 20:44:08,925 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 4 tags
+2026-05-01 20:46:10 +00:00: 2026-05-01 20:46:10,945 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 20:46:10 +00:00: 2026-05-01 20:46:10,946 - __main__ - INFO - 🔄 Processing 5 recent Siftly events...
+2026-05-01 20:46:13 +00:00: 2026-05-01 20:46:13,282 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 20:46:15 +00:00: 2026-05-01 20:46:15,195 - __main__ - INFO - ✅ Processed Siftly event 51713bf1-828e-42e2-bd83-679ff0cbfadb: 0 tags
+2026-05-01 20:46:18 +00:00: 2026-05-01 20:46:18,957 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 20:46:20 +00:00: 2026-05-01 20:46:20,568 - __main__ - INFO - ✅ Processed Siftly event c9b89a65-6a5a-41e0-9afd-6016c65359b6: 5 tags
+2026-05-01 20:46:23 +00:00: 2026-05-01 20:46:23,981 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 20:46:25 +00:00: 2026-05-01 20:46:25,205 - __main__ - INFO - ✅ Processed Siftly event 73d6a4fe-93dc-4ccb-aec6-090a556911c5: 4 tags
+2026-05-01 20:46:29 +00:00: 2026-05-01 20:46:29,184 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 20:46:30 +00:00: 2026-05-01 20:46:30,514 - __main__ - INFO - ✅ Processed Siftly event 983c22cd-05f0-42d7-bb9b-872c5d19cfdd: 5 tags
+2026-05-01 20:46:33 +00:00: 2026-05-01 20:46:33,332 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 20:46:34 +00:00: 2026-05-01 20:46:34,323 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 4 tags
+2026-05-01 20:48:36 +00:00: 2026-05-01 20:48:36,275 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 20:48:36 +00:00: 2026-05-01 20:48:36,276 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 20:48:38 +00:00: 2026-05-01 20:48:38,081 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 20:48:38 +00:00: 2026-05-01 20:48:38,801 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 20:50:40 +00:00: 2026-05-01 20:50:40,819 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 20:50:40 +00:00: 2026-05-01 20:50:40,819 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 20:50:42 +00:00: 2026-05-01 20:50:42,306 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 20:50:43 +00:00: 2026-05-01 20:50:43,055 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 20:52:45 +00:00: 2026-05-01 20:52:45,060 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 20:52:45 +00:00: 2026-05-01 20:52:45,060 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 20:52:47 +00:00: 2026-05-01 20:52:47,424 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 20:52:48 +00:00: 2026-05-01 20:52:48,163 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 20:54:50 +00:00: 2026-05-01 20:54:50,158 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 20:54:50 +00:00: 2026-05-01 20:54:50,158 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 20:54:53 +00:00: 2026-05-01 20:54:53,594 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 20:54:54 +00:00: 2026-05-01 20:54:54,282 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 20:56:56 +00:00: 2026-05-01 20:56:56,299 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 20:56:56 +00:00: 2026-05-01 20:56:56,300 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 20:56:58 +00:00: 2026-05-01 20:56:58,001 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 20:56:58 +00:00: 2026-05-01 20:56:58,678 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 20:59:00 +00:00: 2026-05-01 20:59:00,616 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 20:59:00 +00:00: 2026-05-01 20:59:00,616 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 20:59:02 +00:00: 2026-05-01 20:59:02,324 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 20:59:03 +00:00: 2026-05-01 20:59:03,075 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 4 tags
+2026-05-01 21:01:05 +00:00: 2026-05-01 21:01:05,090 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 21:01:05 +00:00: 2026-05-01 21:01:05,091 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 21:01:06 +00:00: 2026-05-01 21:01:06,877 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 21:01:07 +00:00: 2026-05-01 21:01:07,941 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 21:03:09 +00:00: 2026-05-01 21:03:09,955 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 21:03:09 +00:00: 2026-05-01 21:03:09,956 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 21:03:11 +00:00: 2026-05-01 21:03:11,634 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 21:03:12 +00:00: 2026-05-01 21:03:12,385 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 4 tags
+2026-05-01 21:05:14 +00:00: 2026-05-01 21:05:14,382 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 21:05:14 +00:00: 2026-05-01 21:05:14,382 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 21:05:16 +00:00: 2026-05-01 21:05:16,465 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 21:05:17 +00:00: 2026-05-01 21:05:17,118 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 21:07:19 +00:00: 2026-05-01 21:07:19,138 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 21:07:19 +00:00: 2026-05-01 21:07:19,138 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 21:07:23 +00:00: 2026-05-01 21:07:23,598 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 21:07:24 +00:00: 2026-05-01 21:07:24,389 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 21:09:26 +00:00: 2026-05-01 21:09:26,409 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 21:09:26 +00:00: 2026-05-01 21:09:26,410 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 21:09:29 +00:00: 2026-05-01 21:09:29,437 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 21:09:30 +00:00: 2026-05-01 21:09:30,202 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 21:11:32 +00:00: 2026-05-01 21:11:32,175 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 21:11:32 +00:00: 2026-05-01 21:11:32,176 - __main__ - INFO - 🔄 Processing 2 recent Siftly events...
+2026-05-01 21:11:35 +00:00: 2026-05-01 21:11:35,099 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 21:11:36 +00:00: 2026-05-01 21:11:36,038 - __main__ - INFO - ✅ Processed Siftly event 1a9806fb-2a56-4624-b34f-f38f3dd8bdd0: 5 tags
+2026-05-01 21:11:38 +00:00: 2026-05-01 21:11:38,537 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 21:11:39 +00:00: 2026-05-01 21:11:39,346 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 4 tags
+2026-05-01 21:13:41 +00:00: 2026-05-01 21:13:41,369 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 21:13:41 +00:00: 2026-05-01 21:13:41,369 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 21:13:42 +00:00: 2026-05-01 21:13:42,982 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 21:13:43 +00:00: 2026-05-01 21:13:43,665 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 4 tags
+2026-05-01 21:15:45 +00:00: 2026-05-01 21:15:45,622 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 21:15:45 +00:00: 2026-05-01 21:15:45,623 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 21:15:49 +00:00: 2026-05-01 21:15:49,126 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 21:15:49 +00:00: 2026-05-01 21:15:49,910 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 21:17:51 +00:00: 2026-05-01 21:17:51,930 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 21:17:51 +00:00: 2026-05-01 21:17:51,931 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 21:17:54 +00:00: 2026-05-01 21:17:54,996 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 21:17:55 +00:00: 2026-05-01 21:17:55,604 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 21:19:57 +00:00: 2026-05-01 21:19:57,547 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 21:19:57 +00:00: 2026-05-01 21:19:57,548 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 21:19:59 +00:00: 2026-05-01 21:19:59,083 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 21:19:59 +00:00: 2026-05-01 21:19:59,936 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 4 tags
+2026-05-01 21:22:01 +00:00: 2026-05-01 21:22:01,937 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 21:22:01 +00:00: 2026-05-01 21:22:01,938 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 21:22:04 +00:00: 2026-05-01 21:22:04,171 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 21:22:04 +00:00: 2026-05-01 21:22:04,893 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 21:24:06 +00:00: 2026-05-01 21:24:06,913 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 21:24:06 +00:00: 2026-05-01 21:24:06,913 - __main__ - INFO - 🔄 Processing 3 recent Siftly events...
+2026-05-01 21:24:09 +00:00: 2026-05-01 21:24:09,344 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 21:24:11 +00:00: 2026-05-01 21:24:11,219 - __main__ - INFO - ✅ Processed Siftly event 830fd31c-ca64-4665-9587-72c1e5230500: 4 tags
+2026-05-01 21:24:14 +00:00: 2026-05-01 21:24:14,106 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 21:24:14 +00:00: 2026-05-01 21:24:14,812 - __main__ - INFO - ✅ Processed Siftly event 95d13659-cc73-42f2-8445-38290933bb10: 0 tags
+2026-05-01 21:24:17 +00:00: 2026-05-01 21:24:17,488 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 21:24:18 +00:00: 2026-05-01 21:24:18,685 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 21:26:20 +00:00: 2026-05-01 21:26:20,708 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 21:26:20 +00:00: 2026-05-01 21:26:20,708 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 21:26:22 +00:00: 2026-05-01 21:26:22,312 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 21:26:23 +00:00: 2026-05-01 21:26:23,127 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 21:28:25 +00:00: 2026-05-01 21:28:25,119 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 21:28:25 +00:00: 2026-05-01 21:28:25,120 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 21:28:26 +00:00: 2026-05-01 21:28:26,803 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 21:28:27 +00:00: 2026-05-01 21:28:27,455 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 21:30:29 +00:00: 2026-05-01 21:30:29,476 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 21:30:29 +00:00: 2026-05-01 21:30:29,477 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 21:30:31 +00:00: 2026-05-01 21:30:31,190 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 21:30:31 +00:00: 2026-05-01 21:30:31,913 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 21:32:33 +00:00: 2026-05-01 21:32:33,924 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 21:32:33 +00:00: 2026-05-01 21:32:33,925 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 21:32:35 +00:00: 2026-05-01 21:32:35,674 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 21:32:36 +00:00: 2026-05-01 21:32:36,405 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 21:34:38 +00:00: 2026-05-01 21:34:38,420 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 21:34:38 +00:00: 2026-05-01 21:34:38,421 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 21:34:39 +00:00: 2026-05-01 21:34:39,978 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 21:34:40 +00:00: 2026-05-01 21:34:40,818 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 4 tags
+2026-05-01 21:36:42 +00:00: 2026-05-01 21:36:42,746 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 21:36:42 +00:00: 2026-05-01 21:36:42,747 - __main__ - INFO - 🔄 Processing 2 recent Siftly events...
+2026-05-01 21:36:44 +00:00: 2026-05-01 21:36:44,942 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 21:36:46 +00:00: 2026-05-01 21:36:46,714 - __main__ - INFO - ✅ Processed Siftly event da1c4aee-0e2c-45a1-ba62-5282d0754e2a: 0 tags
+2026-05-01 21:36:49 +00:00: 2026-05-01 21:36:49,312 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 21:36:50 +00:00: 2026-05-01 21:36:50,216 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 21:38:52 +00:00: 2026-05-01 21:38:52,179 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 21:38:52 +00:00: 2026-05-01 21:38:52,180 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 21:38:53 +00:00: 2026-05-01 21:38:53,894 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 21:38:54 +00:00: 2026-05-01 21:38:54,673 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 21:40:56 +00:00: 2026-05-01 21:40:56,686 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 21:40:56 +00:00: 2026-05-01 21:40:56,687 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 21:40:58 +00:00: 2026-05-01 21:40:58,707 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 21:40:59 +00:00: 2026-05-01 21:40:59,466 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 4 tags
+2026-05-01 21:43:01 +00:00: 2026-05-01 21:43:01,484 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 21:43:01 +00:00: 2026-05-01 21:43:01,484 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 21:43:03 +00:00: 2026-05-01 21:43:03,447 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 21:43:04 +00:00: 2026-05-01 21:43:04,164 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 21:45:06 +00:00: 2026-05-01 21:45:06,112 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 21:45:06 +00:00: 2026-05-01 21:45:06,112 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 21:45:07 +00:00: 2026-05-01 21:45:07,795 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 21:45:08 +00:00: 2026-05-01 21:45:08,466 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 21:47:10 +00:00: 2026-05-01 21:47:10,479 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 21:47:10 +00:00: 2026-05-01 21:47:10,479 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 21:47:12 +00:00: 2026-05-01 21:47:12,624 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 21:47:13 +00:00: 2026-05-01 21:47:13,372 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 4 tags
+2026-05-01 21:49:15 +00:00: 2026-05-01 21:49:15,361 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 21:49:15 +00:00: 2026-05-01 21:49:15,361 - __main__ - INFO - 🔄 Processing 4 recent Siftly events...
+2026-05-01 21:49:17 +00:00: 2026-05-01 21:49:17,440 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 21:49:19 +00:00: 2026-05-01 21:49:19,234 - __main__ - INFO - ✅ Processed Siftly event cc9da94b-7f35-40db-98d1-a23636068441: 0 tags
+2026-05-01 21:49:23 +00:00: 2026-05-01 21:49:23,110 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 21:49:24 +00:00: 2026-05-01 21:49:24,717 - __main__ - INFO - ✅ Processed Siftly event a09d673e-1db1-4e88-ab55-1b19ab352e1b: 6 tags
+2026-05-01 21:49:29 +00:00: 2026-05-01 21:49:29,718 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 21:49:31 +00:00: 2026-05-01 21:49:31,019 - __main__ - INFO - ✅ Processed Siftly event 3ae67110-1eca-4c5d-a566-f0df81e88ebf: 4 tags
+2026-05-01 21:49:34 +00:00: 2026-05-01 21:49:34,208 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 21:49:35 +00:00: 2026-05-01 21:49:35,076 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 21:51:37 +00:00: 2026-05-01 21:51:37,095 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 21:51:37 +00:00: 2026-05-01 21:51:37,096 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 21:51:38 +00:00: 2026-05-01 21:51:38,613 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 21:51:39 +00:00: 2026-05-01 21:51:39,397 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 21:53:41 +00:00: 2026-05-01 21:53:41,414 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 21:53:41 +00:00: 2026-05-01 21:53:41,414 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 21:53:42 +00:00: 2026-05-01 21:53:42,871 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 21:53:43 +00:00: 2026-05-01 21:53:43,649 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 21:55:45 +00:00: 2026-05-01 21:55:45,671 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 21:55:45 +00:00: 2026-05-01 21:55:45,671 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 21:55:47 +00:00: 2026-05-01 21:55:47,165 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 21:55:47 +00:00: 2026-05-01 21:55:47,928 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 21:57:49 +00:00: 2026-05-01 21:57:49,914 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 21:57:49 +00:00: 2026-05-01 21:57:49,915 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 21:57:51 +00:00: 2026-05-01 21:57:51,585 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 21:57:52 +00:00: 2026-05-01 21:57:52,360 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 21:59:54 +00:00: 2026-05-01 21:59:54,374 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 21:59:54 +00:00: 2026-05-01 21:59:54,374 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 21:59:56 +00:00: 2026-05-01 21:59:56,380 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 21:59:57 +00:00: 2026-05-01 21:59:57,255 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 4 tags
+2026-05-01 22:01:59 +00:00: 2026-05-01 22:01:59,176 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 22:01:59 +00:00: 2026-05-01 22:01:59,177 - __main__ - INFO - 🔄 Processing 3 recent Siftly events...
+2026-05-01 22:02:01 +00:00: 2026-05-01 22:02:01,319 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 22:02:04 +00:00: 2026-05-01 22:02:04,974 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 22:02:07 +00:00: 2026-05-01 22:02:07,847 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 22:02:08 +00:00: 2026-05-01 22:02:08,695 - __main__ - INFO - ✅ Processed Siftly event 813107d0-f7b4-4050-a465-e18e3fa31ba6: 11 tags
+2026-05-01 22:02:12 +00:00: 2026-05-01 22:02:12,003 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 22:02:13 +00:00: 2026-05-01 22:02:13,162 - __main__ - INFO - ✅ Processed Siftly event 32d65785-198a-4cdf-b260-ea18e89867dc: 5 tags
+2026-05-01 22:02:15 +00:00: 2026-05-01 22:02:15,559 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 22:02:16 +00:00: 2026-05-01 22:02:16,754 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 4 tags
+2026-05-01 22:04:18 +00:00: 2026-05-01 22:04:18,775 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 22:04:18 +00:00: 2026-05-01 22:04:18,775 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 22:04:20 +00:00: 2026-05-01 22:04:20,382 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 22:04:21 +00:00: 2026-05-01 22:04:21,045 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 22:06:23 +00:00: 2026-05-01 22:06:23,017 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 22:06:23 +00:00: 2026-05-01 22:06:23,017 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 22:06:24 +00:00: 2026-05-01 22:06:24,524 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 22:06:25 +00:00: 2026-05-01 22:06:25,337 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 22:08:27 +00:00: 2026-05-01 22:08:27,337 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 22:08:27 +00:00: 2026-05-01 22:08:27,338 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 22:08:29 +00:00: 2026-05-01 22:08:29,376 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 22:08:30 +00:00: 2026-05-01 22:08:30,176 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 22:10:32 +00:00: 2026-05-01 22:10:32,141 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 22:10:32 +00:00: 2026-05-01 22:10:32,142 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 22:10:33 +00:00: 2026-05-01 22:10:33,726 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 22:10:34 +00:00: 2026-05-01 22:10:34,526 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 22:12:36 +00:00: 2026-05-01 22:12:36,550 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 22:12:36 +00:00: 2026-05-01 22:12:36,550 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 22:12:38 +00:00: 2026-05-01 22:12:38,194 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 22:12:39 +00:00: 2026-05-01 22:12:39,045 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 22:14:41 +00:00: 2026-05-01 22:14:41,071 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 22:14:41 +00:00: 2026-05-01 22:14:41,072 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 22:14:42 +00:00: 2026-05-01 22:14:42,466 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 22:14:43 +00:00: 2026-05-01 22:14:43,271 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 22:16:45 +00:00: 2026-05-01 22:16:45,293 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 22:16:45 +00:00: 2026-05-01 22:16:45,293 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 22:16:46 +00:00: 2026-05-01 22:16:46,929 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 22:16:47 +00:00: 2026-05-01 22:16:47,719 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 22:18:49 +00:00: 2026-05-01 22:18:49,735 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 22:18:49 +00:00: 2026-05-01 22:18:49,736 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 22:18:51 +00:00: 2026-05-01 22:18:51,287 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 22:18:52 +00:00: 2026-05-01 22:18:52,039 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 22:20:54 +00:00: 2026-05-01 22:20:54,059 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 22:20:54 +00:00: 2026-05-01 22:20:54,060 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 22:20:56 +00:00: 2026-05-01 22:20:56,080 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 22:20:56 +00:00: 2026-05-01 22:20:56,885 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 22:22:58 +00:00: 2026-05-01 22:22:58,904 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 22:22:58 +00:00: 2026-05-01 22:22:58,905 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 22:23:01 +00:00: 2026-05-01 22:23:01,308 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 22:23:02 +00:00: 2026-05-01 22:23:02,129 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 22:25:04 +00:00: 2026-05-01 22:25:04,147 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 22:25:04 +00:00: 2026-05-01 22:25:04,148 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 22:25:06 +00:00: 2026-05-01 22:25:06,197 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 22:25:06 +00:00: 2026-05-01 22:25:06,902 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 22:27:08 +00:00: 2026-05-01 22:27:08,901 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 22:27:08 +00:00: 2026-05-01 22:27:08,901 - __main__ - INFO - 🔄 Processing 2 recent Siftly events...
+2026-05-01 22:27:10 +00:00: 2026-05-01 22:27:10,892 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 22:27:12 +00:00: 2026-05-01 22:27:12,911 - __main__ - INFO - ✅ Processed Siftly event b866f57e-284a-49bb-96fa-1eec428ccf6f: 0 tags
+2026-05-01 22:27:15 +00:00: 2026-05-01 22:27:15,245 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 22:27:16 +00:00: 2026-05-01 22:27:16,164 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 22:29:18 +00:00: 2026-05-01 22:29:18,186 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 22:29:18 +00:00: 2026-05-01 22:29:18,186 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 22:29:19 +00:00: 2026-05-01 22:29:19,987 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 22:29:20 +00:00: 2026-05-01 22:29:20,621 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 22:31:22 +00:00: 2026-05-01 22:31:22,550 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 22:31:22 +00:00: 2026-05-01 22:31:22,551 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 22:31:25 +00:00: 2026-05-01 22:31:25,613 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 22:31:26 +00:00: 2026-05-01 22:31:26,365 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 22:33:28 +00:00: 2026-05-01 22:33:28,313 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 22:33:28 +00:00: 2026-05-01 22:33:28,314 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 22:33:30 +00:00: 2026-05-01 22:33:30,078 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 22:33:30 +00:00: 2026-05-01 22:33:30,566 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 22:35:32 +00:00: 2026-05-01 22:35:32,590 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 22:35:32 +00:00: 2026-05-01 22:35:32,590 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 22:35:34 +00:00: 2026-05-01 22:35:34,237 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 22:35:34 +00:00: 2026-05-01 22:35:34,991 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 22:37:36 +00:00: 2026-05-01 22:37:36,925 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 22:37:36 +00:00: 2026-05-01 22:37:36,926 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 22:37:39 +00:00: 2026-05-01 22:37:39,372 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 22:37:40 +00:00: 2026-05-01 22:37:40,255 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 4 tags
+2026-05-01 22:39:42 +00:00: 2026-05-01 22:39:42,276 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 22:39:42 +00:00: 2026-05-01 22:39:42,277 - __main__ - INFO - 🔄 Processing 3 recent Siftly events...
+2026-05-01 22:39:43 +00:00: 2026-05-01 22:39:43,815 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 22:39:45 +00:00: 2026-05-01 22:39:45,125 - __main__ - INFO - ✅ Processed Siftly event f6dd7739-3e80-4829-9c8e-f661c2de53bf: 5 tags
+2026-05-01 22:39:48 +00:00: 2026-05-01 22:39:48,652 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 22:39:50 +00:00: 2026-05-01 22:39:50,355 - __main__ - INFO - ✅ Processed Siftly event 56363cc2-1f6a-4698-bac9-db8df9775a22: 4 tags
+2026-05-01 22:39:52 +00:00: 2026-05-01 22:39:52,603 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 22:39:53 +00:00: 2026-05-01 22:39:53,472 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 22:41:55 +00:00: 2026-05-01 22:41:55,492 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 22:41:55 +00:00: 2026-05-01 22:41:55,493 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 22:41:58 +00:00: 2026-05-01 22:41:58,065 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 22:41:58 +00:00: 2026-05-01 22:41:58,886 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 4 tags
+2026-05-01 22:44:00 +00:00: 2026-05-01 22:44:00,823 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 22:44:00 +00:00: 2026-05-01 22:44:00,824 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 22:44:02 +00:00: 2026-05-01 22:44:02,824 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 22:44:03 +00:00: 2026-05-01 22:44:03,579 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 22:46:05 +00:00: 2026-05-01 22:46:05,531 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 22:46:05 +00:00: 2026-05-01 22:46:05,532 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 22:46:07 +00:00: 2026-05-01 22:46:07,172 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 22:46:07 +00:00: 2026-05-01 22:46:07,800 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 22:48:09 +00:00: 2026-05-01 22:48:09,807 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 22:48:09 +00:00: 2026-05-01 22:48:09,808 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 22:48:13 +00:00: 2026-05-01 22:48:13,525 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 22:48:14 +00:00: 2026-05-01 22:48:14,230 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 22:50:16 +00:00: 2026-05-01 22:50:16,252 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 22:50:16 +00:00: 2026-05-01 22:50:16,252 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 22:50:18 +00:00: 2026-05-01 22:50:18,317 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 22:50:18 +00:00: 2026-05-01 22:50:18,984 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 22:52:20 +00:00: 2026-05-01 22:52:20,908 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 22:52:20 +00:00: 2026-05-01 22:52:20,908 - __main__ - INFO - 🔄 Processing 2 recent Siftly events...
+2026-05-01 22:52:23 +00:00: 2026-05-01 22:52:23,091 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 22:52:24 +00:00: 2026-05-01 22:52:24,738 - __main__ - INFO - ✅ Processed Siftly event 02a1ca9c-1dab-4103-be3e-be6bf6f9bf57: 0 tags
+2026-05-01 22:52:28 +00:00: 2026-05-01 22:52:28,591 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 22:52:29 +00:00: 2026-05-01 22:52:29,428 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 22:54:31 +00:00: 2026-05-01 22:54:31,363 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 22:54:31 +00:00: 2026-05-01 22:54:31,364 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 22:54:33 +00:00: 2026-05-01 22:54:33,121 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 22:54:33 +00:00: 2026-05-01 22:54:33,863 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 4 tags
+2026-05-01 22:56:35 +00:00: 2026-05-01 22:56:35,814 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 22:56:35 +00:00: 2026-05-01 22:56:35,814 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 22:56:37 +00:00: 2026-05-01 22:56:37,292 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 22:56:37 +00:00: 2026-05-01 22:56:37,979 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 22:58:39 +00:00: 2026-05-01 22:58:39,999 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 22:58:40 +00:00: 2026-05-01 22:58:39,999 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 22:58:41 +00:00: 2026-05-01 22:58:41,783 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 22:58:42 +00:00: 2026-05-01 22:58:42,474 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 4 tags
+2026-05-01 23:00:44 +00:00: 2026-05-01 23:00:44,477 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 23:00:44 +00:00: 2026-05-01 23:00:44,478 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 23:00:45 +00:00: 2026-05-01 23:00:45,989 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 23:00:46 +00:00: 2026-05-01 23:00:46,765 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 23:02:48 +00:00: 2026-05-01 23:02:48,739 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 23:02:48 +00:00: 2026-05-01 23:02:48,739 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 23:02:50 +00:00: 2026-05-01 23:02:50,208 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 23:02:51 +00:00: 2026-05-01 23:02:51,051 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 4 tags
+2026-05-01 23:04:53 +00:00: 2026-05-01 23:04:53,071 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 23:04:53 +00:00: 2026-05-01 23:04:53,072 - __main__ - INFO - 🔄 Processing 2 recent Siftly events...
+2026-05-01 23:04:55 +00:00: 2026-05-01 23:04:55,291 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 23:04:57 +00:00: 2026-05-01 23:04:57,139 - __main__ - INFO - ✅ Processed Siftly event 9119c20c-926c-4068-9c45-80437d514dd3: 0 tags
+2026-05-01 23:04:59 +00:00: 2026-05-01 23:04:59,728 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 23:05:00 +00:00: 2026-05-01 23:05:00,675 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 23:07:02 +00:00: 2026-05-01 23:07:02,673 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 23:07:02 +00:00: 2026-05-01 23:07:02,674 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 23:07:04 +00:00: 2026-05-01 23:07:04,189 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 23:07:04 +00:00: 2026-05-01 23:07:04,869 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 23:09:06 +00:00: 2026-05-01 23:09:06,885 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 23:09:06 +00:00: 2026-05-01 23:09:06,886 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 23:09:08 +00:00: 2026-05-01 23:09:08,442 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 23:09:09 +00:00: 2026-05-01 23:09:09,141 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 23:11:11 +00:00: 2026-05-01 23:11:11,121 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 23:11:11 +00:00: 2026-05-01 23:11:11,122 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 23:11:13 +00:00: 2026-05-01 23:11:13,640 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 23:11:14 +00:00: 2026-05-01 23:11:14,328 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 23:13:16 +00:00: 2026-05-01 23:13:16,349 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 23:13:16 +00:00: 2026-05-01 23:13:16,349 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 23:13:18 +00:00: 2026-05-01 23:13:18,197 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 23:13:18 +00:00: 2026-05-01 23:13:18,883 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 23:15:20 +00:00: 2026-05-01 23:15:20,817 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 23:15:20 +00:00: 2026-05-01 23:15:20,817 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 23:15:22 +00:00: 2026-05-01 23:15:22,690 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 23:15:23 +00:00: 2026-05-01 23:15:23,645 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 23:17:25 +00:00: 2026-05-01 23:17:25,666 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 23:17:25 +00:00: 2026-05-01 23:17:25,667 - __main__ - INFO - 🔄 Processing 5 recent Siftly events...
+2026-05-01 23:17:29 +00:00: 2026-05-01 23:17:29,491 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 23:17:30 +00:00: 2026-05-01 23:17:30,691 - __main__ - INFO - ✅ Processed Siftly event eda5923e-8d79-4ba7-8eb2-159d77b55112: 4 tags
+2026-05-01 23:17:34 +00:00: 2026-05-01 23:17:34,064 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 23:17:36 +00:00: 2026-05-01 23:17:36,025 - __main__ - INFO - ✅ Processed Siftly event 461e654a-2244-4de1-b1d4-233e56e4b622: 0 tags
+2026-05-01 23:17:39 +00:00: 2026-05-01 23:17:39,560 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 23:17:40 +00:00: 2026-05-01 23:17:40,776 - __main__ - INFO - ✅ Processed Siftly event c5044a4b-d0b5-4961-a2c4-3ba7d657b532: 5 tags
+2026-05-01 23:17:44 +00:00: 2026-05-01 23:17:44,436 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 23:17:45 +00:00: 2026-05-01 23:17:45,414 - __main__ - INFO - ✅ Processed Siftly event f9b1bbe1-e9b7-495d-8189-eff7259d5089: 5 tags
+2026-05-01 23:17:47 +00:00: 2026-05-01 23:17:47,975 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 23:17:48 +00:00: 2026-05-01 23:17:48,792 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 23:19:50 +00:00: 2026-05-01 23:19:50,814 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 23:19:50 +00:00: 2026-05-01 23:19:50,814 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 23:19:52 +00:00: 2026-05-01 23:19:52,414 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 23:19:53 +00:00: 2026-05-01 23:19:53,085 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 23:21:55 +00:00: 2026-05-01 23:21:55,103 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 23:21:55 +00:00: 2026-05-01 23:21:55,103 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 23:21:57 +00:00: 2026-05-01 23:21:57,404 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 23:21:58 +00:00: 2026-05-01 23:21:58,086 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 23:24:00 +00:00: 2026-05-01 23:24:00,044 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 23:24:00 +00:00: 2026-05-01 23:24:00,044 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 23:24:01 +00:00: 2026-05-01 23:24:01,436 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 23:24:02 +00:00: 2026-05-01 23:24:02,247 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 23:26:04 +00:00: 2026-05-01 23:26:04,262 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 23:26:04 +00:00: 2026-05-01 23:26:04,262 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 23:26:05 +00:00: 2026-05-01 23:26:05,795 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 23:26:06 +00:00: 2026-05-01 23:26:06,539 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 23:28:08 +00:00: 2026-05-01 23:28:08,561 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 23:28:08 +00:00: 2026-05-01 23:28:08,562 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 23:28:10 +00:00: 2026-05-01 23:28:10,123 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 23:28:11 +00:00: 2026-05-01 23:28:11,118 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 4 tags
+2026-05-01 23:30:13 +00:00: 2026-05-01 23:30:13,066 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 23:30:13 +00:00: 2026-05-01 23:30:13,067 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 23:30:15 +00:00: 2026-05-01 23:30:15,181 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 23:30:15 +00:00: 2026-05-01 23:30:15,830 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 23:32:17 +00:00: 2026-05-01 23:32:17,804 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 23:32:17 +00:00: 2026-05-01 23:32:17,805 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 23:32:19 +00:00: 2026-05-01 23:32:19,520 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 23:32:20 +00:00: 2026-05-01 23:32:20,162 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 23:34:22 +00:00: 2026-05-01 23:34:22,182 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 23:34:22 +00:00: 2026-05-01 23:34:22,182 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 23:34:23 +00:00: 2026-05-01 23:34:23,925 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 23:34:24 +00:00: 2026-05-01 23:34:24,553 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 23:36:26 +00:00: 2026-05-01 23:36:26,549 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 23:36:26 +00:00: 2026-05-01 23:36:26,550 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 23:36:28 +00:00: 2026-05-01 23:36:28,070 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 23:36:28 +00:00: 2026-05-01 23:36:28,718 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 23:38:30 +00:00: 2026-05-01 23:38:30,701 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 23:38:30 +00:00: 2026-05-01 23:38:30,702 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 23:38:32 +00:00: 2026-05-01 23:38:32,308 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 23:38:32 +00:00: 2026-05-01 23:38:32,919 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 23:40:34 +00:00: 2026-05-01 23:40:34,932 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 23:40:34 +00:00: 2026-05-01 23:40:34,933 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 23:40:36 +00:00: 2026-05-01 23:40:36,473 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 23:40:37 +00:00: 2026-05-01 23:40:37,164 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 4 tags
+2026-05-01 23:42:39 +00:00: 2026-05-01 23:42:39,177 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 23:42:39 +00:00: 2026-05-01 23:42:39,178 - __main__ - INFO - 🔄 Processing 3 recent Siftly events...
+2026-05-01 23:42:41 +00:00: 2026-05-01 23:42:41,244 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 23:42:42 +00:00: 2026-05-01 23:42:42,264 - __main__ - INFO - ✅ Processed Siftly event 02a7e0b9-40c5-4b62-b926-ce19951fa7fa: 5 tags
+2026-05-01 23:42:46 +00:00: 2026-05-01 23:42:46,835 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 23:42:47 +00:00: 2026-05-01 23:42:47,976 - __main__ - INFO - ✅ Processed Siftly event 31b0acdd-8d9d-47b3-97bf-46d97effffcd: 5 tags
+2026-05-01 23:42:50 +00:00: 2026-05-01 23:42:50,882 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 23:42:51 +00:00: 2026-05-01 23:42:51,729 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 4 tags
+2026-05-01 23:44:53 +00:00: 2026-05-01 23:44:53,682 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 23:44:53 +00:00: 2026-05-01 23:44:53,683 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 23:44:55 +00:00: 2026-05-01 23:44:55,191 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 23:44:55 +00:00: 2026-05-01 23:44:55,935 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 4 tags
+2026-05-01 23:46:57 +00:00: 2026-05-01 23:46:57,921 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 23:46:57 +00:00: 2026-05-01 23:46:57,922 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 23:46:59 +00:00: 2026-05-01 23:46:59,279 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 23:46:59 +00:00: 2026-05-01 23:46:59,940 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 23:49:01 +00:00: 2026-05-01 23:49:01,955 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 23:49:01 +00:00: 2026-05-01 23:49:01,956 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 23:49:03 +00:00: 2026-05-01 23:49:03,704 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 23:49:04 +00:00: 2026-05-01 23:49:04,386 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 23:51:06 +00:00: 2026-05-01 23:51:06,361 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 23:51:06 +00:00: 2026-05-01 23:51:06,362 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 23:51:07 +00:00: 2026-05-01 23:51:07,980 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 23:51:08 +00:00: 2026-05-01 23:51:08,744 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 4 tags
+2026-05-01 23:53:10 +00:00: 2026-05-01 23:53:10,759 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 23:53:10 +00:00: 2026-05-01 23:53:10,759 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-01 23:53:12 +00:00: 2026-05-01 23:53:12,341 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 23:53:13 +00:00: 2026-05-01 23:53:13,046 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 4 tags
+2026-05-01 23:55:15 +00:00: 2026-05-01 23:55:15,049 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 23:55:15 +00:00: 2026-05-01 23:55:15,049 - __main__ - INFO - 🔄 Processing 3 recent Siftly events...
+2026-05-01 23:55:17 +00:00: 2026-05-01 23:55:17,320 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 23:55:20 +00:00: 2026-05-01 23:55:20,326 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 23:55:23 +00:00: 2026-05-01 23:55:23,603 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 23:55:24 +00:00: 2026-05-01 23:55:24,645 - __main__ - INFO - ✅ Processed Siftly event 1cb51fb1-0ed8-4ede-891b-32fcaaf4c1bb: 15 tags
+2026-05-01 23:55:28 +00:00: 2026-05-01 23:55:28,000 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 23:55:29 +00:00: 2026-05-01 23:55:29,744 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 23:55:30 +00:00: 2026-05-01 23:55:30,759 - __main__ - INFO - ✅ Processed Siftly event c54a2f56-37cf-4542-a650-db06f9acc07b: 7 tags
+2026-05-01 23:55:33 +00:00: 2026-05-01 23:55:33,147 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 23:55:33 +00:00: 2026-05-01 23:55:33,961 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 23:57:35 +00:00: 2026-05-01 23:57:35,983 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 23:57:35 +00:00: 2026-05-01 23:57:35,984 - __main__ - INFO - 🔄 Processing 2 recent Siftly events...
+2026-05-01 23:57:37 +00:00: 2026-05-01 23:57:37,737 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 23:57:39 +00:00: 2026-05-01 23:57:39,435 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 23:57:40 +00:00: 2026-05-01 23:57:40,265 - __main__ - INFO - ✅ Processed Siftly event c54a2f56-37cf-4542-a650-db06f9acc07b: 6 tags
+2026-05-01 23:57:42 +00:00: 2026-05-01 23:57:42,837 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 23:57:43 +00:00: 2026-05-01 23:57:43,678 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 3 tags
+2026-05-01 23:59:45 +00:00: 2026-05-01 23:59:45,628 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-01 23:59:45 +00:00: 2026-05-01 23:59:45,629 - __main__ - INFO - 🔄 Processing 2 recent Siftly events...
+2026-05-01 23:59:47 +00:00: 2026-05-01 23:59:47,513 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 23:59:49 +00:00: 2026-05-01 23:59:49,052 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 23:59:49 +00:00: 2026-05-01 23:59:49,847 - __main__ - INFO - ✅ Processed Siftly event c54a2f56-37cf-4542-a650-db06f9acc07b: 7 tags
+2026-05-01 23:59:52 +00:00: 2026-05-01 23:59:52,180 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-01 23:59:52 +00:00: 2026-05-01 23:59:52,967 - __main__ - INFO - ✅ Processed Siftly event 16ee7791-2a1e-4ee5-9c7f-acd2f2f2d0e5: 4 tags
