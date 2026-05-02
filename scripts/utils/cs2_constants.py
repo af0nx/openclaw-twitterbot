@@ -30,7 +30,6 @@ CS2_KEYWORDS = {
     'zywoo', 's1mple', 'niko', 'device', 'm0nesy', 'donk',
     # Economy
     'cs2 skin', 'cs2 sticker', 'capsule', 'knife skin', 'trade up',
-    'esport', 'esports',
 }
 
 # Keywords that are common English words — require word-boundary matching
@@ -64,7 +63,11 @@ NON_CS2_KEYWORDS = {
     'valorant', 'vct ', 'champions tour', 'overwatch', 'owcs',
     'dota 2', 'dota2', 'league of legends', ' lol ', ' lck', ' lpl',
     'call of duty', 'fortnite', 'apex legends', 'rocket league',
-    'first stand 2026', 'worlds 2026',
+    'rainbow six', 'r6 siege', 'tekken', 'street fighter',
+    'first stand 2026', 'worlds 2026', 'msi 2026',
+    'nintendo', 'switch 2', 'playstation', 'xbox', 'zelda',
+    'star fox', 'mario', 'pokemon', 'genshin', 'marvel',
+    'diablo', 'warzone', 'pubg', 'minecraft', 'roblox',
 }
 
 # ── Known teams (canonical lowercase names) ──────────────────────────

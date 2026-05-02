@@ -111,6 +111,17 @@ class TwitterPoster:
         except Exception as e:
             logger.error(f"❌ Failed to increment quota for {bucket}: {e}")
 
+    @staticmethod
+    def _requires_main_feed_media(tweet_data: Dict[str, Any]) -> bool:
+        """Standalone main-feed tweets need media; replies and quote targets are exempt."""
+        if tweet_data.get('reply_target_id') or tweet_data.get('quote_tweet_id'):
+            return False
+        try:
+            pillar = int(tweet_data.get('pillar') or 0)
+        except (TypeError, ValueError):
+            pillar = 0
+        return pillar not in (12, 16)
+
     def expire_stale_queued_tweets(self):
         """Prevent old queue items from leaking into live posting."""
         try:
@@ -174,6 +185,9 @@ class TwitterPoster:
         issue = tweet_quality_issue(content)
         if issue:
             return issue
+
+        if self._requires_main_feed_media(tweet_data) and not tweet_data.get('media_path'):
+            return "main feed tweet missing media"
 
         if tweet_data.get('is_thread') and tweet_data.get('thread_tweets'):
             for index, thread_tweet in enumerate(tweet_data['thread_tweets'], start=1):

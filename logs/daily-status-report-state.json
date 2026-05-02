@@ -1,7 +1,7 @@
 {
-  "last_alert_at": "2026-05-01T21:30:01.673199+00:00",
+  "last_alert_at": "2026-05-02T03:30:02.099010+00:00",
   "last_alert_signature": "fe796ffcf9b5f6f2aa1ca426f5015df6f48b6ba0e4a2d79cc3ec02366d835ebc",
   "last_alert_summary": [
-    "tweet_scheduler restarted recently with high lifetime restart count (11355)"
+    "tweet_scheduler restarted recently with high lifetime restart count (12075)"
   ]
 }

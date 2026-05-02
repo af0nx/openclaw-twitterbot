@@ -17162,3 +17162,93 @@
 2026-05-01 23:57:20 +00:00: 2026-05-01 23:57:20,978 - __main__ - INFO - ✅ Posted tweet: 2050363977700348135
 2026-05-01 23:57:22 +00:00: 2026-05-01 23:57:22,047 - __main__ - INFO - 📊 Incremented quota counter for replies
 2026-05-01 23:57:22 +00:00: 2026-05-01 23:57:22,048 - __main__ - INFO - ✅ Successfully posted tweet df815257-47cb-4775-a925-57f98f23f04b → 2050363977700348135
+2026-05-02 00:09:54 +00:00: 2026-05-02 00:09:54,563 - __main__ - INFO - 🔄 Processing 1 queued tweets...
+2026-05-02 00:09:55 +00:00: 2026-05-02 00:09:55,019 - __main__ - WARNING - ⚠️  Quote 403'd — falling back to standalone tweet
+2026-05-02 00:09:55 +00:00: 2026-05-02 00:09:55,234 - __main__ - INFO - ✅ Posted tweet: 2050367141245792765
+2026-05-02 00:09:56 +00:00: 2026-05-02 00:09:56,303 - __main__ - INFO - 📊 Incremented quota counter for replies
+2026-05-02 00:09:56 +00:00: 2026-05-02 00:09:56,304 - __main__ - INFO - ✅ Successfully posted tweet 278dc6a9-0f35-4170-b12c-61f1decd8316 → 2050367141245792765
+2026-05-02 00:49:34 +00:00: 2026-05-02 00:49:34,266 - __main__ - INFO - 🔄 Processing 1 queued tweets...
+2026-05-02 00:49:34 +00:00: 2026-05-02 00:49:34,713 - __main__ - WARNING - ⚠️  Quote 403'd — falling back to standalone tweet
+2026-05-02 00:49:34 +00:00: 2026-05-02 00:49:34,932 - __main__ - INFO - ✅ Posted tweet: 2050377122422636662
+2026-05-02 00:49:36 +00:00: 2026-05-02 00:49:36,001 - __main__ - INFO - 📊 Incremented quota counter for replies
+2026-05-02 00:49:36 +00:00: 2026-05-02 00:49:36,002 - __main__ - INFO - ✅ Successfully posted tweet d11872db-0cbe-491d-8022-6cd4cef7b3bf → 2050377122422636662
+2026-05-02 00:54:50 +00:00: 2026-05-02 00:54:50,490 - __main__ - INFO - 🔄 Processing 1 queued tweets...
+2026-05-02 00:54:50 +00:00: 2026-05-02 00:54:50,840 - __main__ - WARNING - ⚠️  Quote 403'd — falling back to standalone tweet
+2026-05-02 00:54:51 +00:00: 2026-05-02 00:54:51,110 - __main__ - INFO - ✅ Posted tweet: 2050378448565068012
+2026-05-02 00:54:52 +00:00: 2026-05-02 00:54:52,181 - __main__ - INFO - 📊 Incremented quota counter for replies
+2026-05-02 00:54:52 +00:00: 2026-05-02 00:54:52,182 - __main__ - INFO - ✅ Successfully posted tweet 0631a320-4677-432b-95c7-fd8852eaee40 → 2050378448565068012
+2026-05-02 00:59:06 +00:00: 2026-05-02 00:59:06,232 - __main__ - INFO - 🔄 Processing 1 queued tweets...
+2026-05-02 00:59:06 +00:00: 2026-05-02 00:59:06,973 - __main__ - INFO - ✅ Posted tweet: 2050379521740730546
+2026-05-02 00:59:07 +00:00: 2026-05-02 00:59:07,889 - __main__ - INFO - 📊 Incremented quota counter for main
+2026-05-02 00:59:07 +00:00: 2026-05-02 00:59:07,890 - __main__ - INFO - ✅ Successfully posted tweet f97451ac-458c-4b2c-ba08-5a9c3bc0c90e → 2050379521740730546
+2026-05-02 01:10:37 +00:00: 2026-05-02 01:10:37,770 - __main__ - INFO - 🔄 Processing 1 queued tweets...
+2026-05-02 01:10:38 +00:00: 2026-05-02 01:10:38,225 - __main__ - WARNING - ⚠️  Quote 403'd — falling back to standalone tweet
+2026-05-02 01:10:38 +00:00: 2026-05-02 01:10:38,439 - __main__ - INFO - ✅ Posted tweet: 2050382421976035487
+2026-05-02 01:10:39 +00:00: 2026-05-02 01:10:39,511 - __main__ - INFO - 📊 Incremented quota counter for replies
+2026-05-02 01:10:39 +00:00: 2026-05-02 01:10:39,511 - __main__ - INFO - ✅ Successfully posted tweet a24e5953-687e-4cda-a3b6-3d192d1d22c5 → 2050382421976035487
+2026-05-02 01:15:54 +00:00: 2026-05-02 01:15:54,033 - __main__ - INFO - 🔄 Processing 1 queued tweets...
+2026-05-02 01:15:54 +00:00: 2026-05-02 01:15:54,372 - __main__ - WARNING - ⚠️  Quote 403'd — falling back to standalone tweet
+2026-05-02 01:15:54 +00:00: 2026-05-02 01:15:54,586 - __main__ - INFO - ✅ Posted tweet: 2050383748001136791
+2026-05-02 01:15:55 +00:00: 2026-05-02 01:15:55,656 - __main__ - INFO - 📊 Incremented quota counter for replies
+2026-05-02 01:15:55 +00:00: 2026-05-02 01:15:55,657 - __main__ - INFO - ✅ Successfully posted tweet 96a0c7aa-7641-4fa8-b7b9-feaf91fc35e0 → 2050383748001136791
+2026-05-02 01:40:58 +00:00: 2026-05-02 01:40:58,065 - __main__ - INFO - 🔄 Processing 1 queued tweets...
+2026-05-02 01:40:58 +00:00: 2026-05-02 01:40:58,528 - __main__ - WARNING - ⚠️  Quote 403'd — falling back to standalone tweet
+2026-05-02 01:40:58 +00:00: 2026-05-02 01:40:58,735 - __main__ - INFO - ✅ Posted tweet: 2050390056871862568
+2026-05-02 01:40:59 +00:00: 2026-05-02 01:40:59,804 - __main__ - INFO - 📊 Incremented quota counter for replies
+2026-05-02 01:40:59 +00:00: 2026-05-02 01:40:59,805 - __main__ - INFO - ✅ Successfully posted tweet a941662d-4547-46d1-95a6-7f05a4689d17 → 2050390056871862568
+2026-05-02 02:03:55 +00:00: 2026-05-02 02:03:55,400 - __main__ - INFO - 🔄 Processing 1 queued tweets...
+2026-05-02 02:03:55 +00:00: 2026-05-02 02:03:55,868 - __main__ - WARNING - ⚠️  Quote 403'd — falling back to standalone tweet
+2026-05-02 02:03:56 +00:00: 2026-05-02 02:03:56,078 - __main__ - INFO - ✅ Posted tweet: 2050395833850278020
+2026-05-02 02:03:57 +00:00: 2026-05-02 02:03:57,150 - __main__ - INFO - 📊 Incremented quota counter for replies
+2026-05-02 02:03:57 +00:00: 2026-05-02 02:03:57,150 - __main__ - INFO - ✅ Successfully posted tweet 88523475-b059-4c1a-a68a-a7cdc6122607 → 2050395833850278020
+2026-05-02 02:26:53 +00:00: 2026-05-02 02:26:53,177 - __main__ - INFO - 🔄 Processing 1 queued tweets...
+2026-05-02 02:26:53 +00:00: 2026-05-02 02:26:53,704 - __main__ - WARNING - ⚠️  Quote 403'd — falling back to standalone tweet
+2026-05-02 02:26:53 +00:00: 2026-05-02 02:26:53,914 - __main__ - INFO - ✅ Posted tweet: 2050401612917522680
+2026-05-02 02:26:54 +00:00: 2026-05-02 02:26:54,993 - __main__ - INFO - 📊 Incremented quota counter for replies
+2026-05-02 02:26:54 +00:00: 2026-05-02 02:26:54,993 - __main__ - INFO - ✅ Successfully posted tweet 679caeb5-a194-4b3c-9c41-fd75f9035477 → 2050401612917522680
+2026-05-02 02:34:15 +00:00: 2026-05-02 02:34:15,394 - __main__ - INFO - 🔄 Processing 1 queued tweets...
+2026-05-02 02:34:15 +00:00: 2026-05-02 02:34:15,862 - __main__ - INFO - ✅ Posted tweet: 2050403466569220229
+2026-05-02 02:34:16 +00:00: 2026-05-02 02:34:16,783 - __main__ - INFO - 📊 Incremented quota counter for main
+2026-05-02 02:34:16 +00:00: 2026-05-02 02:34:16,783 - __main__ - INFO - ✅ Successfully posted tweet 8b3d27ec-91b4-4618-a159-0d794b7d7ba9 → 2050403466569220229
+2026-05-02 02:39:32 +00:00: 2026-05-02 02:39:32,823 - __main__ - INFO - 🔄 Processing 1 queued tweets...
+2026-05-02 02:39:33 +00:00: 2026-05-02 02:39:33,194 - __main__ - INFO - ✅ Posted tweet: 2050404797560352926
+2026-05-02 02:39:34 +00:00: 2026-05-02 02:39:34,112 - __main__ - INFO - 📊 Incremented quota counter for main
+2026-05-02 02:39:34 +00:00: 2026-05-02 02:39:34,113 - __main__ - INFO - ✅ Successfully posted tweet d44300e3-cee4-45d2-8d63-fa30fa504fb3 → 2050404797560352926
+2026-05-02 02:44:48 +00:00: 2026-05-02 02:44:48,629 - __main__ - INFO - 🔄 Processing 1 queued tweets...
+2026-05-02 02:44:49 +00:00: 2026-05-02 02:44:49,101 - __main__ - WARNING - ⚠️  Quote 403'd — falling back to standalone tweet
+2026-05-02 02:44:49 +00:00: 2026-05-02 02:44:49,320 - __main__ - INFO - ✅ Posted tweet: 2050406123472060794
+2026-05-02 02:44:50 +00:00: 2026-05-02 02:44:50,397 - __main__ - INFO - 📊 Incremented quota counter for replies
+2026-05-02 02:44:50 +00:00: 2026-05-02 02:44:50,398 - __main__ - INFO - ✅ Successfully posted tweet c86d3403-559c-46d6-b044-d93b6a176800 → 2050406123472060794
+2026-05-02 02:49:03 +00:00: 2026-05-02 02:49:03,851 - __main__ - INFO - 🔄 Processing 1 queued tweets...
+2026-05-02 02:49:04 +00:00: 2026-05-02 02:49:04,481 - __main__ - INFO - ✅ Posted tweet: 2050407193350910117
+2026-05-02 02:49:05 +00:00: 2026-05-02 02:49:05,405 - __main__ - INFO - 📊 Incremented quota counter for main
+2026-05-02 02:49:05 +00:00: 2026-05-02 02:49:05,405 - __main__ - INFO - ✅ Successfully posted tweet 8f94a80b-651c-4880-b90f-781ef3e3c73c → 2050407193350910117
+2026-05-02 02:54:19 +00:00: 2026-05-02 02:54:19,843 - __main__ - INFO - 🔄 Processing 1 queued tweets...
+2026-05-02 02:54:20 +00:00: 2026-05-02 02:54:20,262 - __main__ - WARNING - ⚠️  Quote 403'd — falling back to standalone tweet
+2026-05-02 02:54:20 +00:00: 2026-05-02 02:54:20,477 - __main__ - INFO - ✅ Posted tweet: 2050408519061434463
+2026-05-02 02:54:21 +00:00: 2026-05-02 02:54:21,548 - __main__ - INFO - 📊 Incremented quota counter for replies
+2026-05-02 02:54:21 +00:00: 2026-05-02 02:54:21,549 - __main__ - INFO - ✅ Successfully posted tweet dada2337-1b99-42d7-a547-2d25f5f7f840 → 2050408519061434463
+2026-05-02 03:03:45 +00:00: 2026-05-02 03:03:45,988 - __main__ - INFO - 🔄 Processing 1 queued tweets...
+2026-05-02 03:03:46 +00:00: 2026-05-02 03:03:46,428 - __main__ - WARNING - ⚠️  Quote 403'd — falling back to standalone tweet
+2026-05-02 03:03:46 +00:00: 2026-05-02 03:03:46,643 - __main__ - INFO - ✅ Posted tweet: 2050410893742121133
+2026-05-02 03:03:47 +00:00: 2026-05-02 03:03:47,712 - __main__ - INFO - 📊 Incremented quota counter for replies
+2026-05-02 03:03:47 +00:00: 2026-05-02 03:03:47,712 - __main__ - INFO - ✅ Successfully posted tweet a41fc193-688e-4503-a906-5c3d02446881 → 2050410893742121133
+2026-05-02 03:08:01 +00:00: 2026-05-02 03:08:01,445 - __main__ - INFO - 🔄 Processing 1 queued tweets...
+2026-05-02 03:08:01 +00:00: 2026-05-02 03:08:01,788 - __main__ - WARNING - ⚠️  Quote 403'd — falling back to standalone tweet
+2026-05-02 03:08:02 +00:00: 2026-05-02 03:08:02,006 - __main__ - INFO - ✅ Posted tweet: 2050411964820533755
+2026-05-02 03:08:03 +00:00: 2026-05-02 03:08:03,079 - __main__ - INFO - 📊 Incremented quota counter for replies
+2026-05-02 03:08:03 +00:00: 2026-05-02 03:08:03,079 - __main__ - INFO - ✅ Successfully posted tweet 5bf9b35e-f222-47ce-a221-38c7752ffba7 → 2050411964820533755
+2026-05-02 03:22:40 +00:00: 2026-05-02 03:22:40,301 - __main__ - INFO - 🔄 Processing 1 queued tweets...
+2026-05-02 03:22:40 +00:00: 2026-05-02 03:22:40,817 - __main__ - INFO - ✅ Posted tweet: 2050415650477134279
+2026-05-02 03:22:41 +00:00: 2026-05-02 03:22:41,742 - __main__ - INFO - 📊 Incremented quota counter for main
+2026-05-02 03:22:41 +00:00: 2026-05-02 03:22:41,742 - __main__ - INFO - ✅ Successfully posted tweet 02be9c8b-7a15-469a-991e-95026c905008 → 2050415650477134279
+2026-05-02 04:42:36 +00:00: 2026-05-02 04:42:36,030 - __main__ - INFO - ⏹️  Twitter Poster shutdown requested
+2026-05-02 04:42:36 +00:00: 2026-05-02 04:42:36,605 - __main__ - INFO - ✅ Twitter API v2 client initialized for main
+2026-05-02 04:42:36 +00:00: 2026-05-02 04:42:36,605 - __main__ - INFO - ✅ Twitter API v2 client initialized for live
+2026-05-02 04:42:36 +00:00: 2026-05-02 04:42:36,606 - __main__ - INFO - ✅ Twitter API v2 client initialized for replies
+2026-05-02 04:42:37 +00:00: 2026-05-02 04:42:37,549 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-02 04:42:51 +00:00: 2026-05-02 04:42:51,786 - __main__ - INFO - 🚀 Twitter Poster started
+2026-05-02 04:44:58 +00:00: 2026-05-02 04:44:58,695 - __main__ - INFO - 🔄 Processing 1 queued tweets...
+2026-05-02 04:44:59 +00:00: 2026-05-02 04:44:59,278 - __main__ - INFO - ✅ Posted tweet: 2050436363758035138
+2026-05-02 04:45:00 +00:00: 2026-05-02 04:45:00,209 - __main__ - INFO - 📊 Incremented quota counter for main
+2026-05-02 04:45:00 +00:00: 2026-05-02 04:45:00,210 - __main__ - INFO - ✅ Successfully posted tweet ed439a3d-1337-4006-8461-8dc72b0c05fc → 2050436363758035138

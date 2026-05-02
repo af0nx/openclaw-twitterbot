@@ -26,6 +26,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+from utils.cs2_constants import is_cs2_relevant as _is_cs2_relevant
+from utils.cs2_constants import is_other_game as _is_other_game
 from utils.runtime_schema import ensure_runtime_schema_extensions
 
 # Load environment
@@ -403,11 +405,12 @@ class TwitterVIPMonitor:
             return 0
     
     def is_cs2_relevant(self, text: str) -> bool:
-        """Check if tweet content is CS2-related"""
+        """Check if tweet content is clearly CS2-related."""
         if not text.strip():
             return False  # Can't check relevance of empty text
-        text_lower = text.lower()
-        return any(kw in text_lower for kw in self.CS2_KEYWORDS)
+        if _is_other_game(text):
+            return False
+        return _is_cs2_relevant(text)
     
     def should_engage(self, tweet: Dict[str, Any], vip: Dict[str, str]) -> bool:
         """Determine if we should create an engagement opportunity"""
@@ -419,6 +422,11 @@ class TwitterVIPMonitor:
         if not tweet['text'].strip():
             logger.info(f"⏭️  @{tweet['author']}: empty tweet text (scraping limitation)")
             return False
+
+        if os.getenv('TWITTER_REQUIRE_SOURCE_MEDIA', 'true').lower() in ('1', 'true', 'yes', 'on'):
+            if not tweet.get('has_media'):
+                logger.info(f"⏭️  @{tweet['author']}: source tweet has no media")
+                return False
 
         # We need the source tweet ID for durable dedup and safe reply targeting.
         tid = tweet.get('tweet_id')
@@ -512,6 +520,8 @@ class TwitterVIPMonitor:
                         'vip_list_type': vip['list_type'],
                         'engagement_priority': vip['priority'],
                         'auto_hitl_engage': vip['auto_engage'],
+                        'source_has_media': bool(tweet.get('has_media')),
+                        'source_media_urls': tweet.get('media_urls') or [],
                         'engagement_metrics': {
                             'likes': tweet['likes'],
                             'replies': tweet['replies'],

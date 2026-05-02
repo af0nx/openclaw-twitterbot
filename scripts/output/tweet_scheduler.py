@@ -251,6 +251,16 @@ class TweetScheduler:
         return None
 
     @staticmethod
+    def _requires_main_page_media(event: Dict[str, Any], pillar: Optional[int] = None) -> bool:
+        """Main-feed posts must carry a visual. Replies and quote-replies are exempt."""
+        category = event.get('category') or ''
+        if category in ('vip_engagement', 'community_disagreement'):
+            return False
+        if pillar in (12, 16):
+            return False
+        return True
+
+    @staticmethod
     def _apply_pricing_context(
         metadata: Dict[str, Any],
         pricing_context: Dict[str, Any],
@@ -390,7 +400,7 @@ class TweetScheduler:
         return bool(media_plan.get('force_text_only'))
 
     def _owned_media_enabled_types(self) -> set[str]:
-        raw = os.getenv('OWNED_MEDIA_TYPES', 'match_result,match_preview,prediction,player')
+        raw = os.getenv('OWNED_MEDIA_TYPES', 'match_result,match_preview,prediction,player,analysis')
         return {item.strip().lower() for item in raw.split(',') if item.strip()}
 
     def _determine_owned_media_group(self, event: Dict[str, Any]) -> tuple[Optional[str], Optional[str]]:
@@ -413,6 +423,8 @@ class TweetScheduler:
             return 'match_preview', 'headline_vs_card'
         if metadata.get('media_path'):
             return 'match_preview', 'prebuilt_owned_media'
+        if self._requires_main_page_media(event):
+            return 'analysis', 'main_page_card'
         return None, None
 
     def _get_media_experiment_stats(
@@ -475,7 +487,8 @@ class TweetScheduler:
                 'force_text_only': False,
             }
 
-        if 'none' in enabled_types or media_group not in enabled_types:
+        requires_main_media = self._requires_main_page_media(event)
+        if ('none' in enabled_types or media_group not in enabled_types) and not requires_main_media:
             return {
                 'eligible': True,
                 'allow_owned_media': False,
@@ -490,7 +503,13 @@ class TweetScheduler:
                 },
             }
 
-        if self._requires_premium_result_media(event):
+        metadata = event.get('metadata') or {}
+        if not isinstance(metadata, dict):
+            metadata = {}
+
+        requires_premium_media = self._requires_premium_result_media(event)
+        explicitly_required_media = metadata.get('prefer_generated_media') == 'required'
+        if requires_premium_media or explicitly_required_media or requires_main_media:
             return {
                 'eligible': True,
                 'allow_owned_media': True,
@@ -499,7 +518,9 @@ class TweetScheduler:
                     'media_experiment': {
                         'card_type': card_type,
                         'variant': 'owned_media',
-                        'policy': 'required',
+                        'policy': 'required_main_page_media' if (
+                            requires_main_media and not (requires_premium_media or explicitly_required_media)
+                        ) else 'required',
                         'assigned_at': datetime.now(timezone.utc).isoformat(),
                     }
                 },
@@ -898,7 +919,7 @@ class TweetScheduler:
         (comma-separated list; default = match_result,match_preview,prediction,player).
         Set OWNED_MEDIA_TYPES=none to go fully text-only safely.
         """
-        _enabled_raw = os.getenv('OWNED_MEDIA_TYPES', 'match_result,match_preview,prediction,player')
+        _enabled_raw = os.getenv('OWNED_MEDIA_TYPES', 'match_result,match_preview,prediction,player,analysis')
         _enabled_types = {t.strip().lower() for t in _enabled_raw.split(',') if t.strip()}
         if 'none' in _enabled_types:
             return None
@@ -1181,7 +1202,11 @@ class TweetScheduler:
             # For mixed-feed sources, require a CS2 keyword signal
             if not is_pure_source:
                 has_cs2_signal = is_cs2_relevant(text_lower)
-                if event['category'] not in ('match_result', 'vip_engagement', 'cs2_update', 'roster_change') and not has_cs2_signal:
+                if event['category'] == 'vip_engagement' and not has_cs2_signal:
+                    logger.info(f"⏭️  Skipping non-CS2 VIP event: {event['headline'][:60]}")
+                    self.mark_event_processed(event['id'], 'skipped', 'non_cs2_vip')
+                    return False
+                if event['category'] not in ('match_result', 'cs2_update', 'roster_change') and not has_cs2_signal:
                     logger.info(f"⏭️  Skipping non-CS2 event: {event['headline'][:60]}")
                     self.mark_event_processed(event['id'], 'skipped', 'non_cs2_relevance')
                     return False
@@ -1296,6 +1321,23 @@ class TweetScheduler:
                         media_attachment = self._generate_owned_media(event, tweet_text, pillar, account_bucket)
                     except Exception as e:
                         logger.warning(f"⚠️  Prediction card failed (non-fatal): {e}")
+
+                if self._requires_main_page_media(event, pillar) and (
+                    not media_attachment or not media_attachment.get('media_ref')
+                ):
+                    logger.error("🚫 Prediction blocked: main-feed media is required")
+                    with self.db_conn.cursor() as cur:
+                        cur.execute(
+                            """
+                            UPDATE twitter_bot.events
+                            SET status = 'rejected',
+                                metadata = COALESCE(metadata, '{}'::jsonb) || %s::jsonb
+                            WHERE id = %s
+                            """,
+                            (json.dumps({'media_required_error': 'prediction_missing_media'}), event['id']),
+                        )
+                        self.db_conn.commit()
+                    return False
 
                 media_id = media_attachment.get('media_ref') if media_attachment else None
                 media_preview_path = media_attachment.get('preview_path') if media_attachment else self._dashboard_preview_hint(event)
@@ -1524,6 +1566,7 @@ class TweetScheduler:
                 guardrail_failed = True
                 guardrail_issues.append(f"Tone: {tone_result['issues']}")
             
+            main_media_required = self._requires_main_page_media(event, pillar)
             media_plan = self._choose_owned_media_variant(event)
             if media_plan.get('metadata_patch'):
                 metadata = event.get('metadata') or {}
@@ -1536,7 +1579,10 @@ class TweetScheduler:
             media_attachment = None
             media_blocked_by_plan = False
             if media_plan.get('force_text_only'):
-                media_blocked_by_plan = self._media_plan_blocks_fallback(media_plan)
+                media_blocked_by_plan = (
+                    self._media_plan_blocks_fallback(media_plan)
+                    and not main_media_required
+                )
                 logger.info(
                     "📝 Owned media holdout: text-only baseline for %s (%s)",
                     event.get('category'),
@@ -1618,8 +1664,11 @@ class TweetScheduler:
 
             # Optional headline-card fallback. Disabled by default because generic
             # cards underperform and look worse than a clean text-only post.
-            enable_headline_card_fallback = os.getenv('ENABLE_HEADLINE_CARD_FALLBACK', 'false').lower() in ('1', 'true', 'yes')
-            if (not media_attachment or not media_attachment.get('media_ref')) and enable_headline_card_fallback:
+            enable_headline_card_fallback = (
+                main_media_required
+                or os.getenv('ENABLE_HEADLINE_CARD_FALLBACK', 'false').lower() in ('1', 'true', 'yes')
+            )
+            if (not media_attachment or not media_attachment.get('media_ref')) and not media_blocked_by_plan and enable_headline_card_fallback:
                 try:
                     _fb_teams = self.media_manager._find_teams_in_text(tweet_text)
                     _fb_meta = event.get('metadata') or {}
@@ -1639,6 +1688,21 @@ class TweetScheduler:
                     logger.warning(f"⚠️  Headline card fallback failed (non-fatal): {e}")
             elif not media_attachment or not media_attachment.get('media_ref'):
                 logger.info("🖼️ No curated media found — skipping generic headline card fallback")
+
+            if main_media_required and (not media_attachment or not media_attachment.get('media_ref')):
+                logger.error("🚫 Main-feed post blocked: media is required")
+                with self.db_conn.cursor() as cur:
+                    cur.execute(
+                        """
+                        UPDATE twitter_bot.events
+                        SET status = 'rejected',
+                            metadata = COALESCE(metadata, '{}'::jsonb) || %s::jsonb
+                        WHERE id = %s
+                        """,
+                        (json.dumps({'media_required_error': 'main_page_missing_media'}), event['id']),
+                    )
+                    self.db_conn.commit()
+                return False
 
             media_id = media_attachment.get('media_ref') if media_attachment else None
             media_preview_path = media_attachment.get('preview_path') if media_attachment else self._dashboard_preview_hint(event)
