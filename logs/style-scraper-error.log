@@ -5202,3 +5202,36 @@
 2026-05-02 15:00:12 +00:00: 2026-05-02 15:00:12,994 - __main__ - INFO -   → 35 viral-worthy CS2 tweets
 2026-05-02 15:02:26 +00:00: 2026-05-02 15:02:26,517 - __main__ - INFO - 💾 Stored 291/291 tweets in style_bank
 2026-05-02 15:02:26 +00:00: 2026-05-02 15:02:26,518 - __main__ - INFO - 📊 Style bank update: 291 tweets, avg 8365 likes, 190 with media (65%)
+2026-05-02 21:02:26 +00:00: 2026-05-02 21:02:26,918 - __main__ - INFO - 📡 Scraping @Ozzny_CS2...
+2026-05-02 21:02:27 +00:00: 2026-05-02 21:02:27,142 - __main__ - INFO - 🎟️  Guest token refreshed: 20506823...
+2026-05-02 21:02:27 +00:00: 2026-05-02 21:02:27,771 - __main__ - INFO -   → 100 raw tweets fetched
+2026-05-02 21:02:27 +00:00: 2026-05-02 21:02:27,772 - __main__ - INFO -   → 47 viral-worthy CS2 tweets
+2026-05-02 21:02:30 +00:00: 2026-05-02 21:02:30,776 - __main__ - INFO - 📡 Scraping @ThourCS2...
+2026-05-02 21:02:31 +00:00: 2026-05-02 21:02:31,434 - __main__ - INFO -   → 100 raw tweets fetched
+2026-05-02 21:02:31 +00:00: 2026-05-02 21:02:31,436 - __main__ - INFO -   → 37 viral-worthy CS2 tweets
+2026-05-02 21:02:34 +00:00: 2026-05-02 21:02:34,439 - __main__ - INFO - 📡 Scraping @CS2News_EN...
+2026-05-02 21:02:34 +00:00: 2026-05-02 21:02:34,996 - __main__ - INFO -   → 100 raw tweets fetched
+2026-05-02 21:02:34 +00:00: 2026-05-02 21:02:34,997 - __main__ - INFO -   → 50 viral-worthy CS2 tweets
+2026-05-02 21:02:38 +00:00: 2026-05-02 21:02:38,000 - __main__ - INFO - 📡 Scraping @RazedEsport...
+2026-05-02 21:02:38 +00:00: 2026-05-02 21:02:38,688 - __main__ - INFO -   → 99 raw tweets fetched
+2026-05-02 21:02:38 +00:00: 2026-05-02 21:02:38,689 - __main__ - INFO -   → 36 viral-worthy CS2 tweets
+2026-05-02 21:02:41 +00:00: 2026-05-02 21:02:41,692 - __main__ - INFO - 📡 Scraping @BLASTPremier...
+2026-05-02 21:02:42 +00:00: 2026-05-02 21:02:42,107 - __main__ - INFO -   → 19 raw tweets fetched
+2026-05-02 21:02:42 +00:00: 2026-05-02 21:02:42,107 - __main__ - INFO -   → 3 viral-worthy CS2 tweets
+2026-05-02 21:02:45 +00:00: 2026-05-02 21:02:45,111 - __main__ - INFO - 📡 Scraping @HLTVorg...
+2026-05-02 21:02:45 +00:00: 2026-05-02 21:02:45,582 - __main__ - INFO -   → 20 raw tweets fetched
+2026-05-02 21:02:45 +00:00: 2026-05-02 21:02:45,582 - __main__ - INFO -   → 11 viral-worthy CS2 tweets
+2026-05-02 21:02:48 +00:00: 2026-05-02 21:02:48,584 - __main__ - INFO - 📡 Scraping @CScribe...
+2026-05-02 21:02:48 +00:00: 2026-05-02 21:02:48,740 - __main__ - INFO -   → 0 raw tweets fetched
+2026-05-02 21:02:48 +00:00: 2026-05-02 21:02:48,740 - __main__ - INFO -   → 0 viral-worthy CS2 tweets
+2026-05-02 21:02:51 +00:00: 2026-05-02 21:02:51,743 - __main__ - INFO - 📡 Scraping @Slasher...
+2026-05-02 21:02:52 +00:00: 2026-05-02 21:02:52,416 - __main__ - INFO -   → 97 raw tweets fetched
+2026-05-02 21:02:52 +00:00: 2026-05-02 21:02:52,419 - __main__ - INFO -   → 5 viral-worthy CS2 tweets
+2026-05-02 21:02:55 +00:00: 2026-05-02 21:02:55,423 - __main__ - INFO - 📡 Scraping @Dust2us...
+2026-05-02 21:02:55 +00:00: 2026-05-02 21:02:55,964 - __main__ - INFO -   → 100 raw tweets fetched
+2026-05-02 21:02:55 +00:00: 2026-05-02 21:02:55,966 - __main__ - INFO -   → 63 viral-worthy CS2 tweets
+2026-05-02 21:02:58 +00:00: 2026-05-02 21:02:58,970 - __main__ - INFO - 📡 Scraping @s1mpleO...
+2026-05-02 21:02:59 +00:00: 2026-05-02 21:02:59,507 - __main__ - INFO -   → 79 raw tweets fetched
+2026-05-02 21:02:59 +00:00: 2026-05-02 21:02:59,508 - __main__ - INFO -   → 35 viral-worthy CS2 tweets
+2026-05-02 21:05:11 +00:00: 2026-05-02 21:05:11,239 - __main__ - INFO - 💾 Stored 287/287 tweets in style_bank
+2026-05-02 21:05:11 +00:00: 2026-05-02 21:05:11,240 - __main__ - INFO - 📊 Style bank update: 287 tweets, avg 8454 likes, 189 with media (66%)
