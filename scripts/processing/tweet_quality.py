@@ -5,6 +5,25 @@ from __future__ import annotations
 import re
 from typing import Optional
 
+MAIN_FEED_PILLARS = {1, 2, 3, 4, 5, 7, 10, 13, 14, 15, 17}
+
+COMMENT_LIKE_OPENERS = re.compile(
+    r'^\s*(?:'
+    r'that|this|these|those|it|they|he|she|'
+    r'books?|bookmakers?|market|public|everyone|timeline|'
+    r'no way|lmao|lol|bro|still|just'
+    r')\b',
+    re.IGNORECASE,
+)
+
+COMMENT_LIKE_PATTERNS = [
+    re.compile(r"\bthat(?:'s| is)\s+(?:a tell|the tell|where|how|why)\b", re.IGNORECASE),
+    re.compile(r'\bbooks?\s+knew\s+it\b', re.IGNORECASE),
+    re.compile(r'\bmarket\s+(?:asleep|caught up|pricing|will overreact|reset)\b', re.IGNORECASE),
+    re.compile(r'\bpublic\s+(?:was|is|will|still|all over|overrating|overreacting|chasing)\b', re.IGNORECASE),
+    re.compile(r'\b(?:looks?|felt|feels)\s+like\s+(?:a|the)\s+(?:trap|tell)\b', re.IGNORECASE),
+]
+
 
 LEAK_MARKERS = [
     'we need to', 'we need a', 'we must', 'we should',
@@ -116,5 +135,34 @@ def tweet_quality_issue(text: Optional[str]) -> Optional[str]:
     return None
 
 
-def is_invalid_tweet_candidate(text: Optional[str]) -> bool:
-    return tweet_quality_issue(text) is not None
+def main_feed_quality_issue(
+    text: Optional[str],
+    pillar: Optional[int] = None,
+    reply_target_id: Optional[str] = None,
+    quote_tweet_id: Optional[str] = None,
+) -> Optional[str]:
+    """Reject standalone posts that read like replies or loose fan comments."""
+    if reply_target_id or quote_tweet_id:
+        return None
+    try:
+        pillar_int = int(pillar or 0)
+    except (TypeError, ValueError):
+        pillar_int = 0
+    if pillar_int and pillar_int not in MAIN_FEED_PILLARS:
+        return None
+
+    cleaned = normalize_generated_text(text)
+    if not cleaned:
+        return 'empty tweet'
+
+    if COMMENT_LIKE_OPENERS.search(cleaned):
+        return 'main-feed copy reads like a comment'
+    if any(pattern.search(cleaned) for pattern in COMMENT_LIKE_PATTERNS):
+        return 'main-feed copy reads like a comment'
+    if cleaned.endswith(('?', '?!')) and pillar_int not in (13, 14):
+        return 'main-feed copy reads like a casual question'
+    return None
+
+
+def is_invalid_tweet_candidate(text: Optional[str], pillar: Optional[int] = None) -> bool:
+    return tweet_quality_issue(text) is not None or main_feed_quality_issue(text, pillar=pillar) is not None

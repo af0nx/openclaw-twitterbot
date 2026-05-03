@@ -17374,3 +17374,32 @@
 2026-05-02 22:37:38 +00:00: 2026-05-02 22:37:38,228 - __main__ - INFO - ✅ Posted tweet: 2050706304847487433
 2026-05-02 22:37:39 +00:00: 2026-05-02 22:37:39,160 - __main__ - INFO - 📊 Incremented quota counter for main
 2026-05-02 22:37:39 +00:00: 2026-05-02 22:37:39,160 - __main__ - INFO - ✅ Successfully posted tweet 86e45d72-e178-46e4-84a2-7fbc17de91c0 → 2050706304847487433
+2026-05-03 00:05:07 +00:00: 2026-05-03 00:05:07,996 - __main__ - INFO - 🔄 Processing 1 queued tweets...
+2026-05-03 00:05:08 +00:00: 2026-05-03 00:05:08,712 - __main__ - INFO - ✅ Posted tweet: 2050728326738706455
+2026-05-03 00:05:09 +00:00: 2026-05-03 00:05:09,644 - __main__ - INFO - 📊 Incremented quota counter for main
+2026-05-03 00:05:09 +00:00: 2026-05-03 00:05:09,644 - __main__ - INFO - ✅ Successfully posted tweet 06f5ea7f-02dc-4df3-bb2f-275ee923b2cf → 2050728326738706455
+2026-05-03 00:19:47 +00:00: 2026-05-03 00:19:47,310 - __main__ - INFO - 🔄 Processing 1 queued tweets...
+2026-05-03 00:19:47 +00:00: 2026-05-03 00:19:47,758 - __main__ - WARNING - ⚠️  Quote 403'd — falling back to standalone tweet
+2026-05-03 00:19:47 +00:00: 2026-05-03 00:19:47,974 - __main__ - INFO - ✅ Posted tweet: 2050732015268302910
+2026-05-03 00:19:49 +00:00: 2026-05-03 00:19:49,065 - __main__ - INFO - 📊 Incremented quota counter for replies
+2026-05-03 00:19:49 +00:00: 2026-05-03 00:19:49,065 - __main__ - INFO - ✅ Successfully posted tweet 642ff29b-6a20-4bcd-99b0-ef26a659890c → 2050732015268302910
+2026-05-03 01:30:35 +00:00: 2026-05-03 01:30:35,139 - __main__ - INFO - ⏹️  Twitter Poster shutdown requested
+2026-05-03 01:30:35 +00:00: 2026-05-03 01:30:35,601 - __main__ - INFO - ✅ Twitter API v2 client initialized for main
+2026-05-03 01:30:35 +00:00: 2026-05-03 01:30:35,601 - __main__ - INFO - ✅ Twitter API v2 client initialized for live
+2026-05-03 01:30:35 +00:00: 2026-05-03 01:30:35,601 - __main__ - INFO - ✅ Twitter API v2 client initialized for replies
+2026-05-03 01:30:36 +00:00: 2026-05-03 01:30:36,522 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-03 01:30:44 +00:00: 2026-05-03 01:30:44,096 - __main__ - INFO - 🚀 Twitter Poster started
+2026-05-03 01:47:31 +00:00: 2026-05-03 01:47:31,541 - __main__ - INFO - ⏹️  Twitter Poster shutdown requested
+2026-05-03 01:47:32 +00:00: 2026-05-03 01:47:32,017 - __main__ - INFO - ✅ Twitter API v2 client initialized for main
+2026-05-03 01:47:32 +00:00: 2026-05-03 01:47:32,017 - __main__ - INFO - ✅ Twitter API v2 client initialized for live
+2026-05-03 01:47:32 +00:00: 2026-05-03 01:47:32,017 - __main__ - INFO - ✅ Twitter API v2 client initialized for replies
+2026-05-03 01:47:33 +00:00: 2026-05-03 01:47:33,092 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-03 01:47:41 +00:00: 2026-05-03 01:47:41,415 - __main__ - INFO - 🚀 Twitter Poster started
+2026-05-03 03:18:33 +00:00: 2026-05-03 03:18:33,227 - __main__ - INFO - 🔄 Processing 1 queued tweets...
+2026-05-03 03:18:33 +00:00: 2026-05-03 03:18:33,904 - __main__ - INFO - ✅ Posted tweet: 2050777002336997594
+2026-05-03 03:18:34 +00:00: 2026-05-03 03:18:34,908 - __main__ - INFO - 📊 Incremented quota counter for main
+2026-05-03 03:18:34 +00:00: 2026-05-03 03:18:34,908 - __main__ - INFO - ✅ Successfully posted tweet cc7e66b6-96ea-49c9-bb46-2623ee5513ca → 2050777002336997594
+2026-05-03 07:18:47 +00:00: 2026-05-03 07:18:47,683 - __main__ - INFO - 🔄 Processing 1 queued tweets...
+2026-05-03 07:18:48 +00:00: 2026-05-03 07:18:48,324 - __main__ - INFO - ✅ Posted tweet: 2050837460721016881
+2026-05-03 07:18:49 +00:00: 2026-05-03 07:18:49,328 - __main__ - INFO - 📊 Incremented quota counter for main
+2026-05-03 07:18:49 +00:00: 2026-05-03 07:18:49,328 - __main__ - INFO - ✅ Successfully posted tweet 2fab27f4-394a-44c1-b29f-ae1042953494 → 2050837460721016881

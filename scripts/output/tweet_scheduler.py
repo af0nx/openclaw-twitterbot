@@ -251,8 +251,68 @@ class TweetScheduler:
         return None
 
     @staticmethod
+    def _explicit_visual_requested(event: Dict[str, Any]) -> bool:
+        metadata = event.get('metadata') or {}
+        if not isinstance(metadata, dict):
+            return False
+        return bool(
+            metadata.get('prefer_generated_media') in (True, 'true', 'required', 'premium_result')
+            or metadata.get('media_path')
+            or isinstance(metadata.get('signal_card'), dict)
+            or isinstance(metadata.get('race_watch'), dict)
+            or isinstance(metadata.get('scenario_tree'), dict)
+            or isinstance(metadata.get('player_snapshot'), dict)
+        )
+
+    @staticmethod
+    def _is_low_structure_news_take(event: Dict[str, Any]) -> bool:
+        if event.get('category') != 'cs2':
+            return False
+        if TweetScheduler._explicit_visual_requested(event):
+            return False
+
+        metadata = event.get('metadata') or {}
+        if not isinstance(metadata, dict):
+            metadata = {}
+        structured_keys = (
+            'team1', 'team2', 'winner', 'score1', 'score2',
+            'map_scores', 'maps', 'match_context',
+        )
+        if any(metadata.get(key) for key in structured_keys):
+            return False
+
+        text = ' '.join(str(part or '') for part in (event.get('headline'), event.get('content')))
+        result_patterns = [
+            r'\b\d+\s*-\s*\d+\b',
+            r'\b(?:defeated|swept|eliminated|destroyed|upset|reverse.?swept|clutched|won|lost to|knocked out)\b',
+            r'(?<!to )\bbeat\b',
+            r'\b(?:3-0|3-1|3-2|2-0|2-1|0-3|0-2)\b',
+        ]
+        return not any(re.search(pattern, text, re.IGNORECASE) for pattern in result_patterns)
+
+    @staticmethod
+    def _allows_text_only_main_feed(event: Dict[str, Any]) -> bool:
+        metadata = event.get('metadata') or {}
+        if not isinstance(metadata, dict):
+            return False
+
+        if TweetScheduler._explicit_visual_requested(event):
+            return False
+
+        media_mode = str(metadata.get('media_mode') or metadata.get('media_policy') or '').strip().lower()
+        return bool(
+            metadata.get('allow_text_only')
+            or metadata.get('text_only_ok')
+            or media_mode in ('text_only', 'text-only', 'no_media', 'no-media', 'none')
+            or TweetScheduler._is_low_structure_news_take(event)
+        )
+
+    @staticmethod
     def _requires_main_page_media(event: Dict[str, Any], pillar: Optional[int] = None) -> bool:
         """Main-feed posts must carry a visual. Replies and quote-replies are exempt."""
+        if TweetScheduler._allows_text_only_main_feed(event):
+            return False
+
         category = event.get('category') or ''
         if category in ('vip_engagement', 'community_disagreement'):
             return False
@@ -478,6 +538,23 @@ class TweetScheduler:
         return stats
 
     def _choose_owned_media_variant(self, event: Dict[str, Any]) -> Dict[str, Any]:
+        if self._allows_text_only_main_feed(event):
+            return {
+                'eligible': True,
+                'allow_owned_media': False,
+                'force_text_only': True,
+                'metadata_patch': {
+                    'media_mode': 'text_only',
+                    'allow_text_only': True,
+                    'media_experiment': {
+                        'card_type': 'text_only_main_feed',
+                        'variant': 'text_only_requested',
+                        'policy': 'text_only',
+                        'assigned_at': datetime.now(timezone.utc).isoformat(),
+                    }
+                },
+            }
+
         enabled_types = self._owned_media_enabled_types()
         media_group, card_type = self._determine_owned_media_group(event)
         if not media_group or not card_type:
@@ -1435,13 +1512,13 @@ class TweetScheduler:
             tweet_text = normalize_generated_text(tweet_text)
             tweet_text = re.sub(r'@ (\w)', r'@\1', tweet_text)
 
-            if is_invalid_tweet_candidate(tweet_text):
+            if is_invalid_tweet_candidate(tweet_text, pillar=pillar):
                 logger.error(f"❌ REJECTED: Tweet leaked meta/review text: {tweet_text[:100]}")
                 return False
             if is_thread and thread_tweets:
                 thread_tweets = [normalize_generated_text(tt) for tt in thread_tweets]
                 for i, tt in enumerate(thread_tweets):
-                    if is_invalid_tweet_candidate(tt):
+                    if is_invalid_tweet_candidate(tt, pillar=pillar):
                         logger.error(f"❌ REJECTED: Thread tweet {i} leaked meta/review text: {tt[:100]}")
                         return False
             

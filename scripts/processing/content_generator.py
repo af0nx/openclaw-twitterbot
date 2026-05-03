@@ -102,6 +102,23 @@ _META_RESPONSE_PATTERNS = [
     re.compile(r'\b(?:editor feedback|realitychecker)\b', re.IGNORECASE),
 ]
 
+_MAIN_FEED_PILLARS = {1, 2, 3, 4, 5, 7, 10, 13, 14, 15, 17}
+_COMMENT_LIKE_OPENERS = re.compile(
+    r'^\s*(?:'
+    r'that|this|these|those|it|they|he|she|'
+    r'books?|bookmakers?|market|public|everyone|timeline|'
+    r'no way|lmao|lol|bro|still|just'
+    r')\b',
+    re.IGNORECASE,
+)
+_COMMENT_LIKE_PATTERNS = [
+    re.compile(r"\bthat(?:'s| is)\s+(?:a tell|the tell|where|how|why)\b", re.IGNORECASE),
+    re.compile(r'\bbooks?\s+knew\s+it\b', re.IGNORECASE),
+    re.compile(r'\bmarket\s+(?:asleep|caught up|pricing|will overreact|reset)\b', re.IGNORECASE),
+    re.compile(r'\bpublic\s+(?:was|is|will|still|all over|overrating|overreacting|chasing)\b', re.IGNORECASE),
+    re.compile(r'\b(?:looks?|felt|feels)\s+like\s+(?:a|the)\s+(?:trap|tell)\b', re.IGNORECASE),
+]
+
 
 def normalize_generated_text(text: Optional[str]) -> str:
     if text is None:
@@ -127,12 +144,31 @@ def normalize_generated_text(text: Optional[str]) -> str:
     return cleaned.strip()
 
 
-def is_invalid_tweet_candidate(text: Optional[str]) -> bool:
+def main_feed_quality_issue(text: Optional[str], pillar: Optional[int] = None) -> Optional[str]:
+    cleaned = normalize_generated_text(text)
+    if not cleaned:
+        return 'empty tweet'
+    try:
+        pillar_int = int(pillar or 0)
+    except (TypeError, ValueError):
+        pillar_int = 0
+    if pillar_int and pillar_int not in _MAIN_FEED_PILLARS:
+        return None
+    if _COMMENT_LIKE_OPENERS.search(cleaned):
+        return 'main-feed copy reads like a comment'
+    if any(pattern.search(cleaned) for pattern in _COMMENT_LIKE_PATTERNS):
+        return 'main-feed copy reads like a comment'
+    if cleaned.endswith(('?', '?!')) and pillar_int not in (13, 14):
+        return 'main-feed copy reads like a casual question'
+    return None
+
+
+def is_invalid_tweet_candidate(text: Optional[str], pillar: Optional[int] = None) -> bool:
     cleaned = normalize_generated_text(text)
     if not cleaned:
         return True
 
-    return tweet_quality_issue(cleaned) is not None
+    return tweet_quality_issue(cleaned) is not None or main_feed_quality_issue(cleaned, pillar=pillar) is not None
 
 
 def tweet_quality_issue(text: Optional[str]) -> Optional[str]:
@@ -187,31 +223,32 @@ class ContentGenerator:
     
     def load_system_prompt(self) -> str:
         """Load the base system prompt + tunable appendix"""
-        base_prompt = """You are running a sharp CS2 market Twitter account. You sound like the trader who watches every match, every line move, and every overreaction before the rest of the timeline catches up.
+        base_prompt = """You are writing for SkinBetHub, an enterprise CS2 betting intelligence and prediction-engine company.
+Your job is to publish standalone main-feed posts that sound like product-led CS2 analysis, not comments under someone else's tweet.
 
 LANGUAGE LEVEL: B2 English (upper intermediate).
 - Use simple, common words. No fancy vocabulary.
 - Short sentences. Easy to read. Easy to understand.
-- Write like you talk to a friend. Not like a journalist or analyst.
+- Write like a serious CS2 product account with a clear model read. Not like a journalist. Not like a random fan reply.
 - OK to use gaming slang everyone knows (clutch, choke, insane, goat, gg, rip).
 - NOT OK to use rare English words, literary phrases, or complex grammar.
 
 VOICE:
-- Sound like the sharp side of CS2 Twitter. Fast. Clear. A little smug when the number is wrong.
-- One thought per tweet. React to the moment.
-- You are a trader. Not a reporter. Not a sportsbook ad. Not a fake insider.
-- Call out price, momentum, overreaction, market panic, or public bias when the event supports it.
-- Short sentences. Say less.
+- Sound like SkinBetHub's prediction desk. Useful. Clear. Confident.
+- One thought per post. Each post must stand alone on the main feed.
+- You are a CS2 prediction engine and tips product. Not a reporter. Not a sportsbook ad. Not a fake insider.
+- Call out book price, fair odds, model lean, model pass, map pool, player form, risk, or event stakes when the event supports it.
+- Short sentences. Say less, but include the actual signal.
 
 HARD RULES:
 1. Max 280 characters. Most tweets should be 60-140 chars.
 2. NEVER chain ideas with commas. Use periods. Or just stop.
 3. NO em-dashes (—). NO semicolons. NO colons in the middle of a sentence.
 4. ONE emoji max. Put it at the end. Only use: 😭🥶💀😤🔥
-5. NO hashtags. Ever. No #CS2, no #anything. They look like a brand, not a fan.
+5. NO hashtags. Ever. No #CS2, no #anything.
 6. One idea per tweet. Not two or three.
 7. ONLY use facts from the EVENT data. Never make up stats or numbers.
-8. No numbers? No problem. Your opinion is better than fake data.
+8. No numbers? No problem. Use a map reason, player matchup, risk, result recap, or wait-for-line framing. Do not fake data.
 9. ALWAYS IDENTIFY WHO YOU'RE TALKING ABOUT. If you mention a team or player, make sure the reader knows who they are.
    - Lesser-known teams: add context like "tier 2 team" or their region.
    - Lesser-known players: mention their team name. "K27's AWPer" not just a random name.
@@ -219,16 +256,32 @@ HARD RULES:
    - NEVER post a tweet where a casual reader would ask "who?" or "what team?"
    - If you don't have enough info to identify teams/players, use the info you DO have. Don't post vague tweets.
 10. NEVER claim secret info, fixed matches, or guaranteed edges. No fake insider talk.
+11. MAIN-FEED POSTS MUST NOT READ LIKE COMMENTS.
+   - Do not start with "That", "This", "Market", "Public", "Books", "Everyone", "No way", "Still", or "Just".
+   - Start with a team, player, event, or "SkinBetHub model".
+   - Bad: "That's a tell. Market pricing them too high."
+   - Good: "Vitality vs NAVI: low-energy media comments add risk to the favorite price."
+12. Do not use empty betting filler: "market asleep", "books knew it", "public trap", "priced wrong", "that's a tell".
 
 TONE:
-- React like a sharp trader who actually watches the games. Surprise. Humor. Excitement.
-- "no way" energy. Not "according to my analysis" energy.
+- React like a CS2 prediction desk that actually watches the games.
+- Clear model read. Not "according to my analysis" energy.
 - If the news is crazy just say it simply. The fact IS the content.
 - Community memes are OK when natural: EZ4ENCE, cry is free, Liquid curse, rip bozo
 - Never say: "degens", "cashing", "fodder", "chalk", "bloodbath", "yeets", "implications", "significant"
-- If the market is slow, say the market is slow.
-- If the public is overreacting, say that.
+- If the book price is slow, say what team/event caused it.
+- If the public is overreacting, name the result or map they are overreacting to.
 - Never sound like a sports reporter or casino promo bot.
+
+PRODUCT-LED FORMAT:
+- Strong main-feed posts usually contain:
+  Team/Event: signal.
+  Why it matters: price, map, player, risk, or model pass.
+- Prediction posts should prefer:
+  Team vs Team
+  Model lean/pass: Team ML
+  Book 1.92 | Fair 1.85 | Edge +2.1 pts
+  Why: one grounded reason
 
 STAKES & ENERGY:
 - If a team is ELIMINATED, dropped to lower bracket, or fighting for Major spots — LEAD WITH THE STAKES.
@@ -242,7 +295,7 @@ GROUNDING:
 - Build every tweet from the EVENT data you get
 - Match result? Lead with what it MEANS (elimination? bracket drop? title?), then who won.
 - News? Say what happened. Add your take if you have one.
-- VIP reply? Answer what they actually said. Be natural.
+- VIP reply? Answer what they actually said. Be natural. Replies may be casual.
 - If the headline contains a direct QUOTE from a player, USE the strongest part of that quote in your tweet. Don't just say "heavy quote" or "tough words" — include the actual words.
 - ALWAYS use the actual team name. Never write "his team" or "their team" — write the real name (e.g. "EYEBALLERS" not "JW's team").
 - If you mention odds, market moves, price, value, or the public side, it must be grounded in the event data or direct context. Never invent a line move.
@@ -267,29 +320,29 @@ OUTPUT:
     
     # Style examples are injected in the USER prompt (not system) to prevent LLM echoing
     STYLE_EXAMPLES = """STYLE REFERENCE (study the energy but do NOT copy or mention these):
-    "Market was asleep on Spirit again. That number was wrong from the second it opened."
-    "NaVi are ONE loss from going home. Public is still going to overrate them next round."
-    "That 2-0 was cleaner than the scoreline even says. Books were late."
-    "Everyone will chase the obvious side after this result. Usually the worst time to click it."
-    "Vitality closed that like a title favorite. No fluff. Just better."
-    "One bad map and the whole timeline starts panicking. That's where the value usually shows up."
-    "Spirit just sent the market into a full overreaction cycle again."
-    "That roster move is not just news. It changes how people price the team."
+    "NaVi vs FaZe: model pass unless the map veto gives NaVi Mirage control."
+    "Vitality closed like a title favorite. The only risk was a quiet ZywOo map and it never came."
+    "G2 looked clean today. Vitality is the real price test. I want the opener before touching it."
+    "Astralis still get name-brand respect. The late rounds do not deserve that price."
+    "One bad map is not a new fair line. That is how people overpay."
+    "No book line attached yet. Waiting for the veto before calling this a bet."
+    "Spirit result was strong. The next price depends on whether books tax the hype."
+    "That roster move is not just news. It changes the map pool and the fair price."
 """
     
     def generate_writer_draft(self, event: Dict[str, Any], pillar: int) -> str:
         """Agent A: The Writer - Generate initial draft with ML persona + episodic memory"""
         
         pillar_context = {
-            1: "CS2 news. Say what happened. Say what it changes. Sharp trader voice. Simple words.",
-            2: "Match result. Lead with the stakes or the market meaning. Elimination. Bracket pressure. Public overreaction. Then who won.",
-            3: "Hot take. One strong market opinion. Fade the public if the spot is there. Say it simply.",
+            1: "CS2 news. Write a standalone SkinBetHub insight. Say what happened and what signal it changes: price, map, player, risk, or model pass.",
+            2: "Match result. Lead with the stakes, result recap, or pricing lesson. Then who won.",
+            3: "Hot take. One strong betting intelligence point with a concrete anchor: odds, map, player, risk, or result.",
             5: "Meme moment. If it's funny just show it. Don't explain.",
-            7: "Drama. What happened and what it means for the market or the team. Stay casual.",
+            7: "Drama. What happened and what it changes for the team, map pool, price, or risk.",
             12: "VIP reply. Answer what they said. Sound like a sharp trader. Simple English.",
             13: "Poll question. Make people choose sides like a market and argue in replies.",
             14: "Conversation starter. Start a market argument. Get people replying.",
-            15: "Style-banked take. Match the energy of sharp CS2 trader Twitter.",
+            15: "Style-banked take. Standalone SkinBetHub insight. Enterprise prediction voice, not a comment.",
             16: "Disagreement reply. Push back with one grounded stat or one market angle. Be sharp. Not angry.",
         }
         
@@ -449,6 +502,9 @@ REJECT if ANY of these:
 - Uses slang like "degens", "cashing", "fodder", "chalk", "bloodbath" → REJECT
 - Chains ideas with commas → REJECT
 - Press release tone ("It's official!", "Big news!") → REJECT
+- Main-feed copy that sounds like a reply or live-chat comment → REJECT
+- Starts with "That", "This", "Market", "Public", "Books", "Everyone", "No way", "Still", or "Just" on pillars other than replies → REJECT
+- Empty betting filler like "market asleep", "books knew it", "public trap", "priced wrong", or "that's a tell" → REJECT
 - More than 1 emoji → REJECT
 - Made-up stats or numbers → REJECT
 - Claims insider info, fixed games, guaranteed edges, or fake line moves → REJECT
@@ -466,7 +522,7 @@ ALLOW these when grounded in the event or clear context:
 - value
 - buy low / sell high
 
-APPROVE if it sounds like a real CS2 fan with sharp trader instincts. Short. Natural. Simple English. One idea.
+APPROVE if it sounds like a standalone SkinBetHub main-feed insight. Short. Natural. Simple English. One concrete signal.
 
 Respond with ONLY: "APPROVED" or one short reason to reject."""
         
@@ -545,7 +601,9 @@ Revise the tweet addressing the feedback. Max 280 chars. Output ONLY the revised
             '- Do NOT mention request, draft, review, approval, rejection, or feedback.',
             '- Do NOT explain yourself.',
             '- Max 280 chars.',
-            '- Grounded market language is allowed. Fake insider claims are not.',
+            '- Write standalone SkinBetHub prediction-engine copy, not a reply-style comment.',
+            '- Start with a team, player, event, or SkinBetHub model angle.',
+            '- Grounded price/model language is allowed. Fake insider claims are not.',
         ])
 
         result = self.client.generate(
@@ -628,12 +686,12 @@ Respond with ONLY: "APPROVED" or the better tweet text (no explanation)."""
             logger.info(f"⚡ Fast-path generation for pillar {pillar}")
             draft = normalize_generated_text(self.generate_writer_draft(event, pillar))
             logger.info(f"✍️  Fast draft: {draft[:80]}...")
-            if is_invalid_tweet_candidate(draft):
+            if is_invalid_tweet_candidate(draft, pillar=pillar):
                 logger.warning("⚠️  Fast-path returned meta output — forcing clean rewrite")
                 draft = self.force_clean_rewrite(event, pillar, draft)
             if len(draft) > 280:
                 draft = draft[:277] + "..."
-            if is_invalid_tweet_candidate(draft):
+            if is_invalid_tweet_candidate(draft, pillar=pillar):
                 logger.error(f"❌ Fast-path leaked twice — giving up: {draft[:80]}")
                 return {'final_text': '', 'iterations': 2, 'approved': False, 'char_count': 0, 'model': getattr(self, '_last_writer_model', 'unknown')}
             return {
@@ -649,10 +707,10 @@ Respond with ONLY: "APPROVED" or the better tweet text (no explanation)."""
         # Agent A: Initial draft
         draft = normalize_generated_text(self.generate_writer_draft(event, pillar))
         logger.info(f"✍️  Writer draft: {draft[:80]}...")
-        if is_invalid_tweet_candidate(draft):
+        if is_invalid_tweet_candidate(draft, pillar=pillar):
             logger.warning("⚠️  Writer draft was meta output — forcing clean rewrite")
             draft = self.force_clean_rewrite(event, pillar, draft)
-            if is_invalid_tweet_candidate(draft):
+            if is_invalid_tweet_candidate(draft, pillar=pillar):
                 logger.error(f"❌ Writer draft unrecoverable — giving up: {draft[:80]}")
                 return {'final_text': '', 'iterations': 1, 'approved': False, 'char_count': 0, 'model': getattr(self, '_last_writer_model', 'unknown')}
         
@@ -675,7 +733,7 @@ Respond with ONLY: "APPROVED" or the better tweet text (no explanation)."""
             logger.info(f"✍️  Revision #{iterations}: {revised[:80]}...")
             
             # Safety: if revision leaked instructions, keep the previous draft
-            if is_invalid_tweet_candidate(revised):
+            if is_invalid_tweet_candidate(revised, pillar=pillar):
                 logger.warning(f"⚠️  Revision leaked instructions — keeping previous draft")
             else:
                 draft = revised
@@ -691,10 +749,10 @@ Respond with ONLY: "APPROVED" or the better tweet text (no explanation)."""
             logger.info("⏭️  Skipping WhimsyInjector for engagement content")
 
         draft = normalize_generated_text(draft)
-        if is_invalid_tweet_candidate(draft):
+        if is_invalid_tweet_candidate(draft, pillar=pillar):
             logger.warning("⚠️  Final draft still looks meta — forcing clean rewrite")
             draft = self.force_clean_rewrite(event, pillar, draft)
-            if is_invalid_tweet_candidate(draft):
+            if is_invalid_tweet_candidate(draft, pillar=pillar):
                 logger.error(f"❌ Final draft unrecoverable — giving up: {draft[:80]}")
                 return {'final_text': '', 'iterations': iterations, 'approved': False, 'char_count': 0, 'model': getattr(self, '_last_writer_model', 'unknown')}
         

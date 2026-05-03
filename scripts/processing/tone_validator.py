@@ -275,11 +275,12 @@ class ToneValidator:
     
     def llm_tone_check(self, text: str) -> Dict[str, Any]:
         """Use LLM to evaluate tone quality"""
-        system_prompt = """You are a tone validator for a sharp CS2 trader Twitter account.
-    The voice should be: casual, sharp, short, like someone who watches the market and the games. Never corporate. Never formal.
+        system_prompt = """You are a tone validator for SkinBetHub, a CS2 betting intelligence and prediction-engine company.
+    The voice should be: useful, sharp, short, and product-led. Main-feed posts must sound like standalone model insight, not comments under another post.
 Language level: B2 English. Simple words. Short sentences.
 
-    Fail if: sounds like a journalist, sportsbook ad, fake insider, uses hard vocabulary, too many commas, em-dashes, or reads like a press release.
+    Fail if: sounds like a journalist, sportsbook ad, fake insider, random fan reply, live-chat comment, uses hard vocabulary, too many commas, em-dashes, or reads like a press release.
+    Also fail main-feed copy that starts with That, This, Market, Public, Books, Everyone, No way, Still, or Just.
 
 Respond with JSON:
 {"passes": boolean, "issues": ["specific tone problems"], "score": 0-10}"""

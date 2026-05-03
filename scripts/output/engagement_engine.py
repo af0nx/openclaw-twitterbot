@@ -44,6 +44,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 from processing.meme_generator import get_meme_generator
 from processing.openrouter_client import get_openrouter_client
 from processing.tweet_quality import (
+    main_feed_quality_issue,
     normalize_generated_text,
     tweet_quality_issue,
 )
@@ -72,7 +73,7 @@ POLL_TEMPLATES = [
         'options': ['NaVi', 'FaZe', 'G2', 'Liquid'],
     },
     {
-        'question': 'Biggest public trap in CS2 right now?',
+        'question': 'Which CS2 favorite is most overpriced right now?',
         'options': ['FaZe', 'G2', 'Falcons', 'other'],
     },
     {
@@ -109,7 +110,7 @@ CONVERSATION_STARTERS = [
     "what result from the last month got overreacted to the hardest?",
     "who's the fakest contender in tier 1 right now?",
     "which team is one good event away from a full price reset?",
-    "what's the most obvious public trap in cs2 right now?",
+    "which CS2 favorite is the model most likely to fade?",
     "which lineup looks better than the numbers say?",
     "what's one cs2 take you would actually stake money on?",
     "which team keeps winning without ever looking that clean?",
@@ -338,11 +339,19 @@ class EngagementEngine:
     def _build_template_key(self, strategy: str, seed: str) -> str:
         return f"{strategy}:{self._slugify_template_seed(seed)}"
 
-    def _clean_generated_text(self, text: str, label: str, max_chars: int = 280) -> Optional[str]:
+    def _clean_generated_text(
+        self,
+        text: str,
+        label: str,
+        max_chars: int = 280,
+        pillar: Optional[int] = None,
+    ) -> Optional[str]:
         cleaned = normalize_generated_text(text).strip('"').strip("'")
         if max_chars and len(cleaned) > max_chars:
             cleaned = cleaned[:max_chars - 3].rstrip() + "..."
         issue = tweet_quality_issue(cleaned)
+        if not issue and pillar is not None:
+            issue = main_feed_quality_issue(cleaned, pillar=pillar)
         if issue:
             logger.warning(f"⏭️  Rejected {label}: {issue} — {cleaned[:100]}")
             return None
@@ -882,21 +891,21 @@ class EngagementEngine:
                 prompt=(
                     f"Original poll question: \"{template['question']}\"\n"
                     f"Options: {', '.join(template['options'])}\n\n"
-                    "Make this poll question more engaging and current. "
-                    "Keep it short (under 100 chars). Sound like a sharp CS2 trader, not a brand.\n"
-                    "Good angles: buy low, sell high, public trap, overreaction, market reset.\n"
+                    "Make this poll question more useful for SkinBetHub's CS2 prediction audience. "
+                    "Keep it short (under 100 chars). Sound like a product-led CS2 betting intelligence account.\n"
+                    "Good angles: team price, map risk, player form, fair odds, or model disagreement.\n"
                     "Return ONLY the question text. Nothing else."
                 ),
                 tier='eco',
                 temperature=0.9,
                 max_tokens=60
             )
-            question = self._clean_generated_text(result['text'], 'poll rewrite', max_chars=100)
+            question = self._clean_generated_text(result['text'], 'poll rewrite', max_chars=100, pillar=13)
         except Exception:
             question = None
 
         if not question:
-            question = self._clean_generated_text(template['question'], 'poll template', max_chars=100)
+            question = self._clean_generated_text(template['question'], 'poll template', max_chars=100, pillar=13)
         if not question:
             return None
 
@@ -959,8 +968,9 @@ class EngagementEngine:
             result = self.client.generate(
                 prompt=(
                     f"Original tweet: \"{starter}\"\n\n"
-                    "Rewrite to sound natural and casual. Sound like a sharp CS2 trader starting an argument.\n"
-                    "Good angles: line moves, market panic, buy low, sell high, public trap, overreaction.\n"
+                    "Rewrite as a standalone SkinBetHub main-feed post. It should sound like a CS2 prediction product starting a useful argument.\n"
+                    "Good angles: team price, map veto, fair odds, player form, model risk, or a pass/no-bet reason.\n"
+                    "Do NOT write it like a reply under someone else's post.\n"
                     "Max 250 chars. No hashtags. No emojis spam (1 max).\n"
                     "Do NOT add generic questions like 'what do you think?' at the end.\n"
                     "Return ONLY the tweet text."
@@ -969,12 +979,12 @@ class EngagementEngine:
                 temperature=0.9,
                 max_tokens=80
             )
-            text = self._clean_generated_text(result['text'], 'conversation rewrite', max_chars=250)
+            text = self._clean_generated_text(result['text'], 'conversation rewrite', max_chars=250, pillar=14)
         except Exception:
             text = None
 
         if not text:
-            text = self._clean_generated_text(starter, 'conversation template', max_chars=250)
+            text = self._clean_generated_text(starter, 'conversation template', max_chars=250, pillar=14)
         if not text:
             return None
 
@@ -1178,22 +1188,23 @@ class EngagementEngine:
                     "Here are viral CS2 tweets that got thousands of likes:\n\n"
                     f"{examples_text}\n\n"
                     f"{context_block}"
-                    "Study the FORMAT. Study the LENGTH. Study the ENERGY.\n"
-                    "Now write ONE original CS2 tweet in the same style.\n"
+                    "Study only the pacing and length. Do NOT copy the reply-like voice.\n"
+                    "Now write ONE original standalone SkinBetHub main-feed post.\n"
                     "CRITICAL RULES:\n"
                     "- NEVER invent match results, scores, or outcomes. NEVER say a team beat/lost/swept another unless it's in the news above.\n"
-                    "- You CAN write opinions, hype, hot takes, or predictions about the news above.\n"
+                    "- You CAN write a model-style opinion about the news above.\n"
                     "- Do NOT assume which team a player is on unless stated in the news above.\n"
-                    "- Best angles: market overreaction, buy low, sell high, public trap, price reset, line move only if grounded in the news.\n"
-                    "- Sound like a sharp CS2 trader reading the room early, not a brand.\n"
-                    "Max 140 chars.\n"
+                    "- Best angles: team price, fair odds, map veto, player form, risk, or model pass.\n"
+                    "- Start with a team, player, event, or SkinBetHub model angle. Do NOT start with That, This, Market, Public, Books, or Everyone.\n"
+                    "- Sound like an enterprise CS2 prediction account. Useful, confident, standalone.\n"
+                    "Max 180 chars.\n"
                     "Return ONLY the tweet text."
                 ),
                 tier='auto',
                 temperature=0.9,
                 max_tokens=60
             )
-            text = self._clean_generated_text(result['text'], 'style take', max_chars=140)
+            text = self._clean_generated_text(result['text'], 'style take', max_chars=180, pillar=15)
         except Exception as e:
             logger.warning(f"⚠️  Style take generation failed: {e}")
             return None
@@ -1211,6 +1222,8 @@ class EngagementEngine:
                 'strategy': 'style_informed_take',
                 'style_examples_used': len(examples),
                 'template_key': self._build_template_key('style_take', examples[0] if examples else 'style-bank'),
+                'media_mode': 'text_only',
+                'allow_text_only': True,
             }
         }
 
@@ -1276,24 +1289,25 @@ class EngagementEngine:
                 prompt=(
                     "These are OUR best-performing tweets:\n\n"
                     f"{banger_text}\n\n"
-                    "Study what made them work — the FORMAT, the energy, the length.\n"
+                    "Study the length only. Do NOT copy the casual comment voice.\n"
                     f"{context_block}"
-                    "Now create ONE new tweet in the same STYLE.\n"
+                    "Now create ONE new standalone SkinBetHub main-feed post.\n"
                     "CRITICAL RULES:\n"
                     "- NEVER invent match results, scores, reverse sweeps, or clutch plays that you are not CERTAIN happened\n"
                     "- NEVER claim a team beat/lost to another team unless it appears in the recent news above\n"
-                    "- You CAN write opinions, hype, hot takes, or general CS2 commentary\n"
+                    "- You CAN write product-led CS2 betting intelligence grounded in the recent news above\n"
                     "- You CAN reference real events from the recent news above\n"
-                    "- Best angles: market overreaction, buy low, sell high, public trap, price reset\n"
-                    "- Sound like a sharp CS2 trader, not a brand.\n"
-                    "- Max 140 chars.\n"
+                    "- Best angles: team price, fair odds, map veto, player form, risk, or model pass\n"
+                    "- Start with a team, player, event, or SkinBetHub model angle. Do NOT start with That, This, Market, Public, Books, or Everyone.\n"
+                    "- Sound like an enterprise CS2 prediction account. Useful, confident, standalone.\n"
+                    "- Max 180 chars.\n"
                     "Return ONLY the tweet text."
                 ),
                 tier='auto',
                 temperature=0.85,
                 max_tokens=60
             )
-            text = self._clean_generated_text(result['text'], 'recycle take', max_chars=140)
+            text = self._clean_generated_text(result['text'], 'recycle take', max_chars=180, pillar=15)
             if not text:
                 return None
 
@@ -1307,6 +1321,8 @@ class EngagementEngine:
                     'strategy': 'recycle_banger',
                     'inspired_by_count': len(bangers),
                     'template_key': self._build_template_key('recycle', bangers[0][0] if bangers else 'recycle-bank'),
+                    'media_mode': 'text_only',
+                    'allow_text_only': True,
                 }
             }
         except Exception as e:

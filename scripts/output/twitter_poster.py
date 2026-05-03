@@ -23,7 +23,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from processing.media_manager import get_media_manager
-from processing.tweet_quality import normalize_generated_text, tweet_quality_issue
+from processing.tweet_quality import main_feed_quality_issue, normalize_generated_text, tweet_quality_issue
 from utils.account_quota import free_account_slot, get_account_quota_snapshot, increment_account_quota
 from utils.db_utils import ensure_db_connection
 from utils.runtime_schema import ensure_runtime_schema_extensions
@@ -116,6 +116,22 @@ class TwitterPoster:
         """Standalone main-feed tweets need media; replies and quote targets are exempt."""
         if tweet_data.get('reply_target_id') or tweet_data.get('quote_tweet_id'):
             return False
+
+        metadata = tweet_data.get('metadata') or {}
+        if isinstance(metadata, dict):
+            media_mode = str(metadata.get('media_mode') or metadata.get('media_policy') or '').strip().lower()
+            explicitly_visual = (
+                metadata.get('prefer_generated_media') in (True, 'true', 'required')
+                or metadata.get('media_path')
+                or isinstance(metadata.get('signal_card'), dict)
+            )
+            if not explicitly_visual and (
+                metadata.get('allow_text_only')
+                or metadata.get('text_only_ok')
+                or media_mode in ('text_only', 'text-only', 'no_media', 'no-media', 'none')
+            ):
+                return False
+
         try:
             pillar = int(tweet_data.get('pillar') or 0)
         except (TypeError, ValueError):
@@ -182,7 +198,12 @@ class TwitterPoster:
 
     def preflight_tweet_content(self, tweet_data: Dict[str, Any]) -> Optional[str]:
         content = normalize_generated_text(tweet_data.get('content') or '')
-        issue = tweet_quality_issue(content)
+        issue = tweet_quality_issue(content) or main_feed_quality_issue(
+            content,
+            pillar=tweet_data.get('pillar'),
+            reply_target_id=tweet_data.get('reply_target_id'),
+            quote_tweet_id=tweet_data.get('quote_tweet_id'),
+        )
         if issue:
             return issue
 

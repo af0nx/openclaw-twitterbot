@@ -40991,3 +40991,105 @@
 2026-05-02 23:30:25 +00:00: 2026-05-02 23:30:25,978 - __main__ - INFO - ⏭️  Generator 'style_take' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
 2026-05-02 23:30:26 +00:00: 2026-05-02 23:30:26,895 - __main__ - INFO - ⏭️  Generator 'recycle' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
 2026-05-02 23:30:27 +00:00: 2026-05-02 23:30:27,812 - __main__ - INFO - 🎯 Engagement cycle complete: 0 events generated
+2026-05-03 00:30:27 +00:00: 2026-05-03 00:30:27,831 - utils.db_utils - WARNING - ⚠️  DB connection stale — reconnecting…
+2026-05-03 00:30:28 +00:00: 2026-05-03 00:30:28,755 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-03 00:30:32 +00:00: 2026-05-03 00:30:32,231 - __main__ - INFO - ⏭️  Generator 'poll' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-03 00:30:34 +00:00: 2026-05-03 00:30:34,943 - __main__ - INFO - ⏭️  Generator 'style_take' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-03 00:30:35 +00:00: 2026-05-03 00:30:35,856 - __main__ - INFO - ⏭️  Generator 'recycle' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-03 00:30:36 +00:00: 2026-05-03 00:30:36,761 - __main__ - INFO - 🎯 Engagement cycle complete: 0 events generated
+2026-05-03 01:28:48 +00:00: Traceback (most recent call last):
+2026-05-03 01:28:48 +00:00:   File "/home/ubuntu/openclaw/scripts/output/engagement_engine.py", line 1443, in <module>
+2026-05-03 01:28:48 +00:00:     await asyncio.sleep(offpeak_interval * 3600)
+2026-05-03 01:28:48 +00:00:   File "/usr/lib/python3.10/asyncio/runners.py", line 44, in run
+2026-05-03 01:28:48 +00:00:     return loop.run_until_complete(main)
+2026-05-03 01:28:48 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 636, in run_until_complete
+2026-05-03 01:28:48 +00:00:     self.run_forever()
+2026-05-03 01:28:48 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 603, in run_forever
+2026-05-03 01:28:48 +00:00:     self._run_once()
+2026-05-03 01:28:48 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 1871, in _run_once
+2026-05-03 01:28:48 +00:00:     event_list = self._selector.select(timeout)
+2026-05-03 01:28:48 +00:00:   File "/usr/lib/python3.10/selectors.py", line 469, in select
+2026-05-03 01:28:48 +00:00:     fd_event_list = self._selector.poll(timeout, max_ev)
+2026-05-03 01:28:48 +00:00: KeyboardInterrupt
+2026-05-03 01:28:49 +00:00: 2026-05-03 01:28:49,627 - processing.openrouter_client - INFO - ✅ OpenRouter client initialized
+2026-05-03 01:28:49 +00:00: 2026-05-03 01:28:49,627 - processing.openrouter_client - INFO -    eco: free/nemotron-ultra-253b
+2026-05-03 01:28:49 +00:00: 2026-05-03 01:28:49,627 - processing.openrouter_client - INFO -    auto: free/deepseek-v3.2
+2026-05-03 01:28:49 +00:00: 2026-05-03 01:28:49,627 - processing.openrouter_client - INFO -    premium: free/deepseek-v3.2
+2026-05-03 01:28:49 +00:00: 2026-05-03 01:28:49,627 - processing.openrouter_client - INFO -    vision: google/gemini-2.5-flash
+2026-05-03 01:28:49 +00:00: 2026-05-03 01:28:49,627 - processing.openrouter_client - INFO -    🧪 A/B auto: free/deepseek-v3.2(w=8), minimax/minimax-m2.7(w=2), z-ai/glm-5.1(w=2)
+2026-05-03 01:28:49 +00:00: 2026-05-03 01:28:49,627 - processing.openrouter_client - INFO -    🧪 A/B premium: free/deepseek-v3.2(w=8), minimax/minimax-m2.7(w=2), z-ai/glm-5.1(w=2)
+2026-05-03 01:28:49 +00:00: 2026-05-03 01:28:49,627 - processing.openrouter_client - INFO -    💰 Daily budget cap: $0.40
+2026-05-03 01:28:49 +00:00: 2026-05-03 01:28:49,627 - processing.meme_generator - INFO - 🔤 Fonts: black=Inter-Black.ttf, extrabold=Inter-ExtraBold.ttf, bold=Inter-Bold.ttf, semibold=Inter-SemiBold.ttf, medium=Inter-Medium.ttf, regular=Inter-Regular.ttf
+2026-05-03 01:28:49 +00:00: 2026-05-03 01:28:49,876 - __main__ - INFO - 🚀 Engagement Engine started — growing the account
+2026-05-03 01:28:50 +00:00: 2026-05-03 01:28:50,817 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-03 01:28:51 +00:00: 2026-05-03 01:28:51,754 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-03 01:28:53 +00:00: 2026-05-03 01:28:53,453 - __main__ - INFO - ⏭️  Generator 'poll' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-03 01:28:56 +00:00: 2026-05-03 01:28:56,233 - __main__ - INFO - ⏭️  Generator 'style_take' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-03 01:28:57 +00:00: 2026-05-03 01:28:57,162 - __main__ - INFO - ⏭️  Generator 'recycle' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-03 01:28:58 +00:00: 2026-05-03 01:28:58,090 - __main__ - INFO - 🎯 Engagement cycle complete: 0 events generated
+2026-05-03 01:47:29 +00:00: Traceback (most recent call last):
+2026-05-03 01:47:29 +00:00:   File "/home/ubuntu/openclaw/scripts/output/engagement_engine.py", line 1447, in <module>
+2026-05-03 01:47:29 +00:00:     continue
+2026-05-03 01:47:29 +00:00:   File "/usr/lib/python3.10/asyncio/runners.py", line 44, in run
+2026-05-03 01:47:29 +00:00:     return loop.run_until_complete(main)
+2026-05-03 01:47:29 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 636, in run_until_complete
+2026-05-03 01:47:29 +00:00:     self.run_forever()
+2026-05-03 01:47:29 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 603, in run_forever
+2026-05-03 01:47:29 +00:00:     self._run_once()
+2026-05-03 01:47:29 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 1871, in _run_once
+2026-05-03 01:47:29 +00:00:     event_list = self._selector.select(timeout)
+2026-05-03 01:47:29 +00:00:   File "/usr/lib/python3.10/selectors.py", line 469, in select
+2026-05-03 01:47:29 +00:00:     fd_event_list = self._selector.poll(timeout, max_ev)
+2026-05-03 01:47:29 +00:00: KeyboardInterrupt
+2026-05-03 01:47:30 +00:00: 2026-05-03 01:47:30,814 - processing.openrouter_client - INFO - ✅ OpenRouter client initialized
+2026-05-03 01:47:30 +00:00: 2026-05-03 01:47:30,814 - processing.openrouter_client - INFO -    eco: free/nemotron-ultra-253b
+2026-05-03 01:47:30 +00:00: 2026-05-03 01:47:30,814 - processing.openrouter_client - INFO -    auto: free/deepseek-v3.2
+2026-05-03 01:47:30 +00:00: 2026-05-03 01:47:30,815 - processing.openrouter_client - INFO -    premium: free/deepseek-v3.2
+2026-05-03 01:47:30 +00:00: 2026-05-03 01:47:30,815 - processing.openrouter_client - INFO -    vision: google/gemini-2.5-flash
+2026-05-03 01:47:30 +00:00: 2026-05-03 01:47:30,815 - processing.openrouter_client - INFO -    🧪 A/B auto: free/deepseek-v3.2(w=8), minimax/minimax-m2.7(w=2), z-ai/glm-5.1(w=2)
+2026-05-03 01:47:30 +00:00: 2026-05-03 01:47:30,815 - processing.openrouter_client - INFO -    🧪 A/B premium: free/deepseek-v3.2(w=8), minimax/minimax-m2.7(w=2), z-ai/glm-5.1(w=2)
+2026-05-03 01:47:30 +00:00: 2026-05-03 01:47:30,815 - processing.openrouter_client - INFO -    💰 Daily budget cap: $0.40
+2026-05-03 01:47:30 +00:00: 2026-05-03 01:47:30,815 - processing.meme_generator - INFO - 🔤 Fonts: black=Inter-Black.ttf, extrabold=Inter-ExtraBold.ttf, bold=Inter-Bold.ttf, semibold=Inter-SemiBold.ttf, medium=Inter-Medium.ttf, regular=Inter-Regular.ttf
+2026-05-03 01:47:31 +00:00: 2026-05-03 01:47:31,058 - __main__ - INFO - 🚀 Engagement Engine started — growing the account
+2026-05-03 01:47:32 +00:00: 2026-05-03 01:47:32,084 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-03 01:47:32 +00:00: 2026-05-03 01:47:32,998 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-03 01:47:34 +00:00: 2026-05-03 01:47:34,855 - __main__ - INFO - ⏭️  Generator 'poll' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-03 01:47:39 +00:00: 2026-05-03 01:47:39,420 - __main__ - INFO - ⏭️  Generator 'style_take' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-03 01:47:40 +00:00: 2026-05-03 01:47:40,431 - __main__ - INFO - ⏭️  Generator 'recycle' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-03 01:47:41 +00:00: 2026-05-03 01:47:41,442 - __main__ - INFO - 🎯 Engagement cycle complete: 0 events generated
+2026-05-03 02:47:41 +00:00: 2026-05-03 02:47:41,472 - utils.db_utils - WARNING - ⚠️  DB connection stale — reconnecting…
+2026-05-03 02:47:42 +00:00: 2026-05-03 02:47:42,406 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-03 02:47:44 +00:00: 2026-05-03 02:47:44,555 - __main__ - INFO - ⏭️  Generator 'poll' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-03 02:47:47 +00:00: 2026-05-03 02:47:47,320 - __main__ - INFO - ⏭️  Generator 'style_take' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-03 02:47:48 +00:00: 2026-05-03 02:47:48,242 - __main__ - INFO - ⏭️  Generator 'recycle' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-03 02:47:49 +00:00: 2026-05-03 02:47:49,162 - __main__ - INFO - 🎯 Engagement cycle complete: 0 events generated
+2026-05-03 03:47:49 +00:00: 2026-05-03 03:47:49,251 - utils.db_utils - WARNING - ⚠️  DB connection stale — reconnecting…
+2026-05-03 03:47:50 +00:00: 2026-05-03 03:47:50,276 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-03 03:47:52 +00:00: 2026-05-03 03:47:52,586 - __main__ - INFO - ⏭️  Generator 'poll' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-03 03:47:55 +00:00: 2026-05-03 03:47:55,627 - __main__ - INFO - ⏭️  Generator 'style_take' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-03 03:47:56 +00:00: 2026-05-03 03:47:56,640 - __main__ - INFO - ⏭️  Generator 'recycle' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-03 03:47:57 +00:00: 2026-05-03 03:47:57,652 - __main__ - INFO - 🎯 Engagement cycle complete: 0 events generated
+2026-05-03 04:47:57 +00:00: 2026-05-03 04:47:57,709 - utils.db_utils - WARNING - ⚠️  DB connection stale — reconnecting…
+2026-05-03 04:47:58 +00:00: 2026-05-03 04:47:58,645 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-03 04:48:00 +00:00: 2026-05-03 04:48:00,782 - __main__ - INFO - ⏭️  Generator 'poll' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-03 04:48:04 +00:00: 2026-05-03 04:48:04,951 - __main__ - INFO - ⏭️  Generator 'style_take' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-03 04:48:05 +00:00: 2026-05-03 04:48:05,870 - __main__ - INFO - ⏭️  Generator 'recycle' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-03 04:48:06 +00:00: 2026-05-03 04:48:06,788 - __main__ - INFO - 🎯 Engagement cycle complete: 0 events generated
+2026-05-03 05:48:06 +00:00: 2026-05-03 05:48:06,825 - utils.db_utils - WARNING - ⚠️  DB connection stale — reconnecting…
+2026-05-03 05:48:07 +00:00: 2026-05-03 05:48:07,769 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-03 05:48:09 +00:00: 2026-05-03 05:48:09,931 - __main__ - INFO - ⏭️  Generator 'poll' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-03 05:48:12 +00:00: 2026-05-03 05:48:12,729 - __main__ - INFO - ⏭️  Generator 'style_take' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-03 05:48:13 +00:00: 2026-05-03 05:48:13,662 - __main__ - INFO - ⏭️  Generator 'recycle' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-03 05:48:14 +00:00: 2026-05-03 05:48:14,599 - __main__ - INFO - 🎯 Engagement cycle complete: 0 events generated
+2026-05-03 06:48:14 +00:00: 2026-05-03 06:48:14,684 - utils.db_utils - WARNING - ⚠️  DB connection stale — reconnecting…
+2026-05-03 06:48:15 +00:00: 2026-05-03 06:48:15,762 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-03 06:48:17 +00:00: 2026-05-03 06:48:17,910 - __main__ - INFO - ⏭️  Generator 'poll' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-03 06:48:20 +00:00: 2026-05-03 06:48:20,689 - __main__ - INFO - ⏭️  Generator 'style_take' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-03 06:48:21 +00:00: 2026-05-03 06:48:21,613 - __main__ - INFO - ⏭️  Generator 'recycle' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-03 06:48:22 +00:00: 2026-05-03 06:48:22,539 - __main__ - INFO - 🎯 Engagement cycle complete: 0 events generated
+2026-05-03 07:48:22 +00:00: 2026-05-03 07:48:22,640 - utils.db_utils - WARNING - ⚠️  DB connection stale — reconnecting…
+2026-05-03 07:48:23 +00:00: 2026-05-03 07:48:23,572 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-03 07:48:25 +00:00: 2026-05-03 07:48:25,707 - __main__ - INFO - ⏭️  Generator 'poll' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-03 07:48:28 +00:00: 2026-05-03 07:48:28,458 - __main__ - INFO - ⏭️  Generator 'style_take' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-03 07:48:29 +00:00: 2026-05-03 07:48:29,374 - __main__ - INFO - ⏭️  Generator 'recycle' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-03 07:48:30 +00:00: 2026-05-03 07:48:30,290 - __main__ - INFO - 🎯 Engagement cycle complete: 0 events generated
