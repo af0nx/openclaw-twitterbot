@@ -17572,3 +17572,18 @@
 2026-05-03 22:44:30 +00:00: 2026-05-03 22:44:30,164 - __main__ - INFO - ✅ Posted tweet: 2051070420422459430
 2026-05-03 22:44:31 +00:00: 2026-05-03 22:44:31,168 - __main__ - INFO - 📊 Incremented quota counter for main
 2026-05-03 22:44:31 +00:00: 2026-05-03 22:44:31,168 - __main__ - INFO - ✅ Successfully posted tweet cfb3c799-37da-4d61-ba8f-bcd8a217c323 → 2051070420422459430
+2026-05-04 00:55:03 +00:00: 2026-05-04 00:55:03,196 - __main__ - INFO - 🔄 Processing 1 queued tweets...
+2026-05-04 00:55:03 +00:00: 2026-05-04 00:55:03,651 - __main__ - WARNING - ⚠️  Quote 403'd — falling back to standalone tweet
+2026-05-04 00:55:03 +00:00: 2026-05-04 00:55:03,852 - __main__ - INFO - ✅ Posted tweet: 2051103277773643887
+2026-05-04 00:55:04 +00:00: 2026-05-04 00:55:04,996 - __main__ - INFO - 📊 Incremented quota counter for replies
+2026-05-04 00:55:04 +00:00: 2026-05-04 00:55:04,996 - __main__ - INFO - ✅ Successfully posted tweet 2faadaeb-cf89-49b5-892b-7fbf8d172f71 → 2051103277773643887
+2026-05-04 01:26:25 +00:00: 2026-05-04 01:26:25,917 - __main__ - INFO - 🔄 Processing 1 queued tweets...
+2026-05-04 01:26:26 +00:00: 2026-05-04 01:26:26,349 - __main__ - WARNING - ⚠️  Quote 403'd — falling back to standalone tweet
+2026-05-04 01:26:26 +00:00: 2026-05-04 01:26:26,557 - __main__ - INFO - ✅ Posted tweet: 2051111174402396167
+2026-05-04 01:26:27 +00:00: 2026-05-04 01:26:27,724 - __main__ - INFO - 📊 Incremented quota counter for replies
+2026-05-04 01:26:27 +00:00: 2026-05-04 01:26:27,724 - __main__ - INFO - ✅ Successfully posted tweet 28fdec90-d1f8-4b3d-a015-564926cd66dd → 2051111174402396167
+2026-05-04 01:31:45 +00:00: 2026-05-04 01:31:45,319 - __main__ - INFO - 🔄 Processing 1 queued tweets...
+2026-05-04 01:31:45 +00:00: 2026-05-04 01:31:45,645 - __main__ - WARNING - ⚠️  Quote 403'd — falling back to standalone tweet
+2026-05-04 01:31:45 +00:00: 2026-05-04 01:31:45,859 - __main__ - INFO - ✅ Posted tweet: 2051112513622643123
+2026-05-04 01:31:47 +00:00: 2026-05-04 01:31:47,027 - __main__ - INFO - 📊 Incremented quota counter for replies
+2026-05-04 01:31:47 +00:00: 2026-05-04 01:31:47,027 - __main__ - INFO - ✅ Successfully posted tweet 5a9c7265-bb0b-4ccf-aef1-9b80dd334756 → 2051112513622643123
