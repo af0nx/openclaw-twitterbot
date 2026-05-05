@@ -41283,3 +41283,52 @@
 2026-05-04 15:01:44 +00:00: 2026-05-04 15:01:44,895 - __main__ - INFO - ⏭️  Generator 'style_take' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
 2026-05-04 15:01:45 +00:00: 2026-05-04 15:01:45,887 - __main__ - INFO - ⏭️  Generator 'recycle' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
 2026-05-04 15:01:46 +00:00: 2026-05-04 15:01:46,879 - __main__ - INFO - 🎯 Engagement cycle complete: 0 events generated
+2026-05-04 16:01:46 +00:00: 2026-05-04 16:01:46,982 - utils.db_utils - WARNING - ⚠️  DB connection stale — reconnecting…
+2026-05-04 16:01:47 +00:00: 2026-05-04 16:01:47,965 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-04 16:02:28 +00:00: 2026-05-04 16:02:28,110 - __main__ - INFO - ⏭️  Generator 'poll' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-04 16:02:31 +00:00: 2026-05-04 16:02:31,038 - __main__ - INFO - ⏭️  Generator 'style_take' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-04 16:02:32 +00:00: 2026-05-04 16:02:32,011 - __main__ - INFO - ⏭️  Generator 'recycle' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-04 16:02:32 +00:00: 2026-05-04 16:02:32,984 - __main__ - INFO - 🎯 Engagement cycle complete: 0 events generated
+2026-05-04 17:02:33 +00:00: 2026-05-04 17:02:33,033 - utils.db_utils - WARNING - ⚠️  DB connection stale — reconnecting…
+2026-05-04 17:02:34 +00:00: 2026-05-04 17:02:34,054 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-04 17:03:15 +00:00: 2026-05-04 17:03:15,478 - __main__ - INFO - ⏭️  Generator 'poll' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-04 17:03:19 +00:00: 2026-05-04 17:03:19,336 - __main__ - INFO - ⏭️  Generator 'style_take' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-04 17:03:20 +00:00: 2026-05-04 17:03:20,314 - __main__ - INFO - ⏭️  Generator 'recycle' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-04 17:03:21 +00:00: 2026-05-04 17:03:21,277 - __main__ - INFO - 🎯 Engagement cycle complete: 0 events generated
+2026-05-04 18:03:21 +00:00: 2026-05-04 18:03:21,378 - utils.db_utils - WARNING - ⚠️  DB connection stale — reconnecting…
+2026-05-04 18:03:22 +00:00: 2026-05-04 18:03:22,313 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-04 18:04:02 +00:00: 2026-05-04 18:04:02,224 - __main__ - INFO - ⏭️  Generator 'poll' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-04 18:04:07 +00:00: 2026-05-04 18:04:07,444 - __main__ - INFO - ⏭️  Generator 'style_take' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-04 18:04:08 +00:00: 2026-05-04 18:04:08,362 - __main__ - INFO - ⏭️  Generator 'recycle' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-04 18:04:09 +00:00: 2026-05-04 18:04:09,279 - __main__ - INFO - 🎯 Engagement cycle complete: 0 events generated
+2026-05-04 19:04:09 +00:00: 2026-05-04 19:04:09,381 - utils.db_utils - WARNING - ⚠️  DB connection stale — reconnecting…
+2026-05-04 19:04:10 +00:00: 2026-05-04 19:04:10,359 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-04 19:04:50 +00:00: 2026-05-04 19:04:50,074 - __main__ - INFO - ⏭️  Generator 'poll' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-04 19:04:53 +00:00: 2026-05-04 19:04:53,686 - __main__ - INFO - ⏭️  Generator 'style_take' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-04 19:04:54 +00:00: 2026-05-04 19:04:54,594 - __main__ - INFO - ⏭️  Generator 'recycle' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-04 19:04:55 +00:00: 2026-05-04 19:04:55,500 - __main__ - INFO - 🎯 Engagement cycle complete: 0 events generated
+2026-05-04 20:04:55 +00:00: 2026-05-04 20:04:55,516 - utils.db_utils - WARNING - ⚠️  DB connection stale — reconnecting…
+2026-05-04 20:04:56 +00:00: 2026-05-04 20:04:56,448 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-04 20:05:37 +00:00: 2026-05-04 20:05:37,352 - __main__ - INFO - ⏭️  Generator 'poll' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-04 20:05:49 +00:00: 2026-05-04 20:05:49,123 - httpx - INFO - HTTP Request: POST http://localhost:8402/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-04 20:05:49 +00:00: 2026-05-04 20:05:49,126 - __main__ - INFO - ✨ Engagement strategy 'conversation' generated content
+2026-05-04 20:05:50 +00:00: 2026-05-04 20:05:50,972 - __main__ - INFO - ⏭️  Generator 'style_take' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-04 20:05:51 +00:00: 2026-05-04 20:05:51,897 - __main__ - INFO - ⏭️  Generator 'recycle' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-04 20:05:53 +00:00: 2026-05-04 20:05:53,885 - __main__ - INFO - 📥 Engagement event created: c14e6108-796f-4783-8c6c-233095695053 (engagement_conversation)
+2026-05-04 20:05:53 +00:00: 2026-05-04 20:05:53,885 - __main__ - INFO - 🎯 Engagement cycle complete: 1 events generated
+2026-05-04 21:06:35 +00:00: 2026-05-04 21:06:35,686 - __main__ - INFO - ⏭️  Generator 'poll' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-04 21:06:38 +00:00: 2026-05-04 21:06:38,438 - __main__ - INFO - ⏭️  Generator 'style_take' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-04 21:06:39 +00:00: 2026-05-04 21:06:39,354 - __main__ - INFO - ⏭️  Generator 'recycle' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-04 21:06:40 +00:00: 2026-05-04 21:06:40,271 - __main__ - INFO - 🎯 Engagement cycle complete: 0 events generated
+2026-05-04 22:06:40 +00:00: 2026-05-04 22:06:40,367 - utils.db_utils - WARNING - ⚠️  DB connection stale — reconnecting…
+2026-05-04 22:06:41 +00:00: 2026-05-04 22:06:41,296 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-04 22:07:21 +00:00: 2026-05-04 22:07:21,494 - __main__ - INFO - ⏭️  Generator 'poll' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-04 22:07:24 +00:00: 2026-05-04 22:07:24,234 - __main__ - INFO - ⏭️  Generator 'style_take' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-04 22:07:25 +00:00: 2026-05-04 22:07:25,148 - __main__ - INFO - ⏭️  Generator 'recycle' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-04 22:07:26 +00:00: 2026-05-04 22:07:26,061 - __main__ - INFO - 🎯 Engagement cycle complete: 0 events generated
+2026-05-04 23:07:26 +00:00: 2026-05-04 23:07:26,167 - utils.db_utils - WARNING - ⚠️  DB connection stale — reconnecting…
+2026-05-04 23:07:27 +00:00: 2026-05-04 23:07:27,097 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-04 23:08:08 +00:00: 2026-05-04 23:08:08,652 - __main__ - INFO - ⏭️  Generator 'poll' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-04 23:08:11 +00:00: 2026-05-04 23:08:11,398 - __main__ - INFO - ⏭️  Generator 'style_take' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-04 23:08:12 +00:00: 2026-05-04 23:08:12,313 - __main__ - INFO - ⏭️  Generator 'recycle' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-04 23:08:13 +00:00: 2026-05-04 23:08:13,227 - __main__ - INFO - 🎯 Engagement cycle complete: 0 events generated
