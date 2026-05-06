@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Twitter Poster - Twitter Bot Pipeline V2
-Executes tweets via X API v2 with strict 100/day quota enforcement (Pay Per Use tier)
+Executes tweets via X API v2 with daily quota enforcement
 Handles single tweets, replies, quote tweets, and threads
 """
 
@@ -9,7 +9,7 @@ import asyncio
 import logging
 import signal
 import time
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from typing import Dict, Any, Optional, List
 import os
 
@@ -23,6 +23,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from processing.media_manager import get_media_manager
+from processing.attention_quality import evaluate_main_feed_attention
 from processing.tweet_quality import main_feed_quality_issue, normalize_generated_text, tweet_quality_issue
 from utils.account_quota import free_account_slot, get_account_quota_snapshot, increment_account_quota
 from utils.db_utils import ensure_db_connection
@@ -40,6 +41,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 MAX_QUEUED_TWEET_AGE_HOURS = int(os.getenv('MAX_QUEUED_TWEET_AGE_HOURS', '24'))
+POSTER_BILLING_BACKOFF_MINUTES = int(os.getenv('POSTER_BILLING_BACKOFF_MINUTES', '30'))
 
 
 class TwitterPoster:
@@ -53,6 +55,8 @@ class TwitterPoster:
         self._schema_ready = False
         self.dry_run = os.getenv('DRY_RUN_MODE', 'false').lower() == 'true'
         self.review_only = os.getenv('DASHBOARD_REVIEW_ONLY', 'false').lower() in ('1', 'true', 'yes', 'on')
+        self.reply_engagement_enabled = os.getenv('ENABLE_REPLY_ENGAGEMENT', 'false').lower() in ('1', 'true', 'yes', 'on')
+        self.billing_backoff_until: Optional[datetime] = None
         
         # Initialize Twitter API v2 client
         self.init_twitter_clients()
@@ -117,26 +121,21 @@ class TwitterPoster:
         if tweet_data.get('reply_target_id') or tweet_data.get('quote_tweet_id'):
             return False
 
-        metadata = tweet_data.get('metadata') or {}
-        if isinstance(metadata, dict):
-            media_mode = str(metadata.get('media_mode') or metadata.get('media_policy') or '').strip().lower()
-            explicitly_visual = (
-                metadata.get('prefer_generated_media') in (True, 'true', 'required')
-                or metadata.get('media_path')
-                or isinstance(metadata.get('signal_card'), dict)
-            )
-            if not explicitly_visual and (
-                metadata.get('allow_text_only')
-                or metadata.get('text_only_ok')
-                or media_mode in ('text_only', 'text-only', 'no_media', 'no-media', 'none')
-            ):
-                return False
-
         try:
             pillar = int(tweet_data.get('pillar') or 0)
         except (TypeError, ValueError):
             pillar = 0
         return pillar not in (12, 16)
+
+    @staticmethod
+    def _is_non_photo_media(tweet_data: Dict[str, Any]) -> bool:
+        preview_path = tweet_data.get('media_preview_path')
+        if not preview_path:
+            return False
+        path = Path(str(preview_path))
+        if path.name.startswith('hl_') and path.suffix.lower() in {'.png', '.jpg', '.jpeg', '.webp'}:
+            return True
+        return 'generated_images' in path.parts
 
     def expire_stale_queued_tweets(self):
         """Prevent old queue items from leaking into live posting."""
@@ -198,6 +197,9 @@ class TwitterPoster:
 
     def preflight_tweet_content(self, tweet_data: Dict[str, Any]) -> Optional[str]:
         content = normalize_generated_text(tweet_data.get('content') or '')
+        if (tweet_data.get('reply_target_id') or tweet_data.get('quote_tweet_id')) and not self.reply_engagement_enabled:
+            return "reply/quote engagement disabled"
+
         issue = tweet_quality_issue(content) or main_feed_quality_issue(
             content,
             pillar=tweet_data.get('pillar'),
@@ -209,6 +211,29 @@ class TwitterPoster:
 
         if self._requires_main_feed_media(tweet_data) and not tweet_data.get('media_path'):
             return "main feed tweet missing media"
+        if self._requires_main_feed_media(tweet_data) and self._is_non_photo_media(tweet_data):
+            return "main feed media is generated graphics, not a photo"
+
+        attention_result = evaluate_main_feed_attention(
+            content,
+            event={
+                'source': tweet_data.get('event_source'),
+                'source_url': tweet_data.get('event_source_url'),
+                'category': tweet_data.get('event_category'),
+                'headline': tweet_data.get('event_headline'),
+                'metadata': tweet_data.get('metadata') or {},
+            },
+            pillar=tweet_data.get('pillar'),
+            media_ref=tweet_data.get('media_path'),
+            media_preview_path=tweet_data.get('media_preview_path'),
+            reply_target_id=tweet_data.get('reply_target_id'),
+            quote_tweet_id=tweet_data.get('quote_tweet_id'),
+        )
+        if not attention_result['passed']:
+            return (
+                f"attention gate failed: score={attention_result['score']} "
+                f"blockers={', '.join(attention_result['blockers'])}"
+            )
 
         if tweet_data.get('is_thread') and tweet_data.get('thread_tweets'):
             for index, thread_tweet in enumerate(tweet_data['thread_tweets'], start=1):
@@ -398,7 +423,8 @@ class TwitterPoster:
             with self.db_conn.cursor() as cur:
                 cur.execute("""
                       SELECT t.id, t.content, t.reply_target_id, t.quote_tweet_id, t.pillar, t.event_id,
-                          e.metadata, t.media_path, t.is_thread, t.thread_tweets, t.scheduled_post_at,
+                          e.metadata, t.media_path, t.media_preview_path, t.is_thread, t.thread_tweets, t.scheduled_post_at,
+                          e.source, e.source_url, e.category, e.headline,
                           COALESCE(t.account_bucket, 'main')
                     FROM twitter_bot.tweets_v2 t
                     LEFT JOIN twitter_bot.events e ON t.event_id = e.id
@@ -419,10 +445,15 @@ class TwitterPoster:
                     'event_id': str(row[5]) if row[5] else None,
                     'metadata': row[6] or {},
                     'media_path': row[7],
-                    'is_thread': row[8] or False,
-                    'thread_tweets': row[9],
-                    'scheduled_post_at': row[10],
-                    'account_bucket': row[11] or 'main',
+                    'media_preview_path': row[8],
+                    'is_thread': row[9] or False,
+                    'thread_tweets': row[10],
+                    'scheduled_post_at': row[11],
+                    'event_source': row[12],
+                    'event_source_url': row[13],
+                    'event_category': row[14],
+                    'event_headline': row[15],
+                    'account_bucket': row[16] or 'main',
                 }
             
             # Check if this tweet is scheduled for later
@@ -595,6 +626,13 @@ class TwitterPoster:
             # Rollback any open implicit transaction so CURRENT_DATE is fresh
             self.db_conn.rollback()
 
+            if self.billing_backoff_until and datetime.now(timezone.utc) < self.billing_backoff_until:
+                logger.info(
+                    "💳 X billing/rate backoff active until %s",
+                    self.billing_backoff_until.isoformat(),
+                )
+                return
+
             if self.review_only:
                 with self.db_conn.cursor() as cur:
                     cur.execute("""
@@ -665,7 +703,13 @@ class TwitterPoster:
                 except tweepy.TweepyException as e:
                     err_str = str(e)
                     if any(code in err_str for code in ('402', '429', '503', 'Payment Required', 'Service Unavailable')):
-                        logger.warning("💳 No credits / rate limited / API outage — pausing poster for this cycle. Tweets stay queued.")
+                        self.billing_backoff_until = datetime.now(timezone.utc) + timedelta(
+                            minutes=POSTER_BILLING_BACKOFF_MINUTES
+                        )
+                        logger.warning(
+                            "💳 No credits / rate limited / API outage — pausing poster until %s. Tweets stay queued.",
+                            self.billing_backoff_until.isoformat(),
+                        )
                         return  # Stop processing, tweets remain queued for next cycle
                     raise
                 

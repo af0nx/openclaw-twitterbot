@@ -18,11 +18,40 @@ COMMENT_LIKE_OPENERS = re.compile(
 
 COMMENT_LIKE_PATTERNS = [
     re.compile(r"\bthat(?:'s| is)\s+(?:a tell|the tell|where|how|why)\b", re.IGNORECASE),
+    re.compile(r'(?:(?:^|[.!?]\s+)(?:that|this|these|those|still|just)\b)', re.IGNORECASE),
     re.compile(r'\bbooks?\s+knew\s+it\b', re.IGNORECASE),
     re.compile(r'\bmarket\s+(?:asleep|caught up|pricing|will overreact|reset)\b', re.IGNORECASE),
     re.compile(r'\bpublic\s+(?:was|is|will|still|all over|overrating|overreacting|chasing)\b', re.IGNORECASE),
     re.compile(r'\b(?:looks?|felt|feels)\s+like\s+(?:a|the)\s+(?:trap|tell)\b', re.IGNORECASE),
+    re.compile(r'\bpatience\s+is\s+the\s+edge\b', re.IGNORECASE),
+    re.compile(r'\bmodel\s+waits?\s+for\s+data\b', re.IGNORECASE),
 ]
+
+UNPROFESSIONAL_MAIN_FEED_PATTERNS = [
+    re.compile(r'[😭🥶💀😤🔥😂🤣]'),
+    re.compile(r'\b(?:lmao|lol|bro|rip bozo|cry is free|no way)\b', re.IGNORECASE),
+    re.compile(r'\b(?:cruel mirage|meme|joke|banter)\b', re.IGNORECASE),
+    re.compile(r'(?:(?:^|[.!?]\s+)just\b|\bjust\s+a\b)', re.IGNORECASE),
+    re.compile(r'^[A-Z][A-Za-z0-9&.\' -]{1,80}\s+win\s+[A-Z]', re.MULTILINE),
+]
+
+BETTING_LANGUAGE_REQUIRING_EVIDENCE = re.compile(
+    r'\b(?:'
+    r'books?|bookmakers?|book price|fair price|price(?:d|s)?|pricing|'
+    r'odds?|edge|value|undervalued|overpriced|mispriced|market|markets|'
+    r'line|lines|lean|low risk|high risk'
+    r')\b',
+    re.IGNORECASE,
+)
+
+BETTING_EVIDENCE_PATTERN = re.compile(
+    r'(?:'
+    r'\b\d+(?:\.\d+)?\s*%|'
+    r'\b[1-9]\.\d{2}\b|'
+    r'\b\d+(?:\.\d+)?\s*(?:edge|odds|price|line)\b'
+    r')',
+    re.IGNORECASE,
+)
 
 
 LEAK_MARKERS = [
@@ -159,8 +188,12 @@ def main_feed_quality_issue(
         return 'main-feed copy reads like a comment'
     if any(pattern.search(cleaned) for pattern in COMMENT_LIKE_PATTERNS):
         return 'main-feed copy reads like a comment'
-    if cleaned.endswith(('?', '?!')) and pillar_int not in (13, 14):
+    if '?' in cleaned and pillar_int not in (13, 14):
         return 'main-feed copy reads like a casual question'
+    if any(pattern.search(cleaned) for pattern in UNPROFESSIONAL_MAIN_FEED_PATTERNS):
+        return 'main-feed copy is not enterprise/professional'
+    if BETTING_LANGUAGE_REQUIRING_EVIDENCE.search(cleaned) and not BETTING_EVIDENCE_PATTERN.search(cleaned):
+        return 'unsupported betting language without price/odds/probability evidence'
     return None
 
 

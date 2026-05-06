@@ -1430,6 +1430,10 @@ class EngagementEngine:
 
     async def run_forever(self):
         """Main loop — every 1 hour (peak and off-peak)"""
+        if os.getenv('ENABLE_ENGAGEMENT_ENGINE', 'false').lower() not in ('1', 'true', 'yes', 'on'):
+            logger.info("⏸️  Engagement Engine disabled (ENABLE_ENGAGEMENT_ENGINE=false)")
+            return
+
         logger.info("🚀 Engagement Engine started — growing the account")
         consecutive_errors = 0
         while True:

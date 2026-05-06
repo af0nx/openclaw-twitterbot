@@ -7,7 +7,7 @@ This is the complete autonomous Twitter Bot Pipeline V2 for 21Core AI - "The Deg
 ### Architecture Overview
 - **Ingestion Layer**: 4G/5G mobile proxy scraping (Scrapling framework) + 8 RSS feeds
 - **Processing Layer**: 3-agent LLM generation, spaCy entity extraction, MiroFish safety, RLHF tuning
-- **Output Layer**: X API v2 posting with strict 100/day quota enforcement
+- **Output Layer**: X API v2 posting with strict 10/day quota enforcement
 - **Utilities**: Analytics tracking, shadowban monitoring, Prometheus metrics, auto-healing
 
 ---

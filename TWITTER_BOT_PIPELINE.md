@@ -2,7 +2,7 @@
 
 > Autonomous CS2 Esports Media Engine
 > Last updated: April 16, 2026
-> **Status: LIVE — 15/15 PM2 services online | 100 tweets/day cap | configurable LLM tiers + Gemini Flash vision**
+> **Status: LIVE — 15/15 PM2 services online | 10 tweets/day cap | configurable LLM tiers + Gemini Flash vision**
 
 ---
 
@@ -194,7 +194,7 @@ Source (HLTV / RSS / Twitter VIP)
 
 ### Tweet Quota System
 
-- **Daily cap:** 100 tweets/day (env: `DAILY_TWEET_CAP`)
+- **Daily cap:** 10 tweets/day (env: `DAILY_TWEET_CAP`)
 - **Pre-commit reservation:** Scheduler reserves a slot in `api_quotas` before processing
 - **Slot leak protection:** `try/finally` with `slot_consumed` flag — early returns always free the slot
 - **Peak hour scheduling:** Non-urgent tweets deferred to 15:00–23:00 UTC (EU evening + NA afternoon)
@@ -588,7 +588,7 @@ systemctl --user restart openclaw-gateway.service
 
 **Core Constraints:**
 1. Exclusively CS2 — no generic gaming, no betting spam, no poker
-2. 100 tweets/day API cap — every tweet must be high-value
+2. 10 tweets/day API cap — every tweet must be high-value
 3. No browser automation for posting — strictly X API v2
 4. HITL Telegram gate for risky content
 5. Weekly RLHF self-correction with semantic drift ceiling (cosine sim >0.70)
@@ -842,7 +842,7 @@ skinbethub_twitter/
 │
 ├── migrations/
 │   └── 001_add_missing_tables.sql      # Adds style_bank, media_library, follower_snapshots, community_likes, like_quotas
-│   └── 002_update_legacy_quota_cap.sql # Aligns legacy api_quotas helper to 100/day
+│   └── 002_update_legacy_quota_cap.sql # Aligns legacy api_quotas helper to 10/day
 │
 ├── logs/                               # PM2 log files (per-service)
 ├── models/                             # ML model weights (persona classifier, etc.)

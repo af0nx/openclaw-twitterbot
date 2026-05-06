@@ -22826,3 +22826,393 @@
 2026-05-05 15:59:41 +00:00: 2026-05-05 15:59:41,350 - __main__ - ERROR - 🚫 Rate limit / no credits / API outage for tweet ba8a24be-b6db-47a2-ac61-6f79f92cbcfa: 402 Payment Required
 2026-05-05 15:59:41 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
 2026-05-05 15:59:41 +00:00: 2026-05-05 15:59:41,350 - __main__ - WARNING - 💳 No credits / rate limited / API outage — pausing poster for this cycle. Tweets stay queued.
+2026-05-05 16:00:43 +00:00: 2026-05-05 16:00:43,844 - __main__ - INFO - 🔄 Processing 9 queued tweets...
+2026-05-05 16:00:44 +00:00: 2026-05-05 16:00:44,159 - __main__ - ERROR - 🚫 Rate limit / no credits / API outage for tweet ba8a24be-b6db-47a2-ac61-6f79f92cbcfa: 402 Payment Required
+2026-05-05 16:00:44 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-05-05 16:00:44 +00:00: 2026-05-05 16:00:44,159 - __main__ - WARNING - 💳 No credits / rate limited / API outage — pausing poster for this cycle. Tweets stay queued.
+2026-05-05 16:01:46 +00:00: 2026-05-05 16:01:46,598 - __main__ - INFO - 🔄 Processing 9 queued tweets...
+2026-05-05 16:01:46 +00:00: 2026-05-05 16:01:46,897 - __main__ - ERROR - 🚫 Rate limit / no credits / API outage for tweet ba8a24be-b6db-47a2-ac61-6f79f92cbcfa: 402 Payment Required
+2026-05-05 16:01:46 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-05-05 16:01:46 +00:00: 2026-05-05 16:01:46,897 - __main__ - WARNING - 💳 No credits / rate limited / API outage — pausing poster for this cycle. Tweets stay queued.
+2026-05-05 16:02:49 +00:00: 2026-05-05 16:02:49,376 - __main__ - INFO - 🔄 Processing 9 queued tweets...
+2026-05-05 16:02:49 +00:00: 2026-05-05 16:02:49,695 - __main__ - ERROR - 🚫 Rate limit / no credits / API outage for tweet ba8a24be-b6db-47a2-ac61-6f79f92cbcfa: 402 Payment Required
+2026-05-05 16:02:49 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-05-05 16:02:49 +00:00: 2026-05-05 16:02:49,695 - __main__ - WARNING - 💳 No credits / rate limited / API outage — pausing poster for this cycle. Tweets stay queued.
+2026-05-05 16:03:52 +00:00: 2026-05-05 16:03:52,120 - __main__ - INFO - 🔄 Processing 9 queued tweets...
+2026-05-05 16:03:52 +00:00: 2026-05-05 16:03:52,428 - __main__ - ERROR - 🚫 Rate limit / no credits / API outage for tweet ba8a24be-b6db-47a2-ac61-6f79f92cbcfa: 402 Payment Required
+2026-05-05 16:03:52 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-05-05 16:03:52 +00:00: 2026-05-05 16:03:52,429 - __main__ - WARNING - 💳 No credits / rate limited / API outage — pausing poster for this cycle. Tweets stay queued.
+2026-05-05 16:04:54 +00:00: 2026-05-05 16:04:54,906 - __main__ - INFO - 🔄 Processing 9 queued tweets...
+2026-05-05 16:04:55 +00:00: 2026-05-05 16:04:55,211 - __main__ - ERROR - 🚫 Rate limit / no credits / API outage for tweet ba8a24be-b6db-47a2-ac61-6f79f92cbcfa: 402 Payment Required
+2026-05-05 16:04:55 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-05-05 16:04:55 +00:00: 2026-05-05 16:04:55,211 - __main__ - WARNING - 💳 No credits / rate limited / API outage — pausing poster for this cycle. Tweets stay queued.
+2026-05-05 16:05:57 +00:00: 2026-05-05 16:05:57,686 - __main__ - INFO - 🔄 Processing 9 queued tweets...
+2026-05-05 16:05:57 +00:00: 2026-05-05 16:05:57,993 - __main__ - ERROR - 🚫 Rate limit / no credits / API outage for tweet ba8a24be-b6db-47a2-ac61-6f79f92cbcfa: 402 Payment Required
+2026-05-05 16:05:57 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-05-05 16:05:57 +00:00: 2026-05-05 16:05:57,993 - __main__ - WARNING - 💳 No credits / rate limited / API outage — pausing poster for this cycle. Tweets stay queued.
+2026-05-05 16:07:00 +00:00: 2026-05-05 16:07:00,514 - __main__ - INFO - 🔄 Processing 9 queued tweets...
+2026-05-05 16:07:00 +00:00: 2026-05-05 16:07:00,831 - __main__ - ERROR - 🚫 Rate limit / no credits / API outage for tweet ba8a24be-b6db-47a2-ac61-6f79f92cbcfa: 402 Payment Required
+2026-05-05 16:07:00 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-05-05 16:07:00 +00:00: 2026-05-05 16:07:00,831 - __main__ - WARNING - 💳 No credits / rate limited / API outage — pausing poster for this cycle. Tweets stay queued.
+2026-05-05 16:08:03 +00:00: 2026-05-05 16:08:03,317 - __main__ - INFO - 🔄 Processing 9 queued tweets...
+2026-05-05 16:08:03 +00:00: 2026-05-05 16:08:03,632 - __main__ - ERROR - 🚫 Rate limit / no credits / API outage for tweet ba8a24be-b6db-47a2-ac61-6f79f92cbcfa: 402 Payment Required
+2026-05-05 16:08:03 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-05-05 16:08:03 +00:00: 2026-05-05 16:08:03,632 - __main__ - WARNING - 💳 No credits / rate limited / API outage — pausing poster for this cycle. Tweets stay queued.
+2026-05-05 16:09:07 +00:00: 2026-05-05 16:09:07,425 - __main__ - INFO - 🔄 Processing 9 queued tweets...
+2026-05-05 16:09:07 +00:00: 2026-05-05 16:09:07,753 - __main__ - ERROR - 🚫 Rate limit / no credits / API outage for tweet ba8a24be-b6db-47a2-ac61-6f79f92cbcfa: 402 Payment Required
+2026-05-05 16:09:07 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-05-05 16:09:07 +00:00: 2026-05-05 16:09:07,753 - __main__ - WARNING - 💳 No credits / rate limited / API outage — pausing poster for this cycle. Tweets stay queued.
+2026-05-05 16:10:10 +00:00: 2026-05-05 16:10:10,307 - __main__ - INFO - 🔄 Processing 9 queued tweets...
+2026-05-05 16:10:10 +00:00: 2026-05-05 16:10:10,619 - __main__ - ERROR - 🚫 Rate limit / no credits / API outage for tweet ba8a24be-b6db-47a2-ac61-6f79f92cbcfa: 402 Payment Required
+2026-05-05 16:10:10 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-05-05 16:10:10 +00:00: 2026-05-05 16:10:10,620 - __main__ - WARNING - 💳 No credits / rate limited / API outage — pausing poster for this cycle. Tweets stay queued.
+2026-05-05 16:11:13 +00:00: 2026-05-05 16:11:13,148 - __main__ - INFO - 🔄 Processing 9 queued tweets...
+2026-05-05 16:11:13 +00:00: 2026-05-05 16:11:13,462 - __main__ - ERROR - 🚫 Rate limit / no credits / API outage for tweet ba8a24be-b6db-47a2-ac61-6f79f92cbcfa: 402 Payment Required
+2026-05-05 16:11:13 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-05-05 16:11:13 +00:00: 2026-05-05 16:11:13,463 - __main__ - WARNING - 💳 No credits / rate limited / API outage — pausing poster for this cycle. Tweets stay queued.
+2026-05-05 16:12:15 +00:00: 2026-05-05 16:12:15,953 - __main__ - INFO - 🔄 Processing 9 queued tweets...
+2026-05-05 16:12:16 +00:00: 2026-05-05 16:12:16,272 - __main__ - ERROR - 🚫 Rate limit / no credits / API outage for tweet ba8a24be-b6db-47a2-ac61-6f79f92cbcfa: 402 Payment Required
+2026-05-05 16:12:16 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-05-05 16:12:16 +00:00: 2026-05-05 16:12:16,272 - __main__ - WARNING - 💳 No credits / rate limited / API outage — pausing poster for this cycle. Tweets stay queued.
+2026-05-05 16:13:18 +00:00: 2026-05-05 16:13:18,753 - __main__ - INFO - 🔄 Processing 9 queued tweets...
+2026-05-05 16:13:19 +00:00: 2026-05-05 16:13:19,071 - __main__ - ERROR - 🚫 Rate limit / no credits / API outage for tweet ba8a24be-b6db-47a2-ac61-6f79f92cbcfa: 402 Payment Required
+2026-05-05 16:13:19 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-05-05 16:13:19 +00:00: 2026-05-05 16:13:19,071 - __main__ - WARNING - 💳 No credits / rate limited / API outage — pausing poster for this cycle. Tweets stay queued.
+2026-05-05 16:14:21 +00:00: 2026-05-05 16:14:21,613 - __main__ - INFO - 🔄 Processing 9 queued tweets...
+2026-05-05 16:14:21 +00:00: 2026-05-05 16:14:21,930 - __main__ - ERROR - 🚫 Rate limit / no credits / API outage for tweet ba8a24be-b6db-47a2-ac61-6f79f92cbcfa: 402 Payment Required
+2026-05-05 16:14:21 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-05-05 16:14:21 +00:00: 2026-05-05 16:14:21,930 - __main__ - WARNING - 💳 No credits / rate limited / API outage — pausing poster for this cycle. Tweets stay queued.
+2026-05-05 16:15:24 +00:00: 2026-05-05 16:15:24,480 - __main__ - INFO - 🔄 Processing 9 queued tweets...
+2026-05-05 16:15:24 +00:00: 2026-05-05 16:15:24,795 - __main__ - ERROR - 🚫 Rate limit / no credits / API outage for tweet ba8a24be-b6db-47a2-ac61-6f79f92cbcfa: 402 Payment Required
+2026-05-05 16:15:24 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-05-05 16:15:24 +00:00: 2026-05-05 16:15:24,796 - __main__ - WARNING - 💳 No credits / rate limited / API outage — pausing poster for this cycle. Tweets stay queued.
+2026-05-05 16:16:27 +00:00: 2026-05-05 16:16:27,276 - __main__ - INFO - 🔄 Processing 9 queued tweets...
+2026-05-05 16:16:27 +00:00: 2026-05-05 16:16:27,585 - __main__ - ERROR - 🚫 Rate limit / no credits / API outage for tweet ba8a24be-b6db-47a2-ac61-6f79f92cbcfa: 402 Payment Required
+2026-05-05 16:16:27 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-05-05 16:16:27 +00:00: 2026-05-05 16:16:27,586 - __main__ - WARNING - 💳 No credits / rate limited / API outage — pausing poster for this cycle. Tweets stay queued.
+2026-05-05 16:17:30 +00:00: 2026-05-05 16:17:30,090 - __main__ - INFO - 🔄 Processing 9 queued tweets...
+2026-05-05 16:17:30 +00:00: 2026-05-05 16:17:30,413 - __main__ - ERROR - 🚫 Rate limit / no credits / API outage for tweet ba8a24be-b6db-47a2-ac61-6f79f92cbcfa: 402 Payment Required
+2026-05-05 16:17:30 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-05-05 16:17:30 +00:00: 2026-05-05 16:17:30,415 - __main__ - WARNING - 💳 No credits / rate limited / API outage — pausing poster for this cycle. Tweets stay queued.
+2026-05-05 16:18:32 +00:00: 2026-05-05 16:18:32,895 - __main__ - INFO - 🔄 Processing 9 queued tweets...
+2026-05-05 16:18:33 +00:00: 2026-05-05 16:18:33,205 - __main__ - ERROR - 🚫 Rate limit / no credits / API outage for tweet ba8a24be-b6db-47a2-ac61-6f79f92cbcfa: 402 Payment Required
+2026-05-05 16:18:33 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-05-05 16:18:33 +00:00: 2026-05-05 16:18:33,206 - __main__ - WARNING - 💳 No credits / rate limited / API outage — pausing poster for this cycle. Tweets stay queued.
+2026-05-05 16:19:35 +00:00: 2026-05-05 16:19:35,740 - __main__ - INFO - 🔄 Processing 9 queued tweets...
+2026-05-05 16:19:36 +00:00: 2026-05-05 16:19:36,065 - __main__ - ERROR - 🚫 Rate limit / no credits / API outage for tweet ba8a24be-b6db-47a2-ac61-6f79f92cbcfa: 402 Payment Required
+2026-05-05 16:19:36 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-05-05 16:19:36 +00:00: 2026-05-05 16:19:36,065 - __main__ - WARNING - 💳 No credits / rate limited / API outage — pausing poster for this cycle. Tweets stay queued.
+2026-05-05 16:20:40 +00:00: 2026-05-05 16:20:40,136 - __main__ - INFO - 🔄 Processing 9 queued tweets...
+2026-05-05 16:20:40 +00:00: 2026-05-05 16:20:40,457 - __main__ - ERROR - 🚫 Rate limit / no credits / API outage for tweet ba8a24be-b6db-47a2-ac61-6f79f92cbcfa: 402 Payment Required
+2026-05-05 16:20:40 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-05-05 16:20:40 +00:00: 2026-05-05 16:20:40,457 - __main__ - WARNING - 💳 No credits / rate limited / API outage — pausing poster for this cycle. Tweets stay queued.
+2026-05-05 16:21:42 +00:00: 2026-05-05 16:21:42,959 - __main__ - INFO - 🔄 Processing 9 queued tweets...
+2026-05-05 16:21:43 +00:00: 2026-05-05 16:21:43,281 - __main__ - ERROR - 🚫 Rate limit / no credits / API outage for tweet ba8a24be-b6db-47a2-ac61-6f79f92cbcfa: 402 Payment Required
+2026-05-05 16:21:43 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-05-05 16:21:43 +00:00: 2026-05-05 16:21:43,282 - __main__ - WARNING - 💳 No credits / rate limited / API outage — pausing poster for this cycle. Tweets stay queued.
+2026-05-05 16:22:45 +00:00: 2026-05-05 16:22:45,772 - __main__ - INFO - 🔄 Processing 9 queued tweets...
+2026-05-05 16:22:46 +00:00: 2026-05-05 16:22:46,082 - __main__ - ERROR - 🚫 Rate limit / no credits / API outage for tweet ba8a24be-b6db-47a2-ac61-6f79f92cbcfa: 402 Payment Required
+2026-05-05 16:22:46 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-05-05 16:22:46 +00:00: 2026-05-05 16:22:46,083 - __main__ - WARNING - 💳 No credits / rate limited / API outage — pausing poster for this cycle. Tweets stay queued.
+2026-05-05 16:23:48 +00:00: 2026-05-05 16:23:48,573 - __main__ - INFO - 🔄 Processing 9 queued tweets...
+2026-05-05 16:23:48 +00:00: 2026-05-05 16:23:48,885 - __main__ - ERROR - 🚫 Rate limit / no credits / API outage for tweet ba8a24be-b6db-47a2-ac61-6f79f92cbcfa: 402 Payment Required
+2026-05-05 16:23:48 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-05-05 16:23:48 +00:00: 2026-05-05 16:23:48,887 - __main__ - WARNING - 💳 No credits / rate limited / API outage — pausing poster for this cycle. Tweets stay queued.
+2026-05-05 16:24:51 +00:00: 2026-05-05 16:24:51,353 - __main__ - INFO - 🔄 Processing 9 queued tweets...
+2026-05-05 16:24:51 +00:00: 2026-05-05 16:24:51,689 - __main__ - ERROR - 🚫 Rate limit / no credits / API outage for tweet ba8a24be-b6db-47a2-ac61-6f79f92cbcfa: 402 Payment Required
+2026-05-05 16:24:51 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-05-05 16:24:51 +00:00: 2026-05-05 16:24:51,690 - __main__ - WARNING - 💳 No credits / rate limited / API outage — pausing poster for this cycle. Tweets stay queued.
+2026-05-05 16:25:54 +00:00: 2026-05-05 16:25:54,153 - __main__ - INFO - 🔄 Processing 9 queued tweets...
+2026-05-05 16:25:54 +00:00: 2026-05-05 16:25:54,458 - __main__ - ERROR - 🚫 Rate limit / no credits / API outage for tweet ba8a24be-b6db-47a2-ac61-6f79f92cbcfa: 402 Payment Required
+2026-05-05 16:25:54 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-05-05 16:25:54 +00:00: 2026-05-05 16:25:54,458 - __main__ - WARNING - 💳 No credits / rate limited / API outage — pausing poster for this cycle. Tweets stay queued.
+2026-05-05 16:26:56 +00:00: 2026-05-05 16:26:56,980 - __main__ - INFO - 🔄 Processing 9 queued tweets...
+2026-05-05 16:26:57 +00:00: 2026-05-05 16:26:57,287 - __main__ - ERROR - 🚫 Rate limit / no credits / API outage for tweet ba8a24be-b6db-47a2-ac61-6f79f92cbcfa: 402 Payment Required
+2026-05-05 16:26:57 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-05-05 16:26:57 +00:00: 2026-05-05 16:26:57,287 - __main__ - WARNING - 💳 No credits / rate limited / API outage — pausing poster for this cycle. Tweets stay queued.
+2026-05-05 16:27:59 +00:00: 2026-05-05 16:27:59,829 - __main__ - INFO - 🔄 Processing 9 queued tweets...
+2026-05-05 16:28:00 +00:00: 2026-05-05 16:28:00,141 - __main__ - ERROR - 🚫 Rate limit / no credits / API outage for tweet ba8a24be-b6db-47a2-ac61-6f79f92cbcfa: 402 Payment Required
+2026-05-05 16:28:00 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-05-05 16:28:00 +00:00: 2026-05-05 16:28:00,142 - __main__ - WARNING - 💳 No credits / rate limited / API outage — pausing poster for this cycle. Tweets stay queued.
+2026-05-05 16:29:02 +00:00: 2026-05-05 16:29:02,667 - __main__ - INFO - 🔄 Processing 9 queued tweets...
+2026-05-05 16:29:02 +00:00: 2026-05-05 16:29:02,986 - __main__ - ERROR - 🚫 Rate limit / no credits / API outage for tweet ba8a24be-b6db-47a2-ac61-6f79f92cbcfa: 402 Payment Required
+2026-05-05 16:29:02 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-05-05 16:29:02 +00:00: 2026-05-05 16:29:02,986 - __main__ - WARNING - 💳 No credits / rate limited / API outage — pausing poster for this cycle. Tweets stay queued.
+2026-05-05 16:29:35 +00:00: 2026-05-05 16:29:35,516 - __main__ - INFO - ⏹️  Twitter Poster shutdown requested
+2026-05-05 16:29:36 +00:00: 2026-05-05 16:29:36,016 - __main__ - INFO - ✅ Twitter API v2 client initialized for main
+2026-05-05 16:29:36 +00:00: 2026-05-05 16:29:36,016 - __main__ - INFO - ✅ Twitter API v2 client initialized for live
+2026-05-05 16:29:36 +00:00: 2026-05-05 16:29:36,016 - __main__ - INFO - ✅ Twitter API v2 client initialized for replies
+2026-05-05 16:29:36 +00:00: 2026-05-05 16:29:36,942 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-05 16:29:44 +00:00: 2026-05-05 16:29:44,598 - __main__ - INFO - 🚀 Twitter Poster started
+2026-05-05 16:29:45 +00:00: 2026-05-05 16:29:45,355 - __main__ - INFO - 🧾 Dashboard review-only mode active — holding 1 queued tweet(s) for manual review
+2026-05-05 16:30:46 +00:00: 2026-05-05 16:30:46,331 - __main__ - INFO - 🧾 Dashboard review-only mode active — holding 1 queued tweet(s) for manual review
+2026-05-05 16:30:56 +00:00: 2026-05-05 16:30:56,331 - __main__ - INFO - ⏹️  Twitter Poster shutdown requested
+2026-05-05 16:30:57 +00:00: 2026-05-05 16:30:57,022 - __main__ - INFO - ✅ Twitter API v2 client initialized for main
+2026-05-05 16:30:57 +00:00: 2026-05-05 16:30:57,023 - __main__ - INFO - ✅ Twitter API v2 client initialized for live
+2026-05-05 16:30:57 +00:00: 2026-05-05 16:30:57,023 - __main__ - INFO - ✅ Twitter API v2 client initialized for replies
+2026-05-05 16:30:57 +00:00: 2026-05-05 16:30:57,958 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-05 16:31:05 +00:00: 2026-05-05 16:31:05,471 - __main__ - INFO - 🚀 Twitter Poster started
+2026-05-05 16:31:07 +00:00: 2026-05-05 16:31:07,582 - __main__ - INFO - 🔄 Processing 1 queued tweets...
+2026-05-05 16:31:08 +00:00: 2026-05-05 16:31:08,181 - __main__ - ERROR - 🚫 Rate limit / no credits / API outage for tweet 51058507-b670-4928-b00b-3fb393fd597e: 402 Payment Required
+2026-05-05 16:31:08 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-05-05 16:31:08 +00:00: 2026-05-05 16:31:08,181 - __main__ - WARNING - 💳 No credits / rate limited / API outage — pausing poster for this cycle. Tweets stay queued.
+2026-05-05 16:32:10 +00:00: 2026-05-05 16:32:10,482 - __main__ - INFO - 🔄 Processing 1 queued tweets...
+2026-05-05 16:32:10 +00:00: 2026-05-05 16:32:10,972 - __main__ - ERROR - 🚫 Rate limit / no credits / API outage for tweet 51058507-b670-4928-b00b-3fb393fd597e: 402 Payment Required
+2026-05-05 16:32:10 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-05-05 16:32:10 +00:00: 2026-05-05 16:32:10,973 - __main__ - WARNING - 💳 No credits / rate limited / API outage — pausing poster for this cycle. Tweets stay queued.
+2026-05-05 16:33:13 +00:00: 2026-05-05 16:33:13,284 - __main__ - INFO - 🔄 Processing 1 queued tweets...
+2026-05-05 16:33:13 +00:00: 2026-05-05 16:33:13,790 - __main__ - ERROR - 🚫 Rate limit / no credits / API outage for tweet 51058507-b670-4928-b00b-3fb393fd597e: 402 Payment Required
+2026-05-05 16:33:13 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-05-05 16:33:13 +00:00: 2026-05-05 16:33:13,790 - __main__ - WARNING - 💳 No credits / rate limited / API outage — pausing poster for this cycle. Tweets stay queued.
+2026-05-05 16:34:16 +00:00: 2026-05-05 16:34:16,099 - __main__ - INFO - 🔄 Processing 1 queued tweets...
+2026-05-05 16:34:16 +00:00: 2026-05-05 16:34:16,574 - __main__ - ERROR - 🚫 Rate limit / no credits / API outage for tweet 51058507-b670-4928-b00b-3fb393fd597e: 402 Payment Required
+2026-05-05 16:34:16 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-05-05 16:34:16 +00:00: 2026-05-05 16:34:16,574 - __main__ - WARNING - 💳 No credits / rate limited / API outage — pausing poster for this cycle. Tweets stay queued.
+2026-05-05 16:35:18 +00:00: 2026-05-05 16:35:18,860 - __main__ - INFO - 🔄 Processing 1 queued tweets...
+2026-05-05 16:35:19 +00:00: 2026-05-05 16:35:19,345 - __main__ - ERROR - 🚫 Rate limit / no credits / API outage for tweet 51058507-b670-4928-b00b-3fb393fd597e: 402 Payment Required
+2026-05-05 16:35:19 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-05-05 16:35:19 +00:00: 2026-05-05 16:35:19,345 - __main__ - WARNING - 💳 No credits / rate limited / API outage — pausing poster for this cycle. Tweets stay queued.
+2026-05-05 16:36:21 +00:00: 2026-05-05 16:36:21,650 - __main__ - INFO - 🔄 Processing 1 queued tweets...
+2026-05-05 16:36:22 +00:00: 2026-05-05 16:36:22,126 - __main__ - ERROR - 🚫 Rate limit / no credits / API outage for tweet 51058507-b670-4928-b00b-3fb393fd597e: 402 Payment Required
+2026-05-05 16:36:22 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-05-05 16:36:22 +00:00: 2026-05-05 16:36:22,126 - __main__ - WARNING - 💳 No credits / rate limited / API outage — pausing poster for this cycle. Tweets stay queued.
+2026-05-05 16:37:03 +00:00: 2026-05-05 16:37:03,879 - __main__ - INFO - ⏹️  Twitter Poster shutdown requested
+2026-05-05 16:37:04 +00:00: 2026-05-05 16:37:04,459 - __main__ - INFO - ✅ Twitter API v2 client initialized for main
+2026-05-05 16:37:04 +00:00: 2026-05-05 16:37:04,459 - __main__ - INFO - ✅ Twitter API v2 client initialized for live
+2026-05-05 16:37:04 +00:00: 2026-05-05 16:37:04,459 - __main__ - INFO - ✅ Twitter API v2 client initialized for replies
+2026-05-05 16:37:05 +00:00: 2026-05-05 16:37:05,554 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-05 16:37:14 +00:00: 2026-05-05 16:37:14,011 - __main__ - INFO - 🚀 Twitter Poster started
+2026-05-05 16:37:16 +00:00: 2026-05-05 16:37:16,378 - __main__ - INFO - 🔄 Processing 1 queued tweets...
+2026-05-05 16:37:16 +00:00: 2026-05-05 16:37:16,985 - __main__ - ERROR - 🚫 Rate limit / no credits / API outage for tweet 51058507-b670-4928-b00b-3fb393fd597e: 402 Payment Required
+2026-05-05 16:37:16 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-05-05 16:37:16 +00:00: 2026-05-05 16:37:16,985 - __main__ - WARNING - 💳 No credits / rate limited / API outage — pausing poster until 2026-05-05T17:07:16.985948+00:00. Tweets stay queued.
+2026-05-05 16:38:17 +00:00: 2026-05-05 16:38:17,722 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:07:16.985948+00:00
+2026-05-05 16:39:18 +00:00: 2026-05-05 16:39:18,287 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:07:16.985948+00:00
+2026-05-05 16:40:18 +00:00: 2026-05-05 16:40:18,854 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:07:16.985948+00:00
+2026-05-05 16:41:19 +00:00: 2026-05-05 16:41:19,388 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:07:16.985948+00:00
+2026-05-05 16:42:19 +00:00: 2026-05-05 16:42:19,956 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:07:16.985948+00:00
+2026-05-05 16:43:20 +00:00: 2026-05-05 16:43:20,523 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:07:16.985948+00:00
+2026-05-05 16:44:21 +00:00: 2026-05-05 16:44:21,091 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:07:16.985948+00:00
+2026-05-05 16:45:21 +00:00: 2026-05-05 16:45:21,635 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:07:16.985948+00:00
+2026-05-05 16:46:22 +00:00: 2026-05-05 16:46:22,151 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:07:16.985948+00:00
+2026-05-05 16:47:22 +00:00: 2026-05-05 16:47:22,718 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:07:16.985948+00:00
+2026-05-05 16:48:23 +00:00: 2026-05-05 16:48:23,236 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:07:16.985948+00:00
+2026-05-05 16:49:23 +00:00: 2026-05-05 16:49:23,751 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:07:16.985948+00:00
+2026-05-05 16:50:24 +00:00: 2026-05-05 16:50:24,315 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:07:16.985948+00:00
+2026-05-05 16:51:24 +00:00: 2026-05-05 16:51:24,883 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:07:16.985948+00:00
+2026-05-05 16:52:25 +00:00: 2026-05-05 16:52:25,435 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:07:16.985948+00:00
+2026-05-05 16:53:26 +00:00: 2026-05-05 16:53:26,003 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:07:16.985948+00:00
+2026-05-05 16:54:26 +00:00: 2026-05-05 16:54:26,558 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:07:16.985948+00:00
+2026-05-05 16:55:27 +00:00: 2026-05-05 16:55:27,124 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:07:16.985948+00:00
+2026-05-05 16:56:27 +00:00: 2026-05-05 16:56:27,691 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:07:16.985948+00:00
+2026-05-05 16:57:28 +00:00: 2026-05-05 16:57:28,215 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:07:16.985948+00:00
+2026-05-05 16:58:28 +00:00: 2026-05-05 16:58:28,760 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:07:16.985948+00:00
+2026-05-05 16:59:29 +00:00: 2026-05-05 16:59:29,327 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:07:16.985948+00:00
+2026-05-05 17:00:29 +00:00: 2026-05-05 17:00:29,874 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:07:16.985948+00:00
+2026-05-05 17:01:30 +00:00: 2026-05-05 17:01:30,415 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:07:16.985948+00:00
+2026-05-05 17:02:30 +00:00: 2026-05-05 17:02:30,919 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:07:16.985948+00:00
+2026-05-05 17:03:31 +00:00: 2026-05-05 17:03:31,475 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:07:16.985948+00:00
+2026-05-05 17:04:32 +00:00: 2026-05-05 17:04:32,027 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:07:16.985948+00:00
+2026-05-05 17:05:32 +00:00: 2026-05-05 17:05:32,584 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:07:16.985948+00:00
+2026-05-05 17:06:33 +00:00: 2026-05-05 17:06:33,129 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:07:16.985948+00:00
+2026-05-05 17:07:35 +00:00: 2026-05-05 17:07:35,548 - __main__ - INFO - 🔄 Processing 1 queued tweets...
+2026-05-05 17:07:35 +00:00: 2026-05-05 17:07:35,997 - __main__ - ERROR - 🚫 Rate limit / no credits / API outage for tweet 51058507-b670-4928-b00b-3fb393fd597e: 402 Payment Required
+2026-05-05 17:07:35 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-05-05 17:07:35 +00:00: 2026-05-05 17:07:35,997 - __main__ - WARNING - 💳 No credits / rate limited / API outage — pausing poster until 2026-05-05T17:37:35.997469+00:00. Tweets stay queued.
+2026-05-05 17:08:36 +00:00: 2026-05-05 17:08:36,723 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:37:35.997469+00:00
+2026-05-05 17:09:37 +00:00: 2026-05-05 17:09:37,290 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:37:35.997469+00:00
+2026-05-05 17:10:37 +00:00: 2026-05-05 17:10:37,849 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:37:35.997469+00:00
+2026-05-05 17:11:38 +00:00: 2026-05-05 17:11:38,363 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:37:35.997469+00:00
+2026-05-05 17:12:38 +00:00: 2026-05-05 17:12:38,883 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:37:35.997469+00:00
+2026-05-05 17:13:39 +00:00: 2026-05-05 17:13:39,451 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:37:35.997469+00:00
+2026-05-05 17:14:39 +00:00: 2026-05-05 17:14:39,993 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:37:35.997469+00:00
+2026-05-05 17:15:40 +00:00: 2026-05-05 17:15:40,552 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:37:35.997469+00:00
+2026-05-05 17:16:41 +00:00: 2026-05-05 17:16:41,086 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:37:35.997469+00:00
+2026-05-05 17:17:41 +00:00: 2026-05-05 17:17:41,654 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:37:35.997469+00:00
+2026-05-05 17:18:42 +00:00: 2026-05-05 17:18:42,172 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:37:35.997469+00:00
+2026-05-05 17:19:42 +00:00: 2026-05-05 17:19:42,714 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:37:35.997469+00:00
+2026-05-05 17:20:43 +00:00: 2026-05-05 17:20:43,259 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:37:35.997469+00:00
+2026-05-05 17:21:43 +00:00: 2026-05-05 17:21:43,812 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:37:35.997469+00:00
+2026-05-05 17:22:44 +00:00: 2026-05-05 17:22:44,352 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:37:35.997469+00:00
+2026-05-05 17:23:44 +00:00: 2026-05-05 17:23:44,904 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:37:35.997469+00:00
+2026-05-05 17:24:45 +00:00: 2026-05-05 17:24:45,412 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:37:35.997469+00:00
+2026-05-05 17:25:45 +00:00: 2026-05-05 17:25:45,970 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:37:35.997469+00:00
+2026-05-05 17:26:46 +00:00: 2026-05-05 17:26:46,469 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:37:35.997469+00:00
+2026-05-05 17:27:47 +00:00: 2026-05-05 17:27:47,025 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:37:35.997469+00:00
+2026-05-05 17:28:47 +00:00: 2026-05-05 17:28:47,560 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:37:35.997469+00:00
+2026-05-05 17:29:48 +00:00: 2026-05-05 17:29:48,085 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:37:35.997469+00:00
+2026-05-05 17:30:48 +00:00: 2026-05-05 17:30:48,645 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:37:35.997469+00:00
+2026-05-05 17:31:49 +00:00: 2026-05-05 17:31:49,209 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:37:35.997469+00:00
+2026-05-05 17:32:49 +00:00: 2026-05-05 17:32:49,770 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:37:35.997469+00:00
+2026-05-05 17:33:50 +00:00: 2026-05-05 17:33:50,274 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:37:35.997469+00:00
+2026-05-05 17:34:50 +00:00: 2026-05-05 17:34:50,791 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:37:35.997469+00:00
+2026-05-05 17:35:51 +00:00: 2026-05-05 17:35:51,350 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:37:35.997469+00:00
+2026-05-05 17:36:51 +00:00: 2026-05-05 17:36:51,911 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T17:37:35.997469+00:00
+2026-05-05 17:37:54 +00:00: 2026-05-05 17:37:54,315 - __main__ - INFO - 🔄 Processing 1 queued tweets...
+2026-05-05 17:37:54 +00:00: 2026-05-05 17:37:54,706 - __main__ - ERROR - 🚫 Rate limit / no credits / API outage for tweet 51058507-b670-4928-b00b-3fb393fd597e: 402 Payment Required
+2026-05-05 17:37:54 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-05-05 17:37:54 +00:00: 2026-05-05 17:37:54,707 - __main__ - WARNING - 💳 No credits / rate limited / API outage — pausing poster until 2026-05-05T18:07:54.707790+00:00. Tweets stay queued.
+2026-05-05 17:38:55 +00:00: 2026-05-05 17:38:55,428 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:07:54.707790+00:00
+2026-05-05 17:39:55 +00:00: 2026-05-05 17:39:55,991 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:07:54.707790+00:00
+2026-05-05 17:40:56 +00:00: 2026-05-05 17:40:56,558 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:07:54.707790+00:00
+2026-05-05 17:41:57 +00:00: 2026-05-05 17:41:57,120 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:07:54.707790+00:00
+2026-05-05 17:42:57 +00:00: 2026-05-05 17:42:57,683 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:07:54.707790+00:00
+2026-05-05 17:43:58 +00:00: 2026-05-05 17:43:58,231 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:07:54.707790+00:00
+2026-05-05 17:44:58 +00:00: 2026-05-05 17:44:58,767 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:07:54.707790+00:00
+2026-05-05 17:45:59 +00:00: 2026-05-05 17:45:59,285 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:07:54.707790+00:00
+2026-05-05 17:46:59 +00:00: 2026-05-05 17:46:59,791 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:07:54.707790+00:00
+2026-05-05 17:48:00 +00:00: 2026-05-05 17:48:00,346 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:07:54.707790+00:00
+2026-05-05 17:49:00 +00:00: 2026-05-05 17:49:00,911 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:07:54.707790+00:00
+2026-05-05 17:50:01 +00:00: 2026-05-05 17:50:01,479 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:07:54.707790+00:00
+2026-05-05 17:51:01 +00:00: 2026-05-05 17:51:01,993 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:07:54.707790+00:00
+2026-05-05 17:52:02 +00:00: 2026-05-05 17:52:02,559 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:07:54.707790+00:00
+2026-05-05 17:53:03 +00:00: 2026-05-05 17:53:03,086 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:07:54.707790+00:00
+2026-05-05 17:54:03 +00:00: 2026-05-05 17:54:03,595 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:07:54.707790+00:00
+2026-05-05 17:55:04 +00:00: 2026-05-05 17:55:04,105 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:07:54.707790+00:00
+2026-05-05 17:56:04 +00:00: 2026-05-05 17:56:04,667 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:07:54.707790+00:00
+2026-05-05 17:57:05 +00:00: 2026-05-05 17:57:05,178 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:07:54.707790+00:00
+2026-05-05 17:58:05 +00:00: 2026-05-05 17:58:05,746 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:07:54.707790+00:00
+2026-05-05 17:59:06 +00:00: 2026-05-05 17:59:06,313 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:07:54.707790+00:00
+2026-05-05 18:00:06 +00:00: 2026-05-05 18:00:06,880 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:07:54.707790+00:00
+2026-05-05 18:01:07 +00:00: 2026-05-05 18:01:07,431 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:07:54.707790+00:00
+2026-05-05 18:02:07 +00:00: 2026-05-05 18:02:07,965 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:07:54.707790+00:00
+2026-05-05 18:03:08 +00:00: 2026-05-05 18:03:08,524 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:07:54.707790+00:00
+2026-05-05 18:04:09 +00:00: 2026-05-05 18:04:09,027 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:07:54.707790+00:00
+2026-05-05 18:05:09 +00:00: 2026-05-05 18:05:09,546 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:07:54.707790+00:00
+2026-05-05 18:06:10 +00:00: 2026-05-05 18:06:10,083 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:07:54.707790+00:00
+2026-05-05 18:07:10 +00:00: 2026-05-05 18:07:10,640 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:07:54.707790+00:00
+2026-05-05 18:08:13 +00:00: 2026-05-05 18:08:13,004 - __main__ - INFO - 🔄 Processing 1 queued tweets...
+2026-05-05 18:08:13 +00:00: 2026-05-05 18:08:13,626 - __main__ - ERROR - 🚫 Rate limit / no credits / API outage for tweet 51058507-b670-4928-b00b-3fb393fd597e: 402 Payment Required
+2026-05-05 18:08:13 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-05-05 18:08:13 +00:00: 2026-05-05 18:08:13,627 - __main__ - WARNING - 💳 No credits / rate limited / API outage — pausing poster until 2026-05-05T18:38:13.627087+00:00. Tweets stay queued.
+2026-05-05 18:09:14 +00:00: 2026-05-05 18:09:14,330 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:38:13.627087+00:00
+2026-05-05 18:10:14 +00:00: 2026-05-05 18:10:14,882 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:38:13.627087+00:00
+2026-05-05 18:11:15 +00:00: 2026-05-05 18:11:15,444 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:38:13.627087+00:00
+2026-05-05 18:12:15 +00:00: 2026-05-05 18:12:15,973 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:38:13.627087+00:00
+2026-05-05 18:13:16 +00:00: 2026-05-05 18:13:16,536 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:38:13.627087+00:00
+2026-05-05 18:14:17 +00:00: 2026-05-05 18:14:17,087 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:38:13.627087+00:00
+2026-05-05 18:15:17 +00:00: 2026-05-05 18:15:17,614 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:38:13.627087+00:00
+2026-05-05 18:16:18 +00:00: 2026-05-05 18:16:18,177 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:38:13.627087+00:00
+2026-05-05 18:17:18 +00:00: 2026-05-05 18:17:18,685 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:38:13.627087+00:00
+2026-05-05 18:18:19 +00:00: 2026-05-05 18:18:19,248 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:38:13.627087+00:00
+2026-05-05 18:19:19 +00:00: 2026-05-05 18:19:19,809 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:38:13.627087+00:00
+2026-05-05 18:20:20 +00:00: 2026-05-05 18:20:20,314 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:38:13.627087+00:00
+2026-05-05 18:21:20 +00:00: 2026-05-05 18:21:20,877 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:38:13.627087+00:00
+2026-05-05 18:22:21 +00:00: 2026-05-05 18:22:21,440 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:38:13.627087+00:00
+2026-05-05 18:23:22 +00:00: 2026-05-05 18:23:22,003 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:38:13.627087+00:00
+2026-05-05 18:24:22 +00:00: 2026-05-05 18:24:22,541 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:38:13.627087+00:00
+2026-05-05 18:25:23 +00:00: 2026-05-05 18:25:23,104 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:38:13.627087+00:00
+2026-05-05 18:26:23 +00:00: 2026-05-05 18:26:23,661 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:38:13.627087+00:00
+2026-05-05 18:27:24 +00:00: 2026-05-05 18:27:24,160 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:38:13.627087+00:00
+2026-05-05 18:28:24 +00:00: 2026-05-05 18:28:24,718 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:38:13.627087+00:00
+2026-05-05 18:29:25 +00:00: 2026-05-05 18:29:25,275 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:38:13.627087+00:00
+2026-05-05 18:30:25 +00:00: 2026-05-05 18:30:25,831 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:38:13.627087+00:00
+2026-05-05 18:31:26 +00:00: 2026-05-05 18:31:26,393 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:38:13.627087+00:00
+2026-05-05 18:32:26 +00:00: 2026-05-05 18:32:26,929 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:38:13.627087+00:00
+2026-05-05 18:33:27 +00:00: 2026-05-05 18:33:27,442 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:38:13.627087+00:00
+2026-05-05 18:34:27 +00:00: 2026-05-05 18:34:27,973 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:38:13.627087+00:00
+2026-05-05 18:35:28 +00:00: 2026-05-05 18:35:28,473 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:38:13.627087+00:00
+2026-05-05 18:36:29 +00:00: 2026-05-05 18:36:29,017 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:38:13.627087+00:00
+2026-05-05 18:37:29 +00:00: 2026-05-05 18:37:29,573 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T18:38:13.627087+00:00
+2026-05-05 18:38:31 +00:00: 2026-05-05 18:38:31,946 - __main__ - INFO - 🔄 Processing 1 queued tweets...
+2026-05-05 18:38:32 +00:00: 2026-05-05 18:38:32,333 - __main__ - ERROR - 🚫 Rate limit / no credits / API outage for tweet 51058507-b670-4928-b00b-3fb393fd597e: 402 Payment Required
+2026-05-05 18:38:32 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-05-05 18:38:32 +00:00: 2026-05-05 18:38:32,333 - __main__ - WARNING - 💳 No credits / rate limited / API outage — pausing poster until 2026-05-05T19:08:32.333915+00:00. Tweets stay queued.
+2026-05-05 18:39:33 +00:00: 2026-05-05 18:39:33,051 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T19:08:32.333915+00:00
+2026-05-05 18:40:33 +00:00: 2026-05-05 18:40:33,613 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T19:08:32.333915+00:00
+2026-05-05 18:41:34 +00:00: 2026-05-05 18:41:34,180 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T19:08:32.333915+00:00
+2026-05-05 18:42:34 +00:00: 2026-05-05 18:42:34,747 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T19:08:32.333915+00:00
+2026-05-05 18:43:35 +00:00: 2026-05-05 18:43:35,298 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T19:08:32.333915+00:00
+2026-05-05 18:44:35 +00:00: 2026-05-05 18:44:35,866 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T19:08:32.333915+00:00
+2026-05-05 18:45:36 +00:00: 2026-05-05 18:45:36,423 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T19:08:32.333915+00:00
+2026-05-05 18:46:36 +00:00: 2026-05-05 18:46:36,991 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T19:08:32.333915+00:00
+2026-05-05 18:47:37 +00:00: 2026-05-05 18:47:37,559 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T19:08:32.333915+00:00
+2026-05-05 18:48:38 +00:00: 2026-05-05 18:48:38,075 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T19:08:32.333915+00:00
+2026-05-05 18:49:38 +00:00: 2026-05-05 18:49:38,643 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T19:08:32.333915+00:00
+2026-05-05 18:50:39 +00:00: 2026-05-05 18:50:39,161 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T19:08:32.333915+00:00
+2026-05-05 18:51:39 +00:00: 2026-05-05 18:51:39,710 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T19:08:32.333915+00:00
+2026-05-05 18:52:09 +00:00: 2026-05-05 18:52:09,367 - __main__ - INFO - ⏹️  Twitter Poster shutdown requested
+2026-05-05 18:52:09 +00:00: 2026-05-05 18:52:09,844 - __main__ - INFO - ✅ Twitter API v2 client initialized for main
+2026-05-05 18:52:09 +00:00: 2026-05-05 18:52:09,844 - __main__ - INFO - ✅ Twitter API v2 client initialized for live
+2026-05-05 18:52:09 +00:00: 2026-05-05 18:52:09,844 - __main__ - INFO - ✅ Twitter API v2 client initialized for replies
+2026-05-05 18:52:10 +00:00: 2026-05-05 18:52:10,848 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-05 18:52:18 +00:00: 2026-05-05 18:52:18,628 - __main__ - INFO - 🚀 Twitter Poster started
+2026-05-05 18:52:20 +00:00: 2026-05-05 18:52:20,790 - __main__ - INFO - 🔄 Processing 1 queued tweets...
+2026-05-05 18:52:21 +00:00: 2026-05-05 18:52:21,726 - __main__ - WARNING - 🚫 Rejected queued tweet 51058507-b670-4928-b00b-3fb393fd597e before posting: main-feed copy is not enterprise/professional
+2026-05-05 19:01:36 +00:00: 2026-05-05 19:01:36,768 - __main__ - INFO - ⏹️  Twitter Poster shutdown requested
+2026-05-05 19:01:37 +00:00: 2026-05-05 19:01:37,276 - __main__ - INFO - ✅ Twitter API v2 client initialized for main
+2026-05-05 19:01:37 +00:00: 2026-05-05 19:01:37,276 - __main__ - INFO - ✅ Twitter API v2 client initialized for live
+2026-05-05 19:01:37 +00:00: 2026-05-05 19:01:37,276 - __main__ - INFO - ✅ Twitter API v2 client initialized for replies
+2026-05-05 19:01:38 +00:00: 2026-05-05 19:01:38,354 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-05 19:01:46 +00:00: 2026-05-05 19:01:46,029 - __main__ - INFO - 🚀 Twitter Poster started
+2026-05-05 19:08:29 +00:00: 2026-05-05 19:08:29,786 - __main__ - INFO - ⏹️  Twitter Poster shutdown requested
+2026-05-05 19:08:30 +00:00: 2026-05-05 19:08:30,267 - __main__ - INFO - ✅ Twitter API v2 client initialized for main
+2026-05-05 19:08:30 +00:00: 2026-05-05 19:08:30,267 - __main__ - INFO - ✅ Twitter API v2 client initialized for live
+2026-05-05 19:08:30 +00:00: 2026-05-05 19:08:30,267 - __main__ - INFO - ✅ Twitter API v2 client initialized for replies
+2026-05-05 19:08:31 +00:00: 2026-05-05 19:08:31,322 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-05 19:08:39 +00:00: 2026-05-05 19:08:39,713 - __main__ - INFO - 🚀 Twitter Poster started
+2026-05-05 19:30:31 +00:00: 2026-05-05 19:30:31,583 - __main__ - INFO - ⏹️  Twitter Poster shutdown requested
+2026-05-05 19:30:32 +00:00: 2026-05-05 19:30:32,067 - __main__ - INFO - ✅ Twitter API v2 client initialized for main
+2026-05-05 19:30:32 +00:00: 2026-05-05 19:30:32,067 - __main__ - INFO - ✅ Twitter API v2 client initialized for live
+2026-05-05 19:30:32 +00:00: 2026-05-05 19:30:32,067 - __main__ - INFO - ✅ Twitter API v2 client initialized for replies
+2026-05-05 19:30:33 +00:00: 2026-05-05 19:30:33,003 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-05 19:30:40 +00:00: 2026-05-05 19:30:40,701 - __main__ - INFO - 🚀 Twitter Poster started
+2026-05-05 20:37:12 +00:00: 2026-05-05 20:37:12,412 - __main__ - INFO - 🔄 Processing 1 queued tweets...
+2026-05-05 20:37:12 +00:00: 2026-05-05 20:37:12,797 - __main__ - ERROR - 🚫 Rate limit / no credits / API outage for tweet 4e14efcc-c9e8-41f7-949a-96284244143a: 402 Payment Required
+2026-05-05 20:37:12 +00:00: Your enrolled account [1885132059246563328] does not have any credits to fulfill this request.
+2026-05-05 20:37:12 +00:00: 2026-05-05 20:37:12,797 - __main__ - WARNING - 💳 No credits / rate limited / API outage — pausing poster until 2026-05-05T21:07:12.797328+00:00. Tweets stay queued.
+2026-05-05 20:38:13 +00:00: 2026-05-05 20:38:13,472 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T21:07:12.797328+00:00
+2026-05-05 20:39:13 +00:00: 2026-05-05 20:39:13,991 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T21:07:12.797328+00:00
+2026-05-05 20:40:14 +00:00: 2026-05-05 20:40:14,511 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T21:07:12.797328+00:00
+2026-05-05 20:41:15 +00:00: 2026-05-05 20:41:15,015 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T21:07:12.797328+00:00
+2026-05-05 20:42:15 +00:00: 2026-05-05 20:42:15,527 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T21:07:12.797328+00:00
+2026-05-05 20:43:15 +00:00: 2026-05-05 20:43:15,989 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T21:07:12.797328+00:00
+2026-05-05 20:44:16 +00:00: 2026-05-05 20:44:16,451 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T21:07:12.797328+00:00
+2026-05-05 20:45:16 +00:00: 2026-05-05 20:45:16,922 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T21:07:12.797328+00:00
+2026-05-05 20:46:17 +00:00: 2026-05-05 20:46:17,398 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T21:07:12.797328+00:00
+2026-05-05 20:47:17 +00:00: 2026-05-05 20:47:17,910 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T21:07:12.797328+00:00
+2026-05-05 20:48:18 +00:00: 2026-05-05 20:48:18,390 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T21:07:12.797328+00:00
+2026-05-05 20:49:18 +00:00: 2026-05-05 20:49:18,860 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T21:07:12.797328+00:00
+2026-05-05 20:50:19 +00:00: 2026-05-05 20:50:19,380 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T21:07:12.797328+00:00
+2026-05-05 20:51:19 +00:00: 2026-05-05 20:51:19,861 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T21:07:12.797328+00:00
+2026-05-05 20:52:20 +00:00: 2026-05-05 20:52:20,381 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T21:07:12.797328+00:00
+2026-05-05 20:53:20 +00:00: 2026-05-05 20:53:20,851 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T21:07:12.797328+00:00
+2026-05-05 20:54:21 +00:00: 2026-05-05 20:54:21,368 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T21:07:12.797328+00:00
+2026-05-05 20:55:21 +00:00: 2026-05-05 20:55:21,853 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T21:07:12.797328+00:00
+2026-05-05 20:56:22 +00:00: 2026-05-05 20:56:22,326 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T21:07:12.797328+00:00
+2026-05-05 20:57:22 +00:00: 2026-05-05 20:57:22,800 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T21:07:12.797328+00:00
+2026-05-05 20:58:23 +00:00: 2026-05-05 20:58:23,309 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T21:07:12.797328+00:00
+2026-05-05 20:59:23 +00:00: 2026-05-05 20:59:23,828 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T21:07:12.797328+00:00
+2026-05-05 21:00:24 +00:00: 2026-05-05 21:00:24,348 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T21:07:12.797328+00:00
+2026-05-05 21:01:24 +00:00: 2026-05-05 21:01:24,852 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T21:07:12.797328+00:00
+2026-05-05 21:02:25 +00:00: 2026-05-05 21:02:25,367 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T21:07:12.797328+00:00
+2026-05-05 21:03:25 +00:00: 2026-05-05 21:03:25,886 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T21:07:12.797328+00:00
+2026-05-05 21:04:26 +00:00: 2026-05-05 21:04:26,402 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T21:07:12.797328+00:00
+2026-05-05 21:05:26 +00:00: 2026-05-05 21:05:26,921 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T21:07:12.797328+00:00
+2026-05-05 21:06:27 +00:00: 2026-05-05 21:06:27,442 - __main__ - INFO - 💳 X billing/rate backoff active until 2026-05-05T21:07:12.797328+00:00
+2026-05-05 21:07:29 +00:00: 2026-05-05 21:07:29,648 - __main__ - INFO - 🔄 Processing 1 queued tweets...
+2026-05-05 21:07:30 +00:00: 2026-05-05 21:07:30,522 - __main__ - INFO - ✅ Posted tweet: 2051770786327712044
+2026-05-05 21:07:31 +00:00: 2026-05-05 21:07:31,442 - __main__ - INFO - 📊 Incremented quota counter for main
+2026-05-05 21:07:31 +00:00: 2026-05-05 21:07:31,443 - __main__ - INFO - ✅ Successfully posted tweet 4e14efcc-c9e8-41f7-949a-96284244143a → 2051770786327712044
+2026-05-05 21:09:05 +00:00: 2026-05-05 21:09:05,726 - __main__ - INFO - ⏹️  Twitter Poster shutdown requested
+2026-05-05 21:09:06 +00:00: 2026-05-05 21:09:06,149 - __main__ - INFO - ✅ Twitter API v2 client initialized for main
+2026-05-05 21:09:06 +00:00: 2026-05-05 21:09:06,149 - __main__ - INFO - ✅ Twitter API v2 client initialized for live
+2026-05-05 21:09:06 +00:00: 2026-05-05 21:09:06,149 - __main__ - INFO - ✅ Twitter API v2 client initialized for replies
+2026-05-05 21:09:07 +00:00: 2026-05-05 21:09:07,080 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-05 21:09:14 +00:00: 2026-05-05 21:09:14,613 - __main__ - INFO - 🚀 Twitter Poster started
+2026-05-05 21:26:19 +00:00: 2026-05-05 21:26:19,114 - __main__ - INFO - ⏹️  Twitter Poster shutdown requested
+2026-05-05 22:37:15 +00:00: 2026-05-05 22:37:15,820 - __main__ - INFO - ✅ Twitter API v2 client initialized for main
+2026-05-05 22:37:15 +00:00: 2026-05-05 22:37:15,820 - __main__ - INFO - ✅ Twitter API v2 client initialized for live
+2026-05-05 22:37:15 +00:00: 2026-05-05 22:37:15,820 - __main__ - INFO - ✅ Twitter API v2 client initialized for replies
+2026-05-05 22:37:16 +00:00: 2026-05-05 22:37:16,732 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-05 22:37:24 +00:00: 2026-05-05 22:37:24,158 - __main__ - INFO - 🚀 Twitter Poster started
+2026-05-05 22:38:28 +00:00: 2026-05-05 22:38:28,510 - __main__ - INFO - 🔄 Processing 1 queued tweets...
+2026-05-05 22:38:29 +00:00: 2026-05-05 22:38:29,065 - __main__ - INFO - ✅ Posted tweet: 2051793681607233819
+2026-05-05 22:38:29 +00:00: 2026-05-05 22:38:29,957 - __main__ - INFO - 📊 Incremented quota counter for main
+2026-05-05 22:38:29 +00:00: 2026-05-05 22:38:29,957 - __main__ - INFO - ✅ Successfully posted tweet ddd8b78c-0800-4fdd-a4b0-b884bd840da4 → 2051793681607233819
+2026-05-05 22:38:54 +00:00: 2026-05-05 22:38:54,495 - __main__ - INFO - ⏹️  Twitter Poster shutdown requested
+2026-05-05 22:42:18 +00:00: 2026-05-05 22:42:18,700 - __main__ - INFO - ✅ Twitter API v2 client initialized for main
+2026-05-05 22:42:18 +00:00: 2026-05-05 22:42:18,700 - __main__ - INFO - ✅ Twitter API v2 client initialized for live
+2026-05-05 22:42:18 +00:00: 2026-05-05 22:42:18,700 - __main__ - INFO - ✅ Twitter API v2 client initialized for replies
+2026-05-05 22:42:19 +00:00: 2026-05-05 22:42:19,707 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-05 22:42:27 +00:00: 2026-05-05 22:42:27,250 - __main__ - INFO - 🚀 Twitter Poster started

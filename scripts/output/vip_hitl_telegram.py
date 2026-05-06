@@ -156,7 +156,7 @@ class HITLTelegram:
                 
                 executed, reserved = row
                 total = executed + reserved
-                daily_cap = int(os.getenv('DAILY_TWEET_CAP', 100))
+                daily_cap = int(os.getenv('DAILY_TWEET_CAP', 10))
                 remaining = daily_cap - total
             
             stats_text = (

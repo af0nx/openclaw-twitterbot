@@ -2,6 +2,7 @@
 """Per-account quota helpers for sharded X posting."""
 
 import logging
+import os
 
 logger = logging.getLogger(__name__)
 
@@ -80,6 +81,7 @@ def reconcile_account_reservations(conn, buckets=None, statuses=None):
 
 def reserve_account_slot(conn, bucket: str, daily_cap: int) -> bool:
     with conn.cursor() as cur:
+        global_daily_cap = int(os.getenv('DAILY_TWEET_CAP', '10'))
         cur.execute(
             """
             INSERT INTO twitter_bot.account_quotas (date, account_bucket)
@@ -109,12 +111,45 @@ def reserve_account_slot(conn, bucket: str, daily_cap: int) -> bool:
 
         cur.execute(
             """
+            INSERT INTO twitter_bot.api_quotas (date)
+            VALUES (CURRENT_DATE)
+            ON CONFLICT (date) DO NOTHING
+            """
+        )
+        cur.execute(
+            """
+            SELECT writes_executed, writes_reserved, hard_capped
+            FROM twitter_bot.api_quotas
+            WHERE date = CURRENT_DATE
+            FOR UPDATE
+            """
+        )
+        global_row = cur.fetchone()
+        if not global_row:
+            conn.rollback()
+            return False
+
+        global_executed, global_reserved, global_hard_capped = global_row
+        if global_hard_capped or (global_executed + global_reserved) >= global_daily_cap:
+            conn.rollback()
+            return False
+
+        cur.execute(
+            """
             UPDATE twitter_bot.account_quotas
             SET writes_reserved = writes_reserved + 1,
                 updated_at = NOW()
             WHERE date = CURRENT_DATE AND account_bucket = %s
             """,
             (bucket,),
+        )
+        cur.execute(
+            """
+            UPDATE twitter_bot.api_quotas
+            SET writes_reserved = writes_reserved + 1,
+                updated_at = NOW()
+            WHERE date = CURRENT_DATE
+            """
         )
         conn.commit()
         return True
@@ -130,6 +165,14 @@ def free_account_slot(conn, bucket: str):
             WHERE date = CURRENT_DATE AND account_bucket = %s
             """,
             (bucket,),
+        )
+        cur.execute(
+            """
+            UPDATE twitter_bot.api_quotas
+            SET writes_reserved = GREATEST(0, writes_reserved - 1),
+                updated_at = NOW()
+            WHERE date = CURRENT_DATE
+            """
         )
     conn.commit()
 

@@ -33,7 +33,7 @@ def get_bucket_daily_cap(bucket: str) -> int:
     specific = os.getenv(f'X_{bucket.upper()}_DAILY_CAP')
     if specific:
         return int(specific)
-    return int(os.getenv('DAILY_TWEET_CAP', '100'))
+    return int(os.getenv('DAILY_TWEET_CAP', '10'))
 
 
 def get_account_credentials(bucket: str) -> Dict[str, str]:

@@ -60,7 +60,7 @@ module.exports = {
         SENTENCE_TRANSFORMERS_LOCAL_ONLY: 'true',
         HF_HUB_OFFLINE: '1',
         TRANSFORMERS_OFFLINE: '1',
-        DASHBOARD_REVIEW_ONLY: 'true'
+        DASHBOARD_REVIEW_ONLY: 'false'
       },
       error_file: './logs/scheduler-error.log',
       out_file: './logs/scheduler-out.log',
@@ -98,7 +98,7 @@ module.exports = {
         NODE_ENV: 'production',
         PYTHONUNBUFFERED: '1',
         DRY_RUN_MODE: 'false',
-        DASHBOARD_REVIEW_ONLY: 'true'
+        DASHBOARD_REVIEW_ONLY: 'false'
       },
       error_file: './logs/poster-error.log',
       out_file: './logs/poster-out.log',

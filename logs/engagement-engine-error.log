@@ -41428,3 +41428,51 @@
 2026-05-05 15:10:33 +00:00: 2026-05-05 15:10:33,656 - __main__ - INFO - ⏭️  Generator 'style_take' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
 2026-05-05 15:10:34 +00:00: 2026-05-05 15:10:34,663 - __main__ - INFO - ⏭️  Generator 'recycle' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
 2026-05-05 15:10:35 +00:00: 2026-05-05 15:10:35,655 - __main__ - INFO - 🎯 Engagement cycle complete: 0 events generated
+2026-05-05 16:10:35 +00:00: 2026-05-05 16:10:35,754 - utils.db_utils - WARNING - ⚠️  DB connection stale — reconnecting…
+2026-05-05 16:10:36 +00:00: 2026-05-05 16:10:36,703 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-05 16:10:45 +00:00: 2026-05-05 16:10:45,070 - __main__ - INFO - ⏭️  Generator 'poll' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-05 16:10:47 +00:00: 2026-05-05 16:10:47,813 - __main__ - INFO - ⏭️  Generator 'style_take' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-05 16:10:48 +00:00: 2026-05-05 16:10:48,727 - __main__ - INFO - ⏭️  Generator 'recycle' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-05 16:10:49 +00:00: 2026-05-05 16:10:49,642 - __main__ - INFO - 🎯 Engagement cycle complete: 0 events generated
+2026-05-05 17:10:49 +00:00: 2026-05-05 17:10:49,650 - utils.db_utils - WARNING - ⚠️  DB connection stale — reconnecting…
+2026-05-05 17:10:50 +00:00: 2026-05-05 17:10:50,576 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-05 17:10:59 +00:00: 2026-05-05 17:10:59,955 - __main__ - INFO - ⏭️  Generator 'poll' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-05 17:11:03 +00:00: 2026-05-05 17:11:03,588 - __main__ - INFO - ⏭️  Generator 'style_take' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-05 17:11:04 +00:00: 2026-05-05 17:11:04,495 - __main__ - INFO - ⏭️  Generator 'recycle' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-05 17:11:05 +00:00: 2026-05-05 17:11:05,402 - __main__ - INFO - 🎯 Engagement cycle complete: 0 events generated
+2026-05-05 18:11:05 +00:00: 2026-05-05 18:11:05,407 - utils.db_utils - WARNING - ⚠️  DB connection stale — reconnecting…
+2026-05-05 18:11:06 +00:00: 2026-05-05 18:11:06,416 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-05 18:11:15 +00:00: 2026-05-05 18:11:15,745 - __main__ - INFO - ⏭️  Generator 'poll' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-05 18:11:19 +00:00: 2026-05-05 18:11:19,354 - __main__ - INFO - ⏭️  Generator 'style_take' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-05 18:11:20 +00:00: 2026-05-05 18:11:20,258 - __main__ - INFO - ⏭️  Generator 'recycle' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-05 18:11:21 +00:00: 2026-05-05 18:11:21,161 - __main__ - INFO - 🎯 Engagement cycle complete: 0 events generated
+2026-05-05 19:11:21 +00:00: 2026-05-05 19:11:21,172 - utils.db_utils - WARNING - ⚠️  DB connection stale — reconnecting…
+2026-05-05 19:11:22 +00:00: 2026-05-05 19:11:22,137 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-05 19:11:31 +00:00: 2026-05-05 19:11:31,597 - __main__ - INFO - ⏭️  Generator 'poll' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-05 19:11:35 +00:00: 2026-05-05 19:11:35,258 - __main__ - INFO - ⏭️  Generator 'style_take' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-05 19:11:36 +00:00: 2026-05-05 19:11:36,174 - __main__ - INFO - ⏭️  Generator 'recycle' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-05 19:11:37 +00:00: 2026-05-05 19:11:37,092 - __main__ - INFO - 🎯 Engagement cycle complete: 0 events generated
+2026-05-05 20:11:37 +00:00: 2026-05-05 20:11:37,174 - utils.db_utils - WARNING - ⚠️  DB connection stale — reconnecting…
+2026-05-05 20:11:38 +00:00: 2026-05-05 20:11:38,135 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-05 20:11:47 +00:00: 2026-05-05 20:11:47,570 - __main__ - INFO - ⏭️  Generator 'poll' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-05 20:11:51 +00:00: 2026-05-05 20:11:51,930 - httpx - INFO - HTTP Request: POST http://localhost:8402/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-05 20:11:51 +00:00: 2026-05-05 20:11:51,932 - __main__ - WARNING - ⏭️  Rejected conversation rewrite: main-feed copy reads like a comment — It should sound like a CS2 prediction product starting a useful argument. Good angles include team p
+2026-05-05 20:11:51 +00:00: 2026-05-05 20:11:51,933 - __main__ - INFO - ✨ Engagement strategy 'conversation' generated content
+2026-05-05 20:11:53 +00:00: 2026-05-05 20:11:53,758 - __main__ - INFO - ⏭️  Generator 'style_take' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-05 20:11:54 +00:00: 2026-05-05 20:11:54,673 - __main__ - INFO - ⏭️  Generator 'recycle' suppressed — 30d avg ER 0.0000 < threshold 0.0030 (n=3)
+2026-05-05 20:11:56 +00:00: 2026-05-05 20:11:56,653 - __main__ - INFO - 📥 Engagement event created: a0272e18-3e6f-46ca-942a-d94c742881aa (engagement_conversation)
+2026-05-05 20:11:56 +00:00: 2026-05-05 20:11:56,654 - __main__ - INFO - 🎯 Engagement cycle complete: 1 events generated
+2026-05-05 21:03:13 +00:00: Traceback (most recent call last):
+2026-05-05 21:03:13 +00:00:   File "/home/ubuntu/openclaw/scripts/output/engagement_engine.py", line 1459, in <module>
+2026-05-05 21:03:13 +00:00:     await asyncio.sleep(offpeak_interval * 3600)
+2026-05-05 21:03:13 +00:00:   File "/usr/lib/python3.10/asyncio/runners.py", line 44, in run
+2026-05-05 21:03:13 +00:00:     return loop.run_until_complete(main)
+2026-05-05 21:03:13 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 636, in run_until_complete
+2026-05-05 21:03:13 +00:00:     self.run_forever()
+2026-05-05 21:03:13 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 603, in run_forever
+2026-05-05 21:03:13 +00:00:     self._run_once()
+2026-05-05 21:03:13 +00:00:   File "/usr/lib/python3.10/asyncio/base_events.py", line 1871, in _run_once
+2026-05-05 21:03:13 +00:00:     event_list = self._selector.select(timeout)
+2026-05-05 21:03:13 +00:00:   File "/usr/lib/python3.10/selectors.py", line 469, in select
+2026-05-05 21:03:13 +00:00:     fd_event_list = self._selector.poll(timeout, max_ev)
+2026-05-05 21:03:13 +00:00: KeyboardInterrupt

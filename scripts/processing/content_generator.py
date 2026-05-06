@@ -118,6 +118,9 @@ _COMMENT_LIKE_PATTERNS = [
     re.compile(r'\bpublic\s+(?:was|is|will|still|all over|overrating|overreacting|chasing)\b', re.IGNORECASE),
     re.compile(r'\b(?:looks?|felt|feels)\s+like\s+(?:a|the)\s+(?:trap|tell)\b', re.IGNORECASE),
 ]
+_UNPROFESSIONAL_MAIN_FEED_PATTERNS = [
+    re.compile(r'^[A-Z][A-Za-z0-9&.\' -]{1,80}\s+win\s+[A-Z]', re.MULTILINE),
+]
 
 
 def normalize_generated_text(text: Optional[str]) -> str:
@@ -160,6 +163,8 @@ def main_feed_quality_issue(text: Optional[str], pillar: Optional[int] = None) -
         return 'main-feed copy reads like a comment'
     if cleaned.endswith(('?', '?!')) and pillar_int not in (13, 14):
         return 'main-feed copy reads like a casual question'
+    if any(pattern.search(cleaned) for pattern in _UNPROFESSIONAL_MAIN_FEED_PATTERNS):
+        return 'main-feed copy is not enterprise/professional'
     return None
 
 
@@ -244,7 +249,7 @@ HARD RULES:
 1. Max 280 characters. Most tweets should be 60-140 chars.
 2. NEVER chain ideas with commas. Use periods. Or just stop.
 3. NO em-dashes (—). NO semicolons. NO colons in the middle of a sentence.
-4. ONE emoji max. Put it at the end. Only use: 😭🥶💀😤🔥
+4. NO emojis on the main account. Enterprise posts should read cleanly without reactions.
 5. NO hashtags. Ever. No #CS2, no #anything.
 6. One idea per tweet. Not two or three.
 7. ONLY use facts from the EVENT data. Never make up stats or numbers.
@@ -262,12 +267,17 @@ HARD RULES:
    - Bad: "That's a tell. Market pricing them too high."
    - Good: "Vitality vs NAVI: low-energy media comments add risk to the favorite price."
 12. Do not use empty betting filler: "market asleep", "books knew it", "public trap", "priced wrong", "that's a tell".
+13. ENTERPRISE STANDARD:
+   - No jokes, punchlines, memes, or reaction endings.
+   - No rhetorical questions.
+   - Do not use words like "just", "cruel", "mirage", "lmao", "lol", or "bro".
+   - Write the caption that belongs beside a real CS2 photo or useful visual.
 
 TONE:
-- React like a CS2 prediction desk that actually watches the games.
+- Write like a CS2 prediction desk that actually watches the games.
 - Clear model read. Not "according to my analysis" energy.
 - If the news is crazy just say it simply. The fact IS the content.
-- Community memes are OK when natural: EZ4ENCE, cry is free, Liquid curse, rip bozo
+- No meme endings. No fan-reply tone.
 - Never say: "degens", "cashing", "fodder", "chalk", "bloodbath", "yeets", "implications", "significant"
 - If the book price is slow, say what team/event caused it.
 - If the public is overreacting, name the result or map they are overreacting to.
@@ -505,7 +515,9 @@ REJECT if ANY of these:
 - Main-feed copy that sounds like a reply or live-chat comment → REJECT
 - Starts with "That", "This", "Market", "Public", "Books", "Everyone", "No way", "Still", or "Just" on pillars other than replies → REJECT
 - Empty betting filler like "market asleep", "books knew it", "public trap", "priced wrong", or "that's a tell" → REJECT
-- More than 1 emoji → REJECT
+- Any emoji on a main-feed post → REJECT
+- Rhetorical question or punchline ending → REJECT
+- Words like "just", "cruel", "mirage", "lmao", "lol", or "bro" → REJECT
 - Made-up stats or numbers → REJECT
 - Claims insider info, fixed games, guaranteed edges, or fake line moves → REJECT
 - Would a real CS2 fan cringe at this? → REJECT
@@ -522,7 +534,7 @@ ALLOW these when grounded in the event or clear context:
 - value
 - buy low / sell high
 
-APPROVE if it sounds like a standalone SkinBetHub main-feed insight. Short. Natural. Simple English. One concrete signal.
+APPROVE if it sounds like a standalone enterprise SkinBetHub main-feed insight. Short. Professional. Simple English. One concrete signal.
 
 Respond with ONLY: "APPROVED" or one short reason to reject."""
         

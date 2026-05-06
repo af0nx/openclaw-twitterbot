@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Tweet Scheduler - Twitter Bot Pipeline V2
-Manages the tweet queue and enforces strict 100/day API cap (Pay Per Use tier)
+Manages the tweet queue and enforces the daily posting cap
 Pre-commit reservation system to prevent quota violations
 """
 
@@ -28,6 +28,7 @@ from processing.content_generator import (
     is_invalid_tweet_candidate,
     normalize_generated_text,
 )
+from processing.attention_quality import evaluate_main_feed_attention
 from processing.fact_checker import get_fact_checker
 from processing.tone_validator import get_tone_validator
 from processing.mirofish_guard import get_mirofish_guard
@@ -74,7 +75,7 @@ class TweetScheduler:
         self.rating_engine = get_team_rating_engine()
         self._schema_ready = False
         
-        self.daily_cap = int(os.getenv('DAILY_TWEET_CAP', 95))
+        self.daily_cap = int(os.getenv('DAILY_TWEET_CAP', 10))
         self.dry_run = os.getenv('DRY_RUN_MODE', 'false').lower() == 'true'
         self.review_only = os.getenv('DASHBOARD_REVIEW_ONLY', 'false').lower() in ('1', 'true', 'yes', 'on')
         
@@ -234,6 +235,19 @@ class TweetScheduler:
             'preview_path': normalized_preview,
         }
 
+    @staticmethod
+    def _is_non_photo_attachment(media_attachment: Optional[Dict[str, Optional[str]]]) -> bool:
+        """Generated text/graphic cards are not acceptable as main-feed photos."""
+        if not media_attachment:
+            return False
+        preview_path = media_attachment.get('preview_path')
+        if not preview_path:
+            return False
+        path = Path(str(preview_path))
+        if path.name.startswith('hl_') and path.suffix.lower() in {'.png', '.jpg', '.jpeg', '.webp'}:
+            return True
+        return 'generated_images' in path.parts
+
     def _dashboard_review_status(self, default_status: str) -> str:
         return 'draft' if self.review_only else default_status
 
@@ -292,6 +306,9 @@ class TweetScheduler:
 
     @staticmethod
     def _allows_text_only_main_feed(event: Dict[str, Any]) -> bool:
+        if os.getenv('ALLOW_TEXT_ONLY_MAIN_FEED', 'false').lower() not in ('1', 'true', 'yes', 'on'):
+            return False
+
         metadata = event.get('metadata') or {}
         if not isinstance(metadata, dict):
             return False
@@ -319,6 +336,10 @@ class TweetScheduler:
         if pillar in (12, 16):
             return False
         return True
+
+    @staticmethod
+    def _reply_engagement_enabled() -> bool:
+        return os.getenv('ENABLE_REPLY_ENGAGEMENT', 'false').lower() in ('1', 'true', 'yes', 'on')
 
     @staticmethod
     def _apply_pricing_context(
@@ -769,6 +790,74 @@ class TweetScheduler:
             f"with real headline '{best_headline[:60]}'"
         )
         return False
+
+    @staticmethod
+    def _clean_enterprise_text(text: Optional[str]) -> str:
+        cleaned = re.sub(r'\s+', ' ', str(text or '')).strip()
+        cleaned = re.sub(r'\s+FULL ARTICLE:\s+.*$', '', cleaned, flags=re.IGNORECASE | re.DOTALL).strip()
+        return cleaned
+
+    def _compose_enterprise_news_tweet(self, event: Dict[str, Any], pillar: int) -> Optional[str]:
+        """Deterministic, source-grounded copy for trusted main-feed news."""
+        source = event.get('source')
+        category = event.get('category')
+        if source not in ('hltv', 'dust2us', 'valve_cs2'):
+            return None
+        if category not in ('cs2', 'roster_change', 'match_result', 'cs2_update'):
+            return None
+        if pillar not in (1, 2, 3):
+            return None
+
+        headline = self._clean_enterprise_text(event.get('headline')).rstrip('.')
+        if not headline:
+            return None
+
+        lower = headline.lower()
+        display_headline = headline
+        display_headline = re.sub(r'\bresurgance\b', 'resurgence', display_headline, flags=re.IGNORECASE)
+        bench_match = re.match(r'^(.+?)\s+bench\s+(.+)$', headline, re.IGNORECASE)
+        if bench_match:
+            display_headline = f'{bench_match.group(1)} benched {bench_match.group(2)}'
+        release_match = re.match(r'^Valve\s+release\s+(.+)$', display_headline, re.IGNORECASE)
+        if release_match:
+            display_headline = f'Valve released {release_match.group(1)}'
+        release_match = re.match(r'^(.+?)\s+release\s+(.+)$', display_headline, re.IGNORECASE)
+        if release_match and not display_headline.lower().startswith('valve released '):
+            display_headline = f'{release_match.group(1)} released {release_match.group(2)}'
+        top_match = re.match(r'^(.+?)\s+top\s+(.+)$', display_headline, re.IGNORECASE)
+        if top_match:
+            display_headline = f'{top_match.group(1)} topped {top_match.group(2)}'
+        make_match = re.match(r'^(.+?)\s+make\s+(.+)$', display_headline, re.IGNORECASE)
+        if make_match:
+            display_headline = f'{make_match.group(1)} made {make_match.group(2)}'
+        win_match = re.match(r'^(.+?)\s+win\s+(.+)$', display_headline, re.IGNORECASE)
+        if win_match:
+            display_headline = f'{win_match.group(1)} won {win_match.group(2)}'
+        host_match = re.match(r'^(.+?)\s+to\s+host\s+(.+)$', display_headline, re.IGNORECASE)
+        if host_match:
+            display_headline = f'{host_match.group(1)} will host {host_match.group(2)}'
+
+        if re.search(r'\b(?:vrs|update|ranking|rankings)\b', lower):
+            second = "\n\n📊 Seeding can create harder bracket paths.\n🧭 SkinBetHub AI prediction model is tracking invites, matchups, and veto paths."
+        elif re.search(r'\b(?:schedule|format|teams|prize|talent|fantasy|event)\b', lower):
+            display_headline = re.sub(
+                r'\bteams, format, schedule, prizes, talent, fantasy\b',
+                'tournament details are out',
+                display_headline,
+                flags=re.IGNORECASE,
+            )
+            second = "\n\n🗓️ The field, schedule, and prize pool now define the bracket path.\n📍 SkinBetHub AI prediction model is tracking early matchups, travel load, and veto pressure."
+        elif re.search(r'\b(?:bench|benched|sign|signed|part ways|release|released|replace|replaced)\b', lower):
+            second = "\n\n🧩 The lineup is less stable until the fifth is confirmed.\n⚖️ SkinBetHub AI prediction model is tracking map pool depth and role balance."
+        elif re.search(r'\b(?:beat|defeat|defeated|win|won|sweep|swept|champion|final)\b', lower):
+            second = "\n\n🏁 The next matchup needs a fresh veto read.\n🗺️ SkinBetHub AI prediction model will re-check whether the map pool repeats or resets."
+        else:
+            second = "\n\n🔎 Roster impact, map context, and conditions can move the read.\n📈 SkinBetHub AI prediction model is tracking what shifts before the next official server."
+
+        tweet = f'{display_headline}.{second}'
+        if len(tweet) > 280:
+            tweet = f'{display_headline[:115].rstrip()}.{second}'
+        return normalize_generated_text(tweet[:280])
 
     # ── Prediction Tweet Formatting ───────────────────────────────
 
@@ -1287,6 +1376,14 @@ class TweetScheduler:
                     logger.info(f"⏭️  Skipping non-CS2 event: {event['headline'][:60]}")
                     self.mark_event_processed(event['id'], 'skipped', 'non_cs2_relevance')
                     return False
+
+            if event['category'] in ('vip_engagement', 'community_disagreement') and not self._reply_engagement_enabled():
+                logger.info(
+                    "⏭️  Skipping reply/comment engagement while ENABLE_REPLY_ENGAGEMENT is disabled: %s",
+                    event['headline'][:60],
+                )
+                self.mark_event_processed(event['id'], 'skipped', 'reply_engagement_disabled')
+                return False
             
             # T1-only filter: skip T2/T3 team matches and minor event news
             # Gap-aware: if we haven't posted in >90 min, relax the filter to avoid dead air
@@ -1326,6 +1423,28 @@ class TweetScheduler:
                 'match_prediction': 17,
             }
             pillar = pillar_mapping.get(event['category'], 1)
+
+            if (
+                event.get('source') == 'engagement_engine'
+                and os.getenv('ENABLE_SYNTHETIC_MAIN_FEED', 'false').lower() not in ('1', 'true', 'yes', 'on')
+            ):
+                logger.info("⏭️  Rejecting synthetic main-feed event in enterprise mode: %s", event['headline'][:80])
+                with self.db_conn.cursor() as cur:
+                    cur.execute(
+                        """
+                        UPDATE twitter_bot.events
+                        SET status = 'rejected',
+                            metadata = COALESCE(metadata, '{}'::jsonb) || %s::jsonb
+                        WHERE id = %s
+                        """,
+                        (
+                            json.dumps({'enterprise_rejection': 'synthetic_main_feed_disabled'}),
+                            event['id'],
+                        ),
+                    )
+                    self.db_conn.commit()
+                return False
+
             reply_target_hint = None
             quote_target_hint = None
             if event['category'] == 'community_disagreement' and isinstance(event.get('metadata'), dict):
@@ -1400,9 +1519,11 @@ class TweetScheduler:
                         logger.warning(f"⚠️  Prediction card failed (non-fatal): {e}")
 
                 if self._requires_main_page_media(event, pillar) and (
-                    not media_attachment or not media_attachment.get('media_ref')
+                    not media_attachment
+                    or not media_attachment.get('media_ref')
+                    or self._is_non_photo_attachment(media_attachment)
                 ):
-                    logger.error("🚫 Prediction blocked: main-feed media is required")
+                    logger.error("🚫 Prediction blocked: photo-style main-feed media is required")
                     with self.db_conn.cursor() as cur:
                         cur.execute(
                             """
@@ -1411,7 +1532,7 @@ class TweetScheduler:
                                 metadata = COALESCE(metadata, '{}'::jsonb) || %s::jsonb
                             WHERE id = %s
                             """,
-                            (json.dumps({'media_required_error': 'prediction_missing_media'}), event['id']),
+                            (json.dumps({'media_required_error': 'prediction_missing_photo_media'}), event['id']),
                         )
                         self.db_conn.commit()
                     return False
@@ -1469,12 +1590,18 @@ class TweetScheduler:
                 except Exception as e:
                     logger.warning(f"⚠️  Article enrichment failed (non-fatal): {e}")
             
-            # Generate content (dual-agent writer's room or thread for updates)
+            # Generate content. Trusted news uses deterministic enterprise copy;
+            # free-form LLM generation is too prone to casual tone and invented facts.
             is_thread = False
             thread_tweets = None
+            enterprise_tweet = self._compose_enterprise_news_tweet(event, pillar)
             
             # Use thread generation for Valve CS2 updates with substantial content
-            if event['category'] == 'cs2_update' and len(event.get('content', '')) > 300:
+            if enterprise_tweet:
+                generation_result = {'final_text': enterprise_tweet, 'model': 'enterprise_news_template'}
+                tweet_text = enterprise_tweet
+                logger.info("🏢 Enterprise template generated trusted news copy")
+            elif event['category'] == 'cs2_update' and len(event.get('content', '')) > 300:
                 generation_result = self.generator.generate_thread(event, pillar)
                 if generation_result.get('is_thread'):
                     is_thread = True
@@ -1630,18 +1757,38 @@ class TweetScheduler:
                     
                     return False
             
-            # Check fact and tone — failures go to HITL for human review instead of auto-rejecting
+            # Check fact and tone. Enterprise mode fails closed; bad facts or bad tone
+            # must not surface as reviewable "results".
             guardrail_failed = False
             guardrail_issues = []
             if not fact_result['valid']:
-                logger.warning(f"⚠️  Fact check FAILED (routing to HITL): {fact_result['issues']}")
+                logger.error(f"🚫 Fact check FAILED — rejecting event: {fact_result['issues']}")
                 guardrail_failed = True
                 guardrail_issues.append(f"Fact: {fact_result['issues']}")
             
             if not tone_result['valid']:
-                logger.warning(f"⚠️  Tone validation FAILED (routing to HITL): {tone_result['issues']}")
+                logger.error(f"🚫 Tone validation FAILED — rejecting event: {tone_result['issues']}")
                 guardrail_failed = True
                 guardrail_issues.append(f"Tone: {tone_result['issues']}")
+
+            if guardrail_failed:
+                with self.db_conn.cursor() as cur:
+                    cur.execute(
+                        """
+                        UPDATE twitter_bot.events
+                        SET status = 'rejected',
+                            metadata = COALESCE(metadata, '{}'::jsonb) || %s::jsonb
+                        WHERE id = %s
+                        """,
+                        (
+                            json.dumps({'guardrail_rejection': guardrail_issues}),
+                            event['id'],
+                        ),
+                    )
+                    self.db_conn.commit()
+                if reserved_bucket:
+                    free_account_slot(self.db_conn, reserved_bucket)
+                return False
             
             main_media_required = self._requires_main_page_media(event, pillar)
             media_plan = self._choose_owned_media_variant(event)
@@ -1681,7 +1828,14 @@ class TweetScheduler:
                 if not media_plan.get('eligible'):
                     prefer_owned_media = self._prefers_owned_media(event)
                 try:
-                    if prefer_owned_media:
+                    if main_media_required:
+                        media_ref = self.media_manager.get_media_for_event(
+                            event,
+                            tweet_text=tweet_text,
+                            account_bucket=account_bucket,
+                        )
+                        media_attachment = self._build_media_attachment(media_ref, self._dashboard_preview_hint(event))
+                    elif prefer_owned_media:
                         media_attachment = self._generate_owned_media(event, tweet_text, pillar, account_bucket)
                     if not media_attachment or not media_attachment.get('media_ref'):
                         media_ref = self.media_manager.get_media_for_event(
@@ -1720,9 +1874,13 @@ class TweetScheduler:
                 except Exception as e:
                     logger.debug(f"⚠️  Vision enrichment skipped: {e}")
 
-            # Fallback: Generate meme/stat card if no media found
-            # Try structured cards first, then headline card as universal fallback
-            if not media_blocked_by_plan and (not media_attachment or not media_attachment.get('media_ref')):
+            # Fallback: Generate meme/stat card only for non-main-feed surfaces.
+            # Enterprise main-feed posts require photo-style media from article/image search.
+            if (
+                not main_media_required
+                and not media_blocked_by_plan
+                and (not media_attachment or not media_attachment.get('media_ref'))
+            ):
                 category = event.get('category', '')
                 metadata = event.get('metadata') or {}
                 # Check if tweet mentions multiple teams (non-vs) — worth generating a card
@@ -1741,10 +1899,7 @@ class TweetScheduler:
 
             # Optional headline-card fallback. Disabled by default because generic
             # cards underperform and look worse than a clean text-only post.
-            enable_headline_card_fallback = (
-                main_media_required
-                or os.getenv('ENABLE_HEADLINE_CARD_FALLBACK', 'false').lower() in ('1', 'true', 'yes')
-            )
+            enable_headline_card_fallback = os.getenv('ENABLE_HEADLINE_CARD_FALLBACK', 'false').lower() in ('1', 'true', 'yes')
             if (not media_attachment or not media_attachment.get('media_ref')) and not media_blocked_by_plan and enable_headline_card_fallback:
                 try:
                     _fb_teams = self.media_manager._find_teams_in_text(tweet_text)
@@ -1766,6 +1921,21 @@ class TweetScheduler:
             elif not media_attachment or not media_attachment.get('media_ref'):
                 logger.info("🖼️ No curated media found — skipping generic headline card fallback")
 
+            if main_media_required and self._is_non_photo_attachment(media_attachment):
+                logger.error("🚫 Main-feed post blocked: generated media is not a photo")
+                with self.db_conn.cursor() as cur:
+                    cur.execute(
+                        """
+                        UPDATE twitter_bot.events
+                        SET status = 'rejected',
+                            metadata = COALESCE(metadata, '{}'::jsonb) || %s::jsonb
+                        WHERE id = %s
+                        """,
+                        (json.dumps({'media_required_error': 'generated_media_not_photo'}), event['id']),
+                    )
+                    self.db_conn.commit()
+                return False
+
             if main_media_required and (not media_attachment or not media_attachment.get('media_ref')):
                 logger.error("🚫 Main-feed post blocked: media is required")
                 with self.db_conn.cursor() as cur:
@@ -1783,6 +1953,45 @@ class TweetScheduler:
 
             media_id = media_attachment.get('media_ref') if media_attachment else None
             media_preview_path = media_attachment.get('preview_path') if media_attachment else self._dashboard_preview_hint(event)
+
+            attention_result = evaluate_main_feed_attention(
+                tweet_text,
+                event=event,
+                pillar=pillar,
+                media_ref=media_id,
+                media_preview_path=media_preview_path,
+            )
+            metadata = event.get('metadata') or {}
+            if not isinstance(metadata, dict):
+                metadata = {}
+            metadata['attention_gate'] = {
+                'score': attention_result['score'],
+                'grade': attention_result['grade'],
+                'signals': attention_result['signals'],
+                'blockers': attention_result['blockers'],
+            }
+            event['metadata'] = metadata
+            if not attention_result['passed']:
+                logger.error(
+                    "🚫 Attention gate blocked main-feed post: score=%s grade=%s blockers=%s",
+                    attention_result['score'],
+                    attention_result['grade'],
+                    attention_result['blockers'],
+                )
+                with self.db_conn.cursor() as cur:
+                    cur.execute(
+                        """
+                        UPDATE twitter_bot.events
+                        SET status = 'rejected',
+                            metadata = COALESCE(metadata, '{}'::jsonb) || %s::jsonb
+                        WHERE id = %s
+                        """,
+                        (json.dumps({'attention_rejection': metadata['attention_gate']}), event['id']),
+                    )
+                    self.db_conn.commit()
+                if reserved_bucket:
+                    free_account_slot(self.db_conn, reserved_bucket)
+                return False
 
             reply_target_id = None
             quote_tweet_id = None

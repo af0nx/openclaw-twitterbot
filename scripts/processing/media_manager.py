@@ -18,12 +18,13 @@ import logging
 import os
 import re
 import hashlib
+import html
 import subprocess
 import tempfile
 import time
 from pathlib import Path
 from typing import Optional, List, Dict
-from urllib.parse import quote_plus
+from urllib.parse import quote_plus, unquote_plus
 
 from curl_cffi.requests import Session as CurlSession
 from PIL import Image
@@ -408,6 +409,98 @@ class MediaManager:
         'pinterest.com', 'wikimedia.org',
     }
 
+    _IMAGE_QUERY_STOPWORDS = {
+        'cs2', 'csgo', 'counter', 'strike', 'esports', 'esport', 'photo',
+        'photos', 'players', 'player', 'stage', 'event', 'events', 'team',
+        'teams', 'match', 'matches', 'gaming', 'game', 'large', 'preview',
+        'the', 'and', 'after', 'with', 'from', 'into', 'will', 'for',
+        'bench', 'benched', 'release', 'released', 'roster', 'following',
+        'internal', 'issues', 'instability', 'host', 'hosted', 'season',
+        'make', 'made', 'top', 'topped', 'announce', 'announced',
+    }
+
+    @staticmethod
+    def _normalize_image_match_text(text: str) -> str:
+        return re.sub(r'[^a-z0-9]+', ' ', str(text or '').lower()).strip()
+
+    @classmethod
+    def _required_image_subject_groups(cls, query: str) -> List[tuple]:
+        """Return subject alternatives that must appear in a candidate URL.
+
+        Search engines often return plausible-looking generic CS2 photos. For
+        main-feed news, a distinctive team/player/event in the query must be
+        visible in the image URL, otherwise the image is too likely wrong.
+        """
+        q = cls._normalize_image_match_text(query)
+        rules = [
+            (('9ine', 'bnox'), ('9ine', 'bnox')),
+            (('aether',), ('aether',)),
+            (('fisher', 'playvs'), ('fisher', 'playvs')),
+            (('m80',), ('m80', 'thunderpick')),
+            (('voca', 'wildcard'), ('voca', 'wildcard', 'esl challenger', 'challenger')),
+            (('bc game masters', 'bcgame'), ('bc game masters', 'bcgame', 'bc game')),
+            (('pgl astana',), ('pgl astana', 'astana')),
+            (('blast rivals',), ('blast rivals', 'blast')),
+            (('faze',), ('faze', 'blast rivals')),
+            (('esl pro league', 'epl'), ('esl pro league', 'esl proleague', 'epl')),
+        ]
+        required = []
+        for triggers, alternatives in rules:
+            if triggers == ('pgl astana',) and 'ahead of pgl astana' in q:
+                continue
+            if any(trigger in q for trigger in triggers):
+                required.append(alternatives)
+        return required
+
+    @classmethod
+    def _url_matches_required_subjects(cls, url: str, query: str) -> bool:
+        groups = cls._required_image_subject_groups(query)
+        if not groups:
+            return True
+        url_text = cls._normalize_image_match_text(url)
+        return all(any(alt in url_text for alt in group) for group in groups)
+
+    @staticmethod
+    def _season_numbers(text: str) -> set:
+        raw = unquote_plus(str(text or '').lower())
+        seasons = set()
+        for match in re.finditer(r'season[\s_-]*(\d{1,2})(?!\d)', raw):
+            seasons.add(match.group(1))
+        for match in re.finditer(r'(?<![a-z0-9])s[\s_-]*(\d{1,2})(?!\d)', raw):
+            seasons.add(match.group(1))
+        for match in re.finditer(r'(?<![a-z0-9])epl[\s_-]*(\d{1,2})(?!\d)', raw):
+            seasons.add(match.group(1))
+        return seasons
+
+    @classmethod
+    def _has_conflicting_season(cls, url: str, query: str) -> bool:
+        desired = cls._season_numbers(query)
+        if not desired:
+            return False
+        found = cls._season_numbers(url)
+        return bool(found and any(season not in desired for season in found))
+
+    @classmethod
+    def _image_url_relevance(cls, url: str, query: str) -> int:
+        url_lower = re.sub(r'[^a-z0-9]+', ' ', url.lower())
+        tokens = [
+            token for token in re.findall(r'[a-z0-9]+', query.lower())
+            if len(token) >= 3 and token not in cls._IMAGE_QUERY_STOPWORDS
+        ]
+        score = 0
+        for token in tokens:
+            if token in url_lower:
+                score += 3
+        # Exact important event/org fragments matter more than generic terms.
+        compact_url = url.lower()
+        compact_query = query.lower().replace(' ', '-')
+        for fragment in ('bc-game-masters', 'thunderpick', 'challenger', '9ine', 'bnox',
+                         'pgl-astana', 'blast-rivals', 'vrs', 'esl-pro-league',
+                         'faze', 'furia', 'vitality', 'aether'):
+            if fragment in compact_query and fragment in compact_url:
+                score += 5
+        return score
+
     def search_google_images(self, query: str, num_results: int = 5) -> List[str]:
         """Search Bing Images and return full-size image URLs.
         
@@ -432,12 +525,13 @@ class MediaManager:
             _GOOD_DOMAINS = {
                 'hltv.org', 'dexerto.com', 'dust2.us', 'dotesports.com',
                 'gamearena.gg', 'esports.gg', 'win.gg', 'cs2pulse.com',
-                'vitality.gg', 'liquipedia.net', 'esportsinsider.com',
+                'vitality.gg', 'esportsinsider.com', 'thunderpick.io',
+                'pro.eslgaming.com',
             }
             _BAD_DOMAINS = {
                 'bing.com', 'microsoft.com', 'facebook.com', 'instagram.com',
                 'pinterest.com', 'tiktok.com', 'wikimedia.org', 'reddit.com',
-                'bo3.gg',
+                'bo3.gg', 'liquipedia.net',
                 'url2png.com', 'thumbnail.ws', 'screenshotlayer.com',
                 'thum.io', 'image.thum.io', 'api.microlink.io',
                 'prosettings.net', 'csgosettings.com',
@@ -447,6 +541,12 @@ class MediaManager:
                 'settings', 'crosshair', 'sensitivity', 'config',
                 'setup', 'keybind', 'resolution', 'viewmodel',
                 'monitor', 'mouse-', 'keyboard-', 'gear',
+                'logo', 'icon', 'lightmode', 'darkmode', 'commons/images',
+                'esports-world-cup-2024', 'top-cs2-esports-events',
+                'biggest-tournaments', 'explaining-cs2s-upper-level',
+                'vrs-shapes-the-pro-ecosystem', 'cs2-rostermania-hub',
+                'all-cs2-ranks', 'biggest-cs2-developments',
+                'counter-strike-2-2-968x544',
             )
 
             seen = set()
@@ -464,13 +564,28 @@ class MediaManager:
                 if any(kw in url_lower for kw in _BAD_PATH_KEYWORDS):
                     logger.debug(f"🚫 Skipping settings/config image: {url[:80]}")
                     continue
+                if self._has_conflicting_season(url, query):
+                    logger.debug(f"🚫 Skipping wrong-season image for '{query[:50]}': {url[:100]}")
+                    continue
+                if not self._url_matches_required_subjects(url, query):
+                    logger.debug(f"🚫 Skipping wrong-subject image for '{query[:50]}': {url[:100]}")
+                    continue
+                relevance = self._image_url_relevance(url, query)
                 # Prioritize esports sites
                 if any(d in url for d in _GOOD_DOMAINS):
-                    good.append(url)
+                    good.append((relevance, url))
                 else:
-                    okay.append(url)
+                    okay.append((relevance, url))
 
-            results = (good + okay)[:num_results]
+            ranked = sorted(good, key=lambda item: item[0], reverse=True) + sorted(
+                okay,
+                key=lambda item: item[0],
+                reverse=True,
+            )
+            # If the query has distinctive tokens, a zero-relevance URL is often
+            # a wrong-team stock photo. Keep it only when no better candidate exists.
+            relevant = [url for score, url in ranked if score > 0]
+            results = (relevant or [url for _, url in ranked])[:num_results]
             if results:
                 logger.info(f"🔍 Image search: {len(results)} results for '{query[:40]}'")
             return results
@@ -601,7 +716,11 @@ class MediaManager:
             logger.info("⏭️ External media disabled for %s tweets", category)
             return False
 
-        subjects = self._media_subjects(event, tweet_text, include_event_text=False)
+        source_url = event.get('source_url') or metadata.get('source_url') or ''
+        if source in ('hltv', 'dust2us') and source_url:
+            return True
+
+        subjects = self._media_subjects(event, tweet_text, include_event_text=True)
         has_subject = bool(subjects['players'] or subjects['teams'])
 
         if category in self._SUBJECT_REQUIRED_CATEGORIES and not has_subject:
@@ -658,9 +777,9 @@ class MediaManager:
                 player = tweet_players[0]
                 context = self._extract_image_context(tweet_text)
                 if context:
-                    q = f"{player} cs2 {context}"
+                    q = f"{player} cs2 {context} esports photo"
                 else:
-                    q = f"{player} cs2 esports 2025"
+                    q = f"{player} cs2 esports player photo 2026"
                 logger.debug(f"🔍 Image search: player '{player}' from tweet text")
                 return q
 
@@ -673,7 +792,7 @@ class MediaManager:
 
                 if len(tweet_teams) >= 2 and is_vs_matchup:
                     # Head-to-head matchup — use "team1 vs team2"
-                    q = f"{tweet_teams[0]} vs {tweet_teams[1]} cs2"
+                    q = f"{tweet_teams[0]} vs {tweet_teams[1]} cs2 esports match photo"
                     if event_name:
                         q += f" {event_name}"
                     logger.debug(f"🔍 Image search: teams matchup from tweet text: {q}")
@@ -683,14 +802,14 @@ class MediaManager:
                     # Search for team photos rather than a vs image
                     context = self._extract_image_context(tweet_text)
                     team_names = ' '.join(tweet_teams[:3])
-                    q = f"{team_names} cs2 {context or 'team esports 2026'}"
+                    q = f"{team_names} cs2 {context or 'team esports players photo 2026'}"
                     if event_name:
                         q += f" {event_name}"
                     logger.debug(f"🔍 Image search: multi-team (non-vs) from tweet text: {q}")
                     return q
                 else:
                     context = self._extract_image_context(tweet_text)
-                    q = f"{team} cs2 {context or 'team esports 2026'}"
+                    q = f"{team} cs2 {context or 'team esports players photo 2026'}"
                     logger.debug(f"🔍 Image search: team '{team}' from tweet text")
                     return q
 
@@ -704,16 +823,25 @@ class MediaManager:
         fallback_players = self.find_players_in_text(fallback_text) if not tweet_text else []
         if fallback_players:
             logger.debug(f"🔍 Image search: player '{fallback_players[0]}' from event content (not in tweet)")
-            return f"{fallback_players[0]} cs2 esports 2025"
+            return f"{fallback_players[0]} cs2 esports player photo 2026"
 
         # 3. Team-based query from metadata
         if team1 and team2:
-            q = f"{team1} vs {team2} cs2"
+            q = f"{team1} vs {team2} cs2 esports match photo"
             if event_name:
                 q += f" {event_name}"
             return q.strip()
         elif team1:
-            return f"{team1} cs2 team esports 2025"
+            return f"{team1} cs2 team esports players photo 2026"
+
+        source = event.get('source', '')
+        source_url = event.get('source_url') or metadata.get('source_url') or ''
+        headline = str(event.get('headline') or '').strip()
+        if source in ('hltv', 'dust2us') and source_url and headline:
+            query = re.sub(r'[^A-Za-z0-9 ]+', ' ', headline)
+            query = re.sub(r'\s+', ' ', query).strip()
+            if query:
+                return f"{query} CS2 esports event photo players stage"
 
         # No useful player/team keywords — return empty to skip image search.
         # Proper-noun headline searches are intentionally disabled because they
@@ -772,7 +900,7 @@ class MediaManager:
                     page, re.IGNORECASE
                 )
             if og_match:
-                result['og_image'] = og_match.group(1)
+                result['og_image'] = html.unescape(og_match.group(1))
 
             # Extract article text from <p> tags
             clean = re.sub(r'<script[^>]*>.*?</script>', '', page, flags=re.DOTALL)
@@ -856,6 +984,17 @@ class MediaManager:
                     if r.status_code == 200 and len(r.content) >= 1000:
                         with open(local_path, 'wb') as f:
                             f.write(r.content)
+                        try:
+                            probe = Image.open(local_path)
+                            width, height = probe.size
+                            if width < 500 or height < 280:
+                                local_path.unlink(missing_ok=True)
+                                last_err = f'image too small ({width}x{height})'
+                                continue
+                        except Exception as img_err:
+                            local_path.unlink(missing_ok=True)
+                            last_err = f'invalid image: {img_err}'
+                            continue
                         # Convert WebP to JPG for Twitter compatibility
                         if ext == '.webp' or local_path.suffix == '.webp':
                             try:
@@ -1027,6 +1166,8 @@ class MediaManager:
         if not allow_external_media:
             return None
 
+        media_query = self._build_image_search_query(event, tweet_text)
+
         # 0. Twitch live screenshot — real-time game footage for match results
         if category == 'match_result':
             try:
@@ -1044,6 +1185,13 @@ class MediaManager:
             try:
                 page_data = self.fetch_article_page(source_url)
                 og_url = page_data.get('og_image')
+                if og_url:
+                    if media_query and self._has_conflicting_season(og_url, media_query):
+                        logger.info("⏭️ Skipping OG image with wrong season: %s", og_url[:100])
+                        og_url = None
+                    elif media_query and not self._url_matches_required_subjects(og_url, media_query):
+                        logger.info("⏭️ Skipping OG image without required subject: %s", og_url[:100])
+                        og_url = None
                 if og_url:
                     local_path = self.download_image(og_url)
                     if local_path:
