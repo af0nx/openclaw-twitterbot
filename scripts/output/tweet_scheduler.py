@@ -46,7 +46,7 @@ from utils.account_quota import (
 from utils.runtime_schema import ensure_runtime_schema_extensions
 from utils.twitter_accounts import get_bucket_daily_cap, select_account_bucket
 from utils.db_utils import ensure_db_connection
-from utils.cs2_constants import CS2_KEYWORDS, NON_CS2_KEYWORDS, is_t1_content, is_cs2_relevant
+from utils.cs2_constants import CS2_KEYWORDS, NON_CS2_KEYWORDS, is_t1_or_t2_content, is_cs2_relevant
 
 # Load environment
 load_dotenv('/dev/shm/.env')
@@ -801,7 +801,7 @@ class TweetScheduler:
         """Deterministic, source-grounded copy for trusted main-feed news."""
         source = event.get('source')
         category = event.get('category')
-        if source not in ('hltv', 'dust2us', 'valve_cs2'):
+        if source not in ('hltv', 'dust2us', 'valve_cs2', 'gocore', 'gosugamers'):
             return None
         if category not in ('cs2', 'roster_change', 'match_result', 'cs2_update'):
             return None
@@ -1385,18 +1385,12 @@ class TweetScheduler:
                 self.mark_event_processed(event['id'], 'skipped', 'reply_engagement_disabled')
                 return False
             
-            # T1-only filter: skip T2/T3 team matches and minor event news
-            # Gap-aware: if we haven't posted in >90 min, relax the filter to avoid dead air
-            minutes_since_last_post = self._minutes_since_last_post()
-            is_drought = minutes_since_last_post is not None and minutes_since_last_post > 90
-            if not is_t1_content(event.get('headline', ''), event.get('content', ''),
-                                 event['category'], event.get('metadata')):
-                if is_drought:
-                    logger.info(f"🔓 Relaxing T1 filter — {minutes_since_last_post:.0f}min since last post: {event['headline'][:60]}")
-                else:
-                    logger.info(f"⏭️  Skipping T2/T3 event: {event['headline'][:60]}")
-                    self.mark_event_processed(event['id'], 'skipped', 'non_t1_content')
-                    return False
+            # T1/T2 filter: skip T3 team matches and minor event noise.
+            if not is_t1_or_t2_content(event.get('headline', ''), event.get('content', ''),
+                                       event['category'], event.get('metadata')):
+                logger.info(f"⏭️  Skipping T3/noise event: {event['headline'][:60]}")
+                self.mark_event_processed(event['id'], 'skipped', 'non_t1_t2_content')
+                return False
             
             # Smart category reclassification for VIP tweets
             if event['category'] == 'vip_engagement' and event.get('content'):
@@ -2154,6 +2148,25 @@ class TweetScheduler:
         finally:
             if not slot_consumed and reserved_bucket:
                 self.free_slot(reserved_bucket)
+
+    def _event_was_handled(self, event_id: str) -> bool:
+        """Return True when a False result still finished the event decision."""
+        try:
+            self._ensure_db()
+            with self.db_conn.cursor() as cur:
+                cur.execute(
+                    """
+                    SELECT status
+                    FROM twitter_bot.events
+                    WHERE id = %s
+                    """,
+                    (event_id,),
+                )
+                row = cur.fetchone()
+            return bool(row and row[0] in ('skipped', 'rejected', 'scheduled', 'expired'))
+        except Exception as exc:
+            logger.warning(f"⚠️  Could not check handled status for event {event_id}: {exc}")
+            return False
     
     async def run_cycle(self):
         """Process pending events"""
@@ -2193,6 +2206,10 @@ class TweetScheduler:
                     consecutive_failures = 0
                     await asyncio.sleep(2)  # Space out LLM calls
                 else:
+                    if self._event_was_handled(event_id):
+                        consecutive_failures = 0
+                        await asyncio.sleep(2)
+                        continue
                     consecutive_failures += 1
                     if consecutive_failures >= 3:
                         logger.warning("⏸️  3 consecutive failures (likely rate-limited) — backing off 5 min")

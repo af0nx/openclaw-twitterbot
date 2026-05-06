@@ -15,7 +15,15 @@ from processing.tweet_quality import main_feed_quality_issue, normalize_generate
 
 
 MAIN_FEED_ATTENTION_PILLARS = {1, 2, 3, 4, 5, 7, 10, 13, 14, 15, 17}
-TRUSTED_ATTENTION_SOURCES = {"hltv", "dust2us", "valve_cs2", "prediction_webhook", "prediction_results"}
+TRUSTED_ATTENTION_SOURCES = {
+    "hltv",
+    "dust2us",
+    "valve_cs2",
+    "gocore",
+    "gosugamers",
+    "prediction_webhook",
+    "prediction_results",
+}
 
 CONCRETE_EVENT_RE = re.compile(
     r"\b(?:announce|announced|release|released|bench|benched|sign|signed|replace|replaced|"

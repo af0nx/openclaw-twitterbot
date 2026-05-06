@@ -3171,3 +3171,35 @@
 2026-05-06 07:36:10 +00:00: 2026-05-06 07:36:10,357 - __main__ - INFO - 📊 Snapshot: 54 followers (+0 since last check)
 2026-05-06 07:36:10 +00:00: 2026-05-06 07:36:10,508 - __main__ - INFO - 📈 24h Growth: +0 followers (54 → 54)
 2026-05-06 07:36:10 +00:00: 2026-05-06 07:36:10,658 - __main__ - INFO - 📈 7d Growth: +5 followers (avg 0.7/day, est 1324 days to 1K)
+2026-05-06 08:36:11 +00:00: 2026-05-06 08:36:11,419 - __main__ - INFO - 📊 Snapshot: 54 followers (+0 since last check)
+2026-05-06 08:36:11 +00:00: 2026-05-06 08:36:11,571 - __main__ - INFO - 📈 24h Growth: +0 followers (54 → 54)
+2026-05-06 08:36:11 +00:00: 2026-05-06 08:36:11,721 - __main__ - INFO - 📈 7d Growth: +5 followers (avg 0.7/day, est 1324 days to 1K)
+2026-05-06 09:36:11 +00:00: 2026-05-06 09:36:11,809 - utils.db_utils - WARNING - ⚠️  DB connection stale — reconnecting…
+2026-05-06 09:36:12 +00:00: 2026-05-06 09:36:12,793 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-06 09:36:13 +00:00: 2026-05-06 09:36:13,471 - __main__ - INFO - 📊 Snapshot: 54 followers (+0 since last check)
+2026-05-06 09:36:13 +00:00: 2026-05-06 09:36:13,623 - __main__ - INFO - 📈 24h Growth: +0 followers (54 → 54)
+2026-05-06 09:36:13 +00:00: 2026-05-06 09:36:13,774 - __main__ - INFO - 📈 7d Growth: +5 followers (avg 0.7/day, est 1324 days to 1K)
+2026-05-06 10:36:13 +00:00: 2026-05-06 10:36:13,877 - utils.db_utils - WARNING - ⚠️  DB connection stale — reconnecting…
+2026-05-06 10:36:14 +00:00: 2026-05-06 10:36:14,870 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-06 10:36:15 +00:00: 2026-05-06 10:36:15,502 - __main__ - INFO - 📊 Snapshot: 54 followers (+0 since last check)
+2026-05-06 10:36:15 +00:00: 2026-05-06 10:36:15,653 - __main__ - INFO - 📈 24h Growth: +0 followers (54 → 54)
+2026-05-06 10:36:15 +00:00: 2026-05-06 10:36:15,803 - __main__ - INFO - 📈 7d Growth: +5 followers (avg 0.7/day, est 1324 days to 1K)
+2026-05-06 11:36:15 +00:00: 2026-05-06 11:36:15,905 - utils.db_utils - WARNING - ⚠️  DB connection stale — reconnecting…
+2026-05-06 11:36:16 +00:00: 2026-05-06 11:36:16,946 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-06 11:36:17 +00:00: 2026-05-06 11:36:17,721 - __main__ - INFO - 📊 Snapshot: 54 followers (+0 since last check)
+2026-05-06 11:36:17 +00:00: 2026-05-06 11:36:17,888 - __main__ - INFO - 📈 24h Growth: +0 followers (54 → 54)
+2026-05-06 11:36:18 +00:00: 2026-05-06 11:36:18,058 - __main__ - INFO - 📈 7d Growth: +5 followers (avg 0.7/day, est 1324 days to 1K)
+2026-05-06 12:36:18 +00:00: 2026-05-06 12:36:18,967 - __main__ - INFO - 📊 Snapshot: 54 followers (+0 since last check)
+2026-05-06 12:36:19 +00:00: 2026-05-06 12:36:19,136 - __main__ - INFO - 📈 24h Growth: +0 followers (54 → 54)
+2026-05-06 12:36:19 +00:00: 2026-05-06 12:36:19,304 - __main__ - INFO - 📈 7d Growth: +5 followers (avg 0.7/day, est 1324 days to 1K)
+2026-05-06 13:36:20 +00:00: 2026-05-06 13:36:20,173 - __main__ - INFO - 📊 Snapshot: 54 followers (+0 since last check)
+2026-05-06 13:36:20 +00:00: 2026-05-06 13:36:20,341 - __main__ - INFO - 📈 24h Growth: +0 followers (54 → 54)
+2026-05-06 13:36:20 +00:00: 2026-05-06 13:36:20,508 - __main__ - INFO - 📈 7d Growth: +5 followers (avg 0.7/day, est 1324 days to 1K)
+2026-05-06 14:36:20 +00:00: 2026-05-06 14:36:20,553 - utils.db_utils - WARNING - ⚠️  DB connection stale — reconnecting…
+2026-05-06 14:36:21 +00:00: 2026-05-06 14:36:21,518 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-06 14:36:22 +00:00: 2026-05-06 14:36:22,060 - __main__ - INFO - 📊 Snapshot: 54 followers (+0 since last check)
+2026-05-06 14:36:22 +00:00: 2026-05-06 14:36:22,213 - __main__ - INFO - 📈 24h Growth: +0 followers (54 → 54)
+2026-05-06 14:36:22 +00:00: 2026-05-06 14:36:22,365 - __main__ - INFO - 📈 7d Growth: +5 followers (avg 0.7/day, est 1324 days to 1K)
+2026-05-06 15:36:23 +00:00: 2026-05-06 15:36:23,304 - __main__ - INFO - 📊 Snapshot: 54 followers (+0 since last check)
+2026-05-06 15:36:23 +00:00: 2026-05-06 15:36:23,457 - __main__ - INFO - 📈 24h Growth: +0 followers (54 → 54)
+2026-05-06 15:36:23 +00:00: 2026-05-06 15:36:23,610 - __main__ - INFO - 📈 7d Growth: +5 followers (avg 0.7/day, est 1324 days to 1K)

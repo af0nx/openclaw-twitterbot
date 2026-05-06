@@ -24,6 +24,7 @@ from scrapling.fetchers import StealthySession
 from dotenv import load_dotenv
 import psycopg2
 from psycopg2.extras import Json
+from utils.db_utils import ensure_db_connection
 
 # Load environment
 load_dotenv('/dev/shm/.env')
@@ -62,7 +63,7 @@ class HLTVMonitor:
     def connect_db(self):
         """Establish PostgreSQL connection"""
         try:
-            self.db_conn = psycopg2.connect(os.getenv('DATABASE_URL'))
+            self.db_conn = ensure_db_connection(self.db_conn)
             logger.info("✅ Connected to PostgreSQL")
             
             # Load recent match IDs to avoid duplicates
@@ -80,6 +81,9 @@ class HLTVMonitor:
         except Exception as e:
             logger.error(f"❌ Database connection failed: {e}")
             raise
+
+    def _ensure_db(self):
+        self.db_conn = ensure_db_connection(self.db_conn)
     
     async def scrape_matches(self) -> List[Dict[str, Any]]:
         """Scrape recent match results from HLTV"""
@@ -669,6 +673,7 @@ class HLTVMonitor:
             return
         
         try:
+            self._ensure_db()
             with self.db_conn.cursor() as cur:
                 for match in matches:
                     headline = f"{match['team1']} {match['score1']}-{match['score2']} {match['team2']}"
@@ -813,6 +818,7 @@ class HLTVMonitor:
             return
         
         try:
+            self._ensure_db()
             with self.db_conn.cursor() as cur:
                 for news in news_items:
                     payload = self._build_news_event_payload(news)

@@ -32131,3 +32131,5 @@
 2026-05-05 17:10:55 +00:00: 2026-05-05 17:10:55,815 - processing.openrouter_client - ERROR - ❌ Vision generation failed: Error code: 402 - {'error': {'message': 'This request requires more credits, or fewer max_tokens. You requested up to 350 tokens, but can only afford 84. To increase, visit https://openrouter.ai/settings/credits and add more credits', 'code': 402, 'metadata': {'provider_name': None}}, 'user_id': 'user_3AoNYYFz7Re18l7UxPPwfn4MNWR'}
 2026-05-05 17:10:55 +00:00: 2026-05-05 17:10:55,816 - __main__ - WARNING - ⚠️  Hosted Siftly vision failed: RetryError[<Future at 0x7f46d20a23e0 state=finished raised APIStatusError>]
 2026-05-05 17:10:56 +00:00: 2026-05-05 17:10:56,208 - __main__ - INFO - ✅ Processed Siftly event 80b3a254-400b-43f6-ad5e-d2f57b04b716: 0 tags
+2026-05-06 08:47:44 +00:00: 2026-05-06 08:47:44,826 - utils.db_utils - WARNING - ⚠️  DB connection stale — reconnecting…
+2026-05-06 08:47:45 +00:00: 2026-05-06 08:47:45,731 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL

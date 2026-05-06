@@ -19,7 +19,7 @@ CS2_KEYWORDS = {
     'major', 'blast', 'esl', 'iem', 'faceit', 'hltv', 'pgl',
     'esl pro league', 'blast premier', 'betboom', 'perfect world',
     'thunderpick', 'cct', 'roobet cup', 'starladder', 'starseries',
-    'esports world cup', 'ewc', 'cs asia championships',
+    'esports world cup', 'ewc',
     # Maps
     'awp', 'deagle', 'nuke', 'mirage', 'inferno', 'ancient', 'anubis',
     'dust2', 'vertigo', 'overpass', 'train',
@@ -174,15 +174,32 @@ T1_TEAMS = {
 T1_EVENTS = {
     'major', 'pgl major', 'pgl', 'blast premier', 'blast open', 'blast',
     'esl pro league', 'esl challenger', 'iem', 'iem katowice', 'iem cologne',
-    'iem rio', 'iem dallas', 'iem chengdu', 'iem krakow', 'iem china',
-    'blast bounty', 'blast rivals', 'blast open rotterdam', 'blast premier open porto',
-    'pgl major singapore', 'pgl cluj-napoca', 'pgl bucharest', 'pgl astana',
-    'pgl masters bucharest', 'starladder', 'starseries', 'starseries fall',
-    'esports world cup', 'ewc', 'cs asia championships', 'cac',
+    'iem rio', 'iem dallas', 'iem chengdu',
+    'iem krakow', 'iem china',
     'perfect world', 'betboom', 'thunderpick',
+    'blast bounty', 'blast rivals', 'pgl cluj-napoca', 'pgl bucharest',
+    'pgl astana', 'pgl masters bucharest', 'pgl major singapore',
+    'starladder', 'starseries', 'esports world cup', 'ewc',
+    'cs asia championships',
     'cologne', 'katowice', 'rotterdam', 'bucharest', 'copenhagen',
     'cluj-napoca', 'astana', 'singapore', 'porto', 'hong kong', 'riyadh',
     'gamers assembly',
+}
+
+T2_TEAMS = {
+    '3dmax', 'm80', 'wildcard', 'mibr', 'pain', 'paiN', 'imperial',
+    'gamerlegion', 'sinners', 'big', 'betboom', 'sashi', 'nexus',
+    'bc game', 'bc.game', 'falcons', 'nip', 'ninjas in pyjamas',
+    'og', 'tsm', 'envy', 'luminosity', 'lynn vision', 'tyloo',
+    'bestia', 'passion ua', 'fnatic', 'saw', 'apeks', 'monte',
+    'aurora', '9ine', '500', 'b8', 'parivision', 'k27',
+}
+
+T2_EVENTS = {
+    'esl challenger league', 'ecl', 'thunderpick', 'cct',
+    'yalla compass', 'roobet cup', 'sky esports', 'skyesports',
+    'esea premier', 'playvs', 'college league', 'bc game masters',
+    'regional major ranking', 'rmr', 'vrs', 'challenger league',
 }
 
 # Categories that bypass the T1 filter (always allowed)
@@ -212,12 +229,28 @@ _T1_AMBIGUOUS_TEAMS_RE = re.compile(
     re.IGNORECASE
 )
 
+_T2_AMBIGUOUS_TEAMS = {
+    'big', 'og', '500', '9ine', 'saw', 'nip', 'envy',
+}
+_T2_SAFE_TEAMS = {t.lower() for t in T2_TEAMS} - _T2_AMBIGUOUS_TEAMS
+_T2_AMBIGUOUS_TEAMS_RE = re.compile(
+    r'\b(?:' + '|'.join(re.escape(t) for t in _T2_AMBIGUOUS_TEAMS) + r')\b',
+    re.IGNORECASE
+)
+
 
 def _has_t1_team(text: str) -> bool:
     """Check if text mentions a T1 team using word boundaries for ambiguous names."""
     if any(t in text for t in _T1_SAFE_TEAMS):
         return True
     return bool(_T1_AMBIGUOUS_TEAMS_RE.search(text))
+
+
+def _has_t2_team(text: str) -> bool:
+    """Check if text mentions a T2 team using word boundaries for ambiguous names."""
+    if any(t in text for t in _T2_SAFE_TEAMS):
+        return True
+    return bool(_T2_AMBIGUOUS_TEAMS_RE.search(text))
 
 
 def is_t1_content(headline: str, content: str, category: str, metadata: dict = None) -> bool:
@@ -259,3 +292,22 @@ def is_t1_content(headline: str, content: str, category: str, metadata: dict = N
     # Big CS2 news = OK (e.g. Valve bans, game updates)
     # Neither = skip
     return has_t1_team or has_t1_event or has_t1_player or has_big_news
+
+
+def is_t1_or_t2_content(headline: str, content: str, category: str, metadata: dict = None) -> bool:
+    """Allow T1 and T2 CS2 content while still filtering T3/noise."""
+    if is_t1_content(headline, content, category, metadata):
+        return True
+
+    text = (headline + ' ' + (content or '')).lower()
+    has_t2_team = _has_t2_team(text)
+    has_t2_event = any(evt in text for evt in T2_EVENTS)
+
+    if metadata:
+        team1 = (metadata.get('team1') or '').lower()
+        team2 = (metadata.get('team2') or '').lower()
+        event_name = (metadata.get('event') or '').lower()
+        has_t2_team = has_t2_team or any(t in team1 or t in team2 for t in _T2_SAFE_TEAMS)
+        has_t2_event = has_t2_event or any(e in event_name for e in T2_EVENTS)
+
+    return has_t2_team or has_t2_event

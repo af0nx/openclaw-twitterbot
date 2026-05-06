@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 RSS Aggregator - Twitter Bot Pipeline V2
-Polls 13 RSS feeds every 120s using Scrapling's anti-detection capabilities
+Polls CS2 and mixed-esports news sources every 120s using anti-detection requests.
 """
 
 import asyncio
@@ -11,13 +11,17 @@ import re
 from datetime import datetime, timezone
 from typing import List, Dict, Any
 import os
+from urllib.parse import urljoin
+from urllib import request as urllib_request
 
+from bs4 import BeautifulSoup
 import feedparser
 from curl_cffi.requests import Session as CurlSession
 from dotenv import load_dotenv
 import psycopg2
 from psycopg2.extras import Json
 import json
+from utils.db_utils import ensure_db_connection
 
 # Load environment
 load_dotenv('/dev/shm/.env')
@@ -29,7 +33,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# RSS Feed Sources — CS2 only
+# News sources — CS2 only unless marked mixed/filter-required
 RSS_FEEDS = [
     {
         'url': 'https://www.hltv.org/rss/news',
@@ -57,6 +61,36 @@ RSS_FEEDS = [
         'category': 'cs2',
         'source': 'dust2us',
         'pure_cs2': True,  # NA CS2 coverage
+    },
+    {
+        'url': 'https://www.dust2.dk/rss',
+        'category': 'cs2',
+        'source': 'dust2dk',
+        'pure_cs2': True,  # Danish/EU CS2 coverage
+    },
+    {
+        'url': 'https://www.dust2.com.br/rss',
+        'category': 'cs2',
+        'source': 'dust2br',
+        'pure_cs2': True,  # Brazil/South America CS2 coverage
+    },
+    {
+        'url': 'https://www.gosugamers.net/counterstrike',
+        'category': 'cs2',
+        'source': 'gosugamers',
+        'pure_cs2': True,  # CS2 article page; RSS endpoint returns page-not-found HTML
+        'parser': 'html',
+        'base_url': 'https://www.gosugamers.net',
+        'link_prefix': '/counterstrike/news/',
+    },
+    {
+        'url': 'https://www.gocore.gg/cs2/news',
+        'category': 'cs2',
+        'source': 'gocore',
+        'pure_cs2': True,  # CS2 news page; no RSS endpoint exposed
+        'parser': 'html',
+        'base_url': 'https://www.gocore.gg',
+        'link_prefix': '/cs2/news/',
     },
     {
         'url': 'https://bo3.gg/rss',
@@ -112,6 +146,18 @@ class RSSAggregator:
         self.session = None
         self.seen_hashes = set()
         self._curl_session = CurlSession(impersonate="chrome120")
+
+    @staticmethod
+    def _fetch_with_urllib(url: str, timeout: int) -> str:
+        req = urllib_request.Request(
+            url,
+            headers={
+                'User-Agent': 'Mozilla/5.0 SkinBetHubRSS/1.0',
+                'Accept': 'application/rss+xml, application/xml, text/xml, */*',
+            },
+        )
+        with urllib_request.urlopen(req, timeout=timeout) as response:
+            return response.read().decode('utf-8', errors='replace')
     
     def _count_secondary_hits(self, text: str) -> int:
         """Count secondary keyword matches using word boundaries for ambiguous ones."""
@@ -139,11 +185,19 @@ class RSSAggregator:
             return True
         # Secondary keywords need at least 2 matches (team + context)
         return self._count_secondary_hits(text) >= 2
+
+    def is_low_value_news_item(self, feed_config: Dict[str, Any], headline: str) -> bool:
+        """Filter evergreen betting guides from the news ingestion path."""
+        source = feed_config.get('source')
+        text = (headline or '').lower()
+        if source == 'gocore' and re.search(r"\b(?:predictions?|pick'?ems?|guide)\b", text):
+            return True
+        return False
         
     def connect_db(self):
         """Establish PostgreSQL connection"""
         try:
-            self.db_conn = psycopg2.connect(os.getenv('DATABASE_URL'))
+            self.db_conn = ensure_db_connection(self.db_conn)
             logger.info("✅ Connected to PostgreSQL")
             
             # Load existing event hashes to avoid duplicates
@@ -159,18 +213,103 @@ class RSSAggregator:
         except Exception as e:
             logger.error(f"❌ Database connection failed: {e}")
             raise
+
+    def _ensure_db(self):
+        self.db_conn = ensure_db_connection(self.db_conn)
     
     def generate_hash(self, headline: str, url: str) -> str:
         """Generate MD5 hash for deduplication"""
         content = headline + (url or '')
         return hashlib.md5(content.encode()).hexdigest()
+
+    @staticmethod
+    def _clean_html_text(value: str) -> str:
+        return re.sub(r'\s+', ' ', value or '').strip()
+
+    @staticmethod
+    def _parse_html_date(value: str):
+        try:
+            return datetime.strptime(value, '%d.%m.%Y').replace(tzinfo=timezone.utc)
+        except Exception:
+            return None
+
+    def parse_html_feed(self, feed_config: Dict[str, Any], html: str) -> List[Dict[str, Any]]:
+        """Extract article cards from CS2 news pages that do not expose RSS."""
+        soup = BeautifulSoup(html, 'lxml')
+        link_prefix = feed_config.get('link_prefix', '')
+        base_url = feed_config.get('base_url') or feed_config['url']
+        source = feed_config.get('source', '')
+        skip_text = {
+            'CS2', 'Counter-Strike 2', 'Author', 'Date', 'Read More',
+            'News', 'All articles',
+        }
+
+        entries: List[Dict[str, Any]] = []
+        seen_urls = set()
+
+        for anchor in soup.find_all('a', href=True):
+            href = anchor.get('href') or ''
+            if link_prefix and link_prefix not in href:
+                continue
+
+            url = urljoin(base_url, href)
+            if url in seen_urls:
+                continue
+
+            texts = [
+                self._clean_html_text(text)
+                for text in anchor.stripped_strings
+            ]
+            texts = [
+                text for text in texts
+                if text
+                and text not in skip_text
+                and not text.lower().startswith('image:')
+            ]
+            if not texts:
+                continue
+
+            headline = texts[0]
+            if len(headline) < 10:
+                continue
+
+            content = ''
+            if source == 'gocore':
+                for text in texts[1:]:
+                    if text == headline or re.fullmatch(r'\d{2}\.\d{2}\.\d{4}', text):
+                        continue
+                    if len(text) >= 25:
+                        content = text
+                        break
+
+            published_at = None
+            for text in texts:
+                if re.fullmatch(r'\d{2}\.\d{2}\.\d{4}', text):
+                    published_at = self._parse_html_date(text)
+                    break
+
+            entries.append({
+                'title': headline,
+                'link': url,
+                'summary': content,
+                'published_at': published_at,
+            })
+            seen_urls.add(url)
+            if len(entries) >= 10:
+                break
+
+        return entries
     
-    async def fetch_feed(self, feed_config: Dict[str, str]) -> List[Dict[str, Any]]:
-        """Fetch and parse a single RSS feed"""
+    async def fetch_feed(self, feed_config: Dict[str, Any]) -> List[Dict[str, Any]]:
+        """Fetch and parse a single news source."""
         try:
             timeout = int(os.getenv('SCRAPLING_TIMEOUT', 30))
             headers = {
-                'Accept': 'application/rss+xml, application/atom+xml, application/xml, text/xml, */*'
+                'Accept': (
+                    'text/html,application/xhtml+xml,*/*'
+                    if feed_config.get('parser') == 'html'
+                    else 'application/rss+xml, application/atom+xml, application/xml, text/xml, */*'
+                )
             }
             
             response = await asyncio.to_thread(
@@ -181,26 +320,62 @@ class RSSAggregator:
                 allow_redirects=True
             )
             
+            response_text = response.text
             if response.status_code != 200:
-                soft_fail_statuses = feed_config.get('soft_fail_statuses') or set()
-                if response.status_code in soft_fail_statuses:
+                if feed_config.get('source') == 'hltv':
+                    try:
+                        response_text = await asyncio.to_thread(
+                            self._fetch_with_urllib,
+                            feed_config['url'],
+                            timeout,
+                        )
+                        logger.info("✅ hltv: urllib RSS fallback succeeded after HTTP %s", response.status_code)
+                    except Exception as fallback_exc:
+                        logger.warning("⚠️  hltv RSS fallback failed: %s", fallback_exc)
+                        response_text = ''
+
+                if response_text:
+                    pass
+                else:
+                    if response.status_code in feed_config.get('soft_fail_statuses', set()):
+                        logger.warning(
+                            "⚠️  %s: HTTP %s; relying on %s for coverage",
+                            feed_config['source'],
+                            response.status_code,
+                            feed_config.get('fallback_provider', 'fallback ingestion'),
+                        )
+                        return []
+                    logger.warning(f"⚠️  {feed_config['source']}: HTTP {response.status_code}")
+                    return []
+
+            if response.status_code != 200 and not response_text:
+                if response.status_code in feed_config.get('soft_fail_statuses', set()):
                     logger.warning(
-                        f"⚠️  {feed_config['source']}: HTTP {response.status_code}; "
-                        f"relying on {feed_config.get('fallback_provider', 'fallback provider')} for coverage"
+                        "⚠️  %s: HTTP %s; relying on %s for coverage",
+                        feed_config['source'],
+                        response.status_code,
+                        feed_config.get('fallback_provider', 'fallback ingestion'),
                     )
                     return []
                 logger.warning(f"⚠️  {feed_config['source']}: HTTP {response.status_code}")
                 return []
             
-            # Parse RSS
-            feed = feedparser.parse(response.text)
+            if feed_config.get('parser') == 'html':
+                parsed_entries = self.parse_html_feed(feed_config, response_text)
+            else:
+                feed = feedparser.parse(response_text)
+                parsed_entries = feed.entries[:10]
+
             entries = []
             
-            for entry in feed.entries[:10]:  # Limit to latest 10 per feed
+            for entry in parsed_entries:
                 headline = entry.get('title', '').strip()
                 url = entry.get('link', '')
                 content = entry.get('summary', entry.get('description', ''))
                 published = entry.get('published_parsed')
+                published_at = entry.get('published_at') or (
+                    datetime(*published[:6], tzinfo=timezone.utc) if published else None
+                )
                 
                 # Generate dedup hash
                 event_hash = self.generate_hash(headline, url)
@@ -210,6 +385,9 @@ class RSSAggregator:
                 
                 # Filter non-CS2 articles from mixed feeds (skip for pure CS2 sources)
                 if not feed_config.get('pure_cs2') and not self.is_cs2_article(headline, content):
+                    continue
+
+                if self.is_low_value_news_item(feed_config, headline):
                     continue
                 
                 # Classify urgency based on keywords
@@ -223,7 +401,7 @@ class RSSAggregator:
                     'category': feed_config['category'],
                     'urgency': urgency,
                     'hash': event_hash,
-                    'published_at': datetime(*published[:6], tzinfo=timezone.utc) if published else None
+                    'published_at': published_at
                 })
                 
                 self.seen_hashes.add(event_hash)
@@ -267,6 +445,7 @@ class RSSAggregator:
             return
         
         try:
+            self._ensure_db()
             with self.db_conn.cursor() as cur:
                 for event in events:
                     cur.execute("""
@@ -294,6 +473,7 @@ class RSSAggregator:
     async def run_cycle(self):
         """Run one aggregation cycle across all feeds"""
         logger.info("🔄 Starting RSS aggregation cycle...")
+        self._ensure_db()
         
         tasks = [self.fetch_feed(feed) for feed in RSS_FEEDS if not feed.get('disabled')]
         results = await asyncio.gather(*tasks)

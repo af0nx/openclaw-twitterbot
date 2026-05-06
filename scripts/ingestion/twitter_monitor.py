@@ -28,6 +28,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from utils.cs2_constants import is_cs2_relevant as _is_cs2_relevant
 from utils.cs2_constants import is_other_game as _is_other_game
+from utils.db_utils import ensure_db_connection
 from utils.runtime_schema import ensure_runtime_schema_extensions
 
 # Load environment
@@ -216,13 +217,16 @@ class TwitterVIPMonitor:
     def connect_db(self):
         """Establish PostgreSQL connection"""
         try:
-            self.db_conn = psycopg2.connect(os.getenv('DATABASE_URL'))
+            self.db_conn = ensure_db_connection(self.db_conn)
             ensure_runtime_schema_extensions(self.db_conn)
             logger.info("✅ Connected to PostgreSQL")
             self.load_vip_accounts()
         except Exception as e:
             logger.error(f"❌ Database connection failed: {e}")
             raise
+
+    def _ensure_db(self):
+        self.db_conn = ensure_db_connection(self.db_conn)
 
     def _tweet_url(self, author: str, tweet_id: str) -> str:
         return f"https://twitter.com/{author}/status/{tweet_id}"
@@ -234,6 +238,7 @@ class TwitterVIPMonitor:
 
         tweet_url = self._tweet_url(author, tweet_id) if author else None
         try:
+            self._ensure_db()
             with self.db_conn.cursor() as cur:
                 if tweet_url:
                     cur.execute(
@@ -267,6 +272,7 @@ class TwitterVIPMonitor:
     def load_vip_accounts(self):
         """Load monitored VIP accounts from database"""
         try:
+            self._ensure_db()
             with self.db_conn.cursor() as cur:
                 cur.execute("""
                     SELECT twitter_username, list_type, engagement_priority, auto_hitl_engage
@@ -472,6 +478,7 @@ class TwitterVIPMonitor:
     def store_engagement_opportunity(self, tweet: Dict[str, Any], vip: Dict[str, str]):
         """Store VIP tweet as potential engagement opportunity"""
         try:
+            self._ensure_db()
             tweet_id = tweet.get('tweet_id')
             tweet_author = tweet.get('author', '')
             tweet_url = self._tweet_url(tweet_author, tweet_id) if tweet_id and tweet_author else None
@@ -549,6 +556,7 @@ class TwitterVIPMonitor:
         
         # Update last checked timestamp
         try:
+            self._ensure_db()
             with self.db_conn.cursor() as cur:
                 cur.execute("""
                     UPDATE twitter_bot.monitored_accounts
@@ -562,6 +570,7 @@ class TwitterVIPMonitor:
     async def run_cycle(self):
         """Run one monitoring cycle across all VIPs"""
         logger.info("🔄 Starting VIP monitoring cycle...")
+        self._ensure_db()
         
         # Prune dedup set — keep only recent tweet IDs (prevent memory leak)
         if len(self._seen_tweet_ids) > 5000:
