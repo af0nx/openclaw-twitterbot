@@ -32133,3 +32133,7 @@
 2026-05-05 17:10:56 +00:00: 2026-05-05 17:10:56,208 - __main__ - INFO - ✅ Processed Siftly event 80b3a254-400b-43f6-ad5e-d2f57b04b716: 0 tags
 2026-05-06 08:47:44 +00:00: 2026-05-06 08:47:44,826 - utils.db_utils - WARNING - ⚠️  DB connection stale — reconnecting…
 2026-05-06 08:47:45 +00:00: 2026-05-06 08:47:45,731 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-07 14:03:48 +00:00: 2026-05-07 14:03:48,331 - __main__ - WARNING - ⚠️  Vision model not available, using fallback mode
+2026-05-07 14:03:48 +00:00: 2026-05-07 14:03:48,332 - __main__ - INFO - 🔄 Processing 1 recent Siftly events...
+2026-05-07 14:03:59 +00:00: 2026-05-07 14:03:59,124 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-07 14:04:08 +00:00: 2026-05-07 14:04:08,981 - __main__ - INFO - ✅ Processed Siftly event 7c70ad42-6abd-4be0-9fb1-ff7f958fa214: 3 tags
