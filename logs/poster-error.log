@@ -23249,3 +23249,21 @@
 2026-05-06 14:44:49 +00:00: 2026-05-06 14:44:49,112 - __main__ - INFO - ✅ Posted tweet: 2052036867244081615
 2026-05-06 14:44:50 +00:00: 2026-05-06 14:44:50,040 - __main__ - INFO - 📊 Incremented quota counter for main
 2026-05-06 14:44:50 +00:00: 2026-05-06 14:44:50,040 - __main__ - INFO - ✅ Successfully posted tweet 0601bc2a-ca1d-418d-be68-986889134971 → 2052036867244081615
+2026-05-06 16:29:01 +00:00: 2026-05-06 16:29:01,092 - __main__ - INFO - ⏹️  Twitter Poster shutdown requested
+2026-05-06 16:29:01 +00:00: 2026-05-06 16:29:01,596 - __main__ - INFO - ✅ Twitter API v2 client initialized for main
+2026-05-06 16:29:01 +00:00: 2026-05-06 16:29:01,596 - __main__ - INFO - ✅ Twitter API v2 client initialized for live
+2026-05-06 16:29:01 +00:00: 2026-05-06 16:29:01,596 - __main__ - INFO - ✅ Twitter API v2 client initialized for replies
+2026-05-06 16:29:02 +00:00: 2026-05-06 16:29:02,560 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-06 16:29:10 +00:00: 2026-05-06 16:29:10,834 - __main__ - INFO - 🚀 Twitter Poster started
+2026-05-06 17:04:01 +00:00: 2026-05-06 17:04:01,887 - __main__ - INFO - 🔄 Processing 1 queued tweets...
+2026-05-06 17:04:02 +00:00: 2026-05-06 17:04:02,531 - __main__ - INFO - ✅ Posted tweet: 2052071904240959595
+2026-05-06 17:04:03 +00:00: 2026-05-06 17:04:03,454 - __main__ - INFO - 📊 Incremented quota counter for main
+2026-05-06 17:04:04 +00:00: 2026-05-06 17:04:04,377 - __main__ - INFO - ⏳ Queued delayed like for tweet 2052071904240959595 in 154s
+2026-05-06 17:04:04 +00:00: 2026-05-06 17:04:04,377 - __main__ - INFO - ✅ Successfully posted tweet 9140c14b-2541-4128-87f0-b2c1b186edba → 2052071904240959595
+2026-05-06 17:07:16 +00:00: 2026-05-06 17:07:16,940 - __main__ - INFO - ❤️  Delayed like completed for tweet 2052071904240959595
+2026-05-06 20:10:49 +00:00: 2026-05-06 20:10:49,836 - __main__ - INFO - 🔄 Processing 1 queued tweets...
+2026-05-06 20:10:50 +00:00: 2026-05-06 20:10:50,581 - __main__ - INFO - ✅ Posted tweet: 2052118914306290140
+2026-05-06 20:10:51 +00:00: 2026-05-06 20:10:51,504 - __main__ - INFO - 📊 Incremented quota counter for main
+2026-05-06 20:10:52 +00:00: 2026-05-06 20:10:52,424 - __main__ - INFO - ⏳ Queued delayed like for tweet 2052118914306290140 in 172s
+2026-05-06 20:10:52 +00:00: 2026-05-06 20:10:52,425 - __main__ - INFO - ✅ Successfully posted tweet 944daaf7-3840-40d6-8a04-e63e6cd7d443 → 2052118914306290140
+2026-05-06 20:14:05 +00:00: 2026-05-06 20:14:05,057 - __main__ - INFO - ❤️  Delayed like completed for tweet 2052118914306290140

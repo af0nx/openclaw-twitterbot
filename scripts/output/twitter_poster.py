@@ -7,6 +7,7 @@ Handles single tweets, replies, quote tweets, and threads
 
 import asyncio
 import logging
+import random
 import signal
 import time
 from datetime import datetime, timezone, timedelta
@@ -42,6 +43,9 @@ logger = logging.getLogger(__name__)
 
 MAX_QUEUED_TWEET_AGE_HOURS = int(os.getenv('MAX_QUEUED_TWEET_AGE_HOURS', '24'))
 POSTER_BILLING_BACKOFF_MINUTES = int(os.getenv('POSTER_BILLING_BACKOFF_MINUTES', '30'))
+POST_SELF_LIKE_ENABLED = os.getenv('POST_SELF_LIKE_ENABLED', 'true').lower() in ('1', 'true', 'yes', 'on')
+POST_SELF_LIKE_DELAY_MIN_SECONDS = int(os.getenv('POST_SELF_LIKE_DELAY_MIN_SECONDS', '90'))
+POST_SELF_LIKE_DELAY_MAX_SECONDS = int(os.getenv('POST_SELF_LIKE_DELAY_MAX_SECONDS', '180'))
 
 
 class TwitterPoster:
@@ -98,6 +102,7 @@ class TwitterPoster:
             self.db_conn = ensure_db_connection(self.db_conn)
             if not self._schema_ready:
                 ensure_runtime_schema_extensions(self.db_conn)
+                self._ensure_post_like_schema()
                 self._schema_ready = True
         except Exception as e:
             logger.error(f"❌ Database connection failed: {e}")
@@ -106,6 +111,156 @@ class TwitterPoster:
     def _ensure_db(self):
         """Lightweight reconnect guard"""
         self.db_conn = ensure_db_connection(self.db_conn)
+
+    def _ensure_post_like_schema(self):
+        with self.db_conn.cursor() as cur:
+            cur.execute("""
+                CREATE TABLE IF NOT EXISTS twitter_bot.pending_tweet_likes (
+                    twitter_tweet_id TEXT PRIMARY KEY,
+                    author_username TEXT NOT NULL DEFAULT 'SkinBetHub',
+                    source TEXT NOT NULL DEFAULT 'post_delay_like',
+                    due_at TIMESTAMPTZ NOT NULL,
+                    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+                    liked_at TIMESTAMPTZ,
+                    status TEXT NOT NULL DEFAULT 'pending',
+                    error TEXT
+                )
+            """)
+            cur.execute("""
+                CREATE INDEX IF NOT EXISTS idx_pending_tweet_likes_due
+                ON twitter_bot.pending_tweet_likes (status, due_at)
+            """)
+            self.db_conn.commit()
+
+    def _like_already_recorded(self, tweet_id: str) -> bool:
+        with self.db_conn.cursor() as cur:
+            cur.execute(
+                "SELECT 1 FROM twitter_bot.community_likes WHERE twitter_tweet_id = %s",
+                (str(tweet_id),),
+            )
+            return cur.fetchone() is not None
+
+    def _record_like(self, tweet_id: str, author: str, source: str):
+        with self.db_conn.cursor() as cur:
+            cur.execute("""
+                INSERT INTO twitter_bot.community_likes (twitter_tweet_id, author_username, source)
+                VALUES (%s, %s, %s)
+                ON CONFLICT (twitter_tweet_id) DO NOTHING
+            """, (str(tweet_id), author, source))
+            cur.execute("""
+                INSERT INTO twitter_bot.like_quotas (date, likes_given)
+                VALUES (CURRENT_DATE, 1)
+                ON CONFLICT (date) DO UPDATE
+                SET likes_given = twitter_bot.like_quotas.likes_given + 1,
+                    updated_at = NOW()
+            """)
+            self.db_conn.commit()
+
+    def enqueue_post_like(self, twitter_tweet_id: str):
+        if not POST_SELF_LIKE_ENABLED or not twitter_tweet_id or twitter_tweet_id == 'dry_run_tweet_id':
+            return
+
+        low = max(30, POST_SELF_LIKE_DELAY_MIN_SECONDS)
+        high = max(low, POST_SELF_LIKE_DELAY_MAX_SECONDS)
+        delay_seconds = random.randint(low, high)
+
+        try:
+            self._ensure_db()
+            with self.db_conn.cursor() as cur:
+                cur.execute("""
+                    INSERT INTO twitter_bot.pending_tweet_likes
+                    (twitter_tweet_id, author_username, source, due_at)
+                    VALUES (%s, %s, %s, NOW() + (%s * INTERVAL '1 second'))
+                    ON CONFLICT (twitter_tweet_id) DO NOTHING
+                """, (str(twitter_tweet_id), 'SkinBetHub', 'post_delay_like', delay_seconds))
+                self.db_conn.commit()
+            logger.info("⏳ Queued delayed like for tweet %s in %ss", twitter_tweet_id, delay_seconds)
+        except Exception as e:
+            logger.warning(f"⚠️  Failed to queue delayed like for {twitter_tweet_id}: {e}")
+            try:
+                self.db_conn.rollback()
+            except Exception:
+                pass
+
+    def process_due_post_likes(self):
+        if not POST_SELF_LIKE_ENABLED:
+            return
+
+        try:
+            self._ensure_db()
+            with self.db_conn.cursor() as cur:
+                cur.execute("""
+                    SELECT twitter_tweet_id, author_username, source
+                    FROM twitter_bot.pending_tweet_likes
+                    WHERE status = 'pending'
+                      AND due_at <= NOW()
+                    ORDER BY due_at ASC
+                    LIMIT 3
+                """)
+                due_likes = cur.fetchall()
+
+            if not due_likes:
+                return
+
+            like_client = self.get_client('replies')
+            for tweet_id, author, source in due_likes:
+                try:
+                    if self._like_already_recorded(tweet_id):
+                        with self.db_conn.cursor() as cur:
+                            cur.execute("""
+                                UPDATE twitter_bot.pending_tweet_likes
+                                SET status = 'already_liked',
+                                    liked_at = NOW()
+                                WHERE twitter_tweet_id = %s
+                            """, (tweet_id,))
+                            self.db_conn.commit()
+                        continue
+
+                    like_client.like(str(tweet_id))
+                    self._record_like(tweet_id, author, source)
+                    with self.db_conn.cursor() as cur:
+                        cur.execute("""
+                            UPDATE twitter_bot.pending_tweet_likes
+                            SET status = 'liked',
+                                liked_at = NOW(),
+                                error = NULL
+                            WHERE twitter_tweet_id = %s
+                        """, (tweet_id,))
+                        self.db_conn.commit()
+                    logger.info("❤️  Delayed like completed for tweet %s", tweet_id)
+                    time.sleep(random.uniform(2.0, 5.0))
+                except tweepy.TweepyException as e:
+                    err = str(e)
+                    status = 'failed'
+                    if 'already liked' in err.lower() or 'You have already' in err:
+                        self._record_like(tweet_id, author, source)
+                        status = 'already_liked'
+                    with self.db_conn.cursor() as cur:
+                        cur.execute("""
+                            UPDATE twitter_bot.pending_tweet_likes
+                            SET status = %s,
+                                liked_at = CASE WHEN %s = 'already_liked' THEN NOW() ELSE liked_at END,
+                                error = %s
+                            WHERE twitter_tweet_id = %s
+                        """, (status, status, err[:300], tweet_id))
+                        self.db_conn.commit()
+                    logger.warning("⚠️  Delayed like failed for %s: %s", tweet_id, err[:120])
+                except Exception as e:
+                    with self.db_conn.cursor() as cur:
+                        cur.execute("""
+                            UPDATE twitter_bot.pending_tweet_likes
+                            SET status = 'failed',
+                                error = %s
+                            WHERE twitter_tweet_id = %s
+                        """, (str(e)[:300], tweet_id))
+                        self.db_conn.commit()
+                    logger.warning("⚠️  Delayed like failed for %s: %s", tweet_id, e)
+        except Exception as e:
+            logger.warning(f"⚠️  Failed to process delayed likes: {e}")
+            try:
+                self.db_conn.rollback()
+            except Exception:
+                pass
     
     def increment_quota(self, bucket: str):
         """Increment executed writes counter for the posting bucket."""
@@ -603,6 +758,7 @@ class TwitterPoster:
             
             # Increment quota
             self.increment_quota(tweet_data['account_bucket'])
+            self.enqueue_post_like(posted_id)
             
             logger.info(f"✅ Successfully posted tweet {tweet_id} → {posted_id}")
             return True
@@ -649,6 +805,8 @@ class TwitterPoster:
                 else:
                     logger.debug("🧾 Dashboard review-only mode active — no queued tweets to hold")
                 return
+
+            self.process_due_post_likes()
 
             if self.dry_run:
                 logger.debug("🧪 Dry-run mode active — skipping stale queue expiration")
