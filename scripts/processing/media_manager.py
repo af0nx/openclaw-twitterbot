@@ -717,7 +717,7 @@ class MediaManager:
             return False
 
         source_url = event.get('source_url') or metadata.get('source_url') or ''
-        if source in ('hltv', 'dust2us', 'gocore', 'gosugamers') and source_url:
+        if source in ('hltv', 'dust2us', 'valve_cs2', 'gocore', 'gosugamers') and source_url:
             return True
 
         subjects = self._media_subjects(event, tweet_text, include_event_text=True)

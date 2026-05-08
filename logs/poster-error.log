@@ -23279,3 +23279,27 @@
 2026-05-07 15:29:21 +00:00: 2026-05-07 15:29:21,568 - __main__ - INFO - ⏳ Queued delayed like for tweet 2052410456698986512 in 124s
 2026-05-07 15:29:21 +00:00: 2026-05-07 15:29:21,568 - __main__ - INFO - ✅ Successfully posted tweet f54b25f0-ac47-48f3-8b85-1271f26e20e6 → 2052410456698986512
 2026-05-07 15:31:30 +00:00: 2026-05-07 15:31:30,833 - __main__ - INFO - ❤️  Delayed like completed for tweet 2052410456698986512
+2026-05-07 18:06:33 +00:00: 2026-05-07 18:06:33,922 - __main__ - INFO - 🔄 Processing 1 queued tweets...
+2026-05-07 18:06:34 +00:00: 2026-05-07 18:06:34,515 - __main__ - INFO - ✅ Posted tweet: 2052450029118292408
+2026-05-07 18:06:35 +00:00: 2026-05-07 18:06:35,440 - __main__ - INFO - 📊 Incremented quota counter for main
+2026-05-07 18:06:36 +00:00: 2026-05-07 18:06:36,360 - __main__ - INFO - ⏳ Queued delayed like for tweet 2052450029118292408 in 133s
+2026-05-07 18:06:36 +00:00: 2026-05-07 18:06:36,360 - __main__ - INFO - ✅ Successfully posted tweet 9f58b493-c8ad-4238-8886-6899a43d6413 → 2052450029118292408
+2026-05-07 18:09:48 +00:00: 2026-05-07 18:09:48,804 - __main__ - INFO - ❤️  Delayed like completed for tweet 2052450029118292408
+2026-05-07 22:29:16 +00:00: 2026-05-07 22:29:16,087 - __main__ - INFO - ⏹️  Twitter Poster shutdown requested
+2026-05-07 22:29:16 +00:00: 2026-05-07 22:29:16,686 - __main__ - INFO - ✅ Twitter API v2 client initialized for main
+2026-05-07 22:29:16 +00:00: 2026-05-07 22:29:16,686 - __main__ - INFO - ✅ Twitter API v2 client initialized for live
+2026-05-07 22:29:16 +00:00: 2026-05-07 22:29:16,686 - __main__ - INFO - ✅ Twitter API v2 client initialized for replies
+2026-05-07 22:29:17 +00:00: 2026-05-07 22:29:17,684 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-07 22:29:25 +00:00: 2026-05-07 22:29:25,722 - __main__ - INFO - 🚀 Twitter Poster started
+2026-05-07 22:37:22 +00:00: 2026-05-07 22:37:22,536 - __main__ - INFO - ⏹️  Twitter Poster shutdown requested
+2026-05-07 22:37:22 +00:00: 2026-05-07 22:37:22,949 - __main__ - INFO - ✅ Twitter API v2 client initialized for main
+2026-05-07 22:37:22 +00:00: 2026-05-07 22:37:22,949 - __main__ - INFO - ✅ Twitter API v2 client initialized for live
+2026-05-07 22:37:22 +00:00: 2026-05-07 22:37:22,949 - __main__ - INFO - ✅ Twitter API v2 client initialized for replies
+2026-05-07 22:37:23 +00:00: 2026-05-07 22:37:23,868 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-07 22:37:31 +00:00: 2026-05-07 22:37:31,994 - __main__ - INFO - 🚀 Twitter Poster started
+2026-05-07 22:52:11 +00:00: 2026-05-07 22:52:11,215 - __main__ - INFO - ⏹️  Twitter Poster shutdown requested
+2026-05-07 22:52:11 +00:00: 2026-05-07 22:52:11,648 - __main__ - INFO - ✅ Twitter API v2 client initialized for main
+2026-05-07 22:52:11 +00:00: 2026-05-07 22:52:11,648 - __main__ - INFO - ✅ Twitter API v2 client initialized for live
+2026-05-07 22:52:11 +00:00: 2026-05-07 22:52:11,648 - __main__ - INFO - ✅ Twitter API v2 client initialized for replies
+2026-05-07 22:52:12 +00:00: 2026-05-07 22:52:12,624 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-07 22:52:20 +00:00: 2026-05-07 22:52:20,810 - __main__ - INFO - 🚀 Twitter Poster started

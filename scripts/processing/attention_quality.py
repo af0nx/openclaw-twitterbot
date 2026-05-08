@@ -26,7 +26,8 @@ TRUSTED_ATTENTION_SOURCES = {
 }
 
 CONCRETE_EVENT_RE = re.compile(
-    r"\b(?:announce|announced|release|released|bench|benched|sign|signed|replace|replaced|"
+    r"\b(?:add|adds|announce|announced|reveal|revealed|release|released|bench|benched|sign|signed|replace|replaced|"
+    r"arrive|arrives|arrived|land|lands|landed|travel|"
     r"beat|defeat|defeated|win|won|sweep|swept|qualif|rank|ranking|update|final|"
     r"schedule|format|teams|prize|roster|lineup|vrs)\b",
     re.IGNORECASE,
@@ -34,7 +35,7 @@ CONCRETE_EVENT_RE = re.compile(
 CONSEQUENCE_RE = re.compile(
     r"\b(?:affect|change|changes|shift|shifts|move|moves|matter|matters|impact|stability|depth|balance|"
     r"strength|path|paths|conditions|context|confirmed|review|read|harder|create|creates|"
-    r"tracking|re-check|recheck|repeat|repeats|reset|resets|reshapes|decides|needs)\b",
+    r"tracking|re-check|recheck|repeat|repeats|reset|resets|reshapes|decides|needs|set|sets)\b",
     re.IGNORECASE,
 )
 RETURN_HOOK_RE = re.compile(
@@ -44,7 +45,9 @@ RETURN_HOOK_RE = re.compile(
 )
 GENERIC_COPY_RE = re.compile(
     r"\b(?:this is big|huge if true|thoughts|who you got|what do we think|just saying|"
-    r"public still sleeping|market has not priced|books still price)\b",
+    r"public still sleeping|market has not priced|books still price|"
+    r"roster impact, map context, and conditions can move the read|"
+    r"tracking what shifts before the next official server)\b",
     re.IGNORECASE,
 )
 

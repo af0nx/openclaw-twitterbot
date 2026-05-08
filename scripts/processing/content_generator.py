@@ -147,10 +147,17 @@ def normalize_generated_text(text: Optional[str]) -> str:
     return cleaned.strip()
 
 
-def main_feed_quality_issue(text: Optional[str], pillar: Optional[int] = None) -> Optional[str]:
+def main_feed_quality_issue(
+    text: Optional[str],
+    pillar: Optional[int] = None,
+    reply_target_id: Optional[str] = None,
+    quote_tweet_id: Optional[str] = None,
+) -> Optional[str]:
     cleaned = normalize_generated_text(text)
     if not cleaned:
         return 'empty tweet'
+    if reply_target_id or quote_tweet_id:
+        return None
     try:
         pillar_int = int(pillar or 0)
     except (TypeError, ValueError):

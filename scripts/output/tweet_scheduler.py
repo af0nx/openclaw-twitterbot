@@ -837,22 +837,40 @@ class TweetScheduler:
         if host_match:
             display_headline = f'{host_match.group(1)} will host {host_match.group(2)}'
 
-        if re.search(r'\b(?:vrs|update|ranking|rankings)\b', lower):
+        if source == 'valve_cs2' and category == 'cs2_update':
+            content_lower = self._clean_enterprise_text(event.get('content')).lower()
+            if 'cache' in content_lower and 'music kit' in content_lower:
+                display_headline = 'Valve shipped a CS2 update with Cache fixes and NIGHTMODE II music kits'
+            elif 'cache' in content_lower:
+                display_headline = 'Valve shipped a CS2 update with Cache fixes'
+            else:
+                display_headline = 'Valve shipped a CS2 update'
+            second = "\n\n🛠️ Map fixes can change utility lineups before teams settle the read.\n🧭 SkinBetHub AI prediction model is tracking update notes, map changes, and live match context."
+        elif re.search(r'\b(?:vrs|update|ranking|rankings)\b', lower):
             second = "\n\n📊 Seeding can create harder bracket paths.\n🧭 SkinBetHub AI prediction model is tracking invites, matchups, and veto paths."
-        elif re.search(r'\b(?:schedule|format|teams|prize|talent|fantasy|event)\b', lower):
+        elif re.search(r'\b(?:schedule|format|teams|prize|talent|fantasy|event|matchup|matchups)\b', lower):
             display_headline = re.sub(
                 r'\bteams, format, schedule, prizes, talent, fantasy\b',
                 'tournament details are out',
                 display_headline,
                 flags=re.IGNORECASE,
             )
-            second = "\n\n🗓️ The field, schedule, and prize pool now define the bracket path.\n📍 SkinBetHub AI prediction model is tracking early matchups, travel load, and veto pressure."
-        elif re.search(r'\b(?:bench|benched|sign|signed|part ways|release|released|replace|replaced)\b', lower):
-            second = "\n\n🧩 The lineup is less stable until the fifth is confirmed.\n⚖️ SkinBetHub AI prediction model is tracking map pool depth and role balance."
+            second = "\n\n🗓️ The field now sets the first veto and travel spots to watch.\n📍 SkinBetHub AI prediction model is tracking early matchups, travel load, and veto pressure."
+        elif re.search(r'\b(?:add|adds|bench|benched|sign|signed|part ways|release|released|replace|replaced)\b', lower):
+            if re.search(r'\b(?:add|adds)\b', lower):
+                second = "\n\n🧩 Role fit and map pool depth decide whether this upgrade changes the read.\n⚖️ SkinBetHub AI prediction model is tracking balance and veto range."
+            elif re.search(r'\b(?:sign|signed)\b', lower):
+                second = "\n\n📝 New signing means new role pressure before the next server.\n🧭 SkinBetHub AI prediction model is tracking stability and map-pool fit."
+            elif re.search(r'\b(?:bench|benched|part ways|release|released)\b', lower):
+                second = "\n\n🚪 Roster exits change role depth fast.\n⚖️ SkinBetHub AI prediction model is tracking stand-in risk and veto limits."
+            else:
+                second = "\n\n🔁 Replacement news can shift team balance fast.\n🧭 SkinBetHub AI prediction model is watching role fit and map-pool depth."
         elif re.search(r'\b(?:beat|defeat|defeated|win|won|sweep|swept|champion|final)\b', lower):
             second = "\n\n🏁 The next matchup needs a fresh veto read.\n🗺️ SkinBetHub AI prediction model will re-check whether the map pool repeats or resets."
+        elif re.search(r'\b(?:arrive|arrives|arrived|land|lands|landed|travel|fans|crowd|swarms)\b', lower):
+            second = "\n\n🧳 Travel and crowd pressure now matter for the first read.\n📍 SkinBetHub AI prediction model is watching opening matchups and veto spots."
         else:
-            second = "\n\n🔎 Roster impact, map context, and conditions can move the read.\n📈 SkinBetHub AI prediction model is tracking what shifts before the next official server."
+            second = "\n\n🔎 Team context, map pool, and schedule can move the read.\n📈 SkinBetHub AI prediction model is waiting for the next concrete signal."
 
         tweet = f'{display_headline}.{second}'
         if len(tweet) > 280:
