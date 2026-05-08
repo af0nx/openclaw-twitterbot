@@ -23303,3 +23303,35 @@
 2026-05-07 22:52:11 +00:00: 2026-05-07 22:52:11,648 - __main__ - INFO - ✅ Twitter API v2 client initialized for replies
 2026-05-07 22:52:12 +00:00: 2026-05-07 22:52:12,624 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
 2026-05-07 22:52:20 +00:00: 2026-05-07 22:52:20,810 - __main__ - INFO - 🚀 Twitter Poster started
+2026-05-08 13:21:48 +00:00: 2026-05-08 13:21:48,708 - __main__ - INFO - 🔄 Processing 1 queued tweets...
+2026-05-08 13:21:49 +00:00: 2026-05-08 13:21:49,780 - __main__ - WARNING - 🚫 Rejected queued tweet bd98caaa-926d-45d2-8110-d9851e37a3c4 before posting: main feed tweet missing media
+2026-05-08 13:22:38 +00:00: 2026-05-08 13:22:38,486 - __main__ - INFO - ⏹️  Twitter Poster shutdown requested
+2026-05-08 13:22:39 +00:00: 2026-05-08 13:22:39,008 - __main__ - INFO - ✅ Twitter API v2 client initialized for main
+2026-05-08 13:22:39 +00:00: 2026-05-08 13:22:39,008 - __main__ - INFO - ✅ Twitter API v2 client initialized for live
+2026-05-08 13:22:39 +00:00: 2026-05-08 13:22:39,009 - __main__ - INFO - ✅ Twitter API v2 client initialized for replies
+2026-05-08 13:22:40 +00:00: 2026-05-08 13:22:40,030 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-08 13:22:48 +00:00: 2026-05-08 13:22:48,801 - __main__ - INFO - 🚀 Twitter Poster started
+2026-05-08 13:22:52 +00:00: 2026-05-08 13:22:52,091 - __main__ - INFO - 🔄 Processing 1 queued tweets...
+2026-05-08 13:22:52 +00:00: 2026-05-08 13:22:52,592 - __main__ - INFO - ✅ Posted tweet: 2052741022208192717
+2026-05-08 13:22:53 +00:00: 2026-05-08 13:22:53,565 - __main__ - INFO - 📊 Incremented quota counter for main
+2026-05-08 13:22:54 +00:00: 2026-05-08 13:22:54,541 - __main__ - INFO - ⏳ Queued delayed like for tweet 2052741022208192717 in 147s
+2026-05-08 13:22:54 +00:00: 2026-05-08 13:22:54,541 - __main__ - INFO - ✅ Successfully posted tweet bd98caaa-926d-45d2-8110-d9851e37a3c4 → 2052741022208192717
+2026-05-08 13:26:07 +00:00: 2026-05-08 13:26:07,770 - __main__ - INFO - ❤️  Delayed like completed for tweet 2052741022208192717
+2026-05-08 13:28:21 +00:00: 2026-05-08 13:28:21,466 - __main__ - INFO - 🔄 Processing 1 queued tweets...
+2026-05-08 13:28:22 +00:00: 2026-05-08 13:28:22,497 - __main__ - INFO - ✅ Posted tweet: 2052742403417604174
+2026-05-08 13:28:23 +00:00: 2026-05-08 13:28:23,475 - __main__ - INFO - 📊 Incremented quota counter for main
+2026-05-08 13:28:24 +00:00: 2026-05-08 13:28:24,447 - __main__ - INFO - ⏳ Queued delayed like for tweet 2052742403417604174 in 124s
+2026-05-08 13:28:24 +00:00: 2026-05-08 13:28:24,447 - __main__ - INFO - ✅ Successfully posted tweet ff9b4304-9bca-43cd-a824-1fc9cf48de3d → 2052742403417604174
+2026-05-08 13:30:33 +00:00: 2026-05-08 13:30:33,940 - __main__ - INFO - ❤️  Delayed like completed for tweet 2052742403417604174
+2026-05-08 13:41:05 +00:00: 2026-05-08 13:41:05,556 - __main__ - INFO - ⏹️  Twitter Poster shutdown requested
+2026-05-08 13:41:05 +00:00: 2026-05-08 13:41:05,978 - __main__ - INFO - ✅ Twitter API v2 client initialized for main
+2026-05-08 13:41:05 +00:00: 2026-05-08 13:41:05,979 - __main__ - INFO - ✅ Twitter API v2 client initialized for live
+2026-05-08 13:41:05 +00:00: 2026-05-08 13:41:05,979 - __main__ - INFO - ✅ Twitter API v2 client initialized for replies
+2026-05-08 13:41:06 +00:00: 2026-05-08 13:41:06,901 - utils.db_utils - INFO - ✅ Reconnected to PostgreSQL
+2026-05-08 13:41:15 +00:00: 2026-05-08 13:41:15,011 - __main__ - INFO - 🚀 Twitter Poster started
+2026-05-08 15:34:00 +00:00: 2026-05-08 15:34:00,150 - __main__ - INFO - 🔄 Processing 1 queued tweets...
+2026-05-08 15:34:00 +00:00: 2026-05-08 15:34:00,855 - __main__ - INFO - ✅ Posted tweet: 2052774023281451445
+2026-05-08 15:34:01 +00:00: 2026-05-08 15:34:01,761 - __main__ - INFO - 📊 Incremented quota counter for main
+2026-05-08 15:34:02 +00:00: 2026-05-08 15:34:02,664 - __main__ - INFO - ⏳ Queued delayed like for tweet 2052774023281451445 in 118s
+2026-05-08 15:34:02 +00:00: 2026-05-08 15:34:02,664 - __main__ - INFO - ✅ Successfully posted tweet 2073ba65-a88e-41ce-89e5-0a62a8150e40 → 2052774023281451445
+2026-05-08 15:36:11 +00:00: 2026-05-08 15:36:11,793 - __main__ - INFO - ❤️  Delayed like completed for tweet 2052774023281451445

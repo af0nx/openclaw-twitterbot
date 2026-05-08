@@ -59,6 +59,73 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
+TRUSTED_CS2_NEWS_SOURCES = {
+    'hltv',
+    'dust2us',
+    'dust2br',
+    'dust2dk',
+    'valve_cs2',
+    'gocore',
+    'gosugamers',
+}
+PURE_CS2_SOURCES = TRUSTED_CS2_NEWS_SOURCES | {
+    'bo3gg',
+    '1pvfr',
+    'prediction_model',
+}
+CS2_UPDATE_SIGNAL_RE = re.compile(
+    r'\b(?:cs2|counter-?strike 2|valve|update|patch|release notes?|cache|music kits?|map fixes?|bug fixes?)\b',
+    re.IGNORECASE,
+)
+MONITORED_X_NEWS_ACCOUNTS = {
+    'aborcs',
+    'cs2news_en',
+    'counterstrike',
+    'donhaci',
+    'dust2us',
+    'esportsinsider',
+    'hltv',
+    'liquipediacs',
+    'nors3',
+    'ozzny_cs2',
+    'razedesport',
+    'richardlewistv',
+    'slasher',
+    'teaborning',
+    'thorin',
+    'thourcs2',
+}
+MONITORED_X_NEWS_SIGNAL_RE = re.compile(
+    r'\b(?:announce|announced|confirm|confirmed|report|reported|sources?|official|'
+    r'sign|signed|joins?|joined|leave|leaves|left|depart|departs|bench|benched|'
+    r'part ways|release|released|replace|replaced|stand-?in|roster|transfer|'
+    r'qualif(?:y|ied|ies)|eliminated?|defeat(?:ed)?|beat|won|win|champions?|final|'
+    r'bracket|schedule|format|invite|invited|vrs|ranking|rankings|'
+    r'update|patch|release notes?|cache|music kits?|map fixes?|bug fixes?)\b',
+    re.IGNORECASE,
+)
+MONITORED_X_NEWS_NOISE_RE = re.compile(
+    r'\b(?:birthday|giveaway|merch|sale|discount|stream|watch party|watch live|'
+    r'clip|highlights?|fragmovie|meme|banter|unhinged|fact or cap|'
+    r'rating|adr|k\/d|kdr|top\s+\d+\s+highest rated|'
+    r'who(?:\'s| is) got|thoughts|caption this|wallpaper|media day)\b',
+    re.IGNORECASE,
+)
+MONITORED_X_UPDATE_RE = re.compile(
+    r'\b(?:update|patch|release notes?|cache|music kits?|map fixes?|bug fixes?)\b',
+    re.IGNORECASE,
+)
+MONITORED_X_ROSTER_RE = re.compile(
+    r'\b(?:sign|signed|joins?|joined|leave|leaves|left|depart|departs|bench|benched|'
+    r'part ways|release|released|replace|replaced|stand-?in|roster|transfer)\b',
+    re.IGNORECASE,
+)
+MONITORED_X_RESULT_RE = re.compile(
+    r'\b(?:defeat(?:ed)?|beat|won|win|champions?|eliminated?|qualif(?:y|ied|ies)|final)\b',
+    re.IGNORECASE,
+)
+
+
 class TweetScheduler:
     """Central scheduler with pre-commit reservation system"""
     
@@ -305,7 +372,17 @@ class TweetScheduler:
         return not any(re.search(pattern, text, re.IGNORECASE) for pattern in result_patterns)
 
     @staticmethod
+    def _is_promoted_x_news_event(event: Dict[str, Any]) -> bool:
+        metadata = event.get('metadata') or {}
+        return isinstance(metadata, dict) and metadata.get('x_news_candidate') is True
+
+    @staticmethod
     def _allows_text_only_main_feed(event: Dict[str, Any]) -> bool:
+        if TweetScheduler._is_standalone_cs2_update_event(event):
+            return True
+        if TweetScheduler._is_promoted_x_news_event(event):
+            return True
+
         if os.getenv('ALLOW_TEXT_ONLY_MAIN_FEED', 'false').lower() not in ('1', 'true', 'yes', 'on'):
             return False
 
@@ -797,23 +874,109 @@ class TweetScheduler:
         cleaned = re.sub(r'\s+FULL ARTICLE:\s+.*$', '', cleaned, flags=re.IGNORECASE | re.DOTALL).strip()
         return cleaned
 
+    @staticmethod
+    def _is_standalone_cs2_update_event(event: Dict[str, Any]) -> bool:
+        """Allow trusted CS2 update/news items that are not team-tier stories."""
+        source = event.get('source')
+        if source not in TRUSTED_CS2_NEWS_SOURCES:
+            return False
+
+        category = event.get('category')
+        if category not in ('cs2', 'cs2_update'):
+            return False
+
+        text = ' '.join(
+            str(part or '')
+            for part in (event.get('headline'), event.get('content'), event.get('source_url'))
+        )
+        return bool(CS2_UPDATE_SIGNAL_RE.search(text))
+
+    @staticmethod
+    def _clean_monitored_x_news_text(text: Optional[str]) -> str:
+        cleaned = TweetScheduler._clean_enterprise_text(text)
+        cleaned = re.sub(r'https?://\S+', '', cleaned)
+        cleaned = re.sub(r'\bpic\.twitter\.com/\S+', '', cleaned, flags=re.IGNORECASE)
+        cleaned = re.sub(r'#(\w+)', r'\1', cleaned)
+        cleaned = re.sub(r'@\w+', '', cleaned)
+        cleaned = cleaned.encode('ascii', 'ignore').decode('ascii')
+        cleaned = re.sub(r'^(?:sources?|reports?)\s*:\s*', '', cleaned, flags=re.IGNORECASE)
+        cleaned = re.sub(r'\s+', ' ', cleaned).strip(' .-')
+        return cleaned[:170].strip()
+
+    @staticmethod
+    def _promote_monitored_x_news_event(event: Dict[str, Any]) -> bool:
+        """Promote selected monitored-account tweets into X-only main-feed news."""
+        if event.get('source') != 'twitter' or event.get('category') != 'vip_engagement':
+            return False
+
+        metadata = event.get('metadata') or {}
+        if not isinstance(metadata, dict):
+            metadata = {}
+
+        username = str(metadata.get('vip_username') or '').strip().lower()
+        if username not in MONITORED_X_NEWS_ACCOUNTS:
+            return False
+
+        try:
+            priority = int(metadata.get('engagement_priority') or 0)
+        except (TypeError, ValueError):
+            priority = 0
+        if priority < 7:
+            return False
+
+        text = ' '.join(str(part or '') for part in (event.get('headline'), event.get('content')))
+        if MONITORED_X_NEWS_NOISE_RE.search(text):
+            return False
+        if not MONITORED_X_NEWS_SIGNAL_RE.search(text):
+            return False
+
+        if MONITORED_X_UPDATE_RE.search(text):
+            category = 'cs2_update'
+        elif MONITORED_X_ROSTER_RE.search(text):
+            category = 'roster_change'
+        elif MONITORED_X_RESULT_RE.search(text):
+            category = 'match_result'
+        else:
+            category = 'cs2'
+
+        metadata.update({
+            'x_news_candidate': True,
+            'allow_text_only': True,
+            'media_mode': 'text_only',
+            'original_category': event.get('category'),
+            'promoted_from_vip_engagement': True,
+        })
+        event['metadata'] = metadata
+        event['category'] = category
+        return True
+
     def _compose_enterprise_news_tweet(self, event: Dict[str, Any], pillar: int) -> Optional[str]:
         """Deterministic, source-grounded copy for trusted main-feed news."""
         source = event.get('source')
         category = event.get('category')
-        if source not in ('hltv', 'dust2us', 'valve_cs2', 'gocore', 'gosugamers'):
+        is_promoted_x_news = self._is_promoted_x_news_event(event)
+        if source not in TRUSTED_CS2_NEWS_SOURCES and not is_promoted_x_news:
             return None
         if category not in ('cs2', 'roster_change', 'match_result', 'cs2_update'):
             return None
         if pillar not in (1, 2, 3):
             return None
 
-        headline = self._clean_enterprise_text(event.get('headline')).rstrip('.')
+        headline = (
+            self._clean_monitored_x_news_text(event.get('content'))
+            if is_promoted_x_news
+            else self._clean_enterprise_text(event.get('headline')).rstrip('.')
+        )
         if not headline:
             return None
 
         lower = headline.lower()
         display_headline = headline
+        if is_promoted_x_news:
+            username = (event.get('metadata') or {}).get('vip_username') or 'a monitored CS2 source'
+            display_headline = f'@{username} reports {display_headline}'
+        display_headline = re.sub(r'#(\d+)\b', r'No. \1', display_headline)
+        display_headline = display_headline.replace(':', ' -')
         display_headline = re.sub(r'\bresurgance\b', 'resurgence', display_headline, flags=re.IGNORECASE)
         bench_match = re.match(r'^(.+?)\s+bench\s+(.+)$', headline, re.IGNORECASE)
         if bench_match:
@@ -845,32 +1008,35 @@ class TweetScheduler:
                 display_headline = 'Valve shipped a CS2 update with Cache fixes'
             else:
                 display_headline = 'Valve shipped a CS2 update'
-            second = "\n\n🛠️ Map fixes can change utility lineups before teams settle the read.\n🧭 SkinBetHub AI prediction model is tracking update notes, map changes, and live match context."
+            second = "\n\nMap fixes can change utility lineups before teams settle the read.\nSkinBetHub is tracking update notes, map changes, and live match context."
         elif re.search(r'\b(?:vrs|update|ranking|rankings)\b', lower):
-            second = "\n\n📊 Seeding can create harder bracket paths.\n🧭 SkinBetHub AI prediction model is tracking invites, matchups, and veto paths."
-        elif re.search(r'\b(?:schedule|format|teams|prize|talent|fantasy|event|matchup|matchups)\b', lower):
+            second = "\n\nSeeding can create harder bracket paths.\nSkinBetHub is tracking invites, matchups, and veto paths."
+        elif (
+            re.search(r'\b(?:schedule|format|teams|prize|talent|fantasy|event|matchup|matchups)\b', lower)
+            and not re.search(r'\b(?:add|adds|bench|benched|sign|signed|part ways|release|released|replace|replaced)\b', lower)
+        ):
             display_headline = re.sub(
                 r'\bteams, format, schedule, prizes, talent, fantasy\b',
                 'tournament details are out',
                 display_headline,
                 flags=re.IGNORECASE,
             )
-            second = "\n\n🗓️ The field now sets the first veto and travel spots to watch.\n📍 SkinBetHub AI prediction model is tracking early matchups, travel load, and veto pressure."
+            second = "\n\nThe field now sets the first veto and travel spots to watch.\nSkinBetHub is tracking early matchups, travel load, and veto pressure."
         elif re.search(r'\b(?:add|adds|bench|benched|sign|signed|part ways|release|released|replace|replaced)\b', lower):
             if re.search(r'\b(?:add|adds)\b', lower):
-                second = "\n\n🧩 Role fit and map pool depth decide whether this upgrade changes the read.\n⚖️ SkinBetHub AI prediction model is tracking balance and veto range."
+                second = "\n\nRole fit and map pool depth decide whether this upgrade changes the read.\nSkinBetHub is tracking balance and veto range."
             elif re.search(r'\b(?:sign|signed)\b', lower):
-                second = "\n\n📝 New signing means new role pressure before the next server.\n🧭 SkinBetHub AI prediction model is tracking stability and map-pool fit."
+                second = "\n\nNew signing means new role pressure before the next server.\nSkinBetHub is tracking stability and map-pool fit."
             elif re.search(r'\b(?:bench|benched|part ways|release|released)\b', lower):
-                second = "\n\n🚪 Roster exits change role depth fast.\n⚖️ SkinBetHub AI prediction model is tracking stand-in risk and veto limits."
+                second = "\n\nRoster exits change role depth fast.\nSkinBetHub is tracking stand-in risk and veto limits."
             else:
-                second = "\n\n🔁 Replacement news can shift team balance fast.\n🧭 SkinBetHub AI prediction model is watching role fit and map-pool depth."
+                second = "\n\nReplacement news can shift team balance fast.\nSkinBetHub is watching role fit and map-pool depth."
         elif re.search(r'\b(?:beat|defeat|defeated|win|won|sweep|swept|champion|final)\b', lower):
-            second = "\n\n🏁 The next matchup needs a fresh veto read.\n🗺️ SkinBetHub AI prediction model will re-check whether the map pool repeats or resets."
+            second = "\n\nThe next matchup needs a fresh veto read.\nSkinBetHub will re-check whether the map pool repeats or resets."
         elif re.search(r'\b(?:arrive|arrives|arrived|land|lands|landed|travel|fans|crowd|swarms)\b', lower):
-            second = "\n\n🧳 Travel and crowd pressure now matter for the first read.\n📍 SkinBetHub AI prediction model is watching opening matchups and veto spots."
+            second = "\n\nTravel and crowd pressure now matter for the first read.\nSkinBetHub is watching opening matchups and veto spots."
         else:
-            second = "\n\n🔎 Team context, map pool, and schedule can move the read.\n📈 SkinBetHub AI prediction model is waiting for the next concrete signal."
+            second = "\n\nTeam context, map pool, and schedule can move the read.\nSkinBetHub is waiting for the next concrete signal."
 
         tweet = f'{display_headline}.{second}'
         if len(tweet) > 280:
@@ -1370,8 +1536,6 @@ class TweetScheduler:
                     self.mark_event_processed(event['id'], 'skipped', 'failed_attempts')
                     return False
             
-            # Pure CS2 sources — everything they publish is CS2 by definition
-            PURE_CS2_SOURCES = {'hltv', 'dust2us', 'bo3gg', 'valve_cs2', '1pvfr', 'prediction_model'}
             is_pure_source = event.get('source') in PURE_CS2_SOURCES
 
             # Quick CS2 relevance check (skip for pure CS2 sources & known CS2 categories)
@@ -1395,6 +1559,14 @@ class TweetScheduler:
                     self.mark_event_processed(event['id'], 'skipped', 'non_cs2_relevance')
                     return False
 
+            promoted_x_news = self._promote_monitored_x_news_event(event)
+            if promoted_x_news:
+                logger.info(
+                    "📰 Promoted monitored X post to %s news: %s",
+                    event['category'],
+                    event['headline'][:80],
+                )
+
             if event['category'] in ('vip_engagement', 'community_disagreement') and not self._reply_engagement_enabled():
                 logger.info(
                     "⏭️  Skipping reply/comment engagement while ENABLE_REPLY_ENGAGEMENT is disabled: %s",
@@ -1404,8 +1576,11 @@ class TweetScheduler:
                 return False
             
             # T1/T2 filter: skip T3 team matches and minor event noise.
+            # Trusted CS2 update stories are not team-tier content, but are
+            # still standalone main-feed news when sourced and concrete.
+            is_standalone_update = self._is_standalone_cs2_update_event(event)
             if not is_t1_or_t2_content(event.get('headline', ''), event.get('content', ''),
-                                       event['category'], event.get('metadata')):
+                                       event['category'], event.get('metadata')) and not (is_standalone_update or promoted_x_news):
                 logger.info(f"⏭️  Skipping T3/noise event: {event['headline'][:60]}")
                 self.mark_event_processed(event['id'], 'skipped', 'non_t1_t2_content')
                 return False
@@ -2038,12 +2213,26 @@ class TweetScheduler:
             # Tier 1: Factual news from trusted sources
             # Includes generic "cs2" category — hltv/dust2us often label things
             # "cs2" instead of fine-grained categories like "match_result".
-            _trusted_sources = ('hltv', 'dust2us', 'valve_cs2')
+            _trusted_sources = tuple(TRUSTED_CS2_NEWS_SOURCES)
             _news_categories = ('match_result', 'cs2_update', 'roster_change', 'cs2')
             if pillar in (1, 2) and event['category'] in _news_categories:
                 if fact_passed and (event.get('source') in _trusted_sources or tone_score >= 7):
                     auto_approved = True
                     logger.info(f"🤖 Auto-approved: news (fact=✅, src={event.get('source')}, tone={tone_score}/10)")
+
+            if (
+                not auto_approved
+                and self._is_promoted_x_news_event(event)
+                and event['category'] in _news_categories
+                and fact_passed
+                and tone_score >= 7
+            ):
+                auto_approved = True
+                logger.info(
+                    "🤖 Auto-approved: monitored X news (fact=✅, user=%s, tone=%s/10)",
+                    (event.get('metadata') or {}).get('vip_username'),
+                    tone_score,
+                )
             
             # Tier 2: Upsets — time-sensitive engagement magnets
             if generation_result.get('is_upset') and not auto_approved:

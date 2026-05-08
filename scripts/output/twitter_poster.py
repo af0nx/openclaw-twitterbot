@@ -8,6 +8,7 @@ Handles single tweets, replies, quote tweets, and threads
 import asyncio
 import logging
 import random
+import re
 import signal
 import time
 from datetime import datetime, timezone, timedelta
@@ -46,6 +47,19 @@ POSTER_BILLING_BACKOFF_MINUTES = int(os.getenv('POSTER_BILLING_BACKOFF_MINUTES',
 POST_SELF_LIKE_ENABLED = os.getenv('POST_SELF_LIKE_ENABLED', 'true').lower() in ('1', 'true', 'yes', 'on')
 POST_SELF_LIKE_DELAY_MIN_SECONDS = int(os.getenv('POST_SELF_LIKE_DELAY_MIN_SECONDS', '90'))
 POST_SELF_LIKE_DELAY_MAX_SECONDS = int(os.getenv('POST_SELF_LIKE_DELAY_MAX_SECONDS', '180'))
+TEXT_ONLY_UPDATE_SOURCES = {
+    'hltv',
+    'dust2us',
+    'dust2br',
+    'dust2dk',
+    'valve_cs2',
+    'gocore',
+    'gosugamers',
+}
+TEXT_ONLY_UPDATE_RE = re.compile(
+    r'\b(?:cs2|counter-?strike 2|valve|update|patch|release notes?|cache|music kits?|map fixes?|bug fixes?)\b',
+    re.IGNORECASE,
+)
 
 
 class TwitterPoster:
@@ -271,9 +285,41 @@ class TwitterPoster:
             logger.error(f"❌ Failed to increment quota for {bucket}: {e}")
 
     @staticmethod
+    def _allows_trusted_text_only_update(tweet_data: Dict[str, Any]) -> bool:
+        metadata = tweet_data.get('metadata') or {}
+        if not isinstance(metadata, dict):
+            return False
+        if metadata.get('x_news_candidate') is True and metadata.get('allow_text_only'):
+            return True
+        if not (
+            metadata.get('allow_text_only')
+            or metadata.get('text_only_ok')
+            or str(metadata.get('media_mode') or metadata.get('media_policy') or '').lower()
+            in {'text_only', 'text-only', 'no_media', 'no-media', 'none'}
+        ):
+            return False
+
+        source = str(tweet_data.get('event_source') or '').lower()
+        category = str(tweet_data.get('event_category') or '')
+        if source not in TEXT_ONLY_UPDATE_SOURCES or category not in {'cs2', 'cs2_update'}:
+            return False
+
+        text = ' '.join(
+            str(part or '')
+            for part in (
+                tweet_data.get('event_headline'),
+                tweet_data.get('event_source_url'),
+                tweet_data.get('content'),
+            )
+        )
+        return bool(TEXT_ONLY_UPDATE_RE.search(text))
+
+    @staticmethod
     def _requires_main_feed_media(tweet_data: Dict[str, Any]) -> bool:
         """Standalone main-feed tweets need media; replies and quote targets are exempt."""
         if tweet_data.get('reply_target_id') or tweet_data.get('quote_tweet_id'):
+            return False
+        if TwitterPoster._allows_trusted_text_only_update(tweet_data):
             return False
 
         try:

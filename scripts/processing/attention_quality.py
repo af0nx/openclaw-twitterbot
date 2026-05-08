@@ -18,12 +18,27 @@ MAIN_FEED_ATTENTION_PILLARS = {1, 2, 3, 4, 5, 7, 10, 13, 14, 15, 17}
 TRUSTED_ATTENTION_SOURCES = {
     "hltv",
     "dust2us",
+    "dust2br",
+    "dust2dk",
     "valve_cs2",
     "gocore",
     "gosugamers",
     "prediction_webhook",
     "prediction_results",
 }
+TEXT_ONLY_UPDATE_SOURCES = {
+    "hltv",
+    "dust2us",
+    "dust2br",
+    "dust2dk",
+    "valve_cs2",
+    "gocore",
+    "gosugamers",
+}
+TEXT_ONLY_UPDATE_RE = re.compile(
+    r"\b(?:cs2|counter-?strike 2|valve|update|patch|release notes?|cache|music kits?|map fixes?|bug fixes?)\b",
+    re.IGNORECASE,
+)
 
 CONCRETE_EVENT_RE = re.compile(
     r"\b(?:add|adds|announce|announced|reveal|revealed|release|released|bench|benched|sign|signed|replace|replaced|"
@@ -83,6 +98,31 @@ def _metadata_has_structure(metadata: Any) -> bool:
     return any(metadata.get(key) for key in structured_keys)
 
 
+def _allows_trusted_text_only_update(event: dict[str, Any], metadata: Any, cleaned: str) -> bool:
+    if not isinstance(metadata, dict):
+        return False
+    if metadata.get("x_news_candidate") is True and metadata.get("allow_text_only"):
+        return True
+    if not (
+        metadata.get("allow_text_only")
+        or metadata.get("text_only_ok")
+        or str(metadata.get("media_mode") or metadata.get("media_policy") or "").lower()
+        in {"text_only", "text-only", "no_media", "no-media", "none"}
+    ):
+        return False
+
+    source = str(event.get("source") or "").lower()
+    category = str(event.get("category") or "")
+    if source not in TEXT_ONLY_UPDATE_SOURCES or category not in {"cs2", "cs2_update"}:
+        return False
+
+    text = " ".join(
+        str(part or "")
+        for part in (event.get("headline"), event.get("content"), event.get("source_url"), cleaned)
+    )
+    return bool(TEXT_ONLY_UPDATE_RE.search(text))
+
+
 def evaluate_main_feed_attention(
     text: Optional[str],
     *,
@@ -116,10 +156,14 @@ def evaluate_main_feed_attention(
     signals: list[str] = []
     score = 0
 
+    text_only_update = _allows_trusted_text_only_update(event, metadata, cleaned)
     media_is_photo = bool(media_ref) and not _is_generated_media(media_preview_path)
     if media_is_photo:
         score += 20
         signals.append("real photo/media attached")
+    elif text_only_update:
+        score += 10
+        signals.append("approved trusted text-only update")
     else:
         blockers.append("missing real photo")
 
