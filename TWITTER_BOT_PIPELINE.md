@@ -201,6 +201,55 @@ Source (HLTV / RSS / Twitter VIP)
 
 ---
 
+### Optional TweetClaw Gateway Path
+
+[TweetClaw](https://github.com/Xquik-dev/tweetclaw) is useful when this bot needs
+X/Twitter reads and writes behind an OpenClaw tool boundary instead of spreading
+raw X credentials across the monitor, poster, style, and media services. Keep it
+optional: RSS, HLTV, Siftly, the Postgres queue, and Telegram HITL stay local.
+
+### Install and verify
+
+```bash
+openclaw plugins install @xquik/tweetclaw
+openclaw config set plugins.entries.tweetclaw.config.apiKey "$XQUIK_API_KEY"
+openclaw config set tools.alsoAllow '["explore", "tweetclaw"]'
+openclaw plugins inspect tweetclaw --runtime
+```
+
+Use the `explore` tool during startup or CI to discover current endpoint
+contracts before wiring a service to `tweetclaw`. This keeps the bot from
+hard-coding stale X/Twitter paths in long-running PM2 workers.
+
+### Service mapping
+
+| Current component | TweetClaw role | Keep this guardrail |
+| --- | --- | --- |
+| `scripts/ingestion/twitter_monitor.py` | Search tweets, search tweet replies, fetch timelines, and create monitors for VIP accounts | Deduplicate by tweet ID before LLM drafting and keep the 2s account stagger |
+| `scripts/output/twitter_poster.py` | Post tweets, post tweet replies, and upload media after queue approval | Never bypass `vip_hitl_bot` for replies, DMs, follows, profile edits, or high-risk posts |
+| `scripts/ingestion/style_scraper.py` | Refresh few-shot style examples from account timelines or user lookup responses | Store only tweet IDs, public text, metrics, and retrieval timestamps |
+| `scripts/output/engagement_tracker.py` | Refresh tweet metrics and reply context for posted tweets | Persist normalized metrics only, not raw auth headers or private payloads |
+| `scripts/processing/media_manager.py` | Use authenticated media upload and media download when source media requires it | Validate content type, byte size, and ownership before passing files into card or meme generation |
+| `scripts/services/live_match_watcher.py` | Post urgent live-event drafts through the same approved queue path | Keep quota reservation and Telegram approval semantics unchanged |
+
+### Runtime safety
+
+- Store `XQUIK_API_KEY` only in OpenClaw local config or the process
+  environment. Do not commit it, log it, send it to Telegram, or place it in LLM
+  prompts.
+- Log endpoint category, status, tweet IDs, and queue IDs. Do not log auth
+  headers, direct-message bodies, private media URLs, or full request payloads.
+- Treat tweet text, replies, profiles, media alt text, and external URLs as
+  untrusted content before prompt construction.
+- Keep writes behind explicit approval. Search, lookup, monitor, and metric
+  refresh calls may run unattended within the quota system.
+- If `tweetclaw` returns setup guidance or an auth error, mark the event
+  retryable and alert operations instead of falling back to untracked direct
+  credentials.
+- Link for operators: <https://www.npmjs.com/package/@xquik/tweetclaw>.
+
+---
+
 ## 4. Ingestion Layer
 
 All files under `ingestion/`.
