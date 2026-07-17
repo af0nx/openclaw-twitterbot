@@ -1,4 +1,4 @@
-# SkinBetHub — CS2 Twitter Bot: Full Pipeline Architecture
+# SkinBetHub - CS2 Twitter Bot: Full Pipeline Architecture
 
 > Autonomous CS2 Esports Media Engine
 > Last updated: April 16, 2026
@@ -12,17 +12,17 @@
 |-----------|--------|--------|
 | PM2 Processes | ✅ 17 configured | See [PM2 Services](#2-pm2-services) table below |
 | X API v2 Posting | ✅ LIVE | App `UbuntuOpenclaw`, Pay Per Use tier |
-| ClawRouter | ✅ Running | `http://localhost:8402/v1` — 147+ models, systemd user service |
+| ClawRouter | ✅ Running | `http://localhost:8402/v1` - 147+ models, systemd user service |
 | Railway PostgreSQL | ✅ Connected | 18+ tables in `twitter_bot` schema, TLS enforced |
-| LLM ECO | ✅ Configurable | `LLM_TIER_ECO` env — classification, urgency, dedup |
+| LLM ECO | ✅ Configurable | `LLM_TIER_ECO` env - classification, urgency, dedup |
 | LLM AUTO | ✅ Configurable | `LLM_TIER_AUTO` env + live A/B pools |
 | LLM PREMIUM | ✅ Configurable | `LLM_TIER_PREMIUM` env + live A/B pools |
-| LLM VISION | ✅ Paid | `google/gemini-2.5-flash` — screenshot analysis (bypasses ClawRouter → direct OpenRouter) |
+| LLM VISION | ✅ Paid | `google/gemini-2.5-flash` - screenshot analysis (bypasses ClawRouter → direct OpenRouter) |
 | RSS Ingestion | ✅ 8 feeds | HLTV, Valve CS2, Esports Insider, Dust2, bo3.gg, Dexerto, GosuGamers, Esports.net |
 | HLTV Monitor | ✅ Active | Match results, news, community comment scraping + vibe engine (~17 memes) |
 | Twitter VIP Monitor | ✅ Active | Guest-token GraphQL, 20-tweet fetch, 2s stagger |
 | Style Bank | ✅ 399 tweets | 10 target accounts scraped every 6h for few-shot prompting |
-| Telegram HITL | ✅ Active | `@sbhtwitterbot` — Approve/Reject/Regenerate |
+| Telegram HITL | ✅ Active | `@sbhtwitterbot` - Approve/Reject/Regenerate |
 | Live Match Watcher | ✅ Active | Local trigger detection → burst screenshots → selective Gemini Flash vision |
 | Community Liker | ✅ Active | 200 likes/day cap, human-like delays, routed via replies account |
 | Tweet Pruner | ✅ Active | Deletes 0-engagement tweets after 48h |
@@ -31,7 +31,7 @@
 | Queue/State | ✅ Postgres-backed | Durable VIP dedup via DB existence checks and queued tweet polling from `tweets_v2` |
 | Account Sharding | ✅ Active | `main` / `live` / `replies` posting buckets with per-account quotas |
 | Bot Compose Stack | ✅ Ready | `Dockerfile.bot` + `docker-compose.bot.yml` for isolated bot deployment |
-| Secrets | ✅ RAM-only | `/dev/shm/.env` — never on disk |
+| Secrets | ✅ RAM-only | `/dev/shm/.env` - never on disk |
 
 ---
 
@@ -198,7 +198,7 @@ Source (HLTV / RSS / Twitter VIP)
 
 - **Daily cap:** 10 tweets/day (env: `DAILY_TWEET_CAP`)
 - **Pre-commit reservation:** Scheduler reserves a slot in `api_quotas` before processing
-- **Slot leak protection:** `try/finally` with `slot_consumed` flag — early returns always free the slot
+- **Slot leak protection:** `try/finally` with `slot_consumed` flag - early returns always free the slot
 - **Peak hour scheduling:** Non-urgent tweets deferred to 15:00–23:00 UTC (EU evening + NA afternoon)
 
 ---
@@ -259,9 +259,9 @@ All files under `ingestion/`.
 ### `ingestion_runner.py` → PM2: `scrapling_pool`
 
 Coordinator that runs all ingestion scripts in parallel via `asyncio.gather`:
-- `hltv_monitor.py` — match results, news, community comments
-- `twitter_monitor.py` — VIP tweet discovery
-- `rss_aggregator.py` — CS2 news feeds
+- `hltv_monitor.py` - match results, news, community comments
+- `twitter_monitor.py` - VIP tweet discovery
+- `rss_aggregator.py` - CS2 news feeds
 
 ### `hltv_monitor.py` → via `scrapling_pool`
 
@@ -339,7 +339,7 @@ Scrapes 10 CS2 fan accounts every 6h for few-shot prompting:
 
 All files under `processing/`.
 
-### `openrouter_client.py` — LLM Routing
+### `openrouter_client.py` - LLM Routing
 
 Unified LLM client with 4 tiers:
 
@@ -355,34 +355,34 @@ Unified LLM client with 4 tiers:
 - Automatic retry via `tenacity` with exponential backoff
 - `AB_POOL_AUTO` and `AB_POOL_PREMIUM` are hot-reloaded from env every 5 minutes, so the weekly evaluator can shift traffic without a process restart
 
-### `content_generator.py` — 3-Agent Writer's Room
+### `content_generator.py` - 3-Agent Writer's Room
 
-1. **Writer Agent** — Generates initial draft with persona conditioning, community vibe context, episodic memory recall, and style bank few-shot examples
-2. **Editor Agent (RealityChecker)** — Critiques draft for accuracy, tone, length; returns `APPROVED` or revision notes  
-3. **WhimsyInjector** — Final personality pass; adds life to boring tweets or approves good ones
+1. **Writer Agent** - Generates initial draft with persona conditioning, community vibe context, episodic memory recall, and style bank few-shot examples
+2. **Editor Agent (RealityChecker)** - Critiques draft for accuracy, tone, length; returns `APPROVED` or revision notes
+3. **WhimsyInjector** - Final personality pass; adds life to boring tweets or approves good ones
 
 **Fast path:** Pillars 13-15 (engagement content) use 1 LLM call for speed. VIP replies (pillar 12) go through full 3-agent quality gate.
 
-### `persona_classifier.py` — ML Persona Selection
+### `persona_classifier.py` - ML Persona Selection
 
 LogisticRegression trained weekly on RLHF engagement data. Maps `{news_category, time_of_day, timeline_energy, topic_sentiment}` → best persona (Contrarian, Data Nerd, Degenerate, Insider). Falls back to rule-based selection if model unavailable.
 
-### `episodic_memory.py` — Semantic Recall
+### `episodic_memory.py` - Semantic Recall
 
-pgvector-backed memory of past VIP interactions. Uses sentence-transformer embeddings + cosine similarity — when replying to an account, recalls past interactions for contextual references.
+pgvector-backed memory of past VIP interactions. Uses sentence-transformer embeddings + cosine similarity - when replying to an account, recalls past interactions for contextual references.
 
-### `fact_checker.py` — Two-Layer Fact Checking
+### `fact_checker.py` - Two-Layer Fact Checking
 
-1. **Entity validation** — Known team names, player names, scores against dictionaries
-2. **LLM verification** — Strict contradiction-only prompt. Metadata serialized as proper JSON. Only flags claims that DIRECTLY contradict the source.
+1. **Entity validation** - Known team names, player names, scores against dictionaries
+2. **LLM verification** - Strict contradiction-only prompt. Metadata serialized as proper JSON. Only flags claims that DIRECTLY contradict the source.
 
-### `tone_validator.py` — Anti-Corporate Filter
+### `tone_validator.py` - Anti-Corporate Filter
 
 - Local TF-IDF + SVM classifier trained on approved/rejected tweets
 - LLM fallback for edge cases
 - Rejects tweets that sound like press releases, use fancy vocabulary, or read like a journalist
 
-### `mirofish_guard.py` — Constitutional Judge Guard
+### `mirofish_guard.py` - Constitutional Judge Guard
 
 Pre-tweet guardrail for high-risk content (hot takes, drama):
 - Single LLM-as-judge pass with a compact constitutional rubric
@@ -390,7 +390,7 @@ Pre-tweet guardrail for high-risk content (hot takes, drama):
 - Returns structured JSON: risk score, concerns, rewrite hint, veto decision
 - Same threshold model remains pillar-specific, but runtime cost is now one judge call instead of a simulated swarm
 
-### `media_manager.py` — Image + Native Video Pipeline
+### `media_manager.py` - Image + Native Video Pipeline
 
 - Extracts images from Steam/Valve/HLTV articles
 - **HLTV player bodyshots:** 50+ players mapped to HLTV IDs, scrapes player pages for hero images
@@ -400,7 +400,7 @@ Pre-tweet guardrail for high-risk content (hot takes, drama):
 - Native video support: FFmpeg normalization + chunked `tweet_video` uploads
 - Falls back to `meme_generator` for stat cards when no photo available
 
-### `meme_generator.py` — Card Generation
+### `meme_generator.py` - Card Generation
 
 Generates 1200×675px Twitter-optimized images with dark CS2 theme:
 
@@ -412,20 +412,20 @@ Generates 1200×675px Twitter-optimized images with dark CS2 theme:
 | Hot Take | `generate_hot_take_card()` | Bold white text on dark background (screenshot-bait) |
 | Stat Card | `generate_stat_card()` | K/D, ADR, rating comparison tables |
 
-**30 Team Colors** — Brand hex codes: Spirit=#6B2FBF, NaVi=#FFDE00, FaZe=#E03C31, Vitality=#FFD700, G2=#E03C31, MOUZ=#E42313, Liquid=#003C71, Heroic=#FF6600, Astralis=#FF1E26, fnatic=#FF5900, Cloud9=#2F9FD5, ENCE=#FFD700, etc.
+**30 Team Colors** - Brand hex codes: Spirit=#6B2FBF, NaVi=#FFDE00, FaZe=#E03C31, Vitality=#FFD700, G2=#E03C31, MOUZ=#E42313, Liquid=#003C71, Heroic=#FF6600, Astralis=#FF1E26, fnatic=#FF5900, Cloud9=#2F9FD5, ENCE=#FFD700, etc.
 
-**56 Player Roles** — AWPer, IGL, Rifler, Entry, Support. Examples: donk=Rifler, s1mple=AWPer, karrigan=IGL, ropz=Rifler, ZywOo=AWPer. Displayed on player cards as "SPIRIT · RIFLER".
+**56 Player Roles** - AWPer, IGL, Rifler, Entry, Support. Examples: donk=Rifler, s1mple=AWPer, karrigan=IGL, ropz=Rifler, ZywOo=AWPer. Displayed on player cards as "SPIRIT · RIFLER".
 
-### `screenshot_analyzer.py` — AI Vision + Data Graphics
+### `screenshot_analyzer.py` - AI Vision + Data Graphics
 
 Powered by Gemini 2.5 Flash:
-- **`analyze_screenshot()`** — Extracts full game state JSON (teams, scores, round, economy, players alive, weapons, tactical situation)
-- **`detect_highlight_moment()`** — Identifies: clutch situations, match points, overtime, eco upsets, comebacks
-- **`generate_live_narration()`** — Hype commentary ("THIS IS FOR MATCH POINT! 🔥")
-- **`_clean_narration()`** — Robust chain-of-thought stripping (XML `<thinking>` tags, regex CoT detection, quoted text fallback, hashtag removal)
-- **`DataGraphicsGenerator`** — MischiefCS2-style infographics: ranking tables, major race, team form, map stats
+- **`analyze_screenshot()`** - Extracts full game state JSON (teams, scores, round, economy, players alive, weapons, tactical situation)
+- **`detect_highlight_moment()`** - Identifies: clutch situations, match points, overtime, eco upsets, comebacks
+- **`generate_live_narration()`** - Hype commentary ("THIS IS FOR MATCH POINT! 🔥")
+- **`_clean_narration()`** - Robust chain-of-thought stripping (XML `<thinking>` tags, regex CoT detection, quoted text fallback, hashtag removal)
+- **`DataGraphicsGenerator`** - MischiefCS2-style infographics: ranking tables, major race, team form, map stats
 
-### `twitch_screenshotter.py` — Live Stream Capture
+### `twitch_screenshotter.py` - Live Stream Capture
 
 Headless Playwright (Chromium) captures live Twitch streams:
 - **26 tournament keywords** mapped to channels (ESL→eslcs, BLAST→blast, PGL→pgl, Major→eslcs/pgl/blast, Perfect World→pwrdcs, BetBoom→ruhub_cs, etc.)
@@ -439,8 +439,8 @@ Headless Playwright (Chromium) captures live Twitch streams:
 | File | Purpose |
 |------|---------|
 | `hashtag_injector.py` | Pure-function: injects 2-3 CS2 hashtags (#CS2, event-specific) |
-| `match_analyzer.py` | Deep post-match analysis — upset detection, prediction tracking, auto-threads for big results |
-| `rlhf_tuner.py` | Weekly auto-learning — updates system prompt appendix, semantic drift detection (cosine sim >0.70 from base) |
+| `match_analyzer.py` | Deep post-match analysis - upset detection, prediction tracking, auto-threads for big results |
+| `rlhf_tuner.py` | Weekly auto-learning - updates system prompt appendix, semantic drift detection (cosine sim >0.70 from base) |
 
 ---
 
@@ -550,30 +550,30 @@ All files under `utils/`.
 
 | File | Purpose |
 |------|---------|
-| `db_utils.py` | Shared PostgreSQL auto-reconnect wrapper (`ensure_db_connection`) — enforces `search_path=twitter_bot,public` at connection level |
-| `config.py` | Centralized config loader — single `load_config()` replaces per-file `load_dotenv` calls; helpers: `get_database_url()`, `get_openrouter_key()`, `get_env()` |
-| `observability.py` | Sentry error tracking + Prometheus metrics singleton — tweets_posted, llm_latency, vision_calls, openrouter_spend; `/metrics` on `:9100` |
+| `db_utils.py` | Shared PostgreSQL auto-reconnect wrapper (`ensure_db_connection`) - enforces `search_path=twitter_bot,public` at connection level |
+| `config.py` | Centralized config loader - single `load_config()` replaces per-file `load_dotenv` calls; helpers: `get_database_url()`, `get_openrouter_key()`, `get_env()` |
+| `observability.py` | Sentry error tracking + Prometheus metrics singleton - tweets_posted, llm_latency, vision_calls, openrouter_spend; `/metrics` on `:9100` |
 | `signal_utils.py` | SIGTERM/SIGINT helpers so PM2 stops long-running daemons cleanly |
-| `cs2_constants.py` | Centralized keyword sets — teams, events, maps, players, roles. Used by ingestion, scheduling, fact-checking |
+| `cs2_constants.py` | Centralized keyword sets - teams, events, maps, players, roles. Used by ingestion, scheduling, fact-checking |
 | `twitter_accounts.py` | Bucket routing + per-account credential resolution (`main`, `live`, `replies`) |
 | `account_quota.py` | Per-account reservation/release/increment helpers backed by `account_quotas` |
 | `runtime_schema.py` | Idempotent runtime bootstrap for `account_quotas`, `tweets_v2.account_bucket`, and VIP dedup indexes |
-| `health_monitor.py` | Shadowban canary — posts test tweets, verifies visibility from diverse geographic IPs |
+| `health_monitor.py` | Shadowban canary - posts test tweets, verifies visibility from diverse geographic IPs |
 | `analytics_tracker.py` | Engagement metrics for RLHF feedback (6h poll cycle via X API) |
 
-### Processing: `entity_layer.py` — spaCy Entity Extraction
+### Processing: `entity_layer.py` - spaCy Entity Extraction
 
 Shared NLP pipeline replacing three divergent keyword implementations:
-- `get_nlp()` — singleton spaCy `EntityRuler` loaded from `data/cs2_entities.jsonl` (113 patterns: 39 teams, 43 players, 20 events, 9 maps)
-- `extract_entities(text)` — returns `{teams, players, events, maps}` sets
-- `is_cs2_relevant(text)` — boolean relevance check (replaces ad-hoc keyword lists in `fact_checker.py`, `rss_aggregator.py`, `twitter_monitor.py`)
-- `entity_summary(text)` — one-line human-readable summary
+- `get_nlp()` - singleton spaCy `EntityRuler` loaded from `data/cs2_entities.jsonl` (113 patterns: 39 teams, 43 players, 20 events, 9 maps)
+- `extract_entities(text)` - returns `{teams, players, events, maps}` sets
+- `is_cs2_relevant(text)` - boolean relevance check (replaces ad-hoc keyword lists in `fact_checker.py`, `rss_aggregator.py`, `twitter_monitor.py`)
+- `entity_summary(text)` - one-line human-readable summary
 
 ---
 
 ## 9. Database Schema
 
-**Railway PostgreSQL 16** — `twitter_bot` schema, core tables plus runtime-safe sharding extensions:
+**Railway PostgreSQL 16** - `twitter_bot` schema, core tables plus runtime-safe sharding extensions:
 
 | Table | Purpose | Key Columns |
 |-------|---------|-------------|
@@ -592,10 +592,10 @@ Shared NLP pipeline replacing three divergent keyword implementations:
 | `rlhf_history` | Weekly RLHF tuning results | `week`, `top_tweets`, `bottom_tweets`, `appendix` |
 | `hitl_engaged_7d` | HITL engagement tracking | `date`, `engaged_count` |
 | `canary_logs` | Shadowban detection logs | `tweet_id`, `visible`, `checked_at` |
-| `reddit_posts` | (Disabled) Reddit cross-post tracking | — |
+| `reddit_posts` | (Disabled) Reddit cross-post tracking | - |
 | `system_metrics` | Service health metrics | `service`, `metric`, `value`, `timestamp` |
 | `todays_performance` | Daily performance summary | `date`, aggregated metrics |
-| `quota_status` | Quota monitoring view | — |
+| `quota_status` | Quota monitoring view | - |
 
 **Connection:** `DATABASE_URL` env var → `postgresql://...railway.app:5432/...` with TLS. Connection-level `search_path=twitter_bot,public` enforced in `db_utils.py`.
 
@@ -617,7 +617,7 @@ Shared NLP pipeline replacing three divergent keyword implementations:
 
 **Why bypass ClawRouter for vision?** ClawRouter $0 balance → falls back to free models → free models don't support multimodal. Vision calls go directly to OpenRouter API with the `OPENROUTER_API_KEY`.
 
-**Cost structure:** All text generation is free. Only vision calls (Gemini 2.5 Flash) cost money — rate-limited to live match highlights.
+**Cost structure:** All text generation is free. Only vision calls (Gemini 2.5 Flash) cost money - rate-limited to live match highlights.
 
 **If ClawRouter crashes:**
 ```bash
@@ -631,16 +631,16 @@ systemctl --user restart openclaw-gateway.service
 > **"The HLTV Regular Who Reads Bloomberg"**
 
 - **Voice:** Sharp, irreverent, HLTV-native. Never corporate. Never cringe.
-- **Humor:** Dry. Knows EZ4ENCE, s1mple GOAT debate, Liquid curse, cry is free — uses them when relevant, not forced.
+- **Humor:** Dry. Knows EZ4ENCE, s1mple GOAT debate, Liquid curse, cry is free - uses them when relevant, not forced.
 - **Intelligence:** Knows H2H records, map stats, team form. Drops facts casually.
 - **Community-Aware:** Reads HLTV comments to absorb vibes before generating tweets.
 - **Speed:** First to post breaking CS2 news.
 - **Language:** B2 English only. Simple words. No fancy vocabulary. No em-dashes.
 
 **Core Constraints:**
-1. Exclusively CS2 — no generic gaming, no betting spam, no poker
-2. 10 tweets/day API cap — every tweet must be high-value
-3. No browser automation for posting — strictly X API v2
+1. Exclusively CS2 - no generic gaming, no betting spam, no poker
+2. 10 tweets/day API cap - every tweet must be high-value
+3. No browser automation for posting - strictly X API v2
 4. HITL Telegram gate for risky content
 5. Weekly RLHF self-correction with semantic drift ceiling (cosine sim >0.70)
 6. All LLM calls through ClawRouter (except vision)
@@ -699,7 +699,7 @@ MischiefCS2-style infographics generated from vision analysis data:
 
 ## 13. Vision Pipeline
 
-The bot has "eyes" — it can SEE live CS2 matches and narrate them:
+The bot has "eyes" - it can SEE live CS2 matches and narrate them:
 
 ```
 Twitch Stream
@@ -723,7 +723,7 @@ Highlight Detection
     ▼
 Narration Generation
     │  "THIS IS FOR MATCH POINT! 🔥"
-    │  (cleaned via _clean_narration — strips CoT)
+    │  (cleaned via _clean_narration - strips CoT)
     ▼
 Tweet with screenshot attached
 ```
@@ -761,10 +761,10 @@ The live watcher no longer sends every blind polling frame to Gemini. It first r
 ### Pre-Post Quality Pipeline
 
 Every tweet passes through (in order):
-1. **FactChecker** — LLM + entity dicts; strict contradiction-only (won't flag missing info)
-2. **ToneValidator** — SVM classifier + LLM; rejects corporate tone, press-release style
-3. **MiroFish Guard** — constitutional judge; vetoes on pillar-specific risk thresholds
-4. **HITL Gate** — Telegram approval for non-auto-approved content
+1. **FactChecker** - LLM + entity dicts; strict contradiction-only (won't flag missing info)
+2. **ToneValidator** - SVM classifier + LLM; rejects corporate tone, press-release style
+3. **MiroFish Guard** - constitutional judge; vetoes on pillar-specific risk thresholds
+4. **HITL Gate** - Telegram approval for non-auto-approved content
 
 ### Quota Protection
 
@@ -784,7 +784,7 @@ Every tweet passes through (in order):
 
 ### Infrastructure Safety
 
-- Secrets in RAM only (`/dev/shm/.env`) — never on disk
+- Secrets in RAM only (`/dev/shm/.env`) - never on disk
 - Railway PostgreSQL with TLS (`sslmode=verify-full`)
 - Postgres keeps VIP dedup durable across restarts through indexed existence checks, and queued tweet delivery is DB-driven
 - `Dockerfile.bot` and `docker-compose.bot.yml` isolate bot services from the main app stack and let heavy workers run behind compose profiles
@@ -823,7 +823,7 @@ skinbethub_twitter/
 │   ├── persona_classifier.py           #   ML persona selection (LogisticRegression on RLHF)
 │   ├── episodic_memory.py              #   pgvector semantic recall of past interactions
 │   ├── fact_checker.py                 #   LLM + entity fact checking (contradiction-only)
-│   ├── entity_layer.py                 #   spaCy EntityRuler — shared entity extraction (113 patterns)
+│   ├── entity_layer.py                 #   spaCy EntityRuler - shared entity extraction (113 patterns)
 │   ├── tone_validator.py               #   Anti-corporate SVM + LLM filter
 │   ├── mirofish_guard.py               #   Constitutional judge guard
 │   ├── hashtag_injector.py             #   Auto-injects 2-3 CS2 hashtags
@@ -846,7 +846,7 @@ skinbethub_twitter/
 │   ├── tweet_pruner.py                 #   0-engagement cleanup
 │   ├── thread_composer.py              #   Multi-tweet thread builder
 │   ├── prediction_results.py           #   Prediction resolution
-│   └── reddit_cross_poster.py          #   (DISABLED — Reddit policy violation)
+│   └── reddit_cross_poster.py          #   (DISABLED - Reddit policy violation)
 │
 ├── services/                           # ── LONG-RUNNING ──
 │   └── live_match_watcher.py           #   Vision narration (PM2: live_watcher)
@@ -929,6 +929,8 @@ Primary references:
 
 **END OF PIPELINE ARCHITECTURE**
 
-Last reviewed: April 16, 2026 — prediction-modeling guardrails updated. Full pipeline inventory last verified April 13, 2026.
+Last reviewed: April 16, 2026 - prediction-modeling guardrails updated. Full pipeline inventory last verified April 13, 2026.
 Codebase: 44+ Python files · 23 DB tables · 4 LLM tiers · 30 team colors · 56 player roles · 26 stream mappings · 113 spaCy entity patterns.
 Text generation: env-configured tiers with live A/B pools. Vision: Gemini Flash (paid, rate-limited to highlights only).
+
+Xquik is an independent third-party service. Not affiliated with X Corp. "Twitter" and "X" are trademarks of X Corp.
