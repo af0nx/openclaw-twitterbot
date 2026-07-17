@@ -18,6 +18,7 @@ pytesseract>=0.3.10,<0.4.0       # OCR bridge for Siftly and live-action detecti
 opencv-python-headless>=4.10.0,<5.0.0  # Local live-action detection
 requests>=2.31.0,<3.0.0          # HTTP client
 httpx>=0.26.0,<1.0.0             # Async HTTP client
+curl-cffi>=0.15.0,<1.0.0         # Browser-impersonating HTTP sessions
 
 # ML/NLP
 numpy>=1.26.0,<2.0.0             # Numerical computing
@@ -29,7 +30,7 @@ scikit-learn>=1.4.0,<2.0.0       # Persona classifier + tone classifier (TF-IDF/
 # Utilities
 python-dotenv>=1.0.0,<2.0.0      # Environment management
 tenacity>=8.2.3,<9.0.0           # Retry logic
-pytz>=2024.1                     # Timezone handling (no upper pin — timezone data)
+pytz>=2024.1                     # Timezone handling (no upper pin - timezone data)
 jsonschema>=4.21.0,<5.0.0        # JSON validation
 pyyaml>=6.0.1,<7.0.0             # YAML config parser
 colorlog>=6.8.2,<7.0.0           # Colored logging
