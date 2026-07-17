@@ -2,7 +2,7 @@
 
 > Autonomous CS2 Esports Media Engine
 > Last updated: April 16, 2026
-> **Status: LIVE — 15/15 PM2 services online | 10 tweets/day cap | configurable LLM tiers + Gemini Flash vision**
+> **Status: LIVE - 17 PM2 services configured | 10 tweets/day cap | configurable LLM tiers + Gemini Flash vision**
 
 ---
 
@@ -10,7 +10,7 @@
 
 | Component | Status | Detail |
 |-----------|--------|--------|
-| PM2 Processes | ✅ 15/15 online | See [PM2 Services](#2-pm2-services) table below |
+| PM2 Processes | ✅ 17 configured | See [PM2 Services](#2-pm2-services) table below |
 | X API v2 Posting | ✅ LIVE | App `UbuntuOpenclaw`, Pay Per Use tier |
 | ClawRouter | ✅ Running | `http://localhost:8402/v1` — 147+ models, systemd user service |
 | Railway PostgreSQL | ✅ Connected | 18+ tables in `twitter_bot` schema, TLS enforced |
@@ -136,34 +136,36 @@
 
 ## 2. PM2 Services
 
-15 always-on processes managed by PM2 via `ecosystem.config.js`:
+17 processes are managed by PM2 via `ecosystem.config.cjs`:
 
 | # | Service | Script | Mem Limit | Purpose |
 |---|---------|--------|-----------|---------|
-| 0 | `siftly_ingestor` | `ingestion/siftly_engine.py` | 800M | Vision/OCR analysis for VIP tweet images |
-| 1 | `scrapling_pool` | `ingestion/ingestion_runner.py` | 500M | Runs HLTV + Twitter VIP + RSS in parallel |
-| 2 | `tweet_scheduler` | `output/tweet_scheduler.py` | 300M | Central orchestrator — event→tweet pipeline |
-| 3 | `vip_hitl_bot` | `output/vip_hitl_telegram.py` | 200M | Telegram bot for human approval |
-| 4 | `scrapling_medic` | `utils/scrapling_medic.sh` | — | Auto-healing watchdog for scrapling_pool |
-| 5 | `twitter_poster` | `output/twitter_poster.py` | 200M | Posts tweets via X API v2 |
-| 6 | `engagement_tracker` | `output/engagement_tracker.py` | 150M | Fetches tweet metrics every 30 min |
-| 7 | `follower_growth` | `output/follower_growth_tracker.py` | 150M | Tracks daily follower count |
-| 8 | `prediction_webhook` | `ingestion/prediction_webhook.py` | 150M | Prediction results ingestion webhook |
-| 9 | `style_scraper` | `ingestion/style_scraper.py` | 300M | Refreshes the style bank every 6 hours |
-| 10 | `clip_hunter` | `ingestion/clip_hunter.py` | 400M | Discovers clips and reusable media assets |
-| 11 | `tweet_pruner` | `output/tweet_pruner.py` | 100M | Deletes 0-engagement tweets after 48h |
-| 12 | `engagement_engine` | `output/engagement_engine.py` | 1G | Generates proactive engagement opportunities |
-| 13 | `community_liker` | `output/community_liker.py` | 150M | Likes CS2 tweets for relationship building |
-| 14 | `live_watcher` | `services/live_match_watcher.py` | 800M | Live match screenshots → vision → narration |
+| 1 | `siftly_ingestor` | `scripts/ingestion/siftly_engine.py` | 2000M | Vision/OCR analysis for VIP tweet images |
+| 2 | `scrapling_pool` | `scripts/ingestion/ingestion_runner.py` | 500M | Runs HLTV + Twitter VIP + RSS in parallel |
+| 3 | `tweet_scheduler` | `scripts/output/tweet_scheduler.py` | 1500M | Central orchestrator - event-to-tweet pipeline |
+| 4 | `vip_hitl_bot` | `scripts/output/vip_hitl_telegram.py` | 1500M | Telegram bot for human approval |
+| 5 | `twitter_poster` | `scripts/output/twitter_poster.py` | 500M | Posts tweets via X API v2 |
+| 6 | `engagement_tracker` | `scripts/output/engagement_tracker.py` | 200M | Fetches tweet metrics every 30 min |
+| 7 | `follower_growth` | `scripts/output/follower_growth_tracker.py` | 100M | Tracks daily follower count |
+| 8 | `style_scraper` | `scripts/ingestion/style_scraper.py` | 300M | Refreshes the style bank every 6 hours |
+| 9 | `clip_hunter` | `scripts/ingestion/clip_hunter.py` | 400M | Discovers clips and reusable media assets |
+| 10 | `engagement_engine` | `scripts/output/engagement_engine.py` | 1G | Generates proactive engagement opportunities |
+| 11 | `tweet_pruner` | `scripts/output/tweet_pruner.py` | 100M | Deletes 0-engagement tweets after 48h |
+| 12 | `community_liker` | `scripts/output/community_liker.py` | 150M | Likes CS2 tweets for relationship building |
+| 13 | `live_watcher` | `scripts/services/live_match_watcher.py` | 800M | Live match screenshots to vision to narration |
+| 14 | `ml_retrain` | `scripts/processing/ml_retrain.py` | 1500M | Retrains engagement models from approved outcomes |
+| 15 | `prediction_webhook` | `scripts/ingestion/prediction_webhook.py` | 500M | Ingests prediction results through the webhook |
+| 16 | `prediction_results` | `scripts/output/prediction_results.py` | 150M | Resolves predictions and publishes outcomes |
+| 17 | `ab_evaluator` | `scripts/processing/ab_evaluator.py` | 100M | Evaluates completed A/B content experiments |
 
-All apps share `PYTHONPATH=__dirname` via `SHARED_ENV` in `ecosystem.config.js`, eliminating the need for `sys.path.insert` hacks.
+All apps share `PYTHONPATH=__dirname` via `SHARED_ENV` in `ecosystem.config.cjs`, eliminating the need for `sys.path.insert` hacks.
 
 **Commands:**
 ```bash
 pm2 ls                              # Status of all services
 pm2 logs <name> --lines 30          # View logs
 pm2 restart <name>                  # Restart one service
-pm2 reload ecosystem.config.js      # Reload all from config
+pm2 reload ecosystem.config.cjs     # Reload all from config
 pm2 monit                           # Live CPU/memory monitor
 ```
 
@@ -797,7 +799,7 @@ Every tweet passes through (in order):
 
 ```
 skinbethub_twitter/
-├── ecosystem.config.js                 # PM2 config (9 services, SHARED_ENV with PYTHONPATH)
+├── ecosystem.config.cjs                # PM2 config (17 services, SHARED_ENV with PYTHONPATH)
 ├── pyproject.toml                      # Python project metadata, pytest config, Ruff linter
 ├── TWITTER_BOT_PIPELINE.md             # This architecture doc
 ├── schema.sql                          # Database schema definitions
