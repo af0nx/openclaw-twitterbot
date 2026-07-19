@@ -2,7 +2,7 @@ import re
 import unittest
 from pathlib import Path
 
-REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
+REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
 
 
 def declared_distributions() -> set[str]:
